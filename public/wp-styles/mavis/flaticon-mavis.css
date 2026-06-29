@@ -1,0 +1,166 @@
+/*
+*    ______ _       _   _
+*    |  ____| |     | | (_)
+*    | |__  | | __ _| |_ _  ___ ___  _ __
+*    |  __| | |/ _` | __| |/ __/ _ \| '_ \
+*    | |    | | (_| | |_| | (_| (_) | | | |
+*    |_|    |_|\__,_|\__|_|\___\___/|_| |_|
+*
+*         https://www.flaticon.com
+*/
+
+@font-face {
+    font-family: "flaticon_mavis";
+    src: url("../fonts/flaticon_mavis.woff2?3eb5455ac89132d1829977b6a46fbbe2") format("woff2"),
+url("../fonts/flaticon_mavis.woff?3eb5455ac89132d1829977b6a46fbbe2") format("woff"),
+url("../fonts/flaticon_mavis.eot?3eb5455ac89132d1829977b6a46fbbe2#iefix") format("embedded-opentype"),
+url("../fonts/flaticon_mavis.ttf?3eb5455ac89132d1829977b6a46fbbe2") format("truetype"),
+url("../fonts/flaticon_mavis.svg?3eb5455ac89132d1829977b6a46fbbe2#flaticon_mavis") format("svg")
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon_mavis !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-down-arrow:before {
+    content: "\f101";
+}
+.flaticon-right-arrow:before {
+    content: "\f102";
+}
+.flaticon-search-interface-symbol:before {
+    content: "\f103";
+}
+.flaticon-pin:before {
+    content: "\f104";
+}
+.flaticon-doctor:before {
+    content: "\f105";
+}
+.flaticon-up-right-arrow:before {
+    content: "\f106";
+}
+.flaticon-call:before {
+    content: "\f107";
+}
+.flaticon-calendar:before {
+    content: "\f108";
+}
+.flaticon-telephone:before {
+    content: "\f109";
+}
+.flaticon-stethoscope:before {
+    content: "\f10a";
+}
+.flaticon-heart:before {
+    content: "\f10b";
+}
+.flaticon-mri:before {
+    content: "\f10c";
+}
+.flaticon-doctor-1:before {
+    content: "\f10d";
+}
+.flaticon-emergency-call:before {
+    content: "\f10e";
+}
+.flaticon-heart-1:before {
+    content: "\f10f";
+}
+.flaticon-mental-health:before {
+    content: "\f110";
+}
+.flaticon-old-woman:before {
+    content: "\f111";
+}
+.flaticon-correct:before {
+    content: "\f112";
+}
+.flaticon-award-symbol:before {
+    content: "\f113";
+}
+.flaticon-medical-team:before {
+    content: "\f114";
+}
+.flaticon-appointment:before {
+    content: "\f115";
+}
+.flaticon-chevron:before {
+    content: "\f116";
+}
+.flaticon-right-quote:before {
+    content: "\f117";
+}
+.flaticon-happiness:before {
+    content: "\f118";
+}
+.flaticon-calendar-1:before {
+    content: "\f119";
+}
+.flaticon-facebook-app-symbol:before {
+    content: "\f11a";
+}
+.flaticon-social:before {
+    content: "\f11b";
+}
+.flaticon-twitter:before {
+    content: "\f11c";
+}
+.flaticon-instagram:before {
+    content: "\f11d";
+}
+.flaticon-chemistry:before {
+    content: "\f11e";
+}
+.flaticon-consultation:before {
+    content: "\f11f";
+}
+.flaticon-rehabilitation:before {
+    content: "\f120";
+}
+.flaticon-right:before {
+    content: "\f121";
+}
+.flaticon-precision:before {
+    content: "\f122";
+}
+.flaticon-envelope:before {
+    content: "\f123";
+}
+.flaticon-calendar-2:before {
+    content: "\f124";
+}
+.flaticon-time:before {
+    content: "\f125";
+}
+.flaticon-plus:before {
+    content: "\f126";
+}
+.flaticon-insurance:before {
+    content: "\f127";
+}
+.flaticon-medical-book:before {
+    content: "\f128";
+}
+.flaticon-chronic-fatigue:before {
+    content: "\f129";
+}
+.flaticon-tooth:before {
+    content: "\f12a";
+}
+.flaticon-star:before {
+    content: "\f12b";
+}
+.flaticon-heart-beat:before {
+    content: "\f12c";
+}
+.flaticon-play-button:before {
+    content: "\f12d";
+}

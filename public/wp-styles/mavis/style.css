@@ -1,0 +1,19 @@
+/*
+Theme Name: Mavis
+Theme URI: https://themes.envytheme.com/mavis
+Author: EnvyTheme
+Author URI: https://envytheme.com
+Description: Doctor, Medical WordPress Theme
+Version: 1.6
+License: GNU General Public License v2.0
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: mavis
+Tags: custom-menu, sticky-post, featured-images, threaded-comments, translation-ready
+*/
+
+.appointment-box {
+    max-width: 500px;
+    border: 1px solid #ddd;
+    padding: 30px;
+    margin: 0 auto;
+}

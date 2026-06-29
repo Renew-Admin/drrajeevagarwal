@@ -1,0 +1,37 @@
+<?php
+
+
+use OTP\Handler\MoOTPActionHandlerHandler;
+use OTP\Helper\MoUtility;
+use OTP\Objects\PluginPageDetails;
+use OTP\Objects\TabDetails;
+$XO = MoUtility::micr();
+$Jx = MoUtility::mclv();
+$uk = MoUtility::isGatewayConfig();
+$K9 = MoUtility::micv();
+$m5 = $XO && $Jx ? '' : "\144\151\163\x61\x62\x6c\x65\144";
+$current_user = wp_get_current_user();
+$mo = get_mo_option("\141\144\155\x69\x6e\x5f\145\155\x61\x69\x6c");
+$Dk = get_mo_option("\x61\144\x6d\x69\x6e\137\x70\150\157\x6e\x65");
+$eL = MOV_DIR . "\143\157\156\x74\x72\157\x6c\x6c\x65\162\x73\57";
+$Zf = MoOTPActionHandlerHandler::instance();
+$ve = TabDetails::instance();
+include $eL . "\156\x61\x76\142\141\x72\56\x70\150\x70";
+echo "\x3c\144\151\166\x20\x63\154\141\x73\x73\x3d\x27\x6d\x6f\55\x6f\x70\164\x2d\143\157\156\164\x65\x6e\x74\47\76\xd\12\x20\x20\x20\40\x20\x20\x20\x20\x3c\144\x69\166\40\x69\144\x3d\x27\x6d\x6f\142\154\x6f\143\x6b\47\x20\143\x6c\x61\x73\163\x3d\47\x6d\157\x5f\x63\165\x73\x74\157\155\x65\x72\x5f\166\141\x6c\151\x64\x61\164\151\x6f\156\x2d\x6d\157\144\x61\x6c\55\x62\x61\x63\x6b\x64\162\157\x70\x20\x64\141\163\150\x62\x6f\141\162\x64\47\x3e" . "\x3c\x69\x6d\147\40\x73\x72\143\x3d\x27" . MOV_LOADER_URL . "\47\x3e" . "\74\x2f\144\x69\x76\x3e";
+if (!isset($_GET["\160\141\x67\145"])) {
+    goto Xl;
+}
+foreach ($ve->_tabDetails as $o1) {
+    if (!($o1->_menuSlug == sanitize_text_field($_GET["\160\x61\x67\145"]))) {
+        goto kd;
+    }
+    include $eL . $o1->_view;
+    kd:
+    Bh:
+}
+SB:
+do_action("\155\x6f\x5f\x6f\x74\160\137\166\x65\x72\151\146\x69\143\x61\x74\x69\157\156\137\141\x64\x64\x5f\157\x6e\x5f\143\x6f\x6e\164\162\x6f\x6c\x6c\x65\162");
+include $eL . "\x73\165\160\160\x6f\x72\x74\x2e\x70\150\160";
+Xl:
+echo "\x3c\x2f\x64\151\x76\76";
+echo "\40\x20\x20\74\x64\x69\166\x20\x63\154\141\163\163\x3d\42\x6d\157\137\x6f\x74\x70\x5f\x66\157\157\x74\x65\x72\x22\x3e\40\xd\xa\x20\40\74\144\x69\166\40\x63\154\141\163\163\75\42\x6d\157\55\x6f\x74\x70\x2d\x6d\x61\x69\x6c\55\142\x75\164\x74\157\156\42\x3e\xd\12\40\x20\74\x69\155\x67\x20\x73\162\x63\75\42" . MOV_MAIL_LOGO . "\42\40\x63\154\x61\163\163\75\42\163\150\157\167\137\163\165\x70\x70\x6f\162\164\137\146\x6f\x72\155\x22\x20\x69\x64\75\x22\150\145\154\x70\x42\x75\164\x74\x6f\156\x22\76\x3c\x2f\144\x69\x76\x3e\xd\xa\x20\x20\x3c\x62\165\x74\x74\x6f\x6e\x20\x74\171\160\x65\x3d\42\x62\165\164\x74\157\x6e\42\x20\x63\154\x61\163\x73\x3d\x22\155\157\55\x6f\x74\x70\55\x68\145\x6c\160\55\142\165\164\x74\x6f\x6e\55\x74\x65\x78\x74\x22\x3e\110\x65\154\x6c\157\40\x74\x68\x65\x72\x65\x21\x3c\142\162\x3e\116\x65\x65\144\x20\110\145\154\160\77\40\104\x72\x6f\x70\40\x75\x73\40\141\x6e\x20\105\x6d\x61\151\154\x3c\x2f\x62\165\x74\164\157\x6e\76\xd\xa\x20\x20\x3c\x2f\x64\x69\166\76";
