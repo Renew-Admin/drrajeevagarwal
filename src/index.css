@@ -229,7 +229,7 @@ select {
 .ra-nav {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: clamp(26px, 2.4vw, 36px);
   color: var(--deep-teal);
   font-size: 14px;
   font-weight: 800;
@@ -3641,8 +3641,16 @@ a.ra-quick-card:hover {
   padding-top: 0;
 }
 
-.about-page em {
+.about-page .heading-blue {
+  color: var(--deep-teal);
+}
+
+.about-page em,
+.about-page .heading-gold {
   color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
 }
 
 /* ===========================
@@ -3701,6 +3709,7 @@ a.ra-quick-card:hover {
   font-weight: 900;
   line-height: 1.08;
   letter-spacing: -0.01em;
+  text-shadow: 0 2px 18px rgba(255, 255, 255, 0.48);
 }
 
 .about-hero-image-content h1 .heading-blue {
@@ -3712,6 +3721,19 @@ a.ra-quick-card:hover {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-weight: 500;
+}
+
+.ra-label .heading-blue {
+  color: var(--medical-teal);
+}
+
+.ra-label .heading-gold {
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: inherit;
+  letter-spacing: inherit;
 }
 
 .about-hero-image-sub {

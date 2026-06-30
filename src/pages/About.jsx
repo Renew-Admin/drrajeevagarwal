@@ -2,19 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Award, Baby, CheckCircle, GraduationCap, HeartPulse, MapPin, Microscope, Play, ShieldCheck, Stethoscope, Users } from 'lucide-react';
 import FloatingLeadForm from '../components/FloatingLeadForm';
+import WhyMeSection from '../components/WhyMeSection';
 import aboutHeroImg from '../assets/about-hero.webp';
-import quoteBg from '../assets/quote-bg.svg';
-import googleRatingIcon from '../assets/star-icon.webp';
-import t1 from '../assets/testimonial-1.webp';
-import t2 from '../assets/testimonial-2.webp';
-import t3 from '../assets/testimonial-3.webp';
-import t4 from '../assets/testimonial-4.webp';
-import t5 from '../assets/testimonial-5.webp';
-import t6 from '../assets/testimonial-6.webp';
-import whyMeDrDesktop from '../assets/why-me-dr-desktop.webp';
-import whyMeDrMobile from '../assets/why-me-dr-mobile.webp';
-import whyMeSideDesktop from '../assets/why-me-side-desktop.webp';
-import whyMeSideMobile from '../assets/why-me-side-mobile.webp';
 
 
 const focusCards = [
@@ -29,15 +18,6 @@ const milestones = [
   { icon: Microscope, period: 'IVF Focus', title: 'Advanced fertility medicine', text: 'Developed deep expertise in IVF, reproductive medicine and fertility-preserving care.' },
   { icon: Users, period: 'Leadership', title: 'Care IVF and training platforms', text: 'Expanded access to fertility care and contributed to training young gynaecologists.' },
   { icon: Award, period: 'Today', title: 'Medical Director, Renew Healthcare', text: 'Leads a modern fertility practice focused on science, ethics and patient confidence.' },
-];
-
-const testimonials = [
-  { text: 'His dedication to women\u2019s health goes beyond the clinic. Dr. Rajeev is an inspiration, and I feel lucky to have been under his care.', name: 'Megha Roy', avatar: t1 },
-  { text: 'He\u2019s not just a doctor\u2014he\u2019s a healer. Dr. Rajeev treated me with kindness, listened patiently, and guided me every step of the way in my motherhood journey. I\u2019m forever grateful.', name: 'Priya & Kunal Singh', avatar: t2 },
-  { text: 'From the first consultation to the final procedure, Dr. Rajeev was professional, reassuring, and deeply knowledgeable. I felt safe and cared for throughout.', name: 'Ananya Sen', avatar: t3 },
-  { text: 'After years of failed treatments, meeting Dr. Rajeev changed everything. His personalized care and honest advice led us to the happiest chapter of our lives.', name: 'Farah & Imran Siddiqui', avatar: t4 },
-  { text: 'What sets Dr. Rajeev apart is his integrity and empathy. He doesn\u2019t just treat a condition\u2014he truly understands the emotional journey behind it.', name: 'Shweta Dwivedi', avatar: t5 },
-  { text: 'I was nervous about laparoscopic surgery, but Dr. Rajeev explained everything so clearly and made me feel at ease. The recovery was smooth and the results excellent.', name: 'Reena TS', avatar: t6 },
 ];
 
 const publications = [
@@ -72,45 +52,6 @@ const gallery = [
   { image: '/assets/2025/02/A7402009.webp', label: 'Technology-led clinical planning' },
   { image: '/assets/2025/02/image-44.webp', label: 'Counselling before treatment' },
 ];
-
-function TestimonialCarousel() {
-  const [current, setCurrent] = useState(3);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => {
-      setCurrent(prev => (prev >= testimonials.length - 1 ? 0 : prev + 1));
-    }, 5000);
-    return () => clearInterval(id);
-  }, [paused]);
-
-  return (
-    <div className="ra-testimonial-carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-      <div className="ra-testimonial-viewport">
-        <div className="ra-testimonial-track" style={{ transform: `translateX(-${current * 100}%)` }}>
-          {testimonials.map((t, i) => (
-            <div className="ra-testimonial-card" key={i}>
-              <div className="ra-testimonial-card-inner">
-                <img className="ra-testimonial-quote" src={quoteBg} alt="" aria-hidden="true" />
-                <p>{t.text}</p>
-                <div className="ra-testimonial-author">
-                  <img src={t.avatar} alt={t.name} />
-                  <strong>{t.name}</strong>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="ra-testimonial-dots">
-        {testimonials.map((_, i) => (
-          <button key={i} className={i === current ? 'active' : ''} type="button" onClick={() => setCurrent(i)} aria-label={`Testimonial ${i + 1}`} />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function PublicationCarousel() {
   const [current, setCurrent] = useState(0);
@@ -184,7 +125,7 @@ export default function About({ onBookClick }) {
           <img src={aboutHeroImg} alt="Dr. Rajeev Agarwal – Fertility Specialist in Kolkata" />
           <div className="about-hero-image-overlay">
             <div className="ra-container about-hero-image-content">
-              <h1><span className="heading-blue">Helping Families Grow with </span><span className="heading-gold">Care and Expertise</span></h1>
+              <h1><span className="heading-blue">Helping Families Grow with</span> <span className="heading-gold">Care and Expertise</span></h1>
               <p className="about-hero-image-sub">Expert fertility care &amp; gynaecology — trusted by thousands of families across Kolkata.</p>
               <div className="about-hero-image-actions">
                 <Link className="ra-btn ra-btn-primary" to="/all-services">Explore my Services</Link>
@@ -205,7 +146,7 @@ export default function About({ onBookClick }) {
         <div className="ra-container about-story-grid">
           <div className="about-story-copy">
             <span className="ra-label">Clinical Philosophy</span>
-            <h2>Every treatment plan should feel clear, considered and personal.</h2>
+            <h2>Every treatment plan should feel clear, considered and <em>personal</em>.</h2>
             <p>Dr. Agarwal combines fertility science with careful diagnosis, emotional support and transparent medical reasoning. His approach helps patients understand why a treatment is suggested, what alternatives exist and how each step fits their larger parenthood journey.</p>
             <p>At Renew Healthcare, the goal is not just to offer advanced IVF or gynaecological procedures. It is to create a calmer clinical experience where patients feel heard, informed and guided by an expert team.</p>
           </div>
@@ -226,7 +167,7 @@ export default function About({ onBookClick }) {
             <div className="about-care-image"><img src="/assets/2025/02/image-44.webp" alt="Dr. Rajeev Agarwal counselling patients" /></div>
             <div className="about-care-copy">
               <span className="ra-label">Care Experience</span>
-              <h2>Premium care should still feel human.</h2>
+              <h2>Premium care should still feel <em>human</em>.</h2>
               <p>Fertility care can be emotionally heavy. The practice is designed around calm explanation, modern clinical standards and steady support from first consultation to treatment follow-up.</p>
               <div className="about-check-list">
                 {['Evidence-led diagnosis before treatment decisions', 'Clear discussion of success factors, risks and next steps', 'Fertility, gynaecology and laparoscopy expertise in one place', 'Modern clinic environment with dedicated patient support'].map((item) => (
@@ -270,7 +211,7 @@ export default function About({ onBookClick }) {
         <div className="ra-container">
           <div className="about-section-head">
             <span className="ra-label">Career Journey</span>
-            <h2>A practice shaped by training, mentorship and clinical leadership.</h2>
+            <h2>A practice shaped by training, mentorship and <em>clinical leadership</em>.</h2>
           </div>
           <div className="about-timeline">
             {milestones.map(({ icon: Icon, period, title, text }) => (
@@ -290,7 +231,7 @@ export default function About({ onBookClick }) {
           <div className="about-section-head about-section-head-row">
             <div>
               <span className="ra-label">Renew Healthcare</span>
-              <h2>Designed for privacy, confidence and modern fertility care.</h2>
+              <h2>Designed for privacy, confidence and <em>modern fertility care</em>.</h2>
             </div>
             <div className="about-location-pill"><MapPin size={16} /> Kolkata, West Bengal</div>
           </div>
@@ -302,41 +243,7 @@ export default function About({ onBookClick }) {
         </div>
       </section>
 
-      {/* WHY ME? */}
-      <section className="ra-section about-why-section">
-        <div className="ra-container about-why-layout">
-          <div className="about-why-copy">
-            <div className="about-why-heading">
-              <span className="ra-label">WHY ME?</span>
-              <h2>Unique Approach To<br /> Your <em>Health Needs</em></h2>
-            </div>
-            <TestimonialCarousel />
-          </div>
-
-          <div className="about-why-visual">
-            <picture className="about-why-photo about-why-photo-main">
-              <source media="(max-width: 767px)" srcSet={whyMeDrMobile} />
-              <img src={whyMeDrDesktop} alt="Dr. Rajeev Agarwal in consultation room" />
-            </picture>
-
-            <div className="about-why-stat about-why-stat-patients">
-              <strong>10K</strong>
-              <span>happy patients</span>
-            </div>
-
-            <div className="about-why-stat about-why-stat-rating">
-              <img src={googleRatingIcon} alt="" aria-hidden="true" />
-              <strong>4.9</strong>
-              <span>google ratings</span>
-            </div>
-
-            <picture className="about-why-photo about-why-photo-side">
-              <source media="(max-width: 767px)" srcSet={whyMeSideMobile} />
-              <img src={whyMeSideDesktop} alt="Dr. Rajeev Agarwal portrait" />
-            </picture>
-          </div>
-        </div>
-      </section>
+      <WhyMeSection />
 
       {/* MY PUBLICATIONS */}
       <section className="ra-section">

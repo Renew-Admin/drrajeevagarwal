@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { pagesData } from '../data/pages_data';
-import { AlertCircle, ArrowLeft, ArrowRight, Calendar, CheckCircle, Heart, ShieldCheck, Sparkles, Stethoscope, Star, Users } from 'lucide-react';
+import { AlertCircle, ArrowLeft, ArrowRight, Calendar, CheckCircle, ShieldCheck, Sparkles, Star, Users } from 'lucide-react';
+import WhyMeSection from '../components/WhyMeSection';
 
 function extractFirstImg(html) {
   const m = html.match(/<img[^>]+src=["']([^"']+)["']/);
@@ -43,9 +44,15 @@ function removeDuplicateHeroImage(html, heroImg) {
   return html.replace(heroImgRegex, '');
 }
 
+function removeImportedWhyMeSection(html) {
+  const start = html.search(/WHY\s+ME\?/i);
+  return start === -1 ? html : html.slice(0, start).trim();
+}
+
 function cleanContent(html, heroImg) {
   let c = html;
   c = removeDuplicateHeroImage(c, heroImg);
+  c = removeImportedWhyMeSection(c);
   c = c.replace(/<svg[\s\S]*?<\/svg>/g, '');
   c = c.replace(/<a[^>]*role="button"[^>]*>[\s\S]*?<\/a>/g, '');
   c = c.replace(/<img /g, '<img loading="lazy" ');
@@ -86,18 +93,11 @@ const serviceFaqs = [
   { q: 'Do you offer online consultations?', a: 'Yes, virtual consultations are available for patients who cannot visit the clinic in person. You can discuss your concerns, review reports, and receive expert guidance via a secure video call.' },
 ];
 
-const excludedSlugs = ['about-me', 'blog', 'all-services', 'home-page', 'book-an-appointment', 'success-stories', 'preconception', 'privacy-policy', 'terms-conditions', 'disclaimer-policy', 'cancellation-refund-policy', 'courses-page-copy', 'learn-with-dr-rajeev-agarwal', 'elementor-10995', 'preconception-workshop'];
-
 export default function ServicePage({ onBookClick }) {
   const { slug } = useParams();
-  const [page, setPage] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
-
-  useEffect(() => {
-    const cleanSlug = slug ? slug.trim().replace(/\/$/, '') : '';
-    const pageData = pagesData[cleanSlug];
-    setPage(pageData || null);
-  }, [slug]);
+  const cleanSlug = slug ? slug.trim().replace(/\/$/, '') : '';
+  const page = pagesData[cleanSlug] || null;
 
   if (!page) {
     return (
@@ -190,6 +190,8 @@ export default function ServicePage({ onBookClick }) {
           </div>
         </div>
       </section>
+
+      <WhyMeSection />
 
       {/* STATS */}
       <section className="ra-section" style={{ background: 'linear-gradient(135deg, var(--deep-teal), #1a1f4e)', color: '#fff' }}>
