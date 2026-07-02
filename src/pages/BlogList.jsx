@@ -4,14 +4,24 @@ import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import { Search, CalendarDays, ArrowRight, FolderOpen, Tag, RotateCcw } from 'lucide-react';
 import { buildBlogPresentation } from '../utils/blogPresentation';
+import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
-function mergeBlogUpdates(list) {
+function uniqueBlogs(list) {
   const seen = new Set();
-  return [...liveBlogUpdates, ...list].filter((blog) => {
+  return list.filter((blog) => {
     if (seen.has(blog.slug)) return false;
     seen.add(blog.slug);
     return true;
   });
+}
+
+function readFallbackBlogs() {
+  try {
+    const saved = localStorage.getItem('blogsList');
+    return saved ? JSON.parse(saved) : initialBlogs;
+  } catch {
+    return initialBlogs;
+  }
 }
 
 export default function BlogList() {
@@ -22,18 +32,19 @@ export default function BlogList() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem('blogsList');
-      if (saved) {
-        setBlogs(mergeBlogUpdates(JSON.parse(saved)));
-        return;
-      }
+    let active = true;
+    const fallback = readFallbackBlogs();
+    setBlogs(uniqueBlogs([...liveBlogUpdates, ...fallback]));
 
-      localStorage.setItem('blogsList', JSON.stringify(initialBlogs));
-      setBlogs(mergeBlogUpdates(initialBlogs));
-    } catch {
-      setBlogs(mergeBlogUpdates(initialBlogs));
-    }
+    listPublishedBlogs().then((remoteBlogs) => {
+      if (active) {
+        setBlogs(uniqueBlogs([...remoteBlogs, ...liveBlogUpdates, ...fallback]));
+      }
+    });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -68,8 +79,13 @@ export default function BlogList() {
     const rows = preferredOrder
       .filter((name) => counts[name])
       .map((name) => ({ name, count: counts[name] }));
+    const included = new Set(rows.map((row) => row.name));
+    const remainingRows = Object.keys(counts)
+      .filter((name) => !included.has(name))
+      .sort((a, b) => a.localeCompare(b))
+      .map((name) => ({ name, count: counts[name] }));
 
-    return [{ name: 'All Articles', count: blogItems.length }, ...rows];
+    return [{ name: 'All Articles', count: blogItems.length }, ...rows, ...remainingRows];
   }, [blogItems]);
 
   const tagRows = useMemo(() => {

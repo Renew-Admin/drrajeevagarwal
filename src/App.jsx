@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // Components
@@ -21,6 +21,8 @@ import BookAppointment from './pages/BookAppointment';
 import ServicePage from './pages/ServicePage';
 import PolicyPage from './pages/PolicyPage';
 import SuccessStories from './pages/SuccessStories';
+import Courses from './pages/Courses';
+import NotFound from './pages/NotFound';
 
 // Scroll Restoration helper
 function ScrollToTop() {
@@ -34,8 +36,9 @@ function ScrollToTop() {
 function SiteChrome({ children, onBookClick }) {
   const location = useLocation();
   const isExactHome = location.pathname === '/';
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
-  if (isExactHome) {
+  if (isExactHome || isAdminRoute) {
     return children;
   }
 
@@ -46,6 +49,34 @@ function SiteChrome({ children, onBookClick }) {
         {children}
       </main>
       <Footer />
+    </>
+  );
+}
+
+function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  if (isAdminRoute) {
+    return null;
+  }
+
+  return (
+    <>
+      <iframe
+        className="ra-chatbot-frame"
+        src="https://dr-rajeev-agarwal-chatbot.onrender.com"
+        title="Chatbot"
+      />
+
+      {/* Reusable Popup appointment scheduler */}
+      <PopupFormWrapper
+        isOpen={isBookOpen}
+        onClose={closeBookModal}
+        title="Schedule Clinic Appointment"
+      >
+        <AppointmentForm formName="Global Sticky Header Form" onSuccess={closeBookModal} />
+      </PopupFormWrapper>
     </>
   );
 }
@@ -90,28 +121,13 @@ export default function App() {
           {/* Dynamic Services / Landing Pages Catch-All (WordPress replication) */}
           <Route path="/all-services" element={<AllServices onBookClick={openBookModal} />} />
           <Route path="/success-stories" element={<SuccessStories onBookClick={openBookModal} />} />
+          <Route path="/courses" element={<Courses onBookClick={openBookModal} />} />
           <Route path="/:slug" element={<ServicePage onBookClick={openBookModal} />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </SiteChrome>
 
-      <iframe
-        src="https://dr-rajeev-agarwal-chatbot.onrender.com"
-        title="Chatbot"
-        style={{
-          position: 'fixed', bottom: 0, right: 0,
-          width: 400, height: 600,
-          border: 'none', zIndex: 9999,
-        }}
-      />
-
-      {/* Reusable Popup appointment scheduler */}
-      <PopupFormWrapper 
-        isOpen={isBookOpen} 
-        onClose={closeBookModal} 
-        title="Schedule Clinic Appointment"
-      >
-        <AppointmentForm formName="Global Sticky Header Form" onSuccess={closeBookModal} />
-      </PopupFormWrapper>
+      <GlobalSiteWidgets isBookOpen={isBookOpen} closeBookModal={closeBookModal} />
     </Router>
   );
 }

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { submitLead } from '../lib/supabaseBlogAdmin';
 
 export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
+    service: '',
     concern: '',
   });
 
@@ -38,22 +43,23 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
     setFormData((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    if (submitting) return;
 
-    const newSubmission = {
-      id: Date.now(),
-      formName,
-      data: formData,
-      submittedAt: new Date().toLocaleString(),
-    };
+    setSubmitting(true);
+    setSubmitError('');
 
-    const existingSubmissions = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
-    existingSubmissions.unshift(newSubmission);
-    localStorage.setItem('formSubmissions', JSON.stringify(existingSubmissions));
-
-    setSubmitted(true);
-    setFormData({ name: '', phone: '', concern: '' });
+    try {
+      const result = await submitLead(formName, formData);
+      if (!result) throw new Error('No response from server.');
+      setSubmitted(true);
+      setFormData({ name: '', phone: '', email: '', service: '', concern: '' });
+    } catch (error) {
+      setSubmitError(error.message || 'Could not submit the callback request. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -89,6 +95,28 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
                 onChange={handleChange}
               />
               <input
+                aria-label="Email"
+                name="email"
+                placeholder="Email"
+                tabIndex={hiddenTabIndex}
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <select
+                aria-label="Service"
+                name="service"
+                tabIndex={hiddenTabIndex}
+                value={formData.service}
+                onChange={handleChange}
+              >
+                <option value="">Service</option>
+                <option value="Fertility Support">Fertility Support</option>
+                <option value="PCOS Care">PCOS Care</option>
+                <option value="Appointment">Appointment</option>
+                <option value="General Query">General Query</option>
+              </select>
+              <input
                 aria-label="Concern"
                 name="concern"
                 placeholder="Concern"
@@ -99,6 +127,8 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
               />
               <button tabIndex={hiddenTabIndex} type="submit">Request Call</button>
             </form>
+            {submitError && <p className="ra-floating-lead-error">{submitError}</p>}
+            {submitting && <p className="ra-floating-lead-status">Submitting...</p>}
           </>
         )}
       </div>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { pagesData } from '../data/pages_data';
-import { AlertCircle, ArrowLeft, ArrowRight, Calendar, CheckCircle, ShieldCheck, Sparkles, Star, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, CheckCircle, ShieldCheck, Sparkles, Star, Users } from 'lucide-react';
 import WhyMeSection from '../components/WhyMeSection';
+import NotFound from './NotFound';
 
 function extractFirstImg(html) {
   const m = html.match(/<img[^>]+src=["']([^"']+)["']/);
@@ -77,6 +78,22 @@ function cleanContent(html, heroImg) {
   return c.trim();
 }
 
+function renderHeroTitle(title) {
+  const words = title.trim().split(/\s+/);
+  if (words.length <= 1) return title;
+
+  const highlightCount = words.length <= 2 ? 1 : 2;
+  const primary = words.slice(0, -highlightCount).join(' ');
+  const highlight = words.slice(-highlightCount).join(' ');
+
+  return (
+    <>
+      {primary}{' '}
+      <em>{highlight}</em>
+    </>
+  );
+}
+
 const serviceStats = [
   { stat: '25+', label: 'Years of Expertise', icon: Star },
   { stat: '10,000+', label: 'Patients Treated', icon: Users },
@@ -100,16 +117,7 @@ export default function ServicePage({ onBookClick }) {
   const page = pagesData[cleanSlug] || null;
 
   if (!page) {
-    return (
-      <div className="inner-page" style={{ display: 'flex', alignItems: 'center', minHeight: '60vh' }}>
-        <div className="ra-container" style={{ textAlign: 'center', maxWidth: 600 }}>
-          <AlertCircle size={48} color="#EF4444" style={{ marginBottom: 16 }} />
-          <h2 style={{ fontWeight: 800, color: 'var(--deep-teal)' }}>Service Page Not Found</h2>
-          <p style={{ color: 'var(--text-soft)' }}>We apologize, but the page you are looking for does not exist or has been moved.</p>
-          <Link to="/" className="ra-btn ra-btn-primary" style={{ marginTop: 16 }}>Go Back Home</Link>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
   const heroImg = extractFirstImg(page.content);
@@ -124,11 +132,11 @@ export default function ServicePage({ onBookClick }) {
       <section className="service-hero-modern">
         <div className="ra-container">
           <div>
-            <Link to="/all-services" className="article-back" style={{ color: 'var(--deep-teal)', opacity: 0.6, marginBottom: 12, display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14 }}>
+            <Link to="/all-services" className="article-back service-back-link">
               <ArrowLeft size={14} /> All Services
             </Link>
             <span className="service-hero-tag">{page.title}</span>
-            <h1>{page.title}</h1>
+            <h1>{renderHeroTitle(page.title)}</h1>
             {intro && <p style={{ color: 'var(--text-soft)', fontSize: 17, lineHeight: 1.7, maxWidth: 540, marginBottom: 28 }}>{intro}</p>}
             <div className="service-hero-actions">
               <button className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 28px', height: 50 }}>Book Appointment</button>

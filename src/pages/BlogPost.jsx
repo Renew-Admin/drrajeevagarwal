@@ -4,14 +4,24 @@ import { CalendarDays, ArrowLeft, AlertCircle, Clock, ArrowRight, Tags, PhoneCal
 import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import { buildBlogPresentation, cleanBlogHtml } from '../utils/blogPresentation';
+import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
-function mergeBlogUpdates(list) {
+function uniqueBlogs(list) {
   const seen = new Set();
-  return [...liveBlogUpdates, ...list].filter((blog) => {
+  return list.filter((blog) => {
     if (seen.has(blog.slug)) return false;
     seen.add(blog.slug);
     return true;
   });
+}
+
+function readFallbackBlogs() {
+  try {
+    const savedBlogs = JSON.parse(localStorage.getItem('blogsList') || '[]');
+    return savedBlogs.length > 0 ? savedBlogs : initialBlogs;
+  } catch {
+    return initialBlogs;
+  }
 }
 
 export default function BlogPost() {
@@ -20,14 +30,23 @@ export default function BlogPost() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const savedBlogs = JSON.parse(localStorage.getItem('blogsList') || '[]');
-      setBlogs(mergeBlogUpdates(savedBlogs.length > 0 ? savedBlogs : initialBlogs));
-    } catch {
-      setBlogs(mergeBlogUpdates(initialBlogs));
-    } finally {
-      setLoaded(true);
+    let active = true;
+
+    async function loadBlogs() {
+      const fallback = readFallbackBlogs();
+      const remoteBlogs = await listPublishedBlogs();
+
+      if (active) {
+        setBlogs(uniqueBlogs([...remoteBlogs, ...liveBlogUpdates, ...fallback]));
+        setLoaded(true);
+      }
     }
+
+    loadBlogs();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const blogItems = useMemo(
@@ -39,7 +58,9 @@ export default function BlogPost() {
   const blog = blogItems.find((item) => item.slug === cleanSlug);
   const latestArticles = blogItems.filter((item) => item.slug !== cleanSlug).slice(0, 5);
   const popularTags = Array.from(new Set((blogItems.flatMap((item) => item.tags)))).slice(0, 10);
-  const articleHtml = blog ? cleanBlogHtml(blog.content, { removeFirstImage: true, removeFirstParagraph: true }) : '';
+  const articleHtml = blog
+    ? cleanBlogHtml(blog.content, { removeFirstImage: true, removeFirstParagraph: !blog._remote })
+    : '';
 
   if (loaded && !blog) {
     return (

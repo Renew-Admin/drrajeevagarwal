@@ -144,6 +144,10 @@ export function formatBlogDate(date) {
 }
 
 export function getBlogImage(blog, index = 0) {
+  if (blog?.image) {
+    return cleanAssetPath(blog.image);
+  }
+
   if (blog?.slug && imageOverrides[blog.slug]) {
     return imageOverrides[blog.slug];
   }
@@ -157,6 +161,10 @@ export function getBlogImage(blog, index = 0) {
 }
 
 export function getBlogCategory(blog) {
+  if (blog?.category) {
+    return blog.category;
+  }
+
   const titleSlug = `${decodeHtml(blog?.title || '')} ${blog?.slug || ''}`.toLowerCase();
 
   if (/preconception|zero trimester|thyroid|tests-before-pregnancy|fertility-readiness|husband-preconception/.test(titleSlug)) return 'Preconception Care';
@@ -171,12 +179,20 @@ export function getBlogCategory(blog) {
 }
 
 export function getBlogTags(blog) {
+  if (Array.isArray(blog?.tags) && blog.tags.length) {
+    return blog.tags;
+  }
+
   const text = `${decodeHtml(blog?.title || '')} ${blog?.slug || ''} ${stripBlogHtml(blog?.content || '').slice(0, 600)}`.toLowerCase();
   const matches = tagRules.filter(([, pattern]) => pattern.test(text)).map(([tag]) => tag);
   return matches.length ? matches.slice(0, 4) : [getBlogCategory(blog)];
 }
 
 export function getBlogExcerpt(blog, maxLength = 170) {
+  if (blog?.excerpt) {
+    return decodeHtml(blog.excerpt);
+  }
+
   const plainText = stripBlogHtml(blog?.content || '');
   if (plainText.length <= maxLength) return plainText;
 
@@ -185,6 +201,11 @@ export function getBlogExcerpt(blog, maxLength = 170) {
 }
 
 export function getReadingTime(blog) {
+  const explicitTime = Number(blog?.readMins || blog?.read_mins || blog?.readingTime);
+  if (explicitTime > 0) {
+    return explicitTime;
+  }
+
   const words = stripBlogHtml(blog?.content || '').split(/\s+/).filter(Boolean).length;
   return Math.max(2, Math.ceil(words / 220));
 }
@@ -196,7 +217,7 @@ export function buildBlogPresentation(blog, index = 0) {
   return {
     ...blog,
     title: cleanTitle,
-    displayDate: formatBlogDate(blog?.date),
+    displayDate: formatBlogDate(blog?.date || blog?.iso || blog?.published_at),
     image: getBlogImage(blog, index),
     excerpt: getBlogExcerpt(blog),
     category: getBlogCategory(blog),

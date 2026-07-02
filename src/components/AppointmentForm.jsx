@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { submitLead } from '../lib/supabaseBlogAdmin';
 
 export default function AppointmentForm({ formName = "General Booking", onSuccess }) {
   const [formData, setFormData] = useState({
@@ -11,34 +12,32 @@ export default function AppointmentForm({ formName = "General Booking", onSucces
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Create submission object
-    const newSubmission = {
-      id: Date.now(),
-      formName,
-      data: formData,
-      submittedAt: new Date().toLocaleString()
-    };
-    
-    // Save to localStorage
-    const existingSubmissions = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
-    existingSubmissions.unshift(newSubmission);
-    localStorage.setItem('formSubmissions', JSON.stringify(existingSubmissions));
-    
-    // Reset form
-    setSubmitted(true);
-    if (onSuccess) {
-      setTimeout(() => {
-        onSuccess();
-      }, 1500);
+
+    setSubmitting(true);
+    setSubmitError('');
+
+    try {
+      await submitLead(formName, formData);
+      setSubmitted(true);
+      if (onSuccess) {
+        setTimeout(() => {
+          onSuccess();
+        }, 1500);
+      }
+    } catch (error) {
+      setSubmitError(error.message || 'Could not submit the appointment request. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -141,8 +140,12 @@ export default function AppointmentForm({ formName = "General Booking", onSucces
         />
       </div>
 
-      <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '8px' }}>
-        Confirm Appointment Request
+      {submitError && (
+        <p className="form-submit-error">{submitError}</p>
+      )}
+
+      <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '8px' }} disabled={submitting}>
+        {submitting ? 'Submitting...' : 'Confirm Appointment Request'}
       </button>
     </form>
   );

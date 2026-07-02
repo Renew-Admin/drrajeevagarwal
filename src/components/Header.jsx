@@ -41,9 +41,9 @@ export default function Header({ onBookClick }) {
     onBookClick?.();
   };
 
-  const homeAnchor = (hash) => (location.pathname === '/' ? hash : `/${hash}`);
   const nav = (
     <>
+      <Link to="/" className={location.pathname === '/' ? 'is-active' : ''}>Home</Link>
       <Link to="/about-me" className={location.pathname === '/about-me' ? 'is-active' : ''}>About Me</Link>
       <div className="ra-nav-dropdown">
         <Link to="/all-services" className="ra-nav-dropdown-link">
@@ -64,19 +64,7 @@ export default function Header({ onBookClick }) {
           </div>
         </div>
       </div>
-      <div className="ra-nav-dropdown">
-        <button type="button">
-          Resources <ChevronDown size={14} />
-        </button>
-        <div className="ra-mega ra-mega-single" aria-label="Resources menu">
-          <div>
-            <span>Learning</span>
-            <a href={homeAnchor('#courses')}>Courses</a>
-            <a href={homeAnchor('#doctor-intro-video')}>Videos</a>
-            <a href={homeAnchor('#instagram')}>Instagram</a>
-          </div>
-        </div>
-      </div>
+      <Link to="/courses" className={location.pathname === '/courses' ? 'is-active' : ''}>Courses</Link>
       <Link to="/blog" className={location.pathname.startsWith('/blog') ? 'is-active' : ''}>Blog</Link>
       <Link to="/success-stories" className={location.pathname === '/success-stories' ? 'is-active' : ''}>Success Stories</Link>
     </>

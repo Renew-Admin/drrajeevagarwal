@@ -142,15 +142,6 @@ const pressLogos = [
   ['Zee News', '/assets/2025/04/Zee_news-1.svg'],
 ];
 
-const videos = [
-  ['Fertility Care Explained', '/assets/2025/04/03H2gLBLUHY-HD.webp'],
-  ['IVF Guidance With Dr. Agarwal', '/assets/2025/04/xrPLlMc4dw-HD.webp'],
-  ['Preparing for Pregnancy', '/assets/2025/04/cEoAa5159p4-HD.webp'],
-  ['Patient Success Stories', '/assets/2025/04/ZIOyJuCiap8-HD.webp'],
-  ['Understanding Fertility Treatments', '/assets/2025/04/XVxy_BmPeeM-HD.webp'],
-  ['Expert Insights on Wellness', '/assets/2025/04/12LCASXxv30-HD.webp'],
-];
-
 const instagramFeed = [
   ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/18039042062394748-m.jpg', 'https://www.instagram.com/reel/DH3qMX6v8f8/'],
   ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/18320255338207237-m.jpg', 'https://www.instagram.com/reel/DHyShB8vEX-/'],
@@ -382,8 +373,12 @@ function VideoCarousel() {
   }, [maxIndex, playing]);
 
   const handlePlay = (i) => {
-    setPlaying(i);
-    setCurrent(i);
+    if (playing === i) {
+      setPlaying(null);
+    } else {
+      setPlaying(i);
+      setCurrent(i);
+    }
   };
 
   return (
@@ -688,6 +683,7 @@ export default function Home({ onBookClick }) {
 
   const nav = (
     <>
+      <Link to="/">Home</Link>
       <Link to="/about-me">About Me</Link>
       <div className="ra-nav-dropdown">
         <button type="button">
@@ -708,19 +704,7 @@ export default function Home({ onBookClick }) {
           </div>
         </div>
       </div>
-      <div className="ra-nav-dropdown">
-        <button type="button">
-          Resources <ChevronDown size={14} />
-        </button>
-        <div className="ra-mega ra-mega-single" aria-label="Resources menu">
-          <div>
-            <span>Learning</span>
-            <a href="#courses">Courses</a>
-            <a href="#videos">Videos</a>
-            <a href="#instagram">Instagram</a>
-          </div>
-        </div>
-      </div>
+      <Link to="/courses">Courses</Link>
       <Link to="/blog">Blog</Link>
       <a href="#success-stories">Success Stories</a>
     </>
@@ -816,7 +800,7 @@ export default function Home({ onBookClick }) {
                   <span className="ra-quick-icon"><Stethoscope size={22} /></span>
                   <span><strong>My Services</strong><small>Expert fertility and gynecological care, tailored for you.</small></span>
                 </Link>
-                <Link className="ra-quick-card" to="/learn-with-dr-rajeev-agarwal">
+                <Link className="ra-quick-card" to="/courses">
                   <span className="ra-quick-icon"><BookOpen size={22} /></span>
                   <span><strong>Our Courses</strong><small>Expert training in fertility and gynaecology.</small></span>
                 </Link>
