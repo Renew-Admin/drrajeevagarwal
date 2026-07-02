@@ -33,10 +33,14 @@ function ScrollToTop() {
   return null;
 }
 
+function isAdminPath(pathname) {
+  return pathname === '/admin' || pathname.startsWith('/admin/');
+}
+
 function SiteChrome({ children, onBookClick }) {
   const location = useLocation();
   const isExactHome = location.pathname === '/';
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = isAdminPath(location.pathname);
 
   if (isExactHome || isAdminRoute) {
     return children;
@@ -55,7 +59,7 @@ function SiteChrome({ children, onBookClick }) {
 
 function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminRoute = isAdminPath(location.pathname);
 
   if (isAdminRoute) {
     return null;
@@ -99,7 +103,7 @@ export default function App() {
           <Route path="/preconception" element={<Preconception />} />
           
           {/* Admin Dashboard */}
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/*" element={<AdminDashboard />} />
           
           {/* Blog Routes */}
           <Route path="/blog" element={<BlogList />} />
