@@ -1184,9 +1184,22 @@ a.ra-quick-card:hover {
 }
 
 .ra-blog-section {
-  padding: 96px 0 100px;
+  padding: 0 0 72px !important;
   background: #f8f9fc;
   position: relative;
+  margin-top: -72px;
+}
+
+.ra-section + .ra-blog-section {
+  margin-top: -84px;
+}
+
+#events {
+  padding-bottom: 12px !important;
+}
+
+.ra-blog-section .ra-section-head {
+  margin-bottom: 6px !important;
 }
 
 .ra-blog-section::before {
@@ -1764,6 +1777,15 @@ a.ra-quick-card:hover {
   max-width: 1000px;
 }
 
+.ra-section.ra-section-blue .ra-faq {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.ra-section.ra-section-blue .ra-section-head {
+  margin-bottom: 14px !important;
+}
+
 .ra-faq-subtitle {
   color: var(--muted);
   font-size: 16px;
@@ -1775,36 +1797,36 @@ a.ra-quick-card:hover {
 .ra-faq-layout {
   display: grid;
   grid-template-columns: 300px 1fr;
-  gap: 40px;
+  gap: 28px;
   align-items: start;
 }
 
 .ra-faq-intro-card {
   background: var(--deep-teal);
   border-radius: 28px;
-  padding: 36px 28px;
+  padding: 26px 22px;
   text-align: center;
   color: #fff;
 }
 
 .ra-faq-intro-card h3 {
-  font-size: 22px;
-  margin: 0 0 12px;
+  font-size: 20px;
+  margin: 0 0 8px;
   color: #fff;
 }
 
 .ra-faq-intro-card p {
-  font-size: 14px;
-  line-height: 1.7;
-  margin: 0 0 24px;
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0 0 18px;
   color: rgba(255,255,255,0.8);
 }
 
 .ra-faq-intro-card .btn {
   display: inline-block;
-  padding: 14px 36px;
+  padding: 12px 28px;
   border-radius: 60px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   text-decoration: none;
 }
@@ -1812,7 +1834,7 @@ a.ra-quick-card:hover {
 .ra-faq-accordion {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .ra-faq-item {
@@ -1836,7 +1858,7 @@ a.ra-quick-card:hover {
 
 .ra-faq-q {
   width: 100%;
-  padding: 20px 24px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1869,7 +1891,7 @@ a.ra-quick-card:hover {
 }
 
 .ra-faq-icon--open svg {
-  transform: rotate(45deg);
+  transform: rotate(180deg);
 }
 
 .ra-faq-icon svg {
@@ -1880,12 +1902,12 @@ a.ra-quick-card:hover {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.35s ease, padding 0.35s ease;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
 .ra-faq-a-wrap--open {
   max-height: 400px;
-  padding: 0 24px 22px;
+  padding: 0 20px 18px;
 }
 
 .ra-faq-a {
@@ -2495,8 +2517,10 @@ a.ra-quick-card:hover {
   border-radius: 52px;
   background: #1b2142;
   color: #fff;
-  padding: 56px 60px 44px;
-  margin: 60px 0 24px;
+  padding: 44px 48px 36px;
+  margin: 48px 0 18px;
+  border: 1px solid rgba(241, 217, 104, 0.44);
+  box-shadow: none;
   position: relative;
   overflow: hidden;
 }
@@ -2518,7 +2542,7 @@ a.ra-quick-card:hover {
 .ra-footer-top {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-  gap: 50px;
+  gap: 36px;
   align-items: start;
 }
 
@@ -2534,7 +2558,7 @@ a.ra-quick-card:hover {
   color: rgba(255,255,255,0.65);
   font-size: 15px;
   line-height: 1.75;
-  margin: 0 0 32px;
+  margin: 0 0 24px;
   max-width: 520px;
 }
 
@@ -2544,19 +2568,19 @@ a.ra-quick-card:hover {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .ra-footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .ra-footer-contact-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   font-size: 15px;
   line-height: 1.65;
   color: rgba(255,255,255,0.75);
@@ -2582,7 +2606,7 @@ a.ra-quick-card:hover {
 .ra-footer-socials {
   display: flex;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .ra-footer-socials a {
@@ -2619,23 +2643,25 @@ a.ra-quick-card:hover {
 .ra-footer-hours-card {
   background: #eef1fa;
   border-radius: 36px;
-  padding: 34px 36px;
+  padding: 26px 28px;
   width: 100%;
   max-width: 380px;
+  border: 1px solid rgba(241, 217, 104, 0.44);
+  box-shadow: none;
 }
 
 .ra-footer-hours-title {
   color: var(--deep-teal);
   font-size: 18px;
   font-weight: 800;
-  margin: 0 0 20px;
+  margin: 0 0 14px;
 }
 
 .ra-footer-hours-card p {
   color: var(--deep-teal);
   font-size: 15px;
   line-height: 1.65;
-  margin: 12px 0;
+  margin: 8px 0;
 }
 
 .ra-footer-hours-card strong {
@@ -2645,14 +2671,7 @@ a.ra-quick-card:hover {
 .ra-footer-h-line {
   height: 1px;
   background: rgba(32,38,92,0.08);
-  margin: 2px 0;
-}
-
-.ra-footer-h-note {
-  font-size: 12px;
-  opacity: 0.55;
-  font-style: italic;
-  margin: 12px 0 16px !important;
+  margin: 8px 0 10px;
 }
 
 .ra-footer-h-btn {
@@ -2747,23 +2766,23 @@ a.ra-quick-card:hover {
 
 @media (max-width: 1024px) {
   .ra-footer-card {
-    padding: 44px 36px 36px;
+    padding: 40px 34px 32px;
     border-radius: 40px;
   }
   .ra-footer-top {
-    gap: 36px;
+    gap: 28px;
   }
 }
 
 @media (max-width: 820px) {
   .ra-footer-card {
-    padding: 36px 24px 28px;
+    padding: 32px 20px 24px;
     border-radius: 32px;
-    margin: 40px 0 20px;
+    margin: 32px 0 16px;
   }
   .ra-footer-top {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 22px;
   }
   .ra-footer-right {
     justify-content: stretch;
@@ -2773,7 +2792,7 @@ a.ra-quick-card:hover {
   }
   .ra-footer-links {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 18px;
   }
   .ra-footer-bar {
     flex-direction: column;
@@ -2788,30 +2807,43 @@ a.ra-quick-card:hover {
   }
   .ra-faq-layout {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .ra-faq-intro-card {
-    padding: 30px 24px;
+    padding: 22px 18px;
+  }
+  .ra-section.ra-section-blue .ra-section-head {
+    margin-bottom: 10px !important;
+  }
+  .ra-faq-intro-card h3 {
+    font-size: 18px;
+  }
+  .ra-faq-intro-card p {
+    margin: 0 0 14px;
+  }
+  .ra-faq-intro-card .btn {
+    padding: 11px 24px;
   }
 }
 
 @media (max-width: 520px) {
   .ra-footer-card {
     border-radius: 28px;
-    padding: 28px 20px 24px;
+    padding: 24px 16px 20px;
   }
   .ra-footer-hours-card {
     border-radius: 28px;
-    padding: 24px;
+    padding: 22px 20px;
   }
   .ra-faq-q {
-    padding: 16px 18px;
-    font-size: 15px;
+    padding: 14px 16px;
+    font-size: 14px;
   }
   .ra-faq-a-wrap--open {
-    padding: 0 18px 18px;
+    padding: 0 16px 16px;
   }
   .ra-faq-intro-card {
-    padding: 24px 20px;
+    padding: 20px 16px;
   }
 }
 
@@ -2993,6 +3025,49 @@ a.ra-quick-card:hover {
   .ra-instagram-grid,
   .ra-final-cta {
     grid-template-columns: 1fr;
+  }
+
+  .ra-press-strip {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 4px 2px 10px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ra-press-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ra-press-logo {
+    flex: 0 0 148px;
+    min-height: 64px;
+    border-radius: 16px;
+    scroll-snap-align: center;
+  }
+
+  .ra-press-logo img {
+    max-width: 112px;
+    max-height: 24px;
+  }
+
+  .ra-instagram-grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 4px 2px 10px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ra-instagram-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ra-instagram-card {
+    flex: 0 0 150px;
+    scroll-snap-align: center;
   }
 
   .ra-doctor-frame {
@@ -3523,6 +3598,7 @@ a.ra-quick-card:hover {
 }
 
 .ra-floating-lead-inner {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(170px, 0.36fr) minmax(0, 1fr);
   align-items: center;
@@ -3533,6 +3609,10 @@ a.ra-quick-card:hover {
   background: rgba(27, 33, 66, 0.96);
   box-shadow: 0 18px 50px rgba(32, 38, 92, 0.22);
   color: #fff;
+}
+
+.ra-floating-lead-close {
+  display: none;
 }
 
 .ra-floating-lead-copy {
@@ -3628,8 +3708,25 @@ a.ra-quick-card:hover {
   .ra-floating-lead-inner {
     grid-template-columns: 1fr;
     gap: 9px;
-    padding: 12px;
+    padding: 22px 12px 12px;
     border-radius: 18px;
+  }
+
+  .ra-floating-lead-close {
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    display: inline-grid;
+    place-items: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--deep-teal);
+    padding: 0;
+    box-shadow: 0 10px 24px rgba(32, 38, 92, 0.28);
   }
 
   .ra-floating-lead-copy {
@@ -6160,6 +6257,51 @@ a.ra-quick-card:hover {
   }
 }
 
+@media (max-width: 820px) {
+  .ra-video-carousel {
+    flex: none;
+    width: 100%;
+  }
+
+  .ra-video-carousel-viewport {
+    overflow-x: auto;
+    padding: 4px 2px 10px;
+    border-radius: 0;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ra-video-carousel-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ra-video-carousel-track {
+    width: max-content;
+    transition: none;
+    transform: none !important;
+  }
+
+  .ra-video-carousel-card {
+    width: 150px !important;
+    flex: 0 0 150px !important;
+    aspect-ratio: 9 / 16;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 2px 16px rgba(32,38,92,0.05);
+    scroll-snap-align: center;
+  }
+
+  .ra-video-carousel-play {
+    background: rgba(0,0,0,0.15);
+    color: #fff;
+  }
+
+  .ra-video-carousel-play svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* ===========================
    Course Carousel
    =========================== */
@@ -6896,14 +7038,18 @@ a.ra-quick-card:hover {
   overflow: hidden;
 }
 .ra-event-carousel-track {
+  width: 100%;
   display: flex;
   transition: transform 0.4s ease;
 }
 .ra-event-card {
   flex: 0 0 auto;
+  max-width: 100%;
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
+  border: 1px solid rgba(32, 38, 92, 0.08);
+  padding: 14px;
   box-shadow: 0 2px 16px rgba(32,38,92,0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -6912,22 +7058,29 @@ a.ra-quick-card:hover {
   box-shadow: 0 10px 32px rgba(32,38,92,0.10);
 }
 .ra-event-img-wrap {
+  display: grid;
+  place-items: center;
   overflow: hidden;
-  border-radius: 14px 14px 0 0;
+  aspect-ratio: 350 / 220;
+  padding: 18px;
+  border: 1px solid rgba(32, 38, 92, 0.08);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8f9ff, #ffffff);
 }
 .ra-event-card img {
   width: 100%;
-  aspect-ratio: 350 / 220;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
   display: block;
+  border-radius: 8px;
   transition: transform 0.4s ease;
 }
 .ra-event-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.025);
 }
 .ra-event-caption {
   display: block;
-  padding: 12px 14px 14px;
+  padding: 12px 0 0;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -6959,17 +7112,29 @@ a.ra-quick-card:hover {
 @media (max-width: 991px) {
   .ra-event-layout {
     flex-direction: column;
+    align-items: stretch;
     gap: 32px;
   }
   .ra-event-text {
     flex: none;
     width: 100%;
   }
+  .ra-event-carousel {
+    flex: none;
+    width: 100%;
+  }
+  .ra-event-carousel-viewport {
+    width: 100%;
+  }
   .ra-event-deco {
     display: none;
   }
   .ra-event-card img {
-    aspect-ratio: 350 / 220;
+    width: 100%;
+    height: 100%;
+  }
+  .ra-event-img-wrap {
+    padding: 20px;
   }
 }
 
@@ -8150,4 +8315,341 @@ a.ra-quick-card:hover {
     flex-direction: column;
     gap: 2px;
   }
+}
+
+/* Mobile site-wide text alignment */
+@media (max-width: 820px) {
+  body,
+  #root,
+  #root * {
+    text-align: center !important;
+  }
+
+  #root :where(ul, ol) {
+    padding-left: 0 !important;
+    list-style-position: inside;
+  }
+
+  #root :where(input, textarea, select) {
+    text-align: center !important;
+  }
+
+  #root :where(.btn, .ra-btn, button, a) {
+    justify-content: center !important;
+  }
+
+  #root :where(
+    .ra-section-head,
+    .about-hero-image-content,
+    .ra-success-stories-text,
+    .ra-event-text,
+    .course-hero-content,
+    .ra-hero-actions,
+    .ra-center,
+    .ra-tabs,
+    .ra-proof-grid,
+    .about-hero-actions,
+    .about-cta-actions,
+    .about-hero-image-actions,
+    .course-service-copy,
+    .course-section-head,
+    .course-hero-actions,
+    .course-podcast-actions,
+    .featured-course-copy,
+    .blog-page-intro-inner,
+    .blog-feed-topline,
+    .blog-list-body,
+    .blog-list-footer,
+    .blog-sidebar-card,
+    .service-hero-actions,
+    .service-badge-row,
+    .cta-actions,
+    .ss-hero-actions,
+    .not-found-copy,
+    .not-found-actions,
+    .ra-footer-left,
+    .ra-footer-contact,
+    .ra-footer-links,
+    .profile-main,
+    .doctor-info,
+    .appointment-form,
+    .form-group,
+    .form-field
+  ) {
+    align-items: center !important;
+  }
+
+  #root :where(
+    .about-hero-image-content > *,
+    .ra-label,
+    .course-kicker,
+    .course-hero-content > *,
+    .service-hero-tag
+  ) {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  #root :where(
+    .about-hero-image-content div,
+    .ra-hero-actions,
+    .ra-center,
+    .ra-tabs,
+    .ra-proof-grid span,
+    .about-hero-actions,
+    .about-cta-actions,
+    .about-hero-image-actions,
+    .ra-footer-bar,
+    .ra-footer-bar-links,
+    .ra-footer-contact-row,
+    .course-hero-actions,
+    .course-podcast-actions,
+    .service-hero-actions,
+    .cta-actions,
+    .ss-hero-actions,
+    .not-found-actions,
+    .blog-list-footer,
+    .blog-feed-topline,
+    .doctor-meta,
+    .admin-blog-actions
+  ) {
+    justify-content: center !important;
+  }
+}
+
+/* Sitewide spacing and card polish */
+:root {
+  --ra-card-border: rgba(32, 38, 92, 0.12);
+  --ra-card-hover-border: var(--gold);
+  --ra-section-space: clamp(48px, 5vw, 64px);
+  --ra-section-space-mobile: 42px;
+}
+
+#root :where(
+  .card,
+  .inner-card,
+  .glass-card,
+  .hover-lift-card,
+  .ra-quick-card,
+  .ra-consult-card,
+  .ra-about-video-card,
+  .ra-about-award-card,
+  .ra-service-card,
+  .ra-press-logo,
+  .ra-course-card,
+  .ra-instagram-card,
+  .ra-faq-item,
+  .ra-faq-intro-card,
+  .ra-footer-card,
+  .ra-footer-hours-card,
+  .about-focus-card,
+  .about-care-card,
+  .about-timeline-card,
+  .about-gallery-card,
+  .ra-pub-card,
+  .ra-pub-card-inner,
+  .service-concern-card,
+  .procedure-card,
+  .dark-stat-card,
+  .doctor-card,
+  .profile-cta-card,
+  .booking-info-card,
+  .blog-list-card,
+  .blog-sidebar-card,
+  .blog-article-card,
+  .admin-login-card,
+  .admin-sub-card,
+  .course-service-card,
+  .course-card,
+  .ss-tcard,
+  .ss-stat-card,
+  .ss-video-card,
+  .ra-video-carousel-card,
+  .ra-event-card,
+  .not-found-card
+) {
+  border: 1px solid var(--ra-card-border) !important;
+  box-shadow: none !important;
+  transition: border-color 180ms ease, transform 180ms ease, background 180ms ease !important;
+}
+
+#root :where(
+  .card,
+  .inner-card,
+  .glass-card,
+  .hover-lift-card,
+  .ra-quick-card,
+  .ra-consult-card,
+  .ra-about-video-card,
+  .ra-about-award-card,
+  .ra-service-card,
+  .ra-press-logo,
+  .ra-course-card,
+  .ra-instagram-card,
+  .ra-faq-item,
+  .ra-faq-intro-card,
+  .ra-footer-hours-card,
+  .about-focus-card,
+  .about-care-card,
+  .about-timeline-card,
+  .about-gallery-card,
+  .ra-pub-card,
+  .ra-pub-card-inner,
+  .service-concern-card,
+  .procedure-card,
+  .dark-stat-card,
+  .doctor-card,
+  .profile-cta-card,
+  .booking-info-card,
+  .blog-list-card,
+  .blog-sidebar-card,
+  .blog-article-card,
+  .admin-login-card,
+  .admin-sub-card,
+  .course-service-card,
+  .course-card,
+  .ss-tcard,
+  .ss-stat-card,
+  .ss-video-card,
+  .ra-video-carousel-card,
+  .ra-event-card,
+  .not-found-card
+):hover {
+  border-color: var(--ra-card-hover-border) !important;
+  box-shadow: none !important;
+}
+
+#root :where(
+  .section,
+  .ra-section,
+  .ra-services-section,
+  .ra-blog-section,
+  .inner-section,
+  .about-intro-section,
+  .about-story-section,
+  .about-care-section,
+  .about-journey-section,
+  .about-gallery-section,
+  .about-cta-section,
+  .about-why-section,
+  .service-content-section,
+  .dark-section,
+  .blog-page-content,
+  .blog-post-page,
+  .course-service-section,
+  .course-catalog-section,
+  .featured-course-section,
+  .course-proof-section,
+  .ss-patients-section,
+  .ss-stats-section,
+  .ss-videos-section
+) {
+  padding-top: var(--ra-section-space) !important;
+  padding-bottom: var(--ra-section-space) !important;
+}
+
+#root :where(.ra-hero) {
+  min-height: auto !important;
+  padding-top: clamp(44px, 5vw, 56px) !important;
+  padding-bottom: clamp(32px, 4vw, 44px) !important;
+}
+
+#root :where(
+  .ra-section-head,
+  .section-head,
+  .about-section-head,
+  .course-section-head
+) {
+  margin-bottom: clamp(22px, 3vw, 30px) !important;
+}
+
+#root :where(
+  .ra-about,
+  .ra-event-layout,
+  .ra-success-stories-layout,
+  .course-service-layout,
+  .featured-course-layout,
+  .blog-layout,
+  .blog-post-layout
+) {
+  gap: clamp(22px, 3vw, 40px) !important;
+}
+
+@media (max-width: 820px) {
+  #root :where(
+    .section,
+    .ra-section,
+    .ra-services-section,
+    .ra-blog-section,
+    .inner-section,
+    .about-intro-section,
+    .about-story-section,
+    .about-care-section,
+    .about-journey-section,
+    .about-gallery-section,
+    .about-cta-section,
+    .about-why-section,
+    .service-content-section,
+    .dark-section,
+    .blog-page-content,
+    .blog-post-page,
+    .course-service-section,
+    .course-catalog-section,
+    .featured-course-section,
+    .course-proof-section,
+    .ss-patients-section,
+    .ss-stats-section,
+    .ss-videos-section
+  ) {
+    padding-top: var(--ra-section-space-mobile) !important;
+    padding-bottom: var(--ra-section-space-mobile) !important;
+  }
+
+  .ra-blog-section {
+    padding-top: 0 !important;
+    padding-bottom: 40px !important;
+    margin-top: -48px;
+  }
+
+  .ra-section + .ra-blog-section {
+    margin-top: -54px;
+  }
+
+  #events {
+    padding-bottom: 6px !important;
+  }
+
+  .ra-blog-section .ra-section-head {
+    margin-bottom: 4px !important;
+  }
+
+  #root :where(.ra-hero) {
+    padding-top: 38px !important;
+    padding-bottom: 28px !important;
+  }
+
+  #root :where(
+    .ra-section-head,
+    .section-head,
+    .about-section-head,
+    .course-section-head
+  ) {
+    margin-bottom: 22px !important;
+  }
+
+  #root :where(
+    .ra-section-head h2,
+    .section-head h2,
+    .about-section-head h2,
+    .course-section-head h2
+  ) {
+    margin-bottom: 10px !important;
+  }
+}
+
+/* Footer-specific bordered treatment */
+.ra-footer-card,
+.ra-footer-hours-card {
+  border-color: rgba(241, 217, 104, 0.44) !important;
+  box-shadow: none !important;
 }

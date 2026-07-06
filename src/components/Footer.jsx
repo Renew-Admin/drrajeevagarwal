@@ -50,8 +50,12 @@ export default function Footer() {
 
             <div className="ra-footer-contact">
               <div className="ra-footer-contact-row">
-                <span className="ra-footer-label">Address:</span>
-                <span>Renew Health Care, 18C Mandeville Gardens, Kolkata – 700019, West Bengal</span>
+                <span className="ra-footer-label">Center:</span>
+                <span>Gariahat, Salt Lake, and Jamshedpur</span>
+              </div>
+              <div className="ra-footer-contact-row">
+                <span className="ra-footer-label">Hours:</span>
+                <span>Monday to Friday, 9:00 AM - 7:00 PM</span>
               </div>
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Contact:</span>
@@ -84,14 +88,14 @@ export default function Footer() {
 
           <div className="ra-footer-right">
             <div className="ra-footer-hours-card">
+              <h3 className="ra-footer-hours-title">Our Centers</h3>
+              <p><strong>Gariahat</strong> - Kolkata</p>
+              <p><strong>Salt Lake</strong> - Kolkata</p>
+              <p><strong>Jamshedpur</strong></p>
+              <div className="ra-footer-h-line" />
               <h3 className="ra-footer-hours-title">Working Hours</h3>
-              <p>Monday, Tuesday &amp; Thursday – <strong>Mandeville</strong></p>
-              <div className="ra-footer-h-line" />
-              <p>Wednesday &amp; Friday – <strong>Saltlake</strong></p>
-              <div className="ra-footer-h-line" />
-              <p>Timings – <strong>9:30AM – 6:00PM</strong></p>
-              <div className="ra-footer-h-line" />
-              <p className="ra-footer-h-note">*timings may vary depending on availability</p>
+              <p><strong>Monday to Friday</strong></p>
+              <p><strong>9:00 AM - 7:00 PM</strong></p>
               <Link className="ra-footer-h-btn" to="/book-an-appointment">Book A Visit</Link>
             </div>
           </div>

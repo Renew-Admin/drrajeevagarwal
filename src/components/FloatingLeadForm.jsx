@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 import { submitLead } from '../lib/supabaseBlogAdmin';
 
 export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -35,7 +37,7 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
     return () => observer.disconnect();
   }, []);
 
-  const visible = hasScrolled && !footerVisible;
+  const visible = hasScrolled && !footerVisible && !dismissed;
   const hiddenTabIndex = visible ? undefined : -1;
 
   const handleChange = (event) => {
@@ -65,6 +67,15 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
   return (
     <aside className={`ra-floating-lead ${visible ? 'is-visible' : ''}`} aria-label="Quick appointment request">
       <div className="ra-floating-lead-inner">
+        <button
+          className="ra-floating-lead-close"
+          type="button"
+          aria-label="Close callback form"
+          tabIndex={hiddenTabIndex}
+          onClick={() => setDismissed(true)}
+        >
+          <X size={17} strokeWidth={2.6} />
+        </button>
         {submitted ? (
           <p className="ra-floating-lead-success">Thank you. Our team will contact you shortly.</p>
         ) : (

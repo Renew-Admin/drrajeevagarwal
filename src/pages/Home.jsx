@@ -199,11 +199,11 @@ const faqs = [
   ],
   [
     'What are the working hours?',
-    'Monday, Tuesday & Thursday at Mandeville; Wednesday & Friday at Saltlake. Timings are 9:30 AM to 6:00 PM. Please note that hours may vary depending on availability.',
+    'All centers in Gariahat, Salt Lake, and Jamshedpur are open Monday to Friday from 9:00 AM to 7:00 PM.',
   ],
   [
     'Where is the clinic located?',
-    'The clinic is located at Renew Health Care, 18C Mandeville Gardens, Kolkata – 700019, West Bengal. There is also a Saltlake location open on Wednesday & Friday.',
+    'All centers: Gariahat, Salt Lake, and Jamshedpur. Monday to Friday, 9:00 AM - 7:00 PM.',
   ],
 ];
 
@@ -1069,7 +1069,7 @@ export default function Home({ onBookClick }) {
                       <button className="ra-faq-q" onClick={() => setOpenFaq(open ? null : i)}>
                         <span>{question}</span>
                         <span className={`ra-faq-icon ${open ? 'ra-faq-icon--open' : ''}`}>
-                          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                          <ChevronDown size={18} strokeWidth={2.5} />
                         </span>
                       </button>
                       <div className={`ra-faq-a-wrap ${open ? 'ra-faq-a-wrap--open' : ''}`}>
