@@ -11,6 +11,7 @@ import AppointmentForm from './components/AppointmentForm';
 import Home from './pages/Home';
 import About from './pages/About';
 import Preconception from './pages/Preconception';
+import PreconceptionWorkshop from './pages/PreconceptionWorkshop';
 import AdminDashboard from './pages/AdminDashboard';
 import AllServices from './pages/AllServices';
 import BlogList from './pages/BlogList';
@@ -101,6 +102,7 @@ export default function App() {
           <Route path="/" element={<Home onBookClick={openBookModal} />} />
           <Route path="/about-me" element={<About onBookClick={openBookModal} />} />
           <Route path="/preconception" element={<Preconception />} />
+          <Route path="/preconception-workshop" element={<PreconceptionWorkshop />} />
           
           {/* Admin Dashboard */}
           <Route path="/admin/*" element={<AdminDashboard />} />

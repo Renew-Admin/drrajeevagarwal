@@ -4,6 +4,8 @@ import {
   Baby,
   BookOpen,
   CalendarCheck,
+  ArrowLeft,
+  ArrowRight,
   ChevronDown,
   HeartPulse,
   Menu,
@@ -381,6 +383,29 @@ function VideoCarousel() {
     }
   };
 
+  const scrollPrev = () => {
+    if (viewportRef.current) {
+      const vp = viewportRef.current;
+      // On mobile the track uses native scroll, so scrollBy works
+      if (window.innerWidth <= 820) {
+        vp.scrollBy({ left: -170, behavior: 'smooth' });
+      } else {
+        setCurrent(prev => Math.max(0, prev - 1));
+      }
+    }
+  };
+
+  const scrollNext = () => {
+    if (viewportRef.current) {
+      const vp = viewportRef.current;
+      if (window.innerWidth <= 820) {
+        vp.scrollBy({ left: 170, behavior: 'smooth' });
+      } else {
+        setCurrent(prev => Math.min(maxIndex, prev + 1));
+      }
+    }
+  };
+
   return (
     <div className="ra-video-carousel">
       <div className="ra-video-carousel-viewport" ref={viewportRef}>
@@ -411,6 +436,24 @@ function VideoCarousel() {
             </div>
           ))}
         </div>
+      </div>
+      <div className="ra-carousel-arrows">
+        <button
+          className="ra-carousel-arrow ra-carousel-arrow--left"
+          type="button"
+          onClick={scrollPrev}
+          aria-label="Previous video"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <button
+          className="ra-carousel-arrow ra-carousel-arrow--right"
+          type="button"
+          onClick={scrollNext}
+          aria-label="Next video"
+        >
+          <ArrowRight size={20} />
+        </button>
       </div>
     </div>
   );
@@ -843,7 +886,7 @@ export default function Home({ onBookClick }) {
                   <div><strong>Modern Clinical Standards</strong><span>Technology-led care with dedicated support</span></div>
                 </div>
               </div>
-              <a className="ra-about-readmore" href="https://drrajeevagarwal.co.in/about-me/">Read More</a>
+              <Link className="ra-about-readmore" to="/about-me">Read More</Link>
             </div>
 
             <div className="ra-about-media elementor-element elementor-element-dee3299" data-id="dee3299">
@@ -856,7 +899,7 @@ export default function Home({ onBookClick }) {
                 aria-label="Watch Doctor's Introduction on this page"
               >
                 <span className="ra-about-play"><Play size={18} fill="currentColor" /></span>
-                <span>Watch Doctor's Introduction</span>
+                <span className="ra-about-video-label">Watch Doctor's Introduction</span>
               </a>
               <div className="ra-about-award-card" aria-label="35 plus global healthcare awards">
                 <img src="/assets/2025/03/Group-1000008319.png.webp" alt="" />
@@ -869,7 +912,7 @@ export default function Home({ onBookClick }) {
           </div>
         </section>
 
-        <section className="ra-section ra-doctor-video-section" id="doctor-intro-video">
+        <section className="ra-section ra-doctor-video-section ra-hide-mobile" id="doctor-intro-video">
           <div className="ra-container">
             <div className="ra-doctor-video-embed">
               {introVideoOpen ? (
@@ -1037,6 +1080,30 @@ export default function Home({ onBookClick }) {
                 );
               })}
             </div>
+            <div className="ra-carousel-arrows ra-insta-arrows">
+              <button
+                className="ra-carousel-arrow ra-carousel-arrow--left"
+                type="button"
+                onClick={() => {
+                  const grid = document.querySelector('.ra-instagram-grid');
+                  if (grid) grid.scrollBy({ left: -170, behavior: 'smooth' });
+                }}
+                aria-label="Scroll Instagram left"
+              >
+                <ArrowLeft size={20} />
+              </button>
+              <button
+                className="ra-carousel-arrow ra-carousel-arrow--right"
+                type="button"
+                onClick={() => {
+                  const grid = document.querySelector('.ra-instagram-grid');
+                  if (grid) grid.scrollBy({ left: 170, behavior: 'smooth' });
+                }}
+                aria-label="Scroll Instagram right"
+              >
+                <ArrowRight size={20} />
+              </button>
+            </div>
           </div>
           {instaModal && (
             <div className="ra-video-lightbox" onClick={() => setInstaModal(null)}>
@@ -1058,7 +1125,9 @@ export default function Home({ onBookClick }) {
                 <div className="ra-faq-intro-card">
                   <h3>Still have questions?</h3>
                   <p>We are here to help. Reach out to Dr. Rajeev Agarwal's team for personalised guidance and support.</p>
-                  <Link className="btn btn-gold" to="/book-an-appointment">Contact Us</Link>
+                  <Link className="btn btn-gold ra-faq-intro-action" to="/book-an-appointment" aria-label="Book appointment">
+                    <ArrowRight size={16} />
+                  </Link>
                 </div>
               </aside>
               <div className="ra-faq-accordion">
