@@ -128,6 +128,7 @@ em {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 48px;
   padding: 0 22px;
   border: 0;
@@ -140,6 +141,7 @@ em {
 .btn:hover,
 .ra-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 0 0 2px var(--gold), 0 14px 30px rgba(32, 38, 92, 0.2);
 }
 
 .btn-primary,
@@ -219,6 +221,7 @@ select {
   border-bottom: 1px solid rgba(32, 38, 92, 0.1);
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(18px);
+  transition: transform 0.3s ease-in-out;
 }
 
 .ra-header-inner {
@@ -1803,6 +1806,16 @@ a.ra-quick-card:hover {
   margin-bottom: 14px !important;
 }
 
+.ra-faq .ra-section-head {
+  margin-bottom: 38px !important;
+}
+
+@media (max-width: 768px) {
+  .ra-faq .ra-section-head {
+    margin-bottom: 24px !important;
+  }
+}
+
 .ra-faq-subtitle {
   color: var(--muted);
   font-size: 16px;
@@ -1813,7 +1826,9 @@ a.ra-quick-card:hover {
 
 .ra-faq-layout {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 0 auto;
   gap: 28px;
   align-items: start;
 }
@@ -2894,6 +2909,10 @@ a.ra-quick-card:hover {
 }
 
 @media (max-width: 1120px) {
+  .ra-header.is-hidden {
+    transform: translateY(-100%);
+  }
+
   .ra-nav,
   .ra-header-actions .ra-btn {
     display: none;
@@ -3911,7 +3930,8 @@ a.ra-quick-card:hover {
 }
 
 /* Remove inner-page padding for about page since it has its own hero */
-.about-page {
+.about-page,
+.inner-page.booking-page-wrap {
   padding-top: 0;
 }
 
@@ -4858,8 +4878,13 @@ a.ra-quick-card:hover {
   background: #f8f9fc;
 }
 
+.inner-page.blog-page-modern,
+.inner-page.blog-post-page {
+  padding-top: 0;
+}
+
 .blog-page-intro {
-  padding: 64px 0 22px;
+  padding: 32px 0 22px;
   background:
     radial-gradient(ellipse 55% 42% at 12% 24%, rgba(241,217,104,0.05) 0%, transparent 70%),
     #f8f9fc;
@@ -6013,7 +6038,7 @@ a.ra-quick-card:hover {
 
 @media (max-width: 640px) {
   .blog-page-intro {
-    padding: 48px 0 16px;
+    padding: 24px 0 16px;
   }
 
   .blog-page-content,
@@ -8847,9 +8872,9 @@ a.ra-quick-card:hover {
   max-width: 620px;
   margin: 0 0 12px;
   color: var(--deep-teal);
-  font-size: clamp(38px, 5.1vw, 64px);
-  font-weight: 950;
-  line-height: 1.03;
+  font-size: clamp(32px, 4.2vw, 54px);
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 .pcw-hero-italic {
@@ -9023,8 +9048,8 @@ a.ra-quick-card:hover {
 .pcw-schedule-copy h2 {
   margin: 0;
   color: var(--deep-teal);
-  font-size: clamp(28px, 3.4vw, 44px);
-  font-weight: 950;
+  font-size: clamp(24px, 2.8vw, 36px);
+  font-weight: 800;
 }
 
 .pcw-countdown {
@@ -9129,7 +9154,7 @@ a.ra-quick-card:hover {
   margin: 0;
   color: var(--deep-teal);
   font-size: 16px;
-  font-weight: 950;
+  font-weight: 800;
   line-height: 1.25;
 }
 
@@ -9172,9 +9197,9 @@ a.ra-quick-card:hover {
 .pcw-seo-panel h2 {
   margin: 0 0 16px;
   color: var(--deep-teal);
-  font-size: clamp(30px, 3.5vw, 44px);
-  font-weight: 950;
-  line-height: 1.1;
+  font-size: clamp(26px, 3.1vw, 38px);
+  font-weight: 800;
+  line-height: 1.25;
 }
 
 .pcw-learning-copy p {
@@ -9371,7 +9396,7 @@ a.ra-quick-card:hover {
   margin-top: auto;
   color: var(--deep-teal);
   font-size: 14px;
-  font-weight: 950;
+  font-weight: 800;
 }
 
 .pcw-expert-section {
@@ -9416,8 +9441,8 @@ a.ra-quick-card:hover {
 
 .pcw-expert-copy h3 {
   margin: 0 0 4px;
-  font-size: clamp(26px, 3vw, 36px);
-  font-weight: 950;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 800;
 }
 
 .pcw-expert-role {
@@ -9473,7 +9498,7 @@ a.ra-quick-card:hover {
   margin: 0 0 10px;
   color: var(--gold);
   font-size: 18px;
-  font-weight: 950;
+  font-weight: 800;
 }
 
 .pcw-expert-copy p:not(.pcw-expert-role) {
@@ -9552,8 +9577,8 @@ a.ra-quick-card:hover {
 .pcw-seo-link-groups h3 {
   margin: 0 0 10px;
   color: var(--deep-teal);
-  font-size: 21px;
-  font-weight: 950;
+  font-size: 20px;
+  font-weight: 800;
   line-height: 1.25;
 }
 
@@ -9561,7 +9586,7 @@ a.ra-quick-card:hover {
   margin: 0 0 6px;
   color: var(--deep-teal);
   font-size: 16px;
-  font-weight: 950;
+  font-weight: 800;
 }
 
 .pcw-seo-panel ul {
@@ -9642,7 +9667,7 @@ a.ra-quick-card:hover {
   border-radius: 999px;
   background: #fff;
   color: var(--deep-teal);
-  font-weight: 950;
+  font-weight: 800;
   box-shadow: 0 10px 24px rgba(32, 38, 92, 0.06);
 }
 
@@ -9704,7 +9729,7 @@ a.ra-quick-card:hover {
   }
 
   .pcw-hero h1 {
-    font-size: clamp(34px, 10vw, 48px);
+    font-size: clamp(28px, 8vw, 40px);
   }
 
   .pcw-video-frame {
@@ -10022,4 +10047,138 @@ a.ra-quick-card:hover {
   .ra-scroll-hint {
     display: none !important;
   }
+}
+
+/* ---- Services Page Hero Custom Styling ---- */
+.services-hero-content {
+  text-align: right;
+}
+
+.services-hero-inner {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: 5%;
+}
+
+.services-hero-inner h1 {
+  font-size: clamp(32px, 3.2vw, 46px);
+  margin: 0 0 8px;
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.services-hero-title-white {
+  color: #fff;
+}
+
+.services-hero-title-gold {
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.services-hero-sub {
+  color: #fff;
+  font-size: clamp(16px, 1.3vw, 18px);
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0 0 20px auto;
+  max-width: 480px;
+}
+
+.services-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.services-hero-actions .ra-btn-soft {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Responsive overrides for Services Page Hero */
+@media (max-width: 1120px) {
+  .services-hero-content {
+    text-align: center !important;
+  }
+  
+  .services-hero-inner {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+  
+  .services-hero-inner h1 {
+    font-size: 30px !important;
+    margin-bottom: 12px;
+  }
+  
+  .services-hero-sub {
+    font-size: 16px !important;
+    margin: 0 auto 24px !important;
+    max-width: 600px;
+  }
+  
+  .services-hero-actions {
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-hero-inner h1 {
+    font-size: 28px !important;
+  }
+  
+  .services-hero-sub {
+    font-size: 15px !important;
+  }
+}
+
+/* ---- Chatbot state-based styling overrides ---- */
+.ra-chatbot-frame.is-closed {
+  width: 96px !important;
+  height: 96px !important;
+}
+
+.ra-chatbot-frame.is-teaser {
+  width: 290px !important;
+  height: 200px !important;
+}
+
+.ra-chatbot-frame.is-open {
+  width: min(400px, calc(100vw - 16px)) !important;
+  height: min(600px, calc(100dvh - 88px)) !important;
+}
+
+@media (max-width: 820px) {
+  .ra-chatbot-frame.is-open {
+    width: min(360px, calc(100vw - 16px)) !important;
+    height: min(520px, calc(100dvh - 88px)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .ra-chatbot-frame.is-open {
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    right: 0 !important;
+    bottom: 0 !important;
+  }
+}
+
+/* Preconception Workshop Italic Gold styling */
+.pcw-page h1 em,
+.pcw-page h2 em,
+.pcw-page h3 em,
+.pcw-page h4 em,
+.pcw-page h5 em,
+.pcw-page h6 em {
+  color: var(--gold) !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500 !important;
 }

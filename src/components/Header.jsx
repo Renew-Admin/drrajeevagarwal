@@ -23,12 +23,31 @@ const dropdownProcedures = [
 export default function Header({ onBookClick }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    let lastY = window.scrollY;
+    
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 20);
+      
+      if (window.innerWidth <= 1120) {
+        if (currentY > lastY && currentY > 82) {
+          setVisible(false);
+        } else {
+          setVisible(true);
+        }
+      } else {
+        setVisible(true);
+      }
+      
+      lastY = currentY;
+    };
+    
     onScroll();
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -71,7 +90,7 @@ export default function Header({ onBookClick }) {
   );
 
   return (
-    <header className={`ra-header site-header-modern ${scrolled ? 'is-scrolled' : ''}`}>
+    <header className={`ra-header site-header-modern ${scrolled ? 'is-scrolled' : ''} ${!visible && !open ? 'is-hidden' : ''}`}>
       <div className="ra-header-inner">
         <Link className="ra-logo" to="/" aria-label="Dr. Rajeev Agarwal home">
           <img src="/assets/2025/01/Rajeev-Sir-Logo-2.webp" alt="Dr. Rajeev Agarwal logo" />
@@ -80,7 +99,9 @@ export default function Header({ onBookClick }) {
         <nav className="ra-nav" aria-label="Primary navigation">{nav}</nav>
 
         <div className="ra-header-actions">
-          <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
+          {location.pathname !== '/book-an-appointment' && (
+            <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
+          )}
           <a className="ra-icon-btn" href="https://wa.me/916292269060" aria-label="WhatsApp Dr. Rajeev Agarwal">
             <MessageCircle size={20} />
           </a>
@@ -93,7 +114,9 @@ export default function Header({ onBookClick }) {
       {open && (
         <div className="ra-mobile-menu">
           {nav}
-          <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
+          {location.pathname !== '/book-an-appointment' && (
+            <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
+          )}
         </div>
       )}
     </header>

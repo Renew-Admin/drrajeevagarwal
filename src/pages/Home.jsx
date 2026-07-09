@@ -716,7 +716,7 @@ export default function Home({ onBookClick }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [introVideoOpen, setIntroVideoOpen] = useState(false);
   const [instaModal, setInstaModal] = useState(null);
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openFaq, setOpenFaq] = useState(0);
   const latestBlogs = useMemo(() => blogsData.slice(0, 3), []);
   const services = activeTab === 'concern' ? concernServices : procedureServices;
   const book = () => {
@@ -1118,18 +1118,8 @@ export default function Home({ onBookClick }) {
             <div className="ra-section-head">
               <span className="ra-label">FAQ</span>
               <h2>Frequently Asked <em>Questions</em></h2>
-              <p className="ra-faq-subtitle">Find clear answers to common questions about consultation, fertility care, treatments, and appointments.</p>
             </div>
             <div className="ra-faq-layout">
-              <aside className="ra-faq-intro">
-                <div className="ra-faq-intro-card">
-                  <h3>Still have questions?</h3>
-                  <p>We are here to help. Reach out to Dr. Rajeev Agarwal's team for personalised guidance and support.</p>
-                  <Link className="btn btn-gold ra-faq-intro-action" to="/book-an-appointment" aria-label="Book appointment">
-                    <ArrowRight size={16} />
-                  </Link>
-                </div>
-              </aside>
               <div className="ra-faq-accordion">
                 {faqs.map(([question, answer], i) => {
                   const open = openFaq === i;

@@ -61,15 +61,36 @@ function SiteChrome({ children, onBookClick }) {
 function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
   const location = useLocation();
   const isAdminRoute = isAdminPath(location.pathname);
+  const [chatState, setChatState] = useState({ open: false, teaser: false });
+
+  useEffect(() => {
+    const handleMessage = (e) => {
+      if (e.data && e.data.type === 'drrajeev-chat:resize') {
+        setChatState({
+          open: !!e.data.open,
+          teaser: !!e.data.teaser
+        });
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
 
   if (isAdminRoute) {
     return null;
   }
 
+  let stateClass = 'is-closed';
+  if (chatState.open) {
+    stateClass = 'is-open';
+  } else if (chatState.teaser) {
+    stateClass = 'is-teaser';
+  }
+
   return (
     <>
       <iframe
-        className="ra-chatbot-frame"
+        className={`ra-chatbot-frame ${stateClass}`}
         src="https://dr-rajeev-agarwal-chatbot.onrender.com"
         title="Chatbot"
       />

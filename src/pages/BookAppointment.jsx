@@ -4,8 +4,8 @@ import { Phone, Mail, MapPin, ShieldCheck, Heart } from 'lucide-react';
 
 export default function BookAppointment() {
   return (
-    <div className="inner-page" style={{ background: 'var(--soft-blue)', paddingBottom: 80 }}>
-      <div className="ra-container booking-grid" style={{ paddingTop: 50 }}>
+    <div className="inner-page booking-page-wrap" style={{ background: 'var(--soft-blue)', paddingBottom: 80 }}>
+      <div className="ra-container booking-grid" style={{ paddingTop: 30 }}>
         <div className="inner-card" style={{ padding: 44 }}>
           <h2 style={{ fontSize: 28, color: 'var(--deep-teal)', marginBottom: 10, fontWeight: 800 }}>Book Your Consultation</h2>
           <p style={{ color: 'var(--text-soft)', fontSize: 15, marginBottom: 28, lineHeight: 1.6, fontWeight: 500 }}>

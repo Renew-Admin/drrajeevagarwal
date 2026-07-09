@@ -576,7 +576,7 @@ export default function PreconceptionWorkshop() {
 
           <div className="pcw-hero-copy">
             <span className="pcw-seat-pill"><Users size={16} /> Limited 100 seats only</span>
-            <h1>Preconception Counselling Workshop</h1>
+            <h1>Preconception Counselling <em>Workshop</em></h1>
             <p className="pcw-hero-italic">Prepare for a Healthy Pregnancy</p>
             <p className="pcw-hero-intro">An interactive workshop for:</p>
             <ul className="pcw-hero-list">
@@ -601,7 +601,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><ShieldCheck size={16} /> Preparation Pillars</span>
-            <h2>Foundations of Preconception Preparation</h2>
+            <h2>Foundations of Preconception <em>Preparation</em></h2>
           </div>
           <div className="pcw-foundation-grid">
             {foundations.map((item) => (
@@ -624,7 +624,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container pcw-learning-layout">
           <div className="pcw-learning-copy">
             <span className="ra-label"><BookOpen size={16} /> Class Outline</span>
-            <h2>What You Will Learn From Our Childbirth Preparation Classes</h2>
+            <h2>What You Will Learn From Our Childbirth <em>Preparation Classes</em></h2>
             <p>Focused guidance on fertility, tests, nutrition, and decision-making before pregnancy starts.</p>
           </div>
           <Accordion items={learningItems} />
@@ -635,7 +635,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container pcw-why-panel">
           <div>
             <span className="ra-label"><HeartPulse size={16} /> Why Join</span>
-            <h2>Why Join This Preconception Counselling Workshop</h2>
+            <h2>Why Join This Preconception <em>Counselling Workshop</em></h2>
           </div>
           <div className="pcw-why-list">
             {whyJoin.map((item) => (
@@ -649,7 +649,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><Baby size={16} /> Success Stories</span>
-            <h2>Turning Hopes Into Happiness</h2>
+            <h2>Turning Hopes Into <em>Happiness</em></h2>
           </div>
           <ImageRail images={happinessImages} imageClassName="pcw-happiness-card" />
         </div>
@@ -659,7 +659,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><Star size={16} /> Participant Reviews</span>
-            <h2>Participants Review: Real Stories, Real Transformations</h2>
+            <h2>Participants Review: Real Stories, <em>Real Transformations</em></h2>
           </div>
           <div className="pcw-testimonial-grid">
             {testimonials.map((testimonial) => (
@@ -680,7 +680,7 @@ export default function PreconceptionWorkshop() {
           </div>
           <div className="pcw-expert-copy">
             <span className="ra-label"><Stethoscope size={16} /> Meet The Expert</span>
-            <h2>Meet The Expert</h2>
+            <h2>Meet The <em>Expert</em></h2>
             <h3>Dr. Rajeev Agarwal</h3>
             <p className="pcw-expert-role">Senior IVF Specialist</p>
             <div className="pcw-expert-stats">
@@ -704,7 +704,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><Star size={16} /> Recognition</span>
-            <h2>Awards</h2>
+            <h2>Awards & <em>Recognitions</em></h2>
           </div>
           <ImageRail images={awardImages} className="pcw-awards-rail" imageClassName="pcw-award-card" />
         </div>
@@ -714,7 +714,7 @@ export default function PreconceptionWorkshop() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><Sparkles size={16} /> Questions</span>
-            <h2>FAQ's</h2>
+            <h2>Frequently Asked <em>Questions</em></h2>
           </div>
           <Accordion items={faqs} />
         </div>

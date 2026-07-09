@@ -70,16 +70,16 @@ export default function AllServices({ onBookClick }) {
         <div className="about-hero-image-wrap">
           <img src="/assets/all-services-hero.webp" alt="Dr. Rajeev Agarwal – Fertility Specialist" />
           <div className="about-hero-image-overlay" style={{ alignItems: 'center' }}>
-            <div className="ra-container about-hero-image-content" style={{ textAlign: 'right' }}>
-              <div style={{ maxWidth: 500, marginLeft: 'auto', marginRight: '5%' }}>
-                <h1 style={{ fontSize: 'clamp(24px, 3.2vw, 42px)', margin: '0 0 8px', lineHeight: 1.1, fontWeight: 900 }}>
-                  <span style={{ color: '#fff' }}>Fertility &amp; </span>
-                  <span style={{ color: 'var(--gold)', fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 500 }}>Gynecological Services</span>
+            <div className="ra-container about-hero-image-content services-hero-content">
+              <div className="services-hero-inner">
+                <h1>
+                  <span className="services-hero-title-white">Fertility &amp; </span>
+                  <span className="services-hero-title-gold">Gynecological Services</span>
                 </h1>
-                <p style={{ color: '#fff', fontSize: 'clamp(14px, 1.3vw, 16px)', fontWeight: 600, lineHeight: 1.5, margin: '0 0 20px auto' }}>Advanced IVF, IUI, laparoscopic &amp; women's health — designed around your goals.</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'flex-end' }}>
+                <p className="services-hero-sub">Advanced IVF, IUI, laparoscopic &amp; women's health — designed around your goals.</p>
+                <div className="services-hero-actions">
                   <button className="ra-btn ra-btn-primary" onClick={onBookClick}>Book Appointment</button>
-                  <button className="ra-btn ra-btn-soft" onClick={() => scrollToSection('services-concern', 'By Concern')} style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.25)' }}>View Services</button>
+                  <button className="ra-btn ra-btn-soft" onClick={() => scrollToSection('services-concern', 'By Concern')}>View Services</button>
                 </div>
               </div>
             </div>
