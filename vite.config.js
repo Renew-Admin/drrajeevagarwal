@@ -7,7 +7,7 @@ function cleanAssetFilenames() {
   return {
     name: 'clean-asset-filenames',
     closeBundle() {
-      const dir = join(process.cwd(), 'dist/assets')
+      const dir = join(process.cwd(), 'build/assets')
       const fix = (p) => {
         const files = readdirSync(p)
         for (const f of files) {
@@ -26,5 +26,8 @@ function cleanAssetFilenames() {
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    outDir: 'build',
+  },
   plugins: [react(), cleanAssetFilenames()],
 })

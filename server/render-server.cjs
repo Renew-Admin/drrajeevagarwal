@@ -3,8 +3,10 @@ const http = require('node:http');
 const path = require('node:path');
 
 const PORT = Number(process.env.PORT || 10000);
+const BUILD_DIR = path.resolve(__dirname, '..', 'build');
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
-const INDEX_FILE = path.join(DIST_DIR, 'index.html');
+const PUBLIC_DIR = fs.existsSync(path.join(BUILD_DIR, 'index.html')) ? BUILD_DIR : DIST_DIR;
+const INDEX_FILE = path.join(PUBLIC_DIR, 'index.html');
 const WEBHOOK_PATHS = new Set([
   '/.netlify/functions/lead-webhook',
   '/api/lead-webhook',
@@ -167,10 +169,10 @@ function handleStaticRequest(request, response) {
     return;
   }
 
-  const filePath = path.resolve(DIST_DIR, `.${pathname}`);
-  const isInsideDist = filePath === DIST_DIR || filePath.startsWith(`${DIST_DIR}${path.sep}`);
+  const filePath = path.resolve(PUBLIC_DIR, `.${pathname}`);
+  const isInsidePublicDir = filePath === PUBLIC_DIR || filePath.startsWith(`${PUBLIC_DIR}${path.sep}`);
 
-  if (isInsideDist && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+  if (isInsidePublicDir && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     sendStaticFile(response, filePath);
     return;
   }
