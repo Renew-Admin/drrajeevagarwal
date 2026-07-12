@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "start": "node server/render-server.cjs",
+    "start:render": "node server/render-server.cjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
