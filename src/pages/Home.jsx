@@ -714,6 +714,7 @@ function ServiceCarousel({ services, categoryLabel }) {
 export default function Home({ onBookClick }) {
   const [activeTab, setActiveTab] = useState('concern');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [introVideoOpen, setIntroVideoOpen] = useState(false);
   const [instaModal, setInstaModal] = useState(null);
   const [openFaq, setOpenFaq] = useState(0);
@@ -721,7 +722,18 @@ export default function Home({ onBookClick }) {
   const services = activeTab === 'concern' ? concernServices : procedureServices;
   const book = () => {
     setMobileOpen(false);
+    setMobileServicesOpen(false);
     if (onBookClick) onBookClick();
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileServicesOpen(false);
+    setMobileOpen((value) => !value);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileServicesOpen(false);
+    setMobileOpen(false);
   };
 
   const nav = (
@@ -753,6 +765,59 @@ export default function Home({ onBookClick }) {
     </>
   );
 
+  const mobileNav = (
+    <>
+      <Link to="/" onClick={closeMobileMenu}>Home</Link>
+      <Link to="/about-me" onClick={closeMobileMenu}>About Me</Link>
+      <div className={`ra-mobile-services ${mobileServicesOpen ? 'is-open' : ''}`}>
+        <button
+          type="button"
+          aria-expanded={mobileServicesOpen}
+          onClick={() => setMobileServicesOpen((value) => !value)}
+        >
+          Services <ChevronDown size={15} />
+        </button>
+        {mobileServicesOpen && (
+          <>
+            <button
+              className="ra-mobile-services-backdrop"
+              type="button"
+              aria-label="Close services menu"
+              onClick={() => setMobileServicesOpen(false)}
+            />
+            <div className="ra-mobile-services-panel" role="dialog" aria-label="Services menu">
+              <button
+                className="ra-mobile-services-close"
+                type="button"
+                aria-label="Close services menu"
+                onClick={() => setMobileServicesOpen(false)}
+              >
+                <X size={17} />
+              </button>
+              <div className="ra-mobile-services-panel-body">
+                <div>
+                  <span>By Concern</span>
+                  {dropdownConcerns.map((item) => (
+                    <Link key={item.title} to={item.href} onClick={closeMobileMenu}>{item.title}</Link>
+                  ))}
+                </div>
+                <div>
+                  <span>By Procedure</span>
+                  {dropdownProcedures.map((item) => (
+                    <Link key={item.title} to={item.href} onClick={closeMobileMenu}>{item.title}</Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      <Link to="/courses" onClick={closeMobileMenu}>Courses</Link>
+      <Link to="/blog" onClick={closeMobileMenu}>Blog</Link>
+      <a href="#success-stories" onClick={closeMobileMenu}>Success Stories</a>
+    </>
+  );
+
   return (
     <div className="ra-home">
       <header className="ra-header">
@@ -768,14 +833,14 @@ export default function Home({ onBookClick }) {
             <a className="ra-icon-btn" href="https://wa.me/916292269060" aria-label="WhatsApp Dr. Rajeev Agarwal">
               <MessageCircle size={20} />
             </a>
-            <button className="ra-menu-btn" type="button" onClick={() => setMobileOpen((value) => !value)} aria-label="Toggle menu">
+            <button className="ra-menu-btn" type="button" onClick={toggleMobileMenu} aria-label="Toggle menu">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
         {mobileOpen && (
           <div className="ra-mobile-menu">
-            {nav}
+            {mobileNav}
             <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
           </div>
         )}
@@ -800,8 +865,20 @@ export default function Home({ onBookClick }) {
             <div className="ra-hero-visual">
               <div className="ra-doctor-frame">
                 <img className="ra-hero-image" src={heroImg} alt="Dr. Rajeev Agarwal fertility specialist in Kolkata" />
+                <div className="ra-hero-mobile-copy">
+                  <div className="ra-eyebrow"><Sparkles size={15} /> Kolkata's Leading Fertility Specialist</div>
+                  <h1>Your Dream of <em>Parenthood</em>, My Commitment</h1>
+                  <p>
+                    IVF, IUI and advanced gynecological care with compassion, precision and 25+ years of experience.
+                  </p>
+                </div>
               </div>
               <div className="ra-consult-card"><MessageCircle size={18} /> Online & In-clinic Consultation</div>
+            </div>
+
+            <div className="ra-hero-mobile-actions">
+              <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Request Appointment</button>
+              <a className="ra-btn ra-btn-soft" href="#services">Explore Services</a>
             </div>
           </div>
         </section>

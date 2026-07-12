@@ -1,15 +1,20 @@
-const DEFAULT_SUPABASE_URL = 'https://etwprdlmxirnuejxxuif.supabase.co';
-const DEFAULT_SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0d3ByZGxteGlybnVlanh4dWlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NDg0NjksImV4cCI6MjA5NzAyNDQ2OX0.l945seE7X0WOacouyhLZ7jrBKZ_pDjY9IGsUOIxQ4eo';
-
-export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
-export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
+export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const BLOG_IMAGE_BUCKET = 'blog-images';
 export const BLOG_IMAGE_MAX_BYTES = 200 * 1024;
 
 const SESSION_KEY = 'drrajeev_admin_session';
+const LEAD_WEBHOOK_ENDPOINT = '/.netlify/functions/lead-webhook';
+
+function assertSupabaseConfig() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error('Missing Supabase env config. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.');
+  }
+}
 
 function authHeaders(token) {
+  assertSupabaseConfig();
+
   return {
     apikey: SUPABASE_ANON_KEY,
     Authorization: `Bearer ${token || SUPABASE_ANON_KEY}`,
@@ -49,6 +54,54 @@ async function supabaseFetch(path, options = {}) {
   });
 
   return readResponse(response);
+}
+
+function currentPageContext() {
+  if (typeof window === 'undefined') {
+    return {
+      page_path: null,
+      page_url: null,
+      page_title: null,
+      referrer: null,
+    };
+  }
+
+  return {
+    page_path: window.location.pathname,
+    page_url: window.location.href,
+    page_title: typeof document !== 'undefined' ? document.title : null,
+    referrer: typeof document !== 'undefined' ? document.referrer || null : null,
+  };
+}
+
+async function readWebhookResponse(response) {
+  const text = await response.text();
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { message: text };
+  }
+}
+
+async function notifyLeadWebhook(row) {
+  if (typeof window === 'undefined') return;
+
+  const response = await fetch(LEAD_WEBHOOK_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      event: 'website_lead_submitted',
+      submitted_at: new Date().toISOString(),
+      lead: row,
+    }),
+  });
+
+  if (!response.ok) {
+    const payload = await readWebhookResponse(response);
+    throw new Error(payload?.error || payload?.message || 'Lead webhook delivery failed.');
+  }
 }
 
 function normalizeSession(payload) {
@@ -249,6 +302,7 @@ function dateValue(value) {
 }
 
 export async function submitLead(formName, data = {}) {
+  const pageContext = currentPageContext();
   const row = {
     form_name: formName || 'Website Form',
     name: data.name?.trim() || null,
@@ -261,14 +315,20 @@ export async function submitLead(formName, data = {}) {
     time_slot: data.timeSlot || null,
     profile: data.profile || null,
     course: data.course || null,
-    page_path: typeof window !== 'undefined' ? window.location.pathname : null,
-    payload: { ...data, form_name: formName || 'Website Form' },
+    ...pageContext,
+    payload: { ...data, form_name: formName || 'Website Form', ...pageContext },
   };
 
-  await supabaseFetch('/rest/v1/rpc/submit_mian_website_lead', {
+  const leadId = await supabaseFetch('/rest/v1/rpc/submit_mian_website_lead', {
     method: 'POST',
     body: { payload: row },
   });
+
+  try {
+    await notifyLeadWebhook({ ...row, id: leadId || null });
+  } catch (error) {
+    console.warn('[lead webhook] delivery failed:', error.message);
+  }
 
   return true;
 }

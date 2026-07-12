@@ -22,6 +22,7 @@ const dropdownProcedures = [
 
 export default function Header({ onBookClick }) {
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const location = useLocation();
@@ -53,11 +54,23 @@ export default function Header({ onBookClick }) {
 
   useEffect(() => {
     setOpen(false);
+    setServicesOpen(false);
   }, [location.pathname]);
 
   const book = () => {
     setOpen(false);
+    setServicesOpen(false);
     onBookClick?.();
+  };
+
+  const toggleMenu = () => {
+    setServicesOpen(false);
+    setOpen((value) => !value);
+  };
+
+  const closeMobileMenu = () => {
+    setServicesOpen(false);
+    setOpen(false);
   };
 
   const nav = (
@@ -89,6 +102,55 @@ export default function Header({ onBookClick }) {
     </>
   );
 
+  const mobileNav = (
+    <>
+      <Link to="/" className={location.pathname === '/' ? 'is-active' : ''} onClick={closeMobileMenu}>Home</Link>
+      <Link to="/about-me" className={location.pathname === '/about-me' ? 'is-active' : ''} onClick={closeMobileMenu}>About Me</Link>
+      <div className={`ra-mobile-services ${servicesOpen ? 'is-open' : ''}`}>
+        <button type="button" aria-expanded={servicesOpen} onClick={() => setServicesOpen((value) => !value)}>
+          Services <ChevronDown size={15} />
+        </button>
+        {servicesOpen && (
+          <>
+            <button
+              className="ra-mobile-services-backdrop"
+              type="button"
+              aria-label="Close services menu"
+              onClick={() => setServicesOpen(false)}
+            />
+            <div className="ra-mobile-services-panel" role="dialog" aria-label="Services menu">
+              <button
+                className="ra-mobile-services-close"
+                type="button"
+                aria-label="Close services menu"
+                onClick={() => setServicesOpen(false)}
+              >
+                <X size={17} />
+              </button>
+              <div className="ra-mobile-services-panel-body">
+                <div>
+                  <span>By Concern</span>
+                  {dropdownConcerns.map((item) => (
+                    <Link key={item.title} to={item.href} onClick={closeMobileMenu}>{item.title}</Link>
+                  ))}
+                </div>
+                <div>
+                  <span>By Procedure</span>
+                  {dropdownProcedures.map((item) => (
+                    <Link key={item.title} to={item.href} onClick={closeMobileMenu}>{item.title}</Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      <Link to="/courses" className={location.pathname === '/courses' ? 'is-active' : ''} onClick={closeMobileMenu}>Courses</Link>
+      <Link to="/blog" className={location.pathname.startsWith('/blog') ? 'is-active' : ''} onClick={closeMobileMenu}>Blog</Link>
+      <Link to="/success-stories" className={location.pathname === '/success-stories' ? 'is-active' : ''} onClick={closeMobileMenu}>Success Stories</Link>
+    </>
+  );
+
   return (
     <header className={`ra-header site-header-modern ${scrolled ? 'is-scrolled' : ''} ${!visible && !open ? 'is-hidden' : ''}`}>
       <div className="ra-header-inner">
@@ -105,7 +167,7 @@ export default function Header({ onBookClick }) {
           <a className="ra-icon-btn" href="https://wa.me/916292269060" aria-label="WhatsApp Dr. Rajeev Agarwal">
             <MessageCircle size={20} />
           </a>
-          <button className="ra-menu-btn" type="button" onClick={() => setOpen((value) => !value)} aria-label="Toggle menu" aria-expanded={open}>
+          <button className="ra-menu-btn" type="button" onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={open}>
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
@@ -113,7 +175,7 @@ export default function Header({ onBookClick }) {
 
       {open && (
         <div className="ra-mobile-menu">
-          {nav}
+          {mobileNav}
           {location.pathname !== '/book-an-appointment' && (
             <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
           )}
