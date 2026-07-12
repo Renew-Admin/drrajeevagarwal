@@ -293,7 +293,7 @@ function useCountdown() {
 }
 
 function WorkshopRegistrationForm() {
-  const [formData, setFormData] = useState({ name: '', phone: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -309,6 +309,7 @@ function WorkshopRegistrationForm() {
     const nextErrors = {};
     const name = formData.name.trim();
     const phone = formData.phone.trim();
+    const email = formData.email.trim();
     const digitCount = phone.replace(/\D/g, '').length;
 
     if (name.length < 2) {
@@ -317,6 +318,12 @@ function WorkshopRegistrationForm() {
 
     if (!/^\+?[0-9\s()-]{7,20}$/.test(phone) || digitCount < 10 || digitCount > 15) {
       nextErrors.phone = 'Please enter a valid phone or WhatsApp number.';
+    }
+
+    if (!email) {
+      nextErrors.email = 'Please enter your email.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nextErrors.email = 'Please enter a valid email address.';
     }
 
     setErrors(nextErrors);
@@ -385,6 +392,19 @@ function WorkshopRegistrationForm() {
           value={formData.phone}
         />
         {errors.phone && <span className="pcw-field-error">{errors.phone}</span>}
+      </div>
+      <div className="form-group">
+        <label className="form-label" htmlFor="pcw-email">Email Address</label>
+        <input
+          className={`form-control ${errors.email ? 'pcw-input-error' : ''}`}
+          id="pcw-email"
+          name="email"
+          onChange={handleChange}
+          placeholder="e.g. priyanjana@example.com"
+          type="email"
+          value={formData.email}
+        />
+        {errors.email && <span className="pcw-field-error">{errors.email}</span>}
       </div>
       {submitError && <p className="form-submit-error">{submitError}</p>}
       <button className="ra-btn ra-btn-primary pcw-form-submit" type="submit" disabled={submitting}>

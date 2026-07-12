@@ -320,13 +320,14 @@ export async function submitLead(formName, data = {}) {
   const whatsappNumber = data.whatsapp_number?.trim() || data.phone?.trim() || null;
   const purposeOfVisit = data.purpose_of_visit?.trim() || data.service?.trim() || data.course?.trim() || data.concern?.trim() || null;
   const payload = {
+    ...data,
+    ...pageContext,
     form_name: formName || 'Website Form',
     lead_date: leadDate,
     name,
     contact_number: contactNumber,
     whatsapp_number: whatsappNumber,
     purpose_of_visit: purposeOfVisit,
-    ...pageContext,
   };
   const row = {
     ...payload,
@@ -342,7 +343,13 @@ export async function submitLead(formName, data = {}) {
   });
 
   try {
-    await notifyLeadWebhook({ ...row, id: leadId || null });
+    const isPreconceptionWorkshop =
+      formName === 'Preconception Workshop Registration' ||
+      (row.page_path && row.page_path.includes('preconception-workshop'));
+
+    if (!isPreconceptionWorkshop) {
+      await notifyLeadWebhook({ ...row, id: leadId || null });
+    }
   } catch (error) {
     console.warn('[lead webhook] delivery failed:', error.message);
   }

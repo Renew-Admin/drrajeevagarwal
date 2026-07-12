@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Apple,
   ArrowRight,
@@ -183,9 +184,12 @@ function CourseEnrolForm({ courseTitle, onSuccess }) {
 }
 
 export default function Courses({ onBookClick }) {
+  const navigate = useNavigate();
   const [selectedCourse, setSelectedCourse] = useState(null);
 
-  const openEnrolment = (courseTitle) => setSelectedCourse(courseTitle);
+  const openEnrolment = (courseTitle) => {
+    navigate('/preconception-workshop');
+  };
   const closeEnrolment = () => setSelectedCourse(null);
   const scrollToCourses = () => {
     document.getElementById('course-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
