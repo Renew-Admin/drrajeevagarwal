@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { submitLead } from '../lib/supabaseBlogAdmin';
+import { LEAD_PURPOSE_OPTIONS } from '../lib/leadFormOptions';
 
 export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -11,10 +12,9 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
   const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
-    email: '',
-    service: '',
-    concern: '',
+    contact_number: '',
+    whatsapp_number: '',
+    purpose_of_visit: '',
   });
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
       const result = await submitLead(formName, formData);
       if (!result) throw new Error('No response from server.');
       setSubmitted(true);
-      setFormData({ name: '', phone: '', email: '', service: '', concern: '' });
+      setFormData({ name: '', contact_number: '', whatsapp_number: '', purpose_of_visit: '' });
     } catch (error) {
       setSubmitError(error.message || 'Could not submit the callback request. Please try again.');
     } finally {
@@ -96,46 +96,38 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
                 onChange={handleChange}
               />
               <input
-                aria-label="Phone number"
-                name="phone"
-                placeholder="Phone"
+                aria-label="contact number"
+                name="contact_number"
+                placeholder="contact number"
                 required
                 tabIndex={hiddenTabIndex}
                 type="tel"
-                value={formData.phone}
+                value={formData.contact_number}
                 onChange={handleChange}
               />
               <input
-                aria-label="Email"
-                name="email"
-                placeholder="Email"
+                aria-label="whatsapp number"
+                name="whatsapp_number"
+                placeholder="whatsapp number"
+                required
                 tabIndex={hiddenTabIndex}
-                type="email"
-                value={formData.email}
+                type="tel"
+                value={formData.whatsapp_number}
                 onChange={handleChange}
               />
               <select
-                aria-label="Service"
-                name="service"
+                aria-label="purrpose of vist"
+                name="purpose_of_visit"
+                required
                 tabIndex={hiddenTabIndex}
-                value={formData.service}
+                value={formData.purpose_of_visit}
                 onChange={handleChange}
               >
-                <option value="">Service</option>
-                <option value="Fertility Support">Fertility Support</option>
-                <option value="PCOS Care">PCOS Care</option>
-                <option value="Appointment">Appointment</option>
-                <option value="General Query">General Query</option>
+                <option value="">purrpose of vist</option>
+                {LEAD_PURPOSE_OPTIONS.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
               </select>
-              <input
-                aria-label="Concern"
-                name="concern"
-                placeholder="Concern"
-                tabIndex={hiddenTabIndex}
-                type="text"
-                value={formData.concern}
-                onChange={handleChange}
-              />
               <button tabIndex={hiddenTabIndex} type="submit">Request Call</button>
             </form>
             {submitError && <p className="ra-floating-lead-error">{submitError}</p>}

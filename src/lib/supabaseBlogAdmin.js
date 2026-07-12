@@ -85,31 +85,22 @@ async function readWebhookResponse(response) {
   }
 }
 
-function formatLeadDateDDMMYY(value = new Date()) {
+function formatLeadDateDDMMYYYY(value = new Date()) {
   const parts = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Asia/Kolkata',
     day: '2-digit',
     month: '2-digit',
-    year: '2-digit',
+    year: 'numeric',
   }).formatToParts(value);
   const part = (type) => parts.find((item) => item.type === type)?.value || '';
 
-  return `${part('day')}${part('month')}${part('year')}`;
+  return `${part('day')}-${part('month')}-${part('year')}`;
 }
 
 async function notifyLeadWebhook(row) {
   if (typeof window === 'undefined') return;
 
-  const leadDate = row.lead_date || formatLeadDateDDMMYY();
-  const leadPayload = {
-    ...(row.payload || {}),
-    lead_date: leadDate,
-  };
-  const lead = {
-    ...row,
-    lead_date: leadDate,
-    payload: leadPayload,
-  };
+  const lead = row.payload || row;
 
   const response = await fetch(LEAD_WEBHOOK_ENDPOINT, {
     method: 'POST',
@@ -117,7 +108,7 @@ async function notifyLeadWebhook(row) {
     body: JSON.stringify({
       event: 'website_lead_submitted',
       submitted_at: new Date().toISOString(),
-      lead_date: leadDate,
+      lead_date: row.lead_date || formatLeadDateDDMMYYYY(),
       lead,
     }),
   });
@@ -321,28 +312,28 @@ export async function deleteBlogPost(id, token) {
   requireReturnedRow(rows, 'deleted blog');
 }
 
-function dateValue(value) {
-  return value || null;
-}
-
 export async function submitLead(formName, data = {}) {
   const pageContext = currentPageContext();
-  const leadDate = formatLeadDateDDMMYY();
-  const row = {
+  const leadDate = formatLeadDateDDMMYYYY();
+  const name = data.name?.trim() || null;
+  const contactNumber = data.contact_number?.trim() || data.phone?.trim() || null;
+  const whatsappNumber = data.whatsapp_number?.trim() || data.phone?.trim() || null;
+  const purposeOfVisit = data.purpose_of_visit?.trim() || data.service?.trim() || data.course?.trim() || data.concern?.trim() || null;
+  const payload = {
     form_name: formName || 'Website Form',
     lead_date: leadDate,
-    name: data.name?.trim() || null,
-    phone: data.phone?.trim() || null,
-    email: data.email?.trim() || null,
-    service: data.service?.trim() || data.course?.trim() || null,
-    concern: data.concern?.trim() || null,
-    message: data.message?.trim() || data.concern?.trim() || null,
-    preferred_date: dateValue(data.date),
-    time_slot: data.timeSlot || null,
-    profile: data.profile || null,
-    course: data.course || null,
+    name,
+    contact_number: contactNumber,
+    whatsapp_number: whatsappNumber,
+    purpose_of_visit: purposeOfVisit,
     ...pageContext,
-    payload: { ...data, form_name: formName || 'Website Form', lead_date: leadDate, ...pageContext },
+  };
+  const row = {
+    ...payload,
+    name,
+    phone: contactNumber,
+    service: purposeOfVisit,
+    payload,
   };
 
   const leadId = await supabaseFetch('/rest/v1/rpc/submit_mian_website_lead', {
@@ -376,15 +367,19 @@ export function supabaseLeadToLocal(row) {
     data: {
       ...payload,
       name: row.name || payload.name || '',
+      contact_number: row.contact_number || payload.contact_number || row.phone || payload.phone || '',
+      whatsapp_number: row.whatsapp_number || payload.whatsapp_number || row.phone || payload.phone || '',
+      purpose_of_visit: row.purpose_of_visit || payload.purpose_of_visit || row.service || payload.service || row.concern || payload.concern || '',
+      lead_date: row.lead_date || payload.lead_date || row.preferred_date || payload.date || '',
       phone: row.phone || payload.phone || '',
+      service: row.service || payload.service || '',
+      concern: row.concern || payload.concern || '',
+      message: row.message || payload.message || row.concern || '',
       email: row.email || payload.email || '',
       date: row.preferred_date || payload.date || '',
       timeSlot: row.time_slot || payload.timeSlot || '',
-      concern: row.concern || payload.concern || '',
-      message: row.message || payload.message || row.concern || '',
       profile: row.profile || payload.profile || '',
       course: row.course || payload.course || '',
-      service: row.service || payload.service || '',
     },
   };
 }

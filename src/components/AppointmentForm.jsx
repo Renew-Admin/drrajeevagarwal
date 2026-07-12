@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { submitLead } from '../lib/supabaseBlogAdmin';
+import { LEAD_PURPOSE_OPTIONS } from '../lib/leadFormOptions';
 
 export default function AppointmentForm({ formName = "General Booking", onSuccess }) {
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
-    email: '',
-    date: '',
-    timeSlot: 'Morning (9:00 AM - 12:00 PM)',
-    message: ''
+    contact_number: '',
+    whatsapp_number: '',
+    purpose_of_visit: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -69,75 +68,48 @@ export default function AppointmentForm({ formName = "General Booking", onSucces
       
       <div className="grid-2" style={{ gap: '16px', margin: 0 }}>
         <div className="form-group">
-          <label className="form-label" htmlFor="phone">Phone Number *</label>
+          <label className="form-label" htmlFor="contact_number">contact number *</label>
           <input
             type="tel"
-            id="phone"
-            name="phone"
+            id="contact_number"
+            name="contact_number"
             required
-            value={formData.phone}
+            value={formData.contact_number}
             onChange={handleChange}
             className="form-control"
             placeholder="e.g. +91 98300 12345"
           />
         </div>
         <div className="form-group">
-          <label className="form-label" htmlFor="email">Email Address *</label>
+          <label className="form-label" htmlFor="whatsapp_number">whatsapp number *</label>
           <input
-            type="email"
-            id="email"
-            name="email"
+            type="tel"
+            id="whatsapp_number"
+            name="whatsapp_number"
             required
-            value={formData.email}
+            value={formData.whatsapp_number}
             onChange={handleChange}
             className="form-control"
-            placeholder="e.g. name@example.com"
+            placeholder="e.g. +91 98300 12345"
           />
-        </div>
-      </div>
-
-      <div className="grid-2" style={{ gap: '16px', margin: 0 }}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="date">Preferred Date *</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            required
-            value={formData.date}
-            onChange={handleChange}
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="timeSlot">Preferred Time Slot *</label>
-          <select
-            id="timeSlot"
-            name="timeSlot"
-            required
-            value={formData.timeSlot}
-            onChange={handleChange}
-            className="form-control"
-          >
-            <option>Morning (9:00 AM - 12:00 PM)</option>
-            <option>Afternoon (12:00 PM - 4:00 PM)</option>
-            <option>Evening (4:00 PM - 8:00 PM)</option>
-          </select>
         </div>
       </div>
 
       <div className="form-group">
-        <label className="form-label" htmlFor="message">Medical Concerns / Notes</label>
-        <textarea
-          id="message"
-          name="message"
-          rows="3"
-          value={formData.message}
+        <label className="form-label" htmlFor="purpose_of_visit">purrpose of vist *</label>
+        <select
+          id="purpose_of_visit"
+          name="purpose_of_visit"
+          required
+          value={formData.purpose_of_visit}
           onChange={handleChange}
           className="form-control"
-          placeholder="Briefly describe your concerns or queries..."
-          style={{ resize: 'vertical' }}
-        />
+        >
+          <option value="">Select purpose</option>
+          {LEAD_PURPOSE_OPTIONS.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
       </div>
 
       {submitError && (

@@ -105,6 +105,10 @@ create table if not exists public.mian_website_leads (
   id uuid primary key default gen_random_uuid(),
   form_name text not null default 'Website Form',
   name text,
+  lead_date text,
+  contact_number text,
+  whatsapp_number text,
+  purpose_of_visit text,
   phone text,
   email text,
   service text,
@@ -124,6 +128,10 @@ create table if not exists public.mian_website_leads (
 
 alter table public.mian_website_leads add column if not exists form_name text not null default 'Website Form';
 alter table public.mian_website_leads add column if not exists name text;
+alter table public.mian_website_leads add column if not exists lead_date text;
+alter table public.mian_website_leads add column if not exists contact_number text;
+alter table public.mian_website_leads add column if not exists whatsapp_number text;
+alter table public.mian_website_leads add column if not exists purpose_of_visit text;
 alter table public.mian_website_leads add column if not exists phone text;
 alter table public.mian_website_leads add column if not exists email text;
 alter table public.mian_website_leads add column if not exists service text;
@@ -187,6 +195,10 @@ begin
   insert into public.mian_website_leads (
     form_name,
     name,
+    lead_date,
+    contact_number,
+    whatsapp_number,
+    purpose_of_visit,
     phone,
     email,
     service,
@@ -202,6 +214,10 @@ begin
   values (
     coalesce(payload->>'form_name', 'Website Form'),
     nullif(trim(coalesce(payload->>'name', '')), ''),
+    nullif(trim(coalesce(payload->>'lead_date', '')), ''),
+    nullif(trim(coalesce(payload->>'contact_number', payload->>'phone', '')), ''),
+    nullif(trim(coalesce(payload->>'whatsapp_number', payload->>'phone', '')), ''),
+    nullif(trim(coalesce(payload->>'purpose_of_visit', payload->>'service', payload->>'course', payload->>'concern', '')), ''),
     nullif(trim(coalesce(payload->>'phone', '')), ''),
     nullif(trim(coalesce(payload->>'email', '')), ''),
     nullif(trim(coalesce(payload->>'service', payload->>'course', '')), ''),

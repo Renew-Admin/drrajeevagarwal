@@ -452,21 +452,16 @@ export default function AdminDashboard() {
                       <div className="admin-sub-grid">
                         {[
                           { label: 'Name', value: sub.data.name },
-                          { label: 'Phone', value: sub.data.phone },
-                          { label: 'Email', value: sub.data.email },
-                          { label: 'Preferred Date', value: sub.data.date },
-                          { label: 'Time', value: sub.data.timeSlot },
-                          { label: 'Course', value: sub.data.course },
-                          { label: 'Profile', value: sub.data.profile },
-                          { label: 'Service', value: sub.data.service },
-                          { label: 'Concern', value: sub.data.concern },
+                          { label: 'Contact Number', value: sub.data.contact_number || sub.data.phone },
+                          { label: 'WhatsApp Number', value: sub.data.whatsapp_number || sub.data.phone },
+                          { label: 'Purpose of Visit', value: sub.data.purpose_of_visit || sub.data.service || sub.data.concern },
+                          { label: 'Lead Date', value: sub.data.lead_date },
                         ].filter((field) => field.value).map((field) => (
                           <div key={field.label}>
                             <strong>{field.label}:</strong> {field.value || '-'}
                           </div>
                         ))}
                       </div>
-                      {sub.data.message && <p className="admin-sub-note">{sub.data.message}</p>}
                       <button
                         type="button"
                         onClick={() => handleDeleteLead(sub.id)}

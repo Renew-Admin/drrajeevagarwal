@@ -18,6 +18,7 @@ import FloatingLeadForm from '../components/FloatingLeadForm';
 import PopupFormWrapper from '../components/PopupFormWrapper';
 import courseHeroImg from '../assets/course-hero.webp';
 import { submitLead } from '../lib/supabaseBlogAdmin';
+import { LEAD_PURPOSE_OPTIONS } from '../lib/leadFormOptions';
 
 const courseCards = [
   {
@@ -73,11 +74,9 @@ function CourseEnrolForm({ courseTitle, onSuccess }) {
   const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
-    email: '',
-    profile: 'Medical Professional',
-    course: courseTitle,
-    message: '',
+    contact_number: '',
+    whatsapp_number: '',
+    purpose_of_visit: '',
   });
 
   const handleChange = (event) => {
@@ -87,7 +86,6 @@ function CourseEnrolForm({ courseTitle, onSuccess }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setSubmitting(true);
     setSubmitError('');
 
@@ -132,78 +130,48 @@ function CourseEnrolForm({ courseTitle, onSuccess }) {
 
       <div className="course-form-grid">
         <div className="form-group">
-          <label className="form-label" htmlFor="course-phone">Phone Number *</label>
+          <label className="form-label" htmlFor="course-contact">contact number *</label>
           <input
             className="form-control"
-            id="course-phone"
-            name="phone"
+            id="course-contact"
+            name="contact_number"
             onChange={handleChange}
             placeholder="e.g. +91 98300 12345"
             required
             type="tel"
-            value={formData.phone}
+            value={formData.contact_number}
           />
         </div>
         <div className="form-group">
-          <label className="form-label" htmlFor="course-email">Email Address *</label>
+          <label className="form-label" htmlFor="course-whatsapp">whatsapp number *</label>
           <input
             className="form-control"
-            id="course-email"
-            name="email"
+            id="course-whatsapp"
+            name="whatsapp_number"
             onChange={handleChange}
-            placeholder="e.g. name@example.com"
+            placeholder="e.g. +91 98300 12345"
             required
-            type="email"
-            value={formData.email}
+            type="tel"
+            value={formData.whatsapp_number}
           />
-        </div>
-      </div>
-
-      <div className="course-form-grid">
-        <div className="form-group">
-          <label className="form-label" htmlFor="course-profile">I am a *</label>
-          <select
-            className="form-control"
-            id="course-profile"
-            name="profile"
-            onChange={handleChange}
-            required
-            value={formData.profile}
-          >
-            <option>Medical Professional</option>
-            <option>Fertility Expert</option>
-            <option>Care Coordinator</option>
-            <option>Informed Patient</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="course-interest">Course Interest *</label>
-          <select
-            className="form-control"
-            id="course-interest"
-            name="course"
-            onChange={handleChange}
-            required
-            value={formData.course}
-          >
-            {[...courseCards.map((course) => course.title), 'PCOS Management & Reproductive Health'].map((course) => (
-              <option key={course}>{course}</option>
-            ))}
-          </select>
         </div>
       </div>
 
       <div className="form-group">
-        <label className="form-label" htmlFor="course-message">Message</label>
-        <textarea
+        <label className="form-label" htmlFor="course-purpose">purrpose of vist *</label>
+        <select
           className="form-control"
-          id="course-message"
-          name="message"
+          id="course-purpose"
+          name="purpose_of_visit"
           onChange={handleChange}
-          placeholder="Share your learning goal or question..."
-          rows="3"
-          value={formData.message}
-        />
+          required
+          value={formData.purpose_of_visit}
+        >
+          <option value="">purrpose of vist</option>
+          {LEAD_PURPOSE_OPTIONS.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
       </div>
 
       <button className="ra-btn ra-btn-primary course-form-submit" type="submit" disabled={submitting}>
