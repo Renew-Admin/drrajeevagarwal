@@ -85,8 +85,31 @@ async function readWebhookResponse(response) {
   }
 }
 
+function formatLeadDateDDMMYY(value = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Kolkata',
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+  }).formatToParts(value);
+  const part = (type) => parts.find((item) => item.type === type)?.value || '';
+
+  return `${part('day')}${part('month')}${part('year')}`;
+}
+
 async function notifyLeadWebhook(row) {
   if (typeof window === 'undefined') return;
+
+  const leadDate = row.lead_date || formatLeadDateDDMMYY();
+  const leadPayload = {
+    ...(row.payload || {}),
+    lead_date: leadDate,
+  };
+  const lead = {
+    ...row,
+    lead_date: leadDate,
+    payload: leadPayload,
+  };
 
   const response = await fetch(LEAD_WEBHOOK_ENDPOINT, {
     method: 'POST',
@@ -94,7 +117,8 @@ async function notifyLeadWebhook(row) {
     body: JSON.stringify({
       event: 'website_lead_submitted',
       submitted_at: new Date().toISOString(),
-      lead: row,
+      lead_date: leadDate,
+      lead,
     }),
   });
 
@@ -303,8 +327,10 @@ function dateValue(value) {
 
 export async function submitLead(formName, data = {}) {
   const pageContext = currentPageContext();
+  const leadDate = formatLeadDateDDMMYY();
   const row = {
     form_name: formName || 'Website Form',
+    lead_date: leadDate,
     name: data.name?.trim() || null,
     phone: data.phone?.trim() || null,
     email: data.email?.trim() || null,
@@ -316,7 +342,7 @@ export async function submitLead(formName, data = {}) {
     profile: data.profile || null,
     course: data.course || null,
     ...pageContext,
-    payload: { ...data, form_name: formName || 'Website Form', ...pageContext },
+    payload: { ...data, form_name: formName || 'Website Form', lead_date: leadDate, ...pageContext },
   };
 
   const leadId = await supabaseFetch('/rest/v1/rpc/submit_mian_website_lead', {
