@@ -1,5 +1,5 @@
 -- ============================================================================
--- SQL Update script for public.mian_website_leads table and submit function
+-- SQL Update script for public.mian_website_leads table and submit functions
 -- Run this in your Supabase SQL Editor if you need to recreate or update the schema.
 -- ============================================================================
 
@@ -47,6 +47,17 @@ create index if not exists mian_website_leads_status_idx
   on public.mian_website_leads using btree (status, created_at desc) TABLESPACE pg_default;
 
 -- 3. Create/update set_updated_at trigger
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
 drop trigger if exists mian_website_leads_set_updated_at on public.mian_website_leads;
 create trigger mian_website_leads_set_updated_at
   before update on public.mian_website_leads
@@ -80,7 +91,7 @@ create policy "leads authenticated can delete"
   using (true);
 
 -- 6. RPC Function to submit website leads securely
-create or replace function public.submit_mian_website_lead(payload jsonb)
+create or replace function public.submit_main_website_lead(payload jsonb)
 returns uuid
 language plpgsql
 security definer
@@ -133,5 +144,19 @@ begin
 end;
 $$;
 
+-- Backward-compatible alias for older frontend builds that used the typo.
+create or replace function public.submit_mian_website_lead(payload jsonb)
+returns uuid
+language sql
+security definer
+set search_path = public
+as $$
+  select public.submit_main_website_lead($1);
+$$;
+
 -- Grant execution privilege to anonymous and authenticated users
+grant execute on function public.submit_main_website_lead(jsonb) to anon, authenticated;
 grant execute on function public.submit_mian_website_lead(jsonb) to anon, authenticated;
+
+-- Ask PostgREST/Supabase API to refresh its schema cache immediately.
+notify pgrst, 'reload schema';

@@ -5,6 +5,10 @@ export const BLOG_IMAGE_MAX_BYTES = 200 * 1024;
 
 const SESSION_KEY = 'drrajeev_admin_session';
 const LEAD_WEBHOOK_ENDPOINT = '/.netlify/functions/lead-webhook';
+const LEAD_SUBMIT_RPC_ENDPOINTS = [
+  '/rest/v1/rpc/submit_main_website_lead',
+  '/rest/v1/rpc/submit_mian_website_lead',
+];
 
 function assertSupabaseConfig() {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
@@ -35,7 +39,13 @@ async function readResponse(response) {
 
   if (!response.ok) {
     const message = payload?.msg || payload?.message || payload?.error_description || payload?.hint || 'Supabase request failed.';
-    throw new Error(message);
+    const error = new Error(message);
+    error.status = response.status;
+    error.code = payload?.code;
+    error.details = payload?.details;
+    error.hint = payload?.hint;
+    error.payload = payload;
+    throw error;
   }
 
   return payload;
@@ -54,6 +64,41 @@ async function supabaseFetch(path, options = {}) {
   });
 
   return readResponse(response);
+}
+
+function isMissingRpcError(error) {
+  const text = [
+    error?.code,
+    error?.message,
+    error?.details,
+    error?.hint,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return error?.code === 'PGRST202' || (text.includes('schema cache') && text.includes('function'));
+}
+
+async function submitLeadRpc(row) {
+  let lastMissingRpcError = null;
+
+  for (const endpoint of LEAD_SUBMIT_RPC_ENDPOINTS) {
+    try {
+      return await supabaseFetch(endpoint, {
+        method: 'POST',
+        body: { payload: row },
+      });
+    } catch (error) {
+      if (!isMissingRpcError(error)) {
+        throw error;
+      }
+
+      lastMissingRpcError = error;
+    }
+  }
+
+  throw lastMissingRpcError || new Error('Supabase lead submit function is not available.');
 }
 
 function currentPageContext() {
@@ -339,10 +384,7 @@ export async function submitLead(formName, data = {}) {
     payload,
   };
 
-  const leadId = await supabaseFetch('/rest/v1/rpc/submit_mian_website_lead', {
-    method: 'POST',
-    body: { payload: row },
-  });
+  const leadId = await submitLeadRpc(row);
 
   try {
     const isPreconceptionWorkshop =
