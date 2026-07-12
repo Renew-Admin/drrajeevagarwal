@@ -101,8 +101,10 @@ async function notifyLeadWebhook(row) {
   if (typeof window === 'undefined') return;
 
   const lead = row.payload || row;
+  const directWebhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+  const endpoint = directWebhookUrl || LEAD_WEBHOOK_ENDPOINT;
 
-  const response = await fetch(LEAD_WEBHOOK_ENDPOINT, {
+  const response = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

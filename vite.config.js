@@ -119,6 +119,9 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'build',
     },
+    define: {
+      'import.meta.env.VITE_WEBHOOK_URL': JSON.stringify(webhookUrl || ''),
+    },
     plugins: [react(), cleanAssetFilenames(), leadWebhookProxy(webhookUrl)],
   };
 })
