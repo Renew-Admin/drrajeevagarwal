@@ -32,4 +32,6 @@ The admin panel is a client-side Supabase admin. It needs `VITE_SUPABASE_URL` an
 
 `wrangler.toml` uses `not_found_handling = "single-page-application"`, so direct visits to routes such as `/admin`, `/blog/...`, and `/preconception-workshop/` work on the Worker URL.
 
+Do not add a `public/_redirects` SPA fallback for the Worker deploy. Workers static assets handle the SPA fallback through `wrangler.toml`; a `/* /index.html 200` redirects file causes Cloudflare to reject the deploy as an infinite loop.
+
 `public/404.html` is the branded Cloudflare-level fallback. Broken app URLs are handled by the React `NotFound` page, and any Cloudflare static 404 also uses the site's own 404 instead of Cloudflare's default error page.
