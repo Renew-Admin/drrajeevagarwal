@@ -4,8 +4,8 @@ export const BLOG_IMAGE_BUCKET = 'blog-images';
 export const BLOG_IMAGE_MAX_BYTES = 200 * 1024;
 
 const SESSION_KEY = 'drrajeev_admin_session';
-const LEAD_WEBHOOK_ENDPOINT = '/.netlify/functions/lead-webhook';
-const WORKSHOP_WEBHOOK_ENDPOINT = '/.netlify/functions/workshop-webhook';
+const LEAD_WEBHOOK_ENDPOINT = '/api/lead-webhook';
+const WORKSHOP_WEBHOOK_ENDPOINT = '/api/workshop-webhook';
 const LEAD_SUBMIT_RPC_ENDPOINTS = [
   '/rest/v1/rpc/submit_main_website_lead',
   '/rest/v1/rpc/submit_mian_website_lead',
@@ -147,7 +147,7 @@ async function notifyLeadWebhook(row, options = {}) {
   if (typeof window === 'undefined') return;
 
   const {
-    directWebhookUrl = import.meta.env.VITE_WEBHOOK_URL,
+    directWebhookUrl = '',
     endpoint = LEAD_WEBHOOK_ENDPOINT,
     event = 'website_lead_submitted',
   } = options;

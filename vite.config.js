@@ -130,6 +130,8 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       cleanAssetFilenames(),
+      webhookProxy('/api/lead-webhook', webhookUrl, 'WEBHOOK_URL'),
+      webhookProxy('/api/workshop-webhook', workshopWebhookUrl, 'WORKSHOP_WEBHOOK'),
       webhookProxy('/.netlify/functions/lead-webhook', webhookUrl, 'WEBHOOK_URL'),
       webhookProxy('/.netlify/functions/workshop-webhook', workshopWebhookUrl, 'WORKSHOP_WEBHOOK'),
     ],

@@ -1,16 +1,25 @@
-# React + Vite
+# Dr. Rajeev Agarwal Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite site configured for Cloudflare Pages.
 
-Currently, two official plugins are available:
+## Cloudflare Pages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Connect the GitHub repository to Cloudflare Pages. Cloudflare will deploy automatically on every push to the selected production branch.
 
-## React Compiler
+Use these build settings:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Production branch: `main`
+- Build command: `npm run build`
+- Build output directory: `build`
+- Root directory: repository root
 
-## Expanding the ESLint configuration
+Required Cloudflare Pages environment variables:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `WEBHOOK_URL`
+- `WORKSHOP_WEBHOOK`
+
+The admin panel is a client-side Supabase admin. It needs `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` at build time. The lead and workshop forms post to Cloudflare Pages Functions at `/api/lead-webhook` and `/api/workshop-webhook`, which forward to `WEBHOOK_URL` and `WORKSHOP_WEBHOOK` at runtime.
+
+`public/_redirects` rewrites app routes to `index.html`, so direct visits to routes such as `/admin`, `/blog/...`, and `/preconception-workshop/` work on Cloudflare Pages.
