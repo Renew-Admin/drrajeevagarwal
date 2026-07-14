@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite'
 import { loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { renameSync, readdirSync, statSync } from 'fs'
+import { renameSync, readdirSync, rmSync, statSync } from 'fs'
 import { join, dirname } from 'path'
 
 function cleanAssetFilenames() {
@@ -26,6 +26,25 @@ function cleanAssetFilenames() {
       }
     }
   }
+}
+
+function pruneBuildAssetDirectories() {
+  const directories = [
+    'al_opt_content',
+    'backup',
+  ];
+
+  return {
+    name: 'prune-build-asset-directories',
+    closeBundle() {
+      for (const directory of directories) {
+        rmSync(join(process.cwd(), 'build/assets', directory), {
+          force: true,
+          recursive: true,
+        });
+      }
+    },
+  };
 }
 
 function webhookProxy(path, webhookUrl, envName) {
@@ -130,6 +149,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       cleanAssetFilenames(),
+      pruneBuildAssetDirectories(),
       webhookProxy('/api/lead-webhook', webhookUrl, 'WEBHOOK_URL'),
       webhookProxy('/api/workshop-webhook', workshopWebhookUrl, 'WORKSHOP_WEBHOOK'),
       webhookProxy('/.netlify/functions/lead-webhook', webhookUrl, 'WEBHOOK_URL'),

@@ -17,6 +17,8 @@ Use these build settings:
 
 The deploy command runs `npx wrangler deploy`. `wrangler.toml` tells Cloudflare to upload the Vite `build/` folder as Worker static assets and to run `src/worker.js` for `/api/*` routes.
 
+The build removes unused copied WordPress optimizer and plugin backup folders from `build/assets` (`al_opt_content` and `backup`). This keeps the Worker static asset manifest under Cloudflare's 20,000-file limit while leaving the source files in `public/` untouched.
+
 The deploy command needs a valid `CLOUDFLARE_API_TOKEN` with Workers edit access for the target account. If deploy fails with Cloudflare API authentication code `10000`, replace that token in the Cloudflare project environment variables.
 
 Required Cloudflare environment variables:
