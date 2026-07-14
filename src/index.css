@@ -1628,7 +1628,7 @@ a.ra-quick-card:hover {
   transition: transform 0.35s ease, border-color 0.35s ease;
 }
 .ra-course-card:hover {
-  transform: translateY(-4px);
+  transform: none;
   border-color: var(--gold);
 }
 .ra-course-card-head {
@@ -10613,4 +10613,74 @@ a.ra-quick-card:hover {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-weight: 500 !important;
+}
+
+@media (max-width: 640px) {
+  #root .blog-page-intro {
+    padding-bottom: 6px;
+  }
+
+  #root .blog-page-content {
+    padding-top: 18px !important;
+  }
+
+  #root .blog-feed {
+    gap: 22px;
+  }
+
+  #root .blog-feed-topline {
+    padding-bottom: 0;
+  }
+
+  #root .blog-list-card {
+    padding-bottom: 0;
+  }
+
+  #root .blog-list-body {
+    padding: 20px 22px 22px;
+  }
+
+  #root .blog-list-badge {
+    margin-bottom: 8px;
+  }
+
+  #root .blog-list-title {
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  #root .blog-list-meta {
+    margin: 12px 0 10px;
+  }
+}
+
+#root .success-stories-page :where(.ss-tcard, .ss-stat-card, .ss-video-card) {
+  border-color: rgba(32, 38, 92, 0.12) !important;
+}
+
+#root .success-stories-page :where(.ss-tcard, .ss-stat-card, .ss-video-card):hover {
+  border-color: var(--gold) !important;
+  transform: none;
+  box-shadow: none !important;
+}
+
+#root .success-stories-page .ss-tcard:hover::before {
+  opacity: 0;
+}
+
+#root .success-stories-page .ss-video-cover:hover .ss-video-play {
+  background: rgba(0, 0, 0, 0.30);
+}
+
+#root .success-stories-page .ss-video-cover:hover .ss-shorts-icon {
+  background: rgba(0, 0, 0, 0.65);
+  transform: none;
+}
+
+#root .success-stories-page .ss-carousel-arrow:hover:not(:disabled),
+#root .success-stories-page .ss-carousel-arrow:focus-visible {
+  border-color: var(--gold);
+  background: #fff;
+  color: var(--deep-teal);
+  box-shadow: none;
 }
