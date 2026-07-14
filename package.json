@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy:cloudflare": "npx wrangler pages deploy",
     "start": "node server/render-server.cjs",
     "start:render": "node server/render-server.cjs",
     "lint": "eslint .",

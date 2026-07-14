@@ -1,3 +1,4 @@
+# Cloudflare Pages config. Use `wrangler pages deploy`, not `wrangler deploy`.
 name = "drrajeevagarwal"
 compatibility_date = "2026-07-14"
-pages_build_output_dir = "build"
+pages_build_output_dir = "./build"

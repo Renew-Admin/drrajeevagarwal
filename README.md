@@ -12,6 +12,9 @@ Use these build settings:
 - Build command: `npm run build`
 - Build output directory: `build`
 - Root directory: repository root
+- Deploy command: leave empty for normal Cloudflare Pages Git integration
+
+Do not use `npx wrangler deploy` for this project. That command is for Workers and will fail with "Missing entry-point to Worker script or to assets directory". If Cloudflare asks for a custom deploy command, use `npm run deploy:cloudflare` or `npx wrangler pages deploy`.
 
 Required Cloudflare Pages environment variables:
 
