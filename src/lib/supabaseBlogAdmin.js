@@ -5,6 +5,7 @@ export const BLOG_IMAGE_MAX_BYTES = 200 * 1024;
 
 const SESSION_KEY = 'drrajeev_admin_session';
 const LEAD_WEBHOOK_ENDPOINT = '/.netlify/functions/lead-webhook';
+const WORKSHOP_WEBHOOK_ENDPOINT = '/.netlify/functions/workshop-webhook';
 const LEAD_SUBMIT_RPC_ENDPOINTS = [
   '/rest/v1/rpc/submit_main_website_lead',
   '/rest/v1/rpc/submit_mian_website_lead',
@@ -142,18 +143,22 @@ function formatLeadDateDDMMYYYY(value = new Date()) {
   return `${part('day')}-${part('month')}-${part('year')}`;
 }
 
-async function notifyLeadWebhook(row) {
+async function notifyLeadWebhook(row, options = {}) {
   if (typeof window === 'undefined') return;
 
+  const {
+    directWebhookUrl = import.meta.env.VITE_WEBHOOK_URL,
+    endpoint = LEAD_WEBHOOK_ENDPOINT,
+    event = 'website_lead_submitted',
+  } = options;
   const lead = row.payload || row;
-  const directWebhookUrl = import.meta.env.VITE_WEBHOOK_URL;
-  const endpoint = directWebhookUrl || LEAD_WEBHOOK_ENDPOINT;
+  const submitEndpoint = directWebhookUrl || endpoint;
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(submitEndpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      event: 'website_lead_submitted',
+      event,
       submitted_at: new Date().toISOString(),
       lead_date: row.lead_date || formatLeadDateDDMMYYYY(),
       lead,
@@ -164,6 +169,33 @@ async function notifyLeadWebhook(row) {
     const payload = await readWebhookResponse(response);
     throw new Error(payload?.error || payload?.message || 'Lead webhook delivery failed.');
   }
+}
+
+function buildLeadRow(formName, data = {}) {
+  const pageContext = currentPageContext();
+  const leadDate = formatLeadDateDDMMYYYY();
+  const name = data.name?.trim() || null;
+  const contactNumber = data.contact_number?.trim() || data.phone?.trim() || null;
+  const whatsappNumber = data.whatsapp_number?.trim() || data.phone?.trim() || null;
+  const purposeOfVisit = data.purpose_of_visit?.trim() || data.service?.trim() || data.course?.trim() || data.concern?.trim() || null;
+  const payload = {
+    ...data,
+    ...pageContext,
+    form_name: formName || 'Website Form',
+    lead_date: leadDate,
+    name,
+    contact_number: contactNumber,
+    whatsapp_number: whatsappNumber,
+    purpose_of_visit: purposeOfVisit,
+  };
+
+  return {
+    ...payload,
+    name,
+    phone: contactNumber,
+    service: purposeOfVisit,
+    payload,
+  };
 }
 
 function normalizeSession(payload) {
@@ -360,30 +392,7 @@ export async function deleteBlogPost(id, token) {
 }
 
 export async function submitLead(formName, data = {}) {
-  const pageContext = currentPageContext();
-  const leadDate = formatLeadDateDDMMYYYY();
-  const name = data.name?.trim() || null;
-  const contactNumber = data.contact_number?.trim() || data.phone?.trim() || null;
-  const whatsappNumber = data.whatsapp_number?.trim() || data.phone?.trim() || null;
-  const purposeOfVisit = data.purpose_of_visit?.trim() || data.service?.trim() || data.course?.trim() || data.concern?.trim() || null;
-  const payload = {
-    ...data,
-    ...pageContext,
-    form_name: formName || 'Website Form',
-    lead_date: leadDate,
-    name,
-    contact_number: contactNumber,
-    whatsapp_number: whatsappNumber,
-    purpose_of_visit: purposeOfVisit,
-  };
-  const row = {
-    ...payload,
-    name,
-    phone: contactNumber,
-    service: purposeOfVisit,
-    payload,
-  };
-
+  const row = buildLeadRow(formName, data);
   const leadId = await submitLeadRpc(row);
 
   try {
@@ -391,12 +400,43 @@ export async function submitLead(formName, data = {}) {
       formName === 'Preconception Workshop Registration' ||
       (row.page_path && row.page_path.includes('preconception-workshop'));
 
-    if (!isPreconceptionWorkshop) {
+    if (isPreconceptionWorkshop) {
+      await notifyLeadWebhook(
+        { ...row, id: leadId || null },
+        {
+          directWebhookUrl: '',
+          endpoint: WORKSHOP_WEBHOOK_ENDPOINT,
+          event: 'workshop_registration_submitted',
+        }
+      );
+    } else {
       await notifyLeadWebhook({ ...row, id: leadId || null });
     }
   } catch (error) {
     console.warn('[lead webhook] delivery failed:', error.message);
   }
+
+  return true;
+}
+
+export async function submitWorkshopRegistration(data = {}) {
+  const row = buildLeadRow('Preconception Workshop Registration', data);
+  let leadId = null;
+
+  try {
+    leadId = await submitLeadRpc(row);
+  } catch (error) {
+    console.warn('[supabase leads] workshop registration save failed:', error.message);
+  }
+
+  await notifyLeadWebhook(
+    { ...row, id: leadId || null },
+    {
+      directWebhookUrl: '',
+      endpoint: WORKSHOP_WEBHOOK_ENDPOINT,
+      event: 'workshop_registration_submitted',
+    }
+  );
 
   return true;
 }

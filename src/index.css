@@ -8795,12 +8795,17 @@ a.ra-quick-card:hover {
 
 .pcw-hero-grid {
   display: grid;
+  grid-template-areas:
+    "video copy"
+    "form copy";
   grid-template-columns: minmax(0, 1.02fr) minmax(380px, 0.88fr);
-  align-items: center;
-  gap: clamp(28px, 5vw, 66px);
+  align-items: start;
+  column-gap: clamp(28px, 5vw, 66px);
+  row-gap: 18px;
 }
 
 .pcw-video-panel {
+  grid-area: video;
   display: grid;
   gap: 16px;
 }
@@ -8859,7 +8864,15 @@ a.ra-quick-card:hover {
 }
 
 .pcw-hero-copy {
+  grid-area: copy;
+  align-self: center;
   min-width: 0;
+}
+
+.pcw-hero-form-slot {
+  grid-area: form;
+  min-width: 0;
+  width: 100%;
 }
 
 .pcw-seat-pill {
@@ -8941,12 +8954,17 @@ a.ra-quick-card:hover {
   position: relative;
   z-index: 1;
   scroll-margin-top: 120px;
+  width: 100%;
   max-width: 500px;
   padding: 22px;
   border: 1px solid rgba(32, 38, 92, 0.12);
   border-radius: 26px;
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 22px 58px rgba(32, 38, 92, 0.13);
+}
+
+.pcw-hero-form-slot .pcw-form-card {
+  max-width: 100%;
 }
 
 .pcw-form-card-head {
@@ -8979,17 +8997,20 @@ a.ra-quick-card:hover {
 
 .pcw-registration-form .form-group {
   margin-bottom: 14px;
+  text-align: left;
 }
 
 .pcw-registration-form .form-label {
   color: var(--deep-teal);
   font-size: 13px;
   font-weight: 900;
+  text-align: left;
 }
 
 .pcw-registration-form input {
   min-height: 50px;
   border-radius: 16px;
+  text-align: left;
 }
 
 .pcw-input-error {
@@ -9034,6 +9055,81 @@ a.ra-quick-card:hover {
   color: #444967;
   font-weight: 760;
   line-height: 1.65;
+}
+
+.pcw-payment-reopen {
+  min-height: 48px;
+  margin-top: 4px;
+}
+
+.pcw-payment-modal-backdrop {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 22, 48, 0.54);
+  backdrop-filter: blur(7px);
+}
+
+.pcw-payment-modal {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: min(100%, 430px);
+  padding: 30px 26px 26px;
+  border: 1px solid rgba(32, 38, 92, 0.14);
+  border-radius: 24px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(14, 22, 50, 0.24);
+}
+
+.pcw-payment-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--deep-teal);
+}
+
+.pcw-payment-icon {
+  display: inline-grid;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 14px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(241, 217, 104, 0.42);
+  color: var(--deep-teal);
+}
+
+.pcw-payment-modal h2 {
+  margin: 0 0 10px;
+  color: var(--deep-teal);
+  font-size: 24px;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.pcw-payment-modal p {
+  margin: 0 0 20px;
+  color: #555b75;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.pcw-payment-action {
+  width: 100%;
+  min-height: 50px;
 }
 
 .pcw-section {
@@ -9694,6 +9790,94 @@ a.ra-quick-card:hover {
   }
 }
 
+@media (min-width: 1121px) {
+  .pcw-hero {
+    padding: clamp(34px, 4.5vw, 58px) 0 clamp(38px, 4.8vw, 64px);
+  }
+
+  .pcw-hero-grid {
+    grid-template-areas:
+      "video copy"
+      "form form";
+    grid-template-columns: minmax(0, 1.06fr) minmax(350px, 0.84fr);
+    column-gap: clamp(22px, 3.1vw, 42px);
+    row-gap: 16px;
+  }
+
+  .pcw-video-panel {
+    gap: 10px;
+  }
+
+  .pcw-video-caption {
+    padding: 10px 13px;
+  }
+
+  .pcw-form-card {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    align-items: end;
+    gap: 18px;
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .pcw-form-card-head {
+    align-items: flex-start;
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 0 18px 0 0;
+    border-right: 1px solid rgba(32, 38, 92, 0.1);
+    border-bottom: 0;
+  }
+
+  .pcw-form-card-head span {
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  .pcw-registration-form {
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) minmax(230px, 1.24fr) minmax(190px, 1.08fr) minmax(220px, 0.9fr);
+    align-items: end;
+    gap: 12px;
+  }
+
+  .pcw-registration-form .form-group {
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  .pcw-registration-form .form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .pcw-registration-form input {
+    min-height: 46px;
+    border-radius: 14px;
+    font-size: 14px;
+  }
+
+  .pcw-registration-form .form-submit-error {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  .pcw-form-submit {
+    min-height: 46px;
+    margin-top: 0;
+    padding: 0 14px;
+    font-size: 14px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 1120px) {
   .pcw-hero-grid,
   .pcw-schedule,
@@ -9703,8 +9887,17 @@ a.ra-quick-card:hover {
     grid-template-columns: 1fr;
   }
 
+  .pcw-hero-grid {
+    grid-template-areas:
+      "copy"
+      "video"
+      "form";
+  }
+
   .pcw-video-panel,
+  .pcw-hero-form-slot,
   .pcw-form-card {
+    width: 100%;
     max-width: 760px;
     margin-inline: auto;
   }
@@ -9758,8 +9951,27 @@ a.ra-quick-card:hover {
   }
 
   .pcw-form-card {
+    width: 100%;
     padding: 20px;
     border-radius: 22px;
+  }
+
+  .pcw-registration-form {
+    display: grid;
+    gap: 12px;
+  }
+
+  .pcw-registration-form .form-group {
+    margin-bottom: 0;
+  }
+
+  .pcw-registration-form input {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .pcw-form-submit {
+    margin-top: 0;
   }
 
   .pcw-section {
@@ -9843,8 +10055,8 @@ a.ra-quick-card:hover {
   }
 
   .pcw-form-card-head {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
   }
 
   .pcw-countdown-card {
@@ -10683,4 +10895,22 @@ a.ra-quick-card:hover {
   background: #fff;
   color: var(--deep-teal);
   box-shadow: none;
+}
+
+@media (max-width: 820px) {
+  #root .pcw-registration-form,
+  #root .pcw-registration-form .form-group,
+  #root .pcw-registration-form .form-label,
+  #root .pcw-registration-form input {
+    text-align: left !important;
+  }
+
+  #root .pcw-form-card {
+    text-align: left !important;
+  }
+
+  #root .pcw-form-submit {
+    justify-content: center;
+    text-align: center !important;
+  }
 }

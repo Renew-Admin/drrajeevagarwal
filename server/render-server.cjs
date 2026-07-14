@@ -7,9 +7,43 @@ const BUILD_DIR = path.resolve(__dirname, '..', 'build');
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 const PUBLIC_DIR = fs.existsSync(path.join(BUILD_DIR, 'index.html')) ? BUILD_DIR : DIST_DIR;
 const INDEX_FILE = path.join(PUBLIC_DIR, 'index.html');
-const WEBHOOK_PATHS = new Set([
-  '/.netlify/functions/lead-webhook',
-  '/api/lead-webhook',
+const WEBHOOK_ROUTES = new Map([
+  [
+    '/.netlify/functions/lead-webhook',
+    {
+      envNames: ['WEBHOOK_URL', 'VITE_WEBHOOK_URL'],
+      missingKey: 'WEBHOOK_URL',
+      rejectedMessage: 'Webhook rejected the lead payload.',
+      failedMessage: 'Webhook delivery failed.',
+    },
+  ],
+  [
+    '/api/lead-webhook',
+    {
+      envNames: ['WEBHOOK_URL', 'VITE_WEBHOOK_URL'],
+      missingKey: 'WEBHOOK_URL',
+      rejectedMessage: 'Webhook rejected the lead payload.',
+      failedMessage: 'Webhook delivery failed.',
+    },
+  ],
+  [
+    '/.netlify/functions/workshop-webhook',
+    {
+      envNames: ['WORKSHOP_WEBHOOK'],
+      missingKey: 'WORKSHOP_WEBHOOK',
+      rejectedMessage: 'Webhook rejected the workshop payload.',
+      failedMessage: 'Workshop webhook delivery failed.',
+    },
+  ],
+  [
+    '/api/workshop-webhook',
+    {
+      envNames: ['WORKSHOP_WEBHOOK'],
+      missingKey: 'WORKSHOP_WEBHOOK',
+      rejectedMessage: 'Webhook rejected the workshop payload.',
+      failedMessage: 'Workshop webhook delivery failed.',
+    },
+  ],
 ]);
 
 const JSON_HEADERS = {
@@ -66,7 +100,7 @@ async function readTextSafely(response) {
   }
 }
 
-async function handleLeadWebhook(request, response) {
+async function handleWebhook(request, response, routeConfig) {
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -82,9 +116,9 @@ async function handleLeadWebhook(request, response) {
     return;
   }
 
-  const webhookUrl = process.env.WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
+  const webhookUrl = routeConfig.envNames.map((name) => process.env[name]).find(Boolean);
   if (!webhookUrl) {
-    sendJson(response, 500, { error: 'WEBHOOK_URL is not configured.' });
+    sendJson(response, 500, { error: `${routeConfig.missingKey} is not configured.` });
     return;
   }
 
@@ -116,7 +150,7 @@ async function handleLeadWebhook(request, response) {
     if (!webhookResponse.ok) {
       const body = await readTextSafely(webhookResponse);
       sendJson(response, 502, {
-        error: 'Webhook rejected the lead payload.',
+        error: routeConfig.rejectedMessage,
         status: webhookResponse.status,
         body: body.slice(0, 500),
       });
@@ -126,7 +160,7 @@ async function handleLeadWebhook(request, response) {
     sendJson(response, 200, { ok: true });
   } catch (error) {
     sendJson(response, 502, {
-      error: 'Webhook delivery failed.',
+      error: routeConfig.failedMessage,
       message: error.message,
     });
   }
@@ -183,8 +217,10 @@ function handleStaticRequest(request, response) {
 const server = http.createServer((request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
 
-  if (WEBHOOK_PATHS.has(requestUrl.pathname)) {
-    handleLeadWebhook(request, response);
+  const webhookRoute = WEBHOOK_ROUTES.get(requestUrl.pathname);
+
+  if (webhookRoute) {
+    handleWebhook(request, response, webhookRoute);
     return;
   }
 

@@ -1,23 +1,26 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Baby,
   BookOpen,
   CalendarCheck,
   CheckCircle,
   ChevronDown,
+  CreditCard,
+  ExternalLink,
   HeartPulse,
   Play,
   ShieldCheck,
   Sparkles,
   Star,
   Stethoscope,
-  Users,
   Video,
+  X,
 } from 'lucide-react';
-import { submitLead } from '../lib/supabaseBlogAdmin';
+import { submitWorkshopRegistration } from '../lib/supabaseBlogAdmin';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
 const VIDEO_URL = 'https://drrajeevagarwal.co.in/wp-content/uploads/2026/02/sir-video-new-com.mp4';
+const RAZORPAY_PAYMENT_URL = 'https://rzp.io/rzp/PTsszpU';
 const WORKSHOP_START = new Date('2026-08-01T11:00:00+05:30').getTime();
 
 const foundations = [
@@ -292,12 +295,128 @@ function useCountdown() {
   return timeLeft;
 }
 
+function paymentPopupFeatures() {
+  if (typeof window === 'undefined') return 'width=480,height=720';
+
+  const width = Math.min(520, Math.max(360, Math.round(window.innerWidth * 0.92)));
+  const height = Math.min(760, Math.max(620, Math.round(window.innerHeight * 0.88)));
+  const left = Math.max(0, Math.round((window.screen.width - width) / 2));
+  const top = Math.max(0, Math.round((window.screen.height - height) / 2));
+
+  return `popup=yes,width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+}
+
+function prepareRazorpayPopup() {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const popup = window.open('', 'pcwRazorpayPayment', paymentPopupFeatures());
+    if (!popup) return null;
+
+    popup.document.write(`
+      <!doctype html>
+      <html>
+        <head><title>Opening payment</title></head>
+        <body style="margin:0;min-height:100vh;display:grid;place-items:center;font-family:Arial,sans-serif;color:#0f3f3b;background:#f6f8ff;">
+          <p style="padding:24px;text-align:center;font-weight:700;">Preparing your secure payment...</p>
+        </body>
+      </html>
+    `);
+    popup.document.close();
+    popup.focus();
+    return popup;
+  } catch {
+    return null;
+  }
+}
+
+function openRazorpayPayment(preparedPopup = null) {
+  if (typeof window === 'undefined') return false;
+
+  try {
+    if (preparedPopup && !preparedPopup.closed) {
+      preparedPopup.location.href = RAZORPAY_PAYMENT_URL;
+      preparedPopup.focus();
+      return true;
+    }
+
+    const popup = window.open(RAZORPAY_PAYMENT_URL, 'pcwRazorpayPayment', paymentPopupFeatures());
+    if (!popup) return false;
+
+    popup.focus();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function closePreparedPaymentPopup(preparedPopup) {
+  try {
+    if (preparedPopup && !preparedPopup.closed) {
+      preparedPopup.close();
+    }
+  } catch {
+    // The popup may already be cross-origin or closed by the browser.
+  }
+}
+
+function PaymentPrompt({ isOpen, popupBlocked, onClose, onOpenPayment }) {
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="pcw-payment-modal-backdrop" role="presentation" onClick={onClose}>
+      <div
+        aria-labelledby="pcw-payment-title"
+        aria-modal="true"
+        className="pcw-payment-modal"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        <button
+          aria-label="Close payment popup"
+          className="pcw-payment-close"
+          onClick={onClose}
+          type="button"
+        >
+          <X size={18} />
+        </button>
+        <span className="pcw-payment-icon"><CreditCard size={24} /></span>
+        <h2 id="pcw-payment-title">Complete Your Workshop Payment</h2>
+        <p>
+          {popupBlocked
+            ? 'Your registration was received. Open the secure Razorpay payment window to confirm your seat.'
+            : 'Your registration was received. The secure Razorpay payment window is open; use this button if you need to reopen it.'}
+        </p>
+        <button className="ra-btn ra-btn-primary pcw-payment-action" onClick={onOpenPayment} type="button">
+          Open Razorpay Payment <ExternalLink size={17} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function WorkshopRegistrationForm() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [paymentPromptOpen, setPaymentPromptOpen] = useState(false);
+  const [paymentPopupBlocked, setPaymentPopupBlocked] = useState(false);
+  const paymentPopupRef = useRef(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -337,8 +456,11 @@ function WorkshopRegistrationForm() {
     setSubmitting(true);
     setSubmitError('');
 
+    const preparedPopup = prepareRazorpayPopup();
+    paymentPopupRef.current = preparedPopup;
+
     try {
-      await submitLead('Preconception Workshop Registration', {
+      await submitWorkshopRegistration({
         ...formData,
         service: 'Preconception Counselling Workshop',
         course: 'Preconception Counselling Workshop',
@@ -346,21 +468,45 @@ function WorkshopRegistrationForm() {
         message: 'Join the Workshop @ ₹599',
       });
       setSubmitted(true);
+      const openedPayment = openRazorpayPayment(preparedPopup);
+      paymentPopupRef.current = null;
+      setPaymentPopupBlocked(!openedPayment);
+      setPaymentPromptOpen(!openedPayment);
     } catch (error) {
+      closePreparedPaymentPopup(preparedPopup);
+      paymentPopupRef.current = null;
       setSubmitError(error.message || 'Could not submit the workshop registration. Please try again.');
     } finally {
       setSubmitting(false);
     }
   };
 
+  const handleOpenPayment = () => {
+    const openedPayment = openRazorpayPayment(paymentPopupRef.current);
+    paymentPopupRef.current = null;
+    setPaymentPopupBlocked(!openedPayment);
+    setPaymentPromptOpen(!openedPayment);
+  };
+
   if (submitted) {
     return (
-      <div className="pcw-form-success" role="status">
-        <CheckCircle size={42} />
-        <p>
-          Thanks for taking the first step! Your details are with us. Our team will connect with you shortly to guide you through the workshop and next steps.
-        </p>
-      </div>
+      <>
+        <div className="pcw-form-success" role="status">
+          <CheckCircle size={42} />
+          <p>
+            Thanks for taking the first step! Your details are with us. Complete the payment to confirm your workshop seat.
+          </p>
+          <button className="ra-btn ra-btn-primary pcw-payment-reopen" onClick={handleOpenPayment} type="button">
+            Open Razorpay Payment <ExternalLink size={17} />
+          </button>
+        </div>
+        <PaymentPrompt
+          isOpen={paymentPromptOpen}
+          onClose={() => setPaymentPromptOpen(false)}
+          onOpenPayment={handleOpenPayment}
+          popupBlocked={paymentPopupBlocked}
+        />
+      </>
     );
   }
 
@@ -410,6 +556,12 @@ function WorkshopRegistrationForm() {
       <button className="ra-btn ra-btn-primary pcw-form-submit" type="submit" disabled={submitting}>
         {submitting ? 'Submitting...' : 'Join the Workshop @ ₹599'}
       </button>
+      <PaymentPrompt
+        isOpen={paymentPromptOpen}
+        onClose={() => setPaymentPromptOpen(false)}
+        onOpenPayment={handleOpenPayment}
+        popupBlocked={paymentPopupBlocked}
+      />
     </form>
   );
 }
@@ -595,7 +747,6 @@ export default function PreconceptionWorkshop() {
           </div>
 
           <div className="pcw-hero-copy">
-            <span className="pcw-seat-pill"><Users size={16} /> Limited 100 seats only</span>
             <h1>Preconception Counselling <em>Workshop</em></h1>
             <p className="pcw-hero-italic">Prepare for a Healthy Pregnancy</p>
             <p className="pcw-hero-intro">An interactive workshop for:</p>
@@ -604,6 +755,9 @@ export default function PreconceptionWorkshop() {
               <li><CheckCircle size={18} /> Couples planning later but wanting to prepare wisely</li>
               <li><CheckCircle size={18} /> Individuals who are undecided but want to protect their future fertility</li>
             </ul>
+          </div>
+
+          <div className="pcw-hero-form-slot">
             <div className="pcw-form-card" id="workshop-registration">
               <div className="pcw-form-card-head">
                 <span>Workshop Registration</span>

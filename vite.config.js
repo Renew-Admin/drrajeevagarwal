@@ -1,3 +1,4 @@
+/* global process */
 import { defineConfig } from 'vite'
 import { loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -20,16 +21,18 @@ function cleanAssetFilenames() {
           }
         }
       }
-      try { fix(dir) } catch {}
+      try { fix(dir) } catch {
+        // The build may not emit nested assets in every environment.
+      }
     }
   }
 }
 
-function leadWebhookProxy(webhookUrl) {
+function webhookProxy(path, webhookUrl, envName) {
   return {
-    name: 'lead-webhook-proxy',
+    name: `${path.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '')}-proxy`,
     configureServer(server) {
-      server.middlewares.use('/.netlify/functions/lead-webhook', async (req, res, next) => {
+      server.middlewares.use(path, async (req, res, next) => {
         if (req.method === 'OPTIONS') {
           res.statusCode = 204;
           res.setHeader('Access-Control-Allow-Origin', '*');
@@ -47,7 +50,7 @@ function leadWebhookProxy(webhookUrl) {
         if (!webhookUrl) {
           res.statusCode = 500;
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ error: 'WEBHOOK_URL is not configured.' }));
+          res.end(JSON.stringify({ error: `${envName} is not configured.` }));
           return;
         }
 
@@ -114,14 +117,21 @@ function leadWebhookProxy(webhookUrl) {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const webhookUrl = env.WEBHOOK_URL || env.VITE_WEBHOOK_URL || process.env.WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
+  const workshopWebhookUrl = env.WORKSHOP_WEBHOOK || process.env.WORKSHOP_WEBHOOK;
+  const directWebhookUrl = env.VITE_WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
 
   return {
     build: {
       outDir: 'build',
     },
     define: {
-      'import.meta.env.VITE_WEBHOOK_URL': JSON.stringify(webhookUrl || ''),
+      'import.meta.env.VITE_WEBHOOK_URL': JSON.stringify(directWebhookUrl || ''),
     },
-    plugins: [react(), cleanAssetFilenames(), leadWebhookProxy(webhookUrl)],
+    plugins: [
+      react(),
+      cleanAssetFilenames(),
+      webhookProxy('/.netlify/functions/lead-webhook', webhookUrl, 'WEBHOOK_URL'),
+      webhookProxy('/.netlify/functions/workshop-webhook', workshopWebhookUrl, 'WORKSHOP_WEBHOOK'),
+    ],
   };
 })

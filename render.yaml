@@ -16,3 +16,5 @@ services:
         sync: false
       - key: WEBHOOK_URL
         sync: false
+      - key: WORKSHOP_WEBHOOK
+        sync: false
