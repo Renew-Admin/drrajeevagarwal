@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "deploy:cloudflare": "npx wrangler deploy",
+    "build": "vite build && node scripts/prepare-cloudflare-worker-build.mjs",
+    "deploy:cloudflare": "node scripts/prepare-cloudflare-worker-build.mjs && npx wrangler deploy",
     "start": "node server/render-server.cjs",
     "start:render": "node server/render-server.cjs",
     "lint": "eslint .",
