@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy:cloudflare": "npx wrangler pages deploy build --project-name=${CLOUDFLARE_PAGES_PROJECT_NAME:-drrajeevagarwal}",
+    "deploy:cloudflare": "npx wrangler deploy",
     "start": "node server/render-server.cjs",
     "start:render": "node server/render-server.cjs",
     "lint": "eslint .",
