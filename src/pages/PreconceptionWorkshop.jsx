@@ -408,7 +408,7 @@ function PaymentPrompt({ isOpen, popupBlocked, onClose, onOpenPayment }) {
   );
 }
 
-function WorkshopRegistrationForm() {
+export function WorkshopRegistrationForm() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
