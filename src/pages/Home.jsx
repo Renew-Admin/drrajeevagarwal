@@ -153,24 +153,24 @@ const instagramFeed = [
 ];
 
 const courses = [
-  { title: 'Fertility Without Borders', status: 'Coming Soon!', desc: 'Online fertility education\u2014accessible anytime, anywhere, for anyone.', bullets: ['Learn from expert-led fertility courses, no matter where you live.', 'Explore global best practices and modern approaches to conception.', 'Get trusted support without travel, boundaries, or borders.'] },
-  { title: 'Improving Egg Quality Program', status: 'Coming Soon!', desc: 'Targeted guidance to support and enhance egg health naturally.', bullets: ['Learn the science behind egg quality and age.', 'Discover lifestyle, supplement, and diet changes that help.', 'Build a 90-day plan for better ovarian function.'] },
-  { title: 'The IVF Class \u2013 The Little Big Things', status: 'Coming Soon!', desc: 'A deep dive into small yet powerful IVF details that make a big impact.', bullets: ['Decode each step of the IVF process, from prep to transfer.', 'Discover minor tweaks that can improve outcomes.', 'Learn practical tips for navigating the emotional and physical journey.'] },
-  { title: 'Preconception Counseling Workshop \u2013 What Matters and Why It Matters?', status: 'Coming Soon!', desc: 'Understand what really counts before conception\u2014and how to get it right.', bullets: ['Identify key medical, nutritional, and lifestyle factors.', 'Learn how preconception care impacts fertility and pregnancy.', 'Get tools to start planning your healthiest journey yet.'] },
-  { title: 'PCOS Workshop \u2013 Conception and Beyond', status: 'Coming Soon!', desc: 'A complete guide to managing PCOS through fertility, pregnancy, and beyond.', bullets: ['Understand how PCOS affects ovulation and hormones.', 'Learn strategies to improve chances of conception.', 'Get ongoing wellness tips for long-term hormonal health.'] },
-  { title: 'How to Improve IUI Success Rates', status: 'Coming Soon!', desc: 'Actionable tips to boost your chances of success with IUI.', bullets: ['Understand timing, tracking, and medical prep.', 'Optimize sperm health and uterine readiness.', 'Learn add-ons and lifestyle tweaks that make a difference.'] },
+  { title: 'Fertility Without Borders', status: 'Coming Soon', desc: 'Practical fertility education you can follow from anywhere, with clear guidance for every stage.', points: ['Global fertility basics', 'Modern conception planning', 'Care without travel stress'] },
+  { title: 'Improving Egg Quality Program', status: 'Coming Soon', desc: 'A focused learning program for understanding egg health, age, lifestyle, and preparation.', points: ['Egg quality science', 'Nutrition and lifestyle planning', 'A practical 90 day roadmap'] },
+  { title: 'IVF Little Big Things', status: 'Coming Soon', desc: 'A patient friendly class on the small IVF details that can make treatment feel clearer.', points: ['Cycle preparation', 'Transfer readiness', 'Emotional support tools'] },
+  { title: 'Preconception Counseling Workshop', status: 'Coming Soon', desc: 'A guided workshop on what matters before pregnancy and how couples can prepare well.', points: ['Useful health checks', 'Nutrition and lifestyle basics', 'Confident next steps'] },
+  { title: 'PCOS Conception Workshop', status: 'Coming Soon', desc: 'A complete guide to PCOS, fertility planning, pregnancy preparation, and long term wellness.', points: ['Ovulation and hormones', 'Conception planning', 'Long term PCOS care'] },
+  { title: 'IUI Success Planning', status: 'Coming Soon', desc: 'Simple clinical guidance to understand timing, preparation, and realistic IUI expectations.', points: ['Cycle timing', 'Sperm and uterus readiness', 'Supportive lifestyle changes'] },
 ];
 
 const events = [
-  { title: '1ST ANNIVERSARY OF RENEW 2022', image: '/assets/2025/04/1ST-ANNIVERSARY-OF-RENEW-2022.webp' },
+  { title: 'Renew First Anniversary', image: '/assets/2025/04/1ST-ANNIVERSARY-OF-RENEW-2022.webp' },
   { title: 'ACE PUNE 2024', image: '/assets/2025/04/ACE-PUNE-2024.webp' },
   { title: 'ASPIRE MALAYSIA 2017', image: '/assets/2025/04/ASPIRE-MALAYSIA-2017.webp' },
-  { title: 'AWARENESS CAMP AT LA MARTINIERE SCHOOL', image: '/assets/2025/04/AWARENESS-CAMP-AT-LA-MARTINIERE-SCHOOL.webp' },
-  { title: 'BOGS CONFERENCE 2017', image: '/assets/2025/04/BOGS-CONFERENCE-2017.webp' },
-  { title: 'IAN DONALD CONFERENCE', image: '/assets/2025/04/IAN-DONALD-CONFERENCE-.webp' },
-  { title: 'INSTAR CONFERENCE', image: '/assets/2025/04/INSTAR-CONFERENCE-.webp' },
-  { title: 'ISAR NATIONAL CONFERENCE', image: '/assets/2025/04/ISAR-NATIONAL-CONFERENCE-1.webp' },
-  { title: 'LAUNCH OF PREGNANCY BOOK AND RENEWING HOPE FOUNDATION', image: '/assets/2025/04/LAUNCH-OF-PREGNANCY-BOOK-AND-RENEWING-HOPE-FOUNDATION.webp' },
+  { title: 'La Martiniere Awareness Camp', image: '/assets/2025/04/AWARENESS-CAMP-AT-LA-MARTINIERE-SCHOOL.webp' },
+  { title: 'BOGS Conference', image: '/assets/2025/04/BOGS-CONFERENCE-2017.webp' },
+  { title: 'Ian Donald Conference', image: '/assets/2025/04/IAN-DONALD-CONFERENCE-.webp' },
+  { title: 'Instar Conference', image: '/assets/2025/04/INSTAR-CONFERENCE-.webp' },
+  { title: 'ISAR National Conference', image: '/assets/2025/04/ISAR-NATIONAL-CONFERENCE-1.webp' },
+  { title: 'Pregnancy Book Launch', image: '/assets/2025/04/LAUNCH-OF-PREGNANCY-BOOK-AND-RENEWING-HOPE-FOUNDATION.webp' },
   { title: 'Yuva ISAR Conference 2017', image: '/assets/2025/04/Yuva-ISAR-Conference-2017.webp' },
 ];
 
@@ -302,35 +302,13 @@ function AutoAwards() {
     '04-1-scaled-1.webp',
     '03.webp',
   ];
-  const doubled = [...awards, ...awards];
-  const trackRef = useRef(null);
-  const [offset, setOffset] = useState(0);
-  const cellWidth = 216; // 200 + 16 gap
-
-  useEffect(() => {
-    let animId;
-    const step = () => {
-      setOffset(prev => {
-        const next = prev + 0.5;
-        if (next >= awards.length * cellWidth) return 0;
-        return next;
-      });
-      animId = requestAnimationFrame(step);
-    };
-    animId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(animId);
-  }, [cellWidth, awards.length]);
 
   return (
-    <div className="ra-awards-row">
-      <div
-        className="ra-awards-track"
-        ref={trackRef}
-        style={{ transform: `translateX(-${offset}px)` }}
-      >
-        {doubled.map((file, i) => (
+    <div className="ra-awards-row" aria-label="Award certificates and recognition gallery">
+      <div className="ra-awards-track">
+        {awards.map((file, i) => (
           <div className="ra-award-cell" key={`${file}-${i}`}>
-            <img src={`/assets/2026/03/${file}`} alt="Award" />
+            <img src={`/assets/2026/03/${file}`} alt="Dr. Rajeev Agarwal award recognition" />
           </div>
         ))}
       </div>
@@ -487,8 +465,10 @@ function CourseCarousel() {
     }
   }, [cardsPerView]);
 
-  const stepWidth = (cardWidth - gap) / cardsPerView + gap;
-  const maxIndex = courses.length - cardsPerView;
+  const totalGapWidth = gap * (cardsPerView - 1);
+  const cardBasis = `calc((100% - ${totalGapWidth}px) / ${cardsPerView})`;
+  const stepWidth = cardWidth > 0 ? (cardWidth - totalGapWidth) / cardsPerView + gap : 0;
+  const maxIndex = Math.max(0, courses.length - cardsPerView);
 
   useEffect(() => {
     if (maxIndex <= 0 || paused) return;
@@ -514,18 +494,18 @@ function CourseCarousel() {
             <article
               className="ra-course-card"
               key={c.title}
-              style={{ width: `calc((100% - ${gap}px) / ${cardsPerView})`, flex: '0 0 auto' }}
+              style={{ width: cardBasis, flex: '0 0 auto' }}
             >
               <div className="ra-course-card-head">
                 <span className="ra-course-status">{c.status}</span>
               </div>
               <h3>{c.title}</h3>
               <p className="ra-course-desc">{c.desc}</p>
-              <ul className="ra-course-bullets">
-                {c.bullets.map((b, j) => (
-                  <li key={j}>{b}</li>
+              <div className="ra-course-points" aria-label={`${c.title} highlights`}>
+                {c.points.map((point) => (
+                  <span key={point}>{point}</span>
                 ))}
-              </ul>
+              </div>
             </article>
           ))}
         </div>
@@ -591,7 +571,7 @@ function EventCarousel() {
               style={{ width: `calc((100% - ${gap}px) / ${cardsPerView})`, marginRight: i < events.length - 1 ? `${gap}px` : '0' }}
             >
               <div className="ra-event-img-wrap">
-                <img src={e.image} alt={e.title} loading="lazy" />
+                <img src={e.image} alt={e.title} />
               </div>
               <span className="ra-event-caption">{e.title}</span>
             </div>
@@ -651,8 +631,10 @@ function ServiceCarousel({ services, categoryLabel }) {
     }
   }, [cardsPerView]);
 
-  const stepWidth = (cardWidth - gap) / cardsPerView + gap;
-  const maxIndex = services.length - cardsPerView;
+  const totalGapWidth = gap * (cardsPerView - 1);
+  const cardBasis = `calc((100% - ${totalGapWidth}px) / ${cardsPerView})`;
+  const stepWidth = cardWidth > 0 ? (cardWidth - totalGapWidth) / cardsPerView + gap : 0;
+  const maxIndex = Math.max(0, services.length - cardsPerView);
 
   useEffect(() => {
     if (maxIndex <= 0 || paused) return;
@@ -681,7 +663,7 @@ function ServiceCarousel({ services, categoryLabel }) {
               className="ra-service-card"
               key={s.title}
               to={s.href}
-              style={{ width: `calc((100% - ${gap}px) / ${cardsPerView})`, flex: '0 0 auto' }}
+              style={{ width: cardBasis, flex: '0 0 auto' }}
             >
               <div className="ra-service-img-wrap">
                 <img src={s.image} alt={`${s.title} service`} />
@@ -1060,13 +1042,21 @@ export default function Home({ onBookClick }) {
           </div>
         </section>
 
-        <section className="ra-section">
-          <div className="ra-container">
-            <div className="ra-section-head">
+        <section className="ra-section ra-awards-section">
+          <div className="ra-container ra-awards-layout">
+            <div className="ra-section-head ra-awards-copy">
               <span className="ra-label">MY AWARDS AND RECOGNITION</span>
               <h2>Celebrating Excellence in <em>Healthcare</em></h2>
+              <p>Recognitions from medical forums, healthcare communities, and public platforms for fertility care, patient education, and clinical leadership.</p>
+              <div className="ra-awards-meta" aria-label="Award highlights">
+                <span><strong>35+</strong> Awards</span>
+                <span><strong>25+</strong> Years</span>
+                <span><strong>10k+</strong> IVF Cases</span>
+              </div>
             </div>
-            <AutoAwards />
+            <div className="ra-awards-showcase">
+              <AutoAwards />
+            </div>
           </div>
         </section>
 
@@ -1089,7 +1079,7 @@ export default function Home({ onBookClick }) {
             <div className="ra-section-head">
               <span className="ra-label">MY COURSES</span>
               <h2>Empower Yourself with <em>Knowledge</em></h2>
-              <p>Explore Dr. Agarwal\u2019s expertly designed courses, tailored for individuals seeking deeper insights into fertility and healthcare innovation.</p>
+              <p>Explore Dr. Agarwal's courses for clear, practical learning in fertility, pregnancy planning, and reproductive health.</p>
             </div>
             <CourseCarousel />
           </div>
@@ -1101,7 +1091,7 @@ export default function Home({ onBookClick }) {
               <div className="ra-section-head" style={{ textAlign: 'left', margin: '0 0 0 0' }}>
                 <span className="ra-label">EVENT HIGHLIGHTS</span>
                 <h2>Lectures & <em>events</em></h2>
-                <p>Stay connected with a series of impactful talks and events led by experts in fertility and gynaecology. Whether you\u2019re a medical professional or a curious mind, there\u2019s something here for everyone.</p>
+                <p>Selected conferences, public talks, workshops, and awareness events from Dr. Rajeev Agarwal's medical journey.</p>
               </div>
               <img className="ra-event-deco" src="/assets/2025/01/Group-2.webp" alt="" />
             </div>

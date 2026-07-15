@@ -557,6 +557,25 @@ select {
   box-shadow: 0 20px 45px rgba(32, 38, 92, 0.35);
 }
 
+@media (min-width: 821px) {
+  .ra-hero-visual {
+    padding-right: 18px;
+  }
+
+  .ra-doctor-frame {
+    margin-left: auto;
+    margin-right: 22px;
+  }
+
+  .ra-consult-card {
+    right: 0;
+    bottom: 24px;
+    max-width: min(330px, calc(100% - 16px));
+    white-space: normal;
+    line-height: 1.2;
+  }
+}
+
 .ra-marquee-strip {
   position: relative;
   z-index: 2;
@@ -1172,7 +1191,8 @@ a.ra-quick-card:hover {
   display: flex;
   justify-content: center;
   gap: 6px;
-  width: fit-content;
+  width: max-content;
+  max-width: 100%;
   margin: 0 auto 34px;
   padding: 5px;
   border: 1px solid rgba(32, 38, 92, 0.08);
@@ -1209,22 +1229,22 @@ a.ra-quick-card:hover {
 }
 
 .ra-blog-section {
-  padding: 0 0 72px !important;
+  padding: 18px 0 58px !important;
   background: #f8f9fc;
   position: relative;
-  margin-top: -72px;
+  margin-top: 12px;
 }
 
 .ra-section + .ra-blog-section {
-  margin-top: -84px;
+  margin-top: 12px;
 }
 
 #events {
-  padding-bottom: 12px !important;
+  padding-bottom: 20px !important;
 }
 
 .ra-blog-section .ra-section-head {
-  margin-bottom: 6px !important;
+  margin-bottom: 14px !important;
 }
 
 .ra-blog-section::before {
@@ -1388,6 +1408,7 @@ a.ra-quick-card:hover {
 
 .ra-service-carousel-track {
   display: flex;
+  align-items: stretch;
   transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
@@ -1418,6 +1439,8 @@ a.ra-quick-card:hover {
 .ra-service-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  margin: 6px 0;
   border-radius: 24px;
   background: #ffffff;
   border: 1px solid rgba(32, 38, 92, 0.10);
@@ -1618,21 +1641,25 @@ a.ra-quick-card:hover {
    Blog Cards
    =========================== */
 .ra-course-card {
-  padding: 28px;
+  min-height: 100%;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  border-radius: 24px;
-  background: #fff;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(244, 246, 255, 0.72), rgba(255, 255, 255, 0.95)),
+    #fff;
   border: 1px solid rgba(32,38,92,0.08);
   box-shadow: none;
-  transition: transform 0.35s ease, border-color 0.35s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 .ra-course-card:hover {
-  transform: none;
+  transform: translateY(-3px);
   border-color: var(--gold);
+  background: #fff;
 }
 .ra-course-card-head {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .ra-course-status {
   display: inline-flex;
@@ -1645,45 +1672,41 @@ a.ra-quick-card:hover {
   color: var(--deep-teal);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 .ra-course-card h3 {
-  font-size: 19px;
+  color: var(--deep-teal);
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1.3;
-  margin-bottom: 10px;
+  line-height: 1.2;
+  margin-bottom: 12px;
 }
 .ra-course-desc {
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 14.5px;
+  line-height: 1.6;
   color: var(--text-soft);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
-.ra-course-bullets {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.ra-course-points {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
 }
-.ra-course-bullets li {
-  position: relative;
-  padding-left: 20px;
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--text-mid);
-}
-.ra-course-bullets li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 7px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
+
+.ra-course-points span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--deep-teal);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .ra-resource-grid {
@@ -1692,7 +1715,7 @@ a.ra-quick-card:hover {
   gap: 18px;
 }
 
-.ra-course-card > div span {
+.ra-course-card-head span {
   display: inline-flex;
   align-items: center;
   width: fit-content;
@@ -1750,48 +1773,136 @@ a.ra-quick-card:hover {
   background: rgba(0,0,0,0.3);
 }
 
-/* Awards row – single horizontal row */
+.ra-awards-section {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(241, 217, 104, 0.16), transparent 22rem),
+    linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
+  overflow: hidden;
+}
+
+.ra-awards-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+}
+
+.ra-awards-copy {
+  max-width: 500px;
+  margin: 0;
+  text-align: left;
+}
+
+.ra-awards-copy p {
+  margin: 0;
+  color: #5f668d;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.ra-awards-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.ra-awards-meta span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 9px 13px;
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #5d6389;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ra-awards-meta strong {
+  color: var(--deep-teal);
+  font-size: 16px;
+}
+
+.ra-awards-showcase {
+  min-width: 0;
+  padding: 16px 0;
+}
+
 .ra-awards-row {
+  position: relative;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 8px 0;
+  scroll-snap-type: x mandatory;
+  padding: 12px 0;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 92%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0, #000 92%, transparent 100%);
 }
+
 .ra-awards-row::-webkit-scrollbar {
   display: none;
 }
+
 .ra-awards-track {
   display: flex;
   gap: 16px;
   width: fit-content;
-  will-change: transform;
 }
+
 .ra-award-cell {
   flex: 0 0 auto;
   width: 200px;
-  height: 250px;
+  height: 248px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 12px;
   overflow: hidden;
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  scroll-snap-align: start;
+  transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
 }
+
+.ra-award-cell:hover {
+  transform: translateY(-3px);
+  border-color: rgba(241, 217, 104, 0.85);
+  background: #fff;
+}
+
 .ra-award-cell img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 4px 12px rgba(32,38,92,0.08));
+  filter: saturate(0.96) drop-shadow(0 4px 12px rgba(32,38,92,0.07));
   transition: transform 0.3s ease, filter 0.3s ease;
 }
+
 .ra-award-cell img:hover {
-  transform: scale(1.04);
-  filter: drop-shadow(0 8px 24px rgba(32,38,92,0.14));
+  transform: scale(1.025);
+  filter: saturate(1) drop-shadow(0 8px 20px rgba(32,38,92,0.12));
 }
+
 @media (max-width: 1024px) {
-  .ra-awards-track {
-    margin: 0;
+  .ra-awards-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
+
+  .ra-awards-copy {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ra-awards-meta {
+    justify-content: center;
+  }
+
   .ra-award-cell {
     width: 170px;
     height: 210px;
@@ -3054,6 +3165,12 @@ a.ra-quick-card:hover {
     width: min(100% - 28px, 1240px);
   }
 
+  .ra-service-cta {
+    align-self: stretch;
+    justify-content: center;
+    text-align: center;
+  }
+
   .grid-2,
   .grid-3,
   .grid-4,
@@ -3716,7 +3833,7 @@ a.ra-quick-card:hover {
 
 .ra-floating-lead-form {
   display: grid;
-  grid-template-columns: minmax(92px, 0.92fr) minmax(92px, 0.92fr) minmax(118px, 1.08fr) minmax(118px, 1fr) minmax(118px, 1fr) minmax(122px, 0.88fr);
+  grid-template-columns: minmax(110px, 0.9fr) minmax(118px, 0.95fr) minmax(128px, 1fr) minmax(166px, 1.28fr) minmax(124px, 0.78fr);
   gap: 7px;
   align-items: center;
   min-width: 0;
@@ -6400,9 +6517,12 @@ a.ra-quick-card:hover {
 }
 .ra-course-carousel-viewport {
   overflow: hidden;
+  padding: 7px 1px;
+  margin: -7px -1px;
 }
 .ra-course-carousel-track {
   display: flex;
+  align-items: stretch;
   transition: transform 0.5s ease;
 }
 .ra-course-carousel-track .ra-course-card {
@@ -7103,10 +7223,10 @@ a.ra-quick-card:hover {
 .ra-event-layout {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 42px;
 }
 .ra-event-text {
-  flex: 0 0 360px;
+  flex: 0 0 330px;
 }
 .ra-event-text .ra-section-head p {
   margin-bottom: 20px;
@@ -7123,57 +7243,56 @@ a.ra-quick-card:hover {
 }
 .ra-event-carousel-viewport {
   overflow: hidden;
+  padding: 7px 1px;
+  margin: -7px -1px;
 }
 .ra-event-carousel-track {
   width: 100%;
   display: flex;
+  align-items: stretch;
   transition: transform 0.4s ease;
 }
 .ra-event-card {
+  position: relative;
   flex: 0 0 auto;
   max-width: 100%;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
   background: #fff;
-  border: 1px solid rgba(32, 38, 92, 0.08);
-  padding: 14px;
-  box-shadow: 0 2px 16px rgba(32,38,92,0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  padding: 0;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 .ra-event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 32px rgba(32,38,92,0.10);
+  transform: translateY(-3px);
+  border-color: rgba(241, 217, 104, 0.86);
 }
 .ra-event-img-wrap {
-  display: grid;
-  place-items: center;
   overflow: hidden;
-  aspect-ratio: 350 / 220;
-  padding: 18px;
-  border: 1px solid rgba(32, 38, 92, 0.08);
-  border-radius: 12px;
-  background: linear-gradient(135deg, #f8f9ff, #ffffff);
+  aspect-ratio: 16 / 10;
+  background: #f5f6fa;
 }
 .ra-event-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 8px;
   transition: transform 0.4s ease;
 }
 .ra-event-card:hover img {
   transform: scale(1.025);
 }
 .ra-event-caption {
-  display: block;
-  padding: 12px 0 0;
-  font-size: 12px;
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 12px 16px;
+  background: #fff;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: var(--deep-teal);
-  line-height: 1.4;
-  text-transform: uppercase;
+  line-height: 1.35;
 }
 .ra-event-dots {
   display: flex;
@@ -8510,8 +8629,8 @@ a.ra-quick-card:hover {
 :root {
   --ra-card-border: rgba(32, 38, 92, 0.12);
   --ra-card-hover-border: var(--gold);
-  --ra-section-space: clamp(48px, 5vw, 64px);
-  --ra-section-space-mobile: 42px;
+  --ra-section-space: clamp(38px, 4vw, 52px);
+  --ra-section-space-mobile: 26px;
 }
 
 #root :where(
@@ -8695,21 +8814,21 @@ a.ra-quick-card:hover {
   }
 
   .ra-blog-section {
-    padding-top: 0 !important;
-    padding-bottom: 40px !important;
-    margin-top: -48px;
+    padding-top: 12px !important;
+    padding-bottom: 34px !important;
+    margin-top: 8px;
   }
 
   .ra-section + .ra-blog-section {
-    margin-top: -54px;
+    margin-top: 8px;
   }
 
   #events {
-    padding-bottom: 6px !important;
+    padding-bottom: 14px !important;
   }
 
   .ra-blog-section .ra-section-head {
-    margin-bottom: 4px !important;
+    margin-bottom: 10px !important;
   }
 
   #root :where(.ra-hero) {
@@ -8723,7 +8842,7 @@ a.ra-quick-card:hover {
     .about-section-head,
     .course-section-head
   ) {
-    margin-bottom: 22px !important;
+    margin-bottom: 18px !important;
   }
 
   #root :where(
@@ -8732,7 +8851,49 @@ a.ra-quick-card:hover {
     .about-section-head h2,
     .course-section-head h2
   ) {
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
+  }
+
+  #root :where(.ra-course-card) {
+    padding: 20px !important;
+    border-radius: 18px !important;
+  }
+
+  .ra-course-card h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+
+  .ra-course-desc {
+    margin-bottom: 14px;
+  }
+
+  .ra-course-points {
+    gap: 7px;
+  }
+
+  .ra-course-points span {
+    min-height: 30px;
+    font-size: 11.5px;
+  }
+
+  .ra-course-dots,
+  .ra-event-dots {
+    margin-top: 18px;
+  }
+
+  .ra-event-layout {
+    gap: 18px !important;
+  }
+
+  .ra-event-text .ra-section-head p {
+    margin-bottom: 0;
+  }
+
+  .ra-event-caption {
+    min-height: 48px;
+    padding: 10px 13px;
+    font-size: 12.5px;
   }
 }
 

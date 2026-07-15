@@ -13,11 +13,11 @@ import whyMeSideDesktop from '../assets/why-me-side-desktop.webp';
 import whyMeSideMobile from '../assets/why-me-side-mobile.webp';
 
 const testimonials = [
-  { text: 'His dedication to women\u2019s health goes beyond the clinic. Dr. Rajeev is an inspiration, and I feel lucky to have been under his care.', name: 'Megha Roy', avatar: t1 },
-  { text: 'He\u2019s not just a doctor\u2014he\u2019s a healer. Dr. Rajeev treated me with kindness, listened patiently, and guided me every step of the way in my motherhood journey. I\u2019m forever grateful.', name: 'Priya & Kunal Singh', avatar: t2 },
+  { text: "His dedication to women's health goes beyond the clinic. Dr. Rajeev is an inspiration, and I feel lucky to have been under his care.", name: 'Megha Roy', avatar: t1 },
+  { text: "He's not just a doctor. He's a healer. Dr. Rajeev treated me with kindness, listened patiently, and guided me every step of the way in my motherhood journey. I'm forever grateful.", name: 'Priya & Kunal Singh', avatar: t2 },
   { text: 'From the first consultation to the final procedure, Dr. Rajeev was professional, reassuring, and deeply knowledgeable. I felt safe and cared for throughout.', name: 'Ananya Sen', avatar: t3 },
   { text: 'After years of failed treatments, meeting Dr. Rajeev changed everything. His personalized care and honest advice led us to the happiest chapter of our lives.', name: 'Farah & Imran Siddiqui', avatar: t4 },
-  { text: 'What sets Dr. Rajeev apart is his integrity and empathy. He doesn\u2019t just treat a condition\u2014he truly understands the emotional journey behind it.', name: 'Shweta Dwivedi', avatar: t5 },
+  { text: "What sets Dr. Rajeev apart is his integrity and empathy. He doesn't treat only a condition. He truly understands the emotional journey behind it.", name: 'Shweta Dwivedi', avatar: t5 },
   { text: 'I was nervous about laparoscopic surgery, but Dr. Rajeev explained everything so clearly and made me feel at ease. The recovery was smooth and the results excellent.', name: 'Reena TS', avatar: t6 },
 ];
 

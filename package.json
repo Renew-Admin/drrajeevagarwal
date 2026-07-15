@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prepare-cloudflare-worker-build.mjs",
+    "build:cpanel": "vite build && node scripts/prepare-cpanel-build.mjs",
+    "package:cpanel": "npm run build:cpanel && node scripts/package-cpanel-build.mjs",
     "deploy:cloudflare": "node scripts/prepare-cloudflare-worker-build.mjs && npx wrangler deploy",
     "start": "node server/render-server.cjs",
     "start:render": "node server/render-server.cjs",

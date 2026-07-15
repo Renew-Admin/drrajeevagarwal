@@ -96,7 +96,7 @@ export default function AppointmentForm({ formName = "General Booking", onSucces
       </div>
 
       <div className="form-group">
-        <label className="form-label" htmlFor="purpose_of_visit">purrpose of vist *</label>
+        <label className="form-label" htmlFor="purpose_of_visit">Purpose of visit *</label>
         <select
           id="purpose_of_visit"
           name="purpose_of_visit"

@@ -116,14 +116,14 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
                 onChange={handleChange}
               />
               <select
-                aria-label="purrpose of vist"
+                aria-label="Purpose of visit"
                 name="purpose_of_visit"
                 required
                 tabIndex={hiddenTabIndex}
                 value={formData.purpose_of_visit}
                 onChange={handleChange}
               >
-                <option value="">purrpose of vist</option>
+                <option value="">Purpose of visit</option>
                 {LEAD_PURPOSE_OPTIONS.map((option) => (
                   <option key={option} value={option}>{option}</option>
                 ))}

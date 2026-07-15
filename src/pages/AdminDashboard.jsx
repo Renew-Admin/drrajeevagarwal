@@ -37,6 +37,10 @@ function kb(bytes) {
   return `${Math.round(bytes / 1024)} KB`;
 }
 
+function isAdminSession(value) {
+  return Boolean(value && typeof value === 'object' && typeof value.access_token === 'string');
+}
+
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('leads');
   const [blogFilter, setBlogFilter] = useState('all');
@@ -100,7 +104,7 @@ export default function AdminDashboard() {
     setBlogSuccess('');
 
     try {
-      const validSession = activeSession || await requireAdminSession();
+      const validSession = isAdminSession(activeSession) ? activeSession : await requireAdminSession();
       const rows = await listAdminBlogs(validSession.access_token);
       setBlogs(rows);
     } catch (error) {
@@ -116,7 +120,7 @@ export default function AdminDashboard() {
     setBlogSuccess('');
 
     try {
-      const validSession = activeSession || await requireAdminSession();
+      const validSession = isAdminSession(activeSession) ? activeSession : await requireAdminSession();
       const rows = await listLeads(validSession.access_token);
       setLeads(rows);
     } catch (error) {
@@ -428,7 +432,7 @@ export default function AdminDashboard() {
                   <h2 className="admin-section-title">Inbound Leads</h2>
                   <p className="admin-section-copy">Leads collected from appointment, callback, and course forms.</p>
                 </div>
-                <button type="button" className="ra-btn ra-btn-soft" onClick={loadLeads} disabled={leadsLoading}>
+                <button type="button" className="ra-btn ra-btn-soft" onClick={() => loadLeads()} disabled={leadsLoading}>
                   {leadsLoading ? 'Refreshing...' : 'Refresh'}
                 </button>
               </div>
@@ -580,7 +584,7 @@ export default function AdminDashboard() {
                   <button type="button" className={blogFilter === 'all' ? 'is-active' : ''} onClick={() => setBlogFilter('all')}>All</button>
                   <button type="button" className={blogFilter === 'featured' ? 'is-active' : ''} onClick={() => setBlogFilter('featured')}>Featured</button>
                   <button type="button" className={blogFilter === 'drafts' ? 'is-active' : ''} onClick={() => setBlogFilter('drafts')}>Drafts</button>
-                  <button type="button" className="ra-btn ra-btn-soft" onClick={loadBlogs} disabled={blogsLoading}>
+                  <button type="button" className="ra-btn ra-btn-soft" onClick={() => loadBlogs()} disabled={blogsLoading}>
                     {blogsLoading ? 'Refreshing...' : 'Refresh'}
                   </button>
                 </div>
