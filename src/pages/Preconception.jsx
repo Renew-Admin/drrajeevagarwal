@@ -8,16 +8,31 @@ import {
   ShieldCheck,
   Sparkles,
   Stethoscope,
-  Video,
 } from 'lucide-react';
-import { WorkshopRegistrationForm } from './PreconceptionWorkshop';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
 
-const heroBullets = [
-  'For couples planning pregnancy in the next few months',
-  'For partners who want clear tests, timing, nutrition, and lifestyle guidance',
-  'For anyone who wants to prepare before fertility worries become urgent',
+const planningHighlights = [
+  {
+    title: 'Health Snapshot',
+    text: 'Review cycles, medical history, thyroid, sugar, weight, and current medicines before trying.',
+    icon: Stethoscope,
+  },
+  {
+    title: 'Fertility Timing',
+    text: 'Understand ovulation windows, age-related timelines, and when a medical review is useful.',
+    icon: CalendarCheck,
+  },
+  {
+    title: 'Nutrition Basics',
+    text: 'Clarify folic acid, Vitamin D, iron, sleep, stress, and partner health habits.',
+    icon: HeartPulse,
+  },
+  {
+    title: 'Next-Step Notes',
+    text: 'Leave with a practical checklist to discuss during your preconception consultation.',
+    icon: CheckCircle,
+  },
 ];
 
 const pillars = [
@@ -85,7 +100,7 @@ const agenda = [
     title: 'Next-Step Roadmap',
     text: 'Leave with a clear action plan instead of scattered advice.',
     icon: CheckCircle,
-    points: ['Natural conception plan', 'IVF readiness if needed', 'Live QnA with the expert'],
+    points: ['Natural conception plan', 'IVF readiness if needed', 'Questions to ask your doctor'],
   },
 ];
 
@@ -100,7 +115,7 @@ const reviews = [
   },
   {
     name: 'Mr & Mrs Soni',
-    text: 'We had doubts about when to start, what to eat, and what tests to do. The workshop made us feel prepared instead of anxious.',
+    text: 'We had doubts about when to start, what to eat, and what tests to do. The counselling made us feel prepared instead of anxious.',
   },
 ];
 
@@ -124,9 +139,9 @@ const awardImages = [
 
 function usePreconceptionSeo() {
   useEffect(() => {
-    const title = 'Preconception Counselling Workshop | Dr. Rajeev Agarwal';
+    const title = 'Preconception Counselling | Dr. Rajeev Agarwal';
     const description =
-      'Register for Dr. Rajeev Agarwal’s preconception counselling workshop and prepare for pregnancy with clear fertility, nutrition, and testing guidance.';
+      'Preconception counselling with Dr. Rajeev Agarwal helps couples prepare for pregnancy with clear fertility, nutrition, testing, and timing guidance.';
     const previousTitle = document.title;
 
     const ensureMeta = (selector, attrs) => {
@@ -171,10 +186,10 @@ export default function Preconception() {
 
   return (
     <div className="pcw-page preconception-page">
-      <section className="pcw-announcement" aria-label="Preconception workshop announcement">
+      <section className="pcw-announcement" aria-label="Preconception counselling announcement">
         <div className="ra-container">
           <Sparkles size={17} />
-          <span>Live preconception counselling workshop with Dr. Rajeev Agarwal - registration includes secure Razorpay payment</span>
+          <span>Preconception counselling guidance with Dr. Rajeev Agarwal for calmer pregnancy planning before you conceive</span>
         </div>
       </section>
 
@@ -184,24 +199,14 @@ export default function Preconception() {
             <span className="ra-label"><Baby size={16} /> Zero Trimester Planning</span>
             <h1>Prepare For Pregnancy With <em>Clarity</em></h1>
             <p>
-              A focused online workshop for couples who want to understand fertility, testing,
+              A focused counselling pathway for couples who want to understand fertility, testing,
               nutrition, and timing before pregnancy begins.
             </p>
-            <ul className="preconception-check-list">
-              {heroBullets.map((item) => (
-                <li key={item}><CheckCircle size={18} /> {item}</li>
-              ))}
-            </ul>
-            <div className="preconception-hero-meta" aria-label="Workshop highlights">
-              <span><Video size={17} /> Online live class</span>
-              <span><CalendarCheck size={17} /> 1.5 hours + QnA</span>
-              <span><ShieldCheck size={17} /> Seat at ₹599</span>
-            </div>
           </div>
 
           <div className="preconception-hero-media">
             <img
-              alt="Preconception counselling workshop with Dr. Rajeev Agarwal"
+              alt="Preconception counselling with Dr. Rajeev Agarwal"
               src={`${ASSET_PATH}hero-video-cover.jpg`}
             />
             <div className="preconception-floating-note">
@@ -210,13 +215,25 @@ export default function Preconception() {
             </div>
           </div>
 
-          <aside className="preconception-form-panel" id="workshop-registration" aria-label="Workshop registration form">
-            <div className="pcw-form-card">
-              <div className="pcw-form-card-head">
-                <span>Workshop Registration</span>
-                <strong>₹599</strong>
+          <aside className="preconception-plan-panel" id="preconception-planning" aria-label="Preconception planning checklist">
+            <div className="preconception-plan-card">
+              <div className="preconception-plan-intro">
+                <span className="ra-label"><ShieldCheck size={16} /> Planning Checklist</span>
+                <h2>Start With The Right Pre-Pregnancy Questions</h2>
+                <p>
+                  Use this page as a starting point for a more structured preconception conversation,
+                  so your consultation can focus on what matters for your health and timeline.
+                </p>
               </div>
-              <WorkshopRegistrationForm />
+              <div className="preconception-plan-grid">
+                {planningHighlights.map(({ title, text, icon: Icon }) => (
+                  <article className="preconception-plan-item" key={title}>
+                    <span><Icon size={20} /></span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </article>
+                ))}
+              </div>
             </div>
           </aside>
         </div>
@@ -246,7 +263,7 @@ export default function Preconception() {
             <span className="ra-label"><Baby size={16} /> Real Stories</span>
             <h2>Couples Leave With More <em>Confidence</em></h2>
             <p>
-              The workshop is designed to reduce guesswork before pregnancy planning. These
+              The counselling approach is designed to reduce guesswork before pregnancy planning. These
               stories and photographs reflect the kind of clarity and reassurance couples look for.
             </p>
             <div className="preconception-story-grid">
@@ -290,11 +307,11 @@ export default function Preconception() {
           <div className="preconception-agenda-card">
             <div className="preconception-agenda-head">
               <div>
-                <span className="ra-label"><BookOpen size={16} /> Class Outline</span>
-                <h2>What The Workshop <em>Covers</em></h2>
-                <p>Six practical modules, designed to help you make calmer decisions before pregnancy.</p>
+                <span className="ra-label"><BookOpen size={16} /> Care Outline</span>
+                <h2>What The Counselling <em>Covers</em></h2>
+                <p>Six practical areas, designed to help you make calmer decisions before pregnancy.</p>
               </div>
-              <a className="ra-btn ra-btn-soft" href="#workshop-registration">Reserve Seat</a>
+              <a className="ra-btn ra-btn-soft" href="/book-an-appointment">Discuss Care Plan</a>
             </div>
             <div className="preconception-agenda-grid">
               {agenda.map(({ title, text, icon: Icon, points }, index) => (
@@ -353,14 +370,14 @@ export default function Preconception() {
       <section className="preconception-final-cta">
         <div className="ra-container preconception-final-panel">
           <div>
-            <span className="ra-label"><Sparkles size={16} /> Registration</span>
-            <h2>Register First. Pay Securely Through Razorpay.</h2>
+            <span className="ra-label"><Sparkles size={16} /> Preconception Visit</span>
+            <h2>Plan Your Preconception Consultation With Clear Questions.</h2>
             <p>
-              Submit your name, phone number, and email. Your details are sent to the workshop
-              webhook, then the Razorpay payment window opens to confirm your seat.
+              Bring your cycle details, medical history, and current questions. The goal is to
+              understand what to check now, what can wait, and how to prepare before pregnancy.
             </p>
           </div>
-          <a className="ra-btn ra-btn-primary" href="#workshop-registration">Join The Workshop @ ₹599</a>
+          <a className="ra-btn ra-btn-primary" href="/book-an-appointment">Book Appointment</a>
         </div>
       </section>
     </div>
