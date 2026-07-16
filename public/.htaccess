@@ -1,4 +1,5 @@
 Options -Indexes
+DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -9,12 +10,46 @@ Options -Indexes
   RewriteRule ^api/lead-webhook/?$ api/lead-webhook.php [L,QSA]
   RewriteRule ^api/workshop-webhook/?$ api/workshop-webhook.php [L,QSA]
 
+  # ── Priority 4: Legacy WordPress URL cleanup ──────────────────────
+  # RSS / comment / trackback feeds → 301 to homepage
+  RewriteRule ^feed/?$          / [R=301,L]
+  RewriteRule ^comments/feed/?$ / [R=301,L]
+  RewriteRule ^.+/feed/?$       / [R=301,L]
+
+  # Redirect preconception-care to preconception
+  RewriteRule ^preconception-care/?$ /preconception [R=301,L]
+
+  # Author archives → 301 to About page
+  RewriteRule ^author/.+$       /about-me [R=301,L]
+
+  # WordPress pagination artifacts → 301 to parent
+  RewriteRule ^(.+)/page/\d+/?$ /$1 [R=301,L]
+  RewriteRule ^page/\d+/?$      / [R=301,L]
+
+  # Attachment pages and image pages → 410 Gone
+  RewriteCond %{QUERY_STRING} ^attachment_id= [OR]
+  RewriteCond %{QUERY_STRING} ^p=
+  RewriteRule ^.*$ - [G,L]
+
+  # wp-json API endpoints → 410 Gone
+  RewriteRule ^wp-json(/|$) - [G,L]
+
+  # wp-admin, wp-login, wp-includes → 410 Gone
+  RewriteRule ^wp-(admin|login|includes|content)(/|$) - [G,L]
+
+  # xmlrpc.php → 403 Forbidden
+  RewriteRule ^xmlrpc\.php$ - [F,L]
+
+  # ── End Legacy WordPress cleanup ──────────────────────────────────
+
+  # Serve actual files and directories (including per-route index.html)
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
   RewriteRule ^api/ - [R=404,L]
 
+  # SPA fallback: root index.html for unknown routes
   RewriteRule ^ index.html [L]
 </IfModule>
 

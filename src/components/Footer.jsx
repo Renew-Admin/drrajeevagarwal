@@ -10,7 +10,7 @@ const concernServices = [
 ];
 
 const procedureServices = [
-  ['Preconception Care', '/preconception-care'],
+  ['Preconception Care', '/preconception'],
   ['Fertility Treatments', '/advanced-fertility-treatments'],
   ['Vaginismus Therapy', '/vaginismus-therapy'],
   ['Urinary Laser Therapy', '/urinary-laser-therapy'],

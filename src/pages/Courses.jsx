@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 import {
   Apple,
   ArrowRight,
@@ -184,6 +186,7 @@ function CourseEnrolForm({ courseTitle, onSuccess }) {
 }
 
 export default function Courses({ onBookClick }) {
+  useSeo(getMetaForPath('/courses'));
   const navigate = useNavigate();
   const [selectedCourse, setSelectedCourse] = useState(null);
 

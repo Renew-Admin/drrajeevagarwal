@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { CalendarDays, ArrowLeft, AlertCircle, Clock, ArrowRight, Tags, PhoneCall } from 'lucide-react';
 import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath, getBlogPostMeta } from '../utils/seoMeta';
 import { buildBlogPresentation, cleanBlogHtml } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
@@ -58,6 +60,11 @@ export default function BlogPost() {
   const blog = blogItems.find((item) => item.slug === cleanSlug);
   const latestArticles = blogItems.filter((item) => item.slug !== cleanSlug).slice(0, 5);
   const popularTags = Array.from(new Set((blogItems.flatMap((item) => item.tags)))).slice(0, 10);
+  const blogSeo = blog
+    ? getBlogPostMeta(blog.slug, blog.title, blog.excerpt)
+    : getMetaForPath('/blog');
+  useSeo(blogSeo);
+
   const articleHtml = blog
     ? cleanBlogHtml(blog.content, { removeFirstImage: true, removeFirstParagraph: !blog._remote })
     : '';

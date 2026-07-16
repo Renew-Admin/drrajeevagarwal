@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { pagesData } from '../data/pages_data';
 import { AlertCircle } from 'lucide-react';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 
 export default function PolicyPage() {
   const location = useLocation();
+  const policyMeta = getMetaForPath(location.pathname);
+  useSeo(policyMeta);
   const [page, setPage] = useState(null);
 
   useEffect(() => {

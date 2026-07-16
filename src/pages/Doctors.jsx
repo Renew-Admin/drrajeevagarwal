@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Award, GraduationCap, ArrowRight } from 'lucide-react';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 
 const doctorsList = [
   { name: 'Dr. Emily Walker', slug: 'dr-emily-walker', role: 'Senior Consultant Reproductive Medicine', degree: 'MBBS, MD, FRCOG (London)', exp: '15+ Years Experience' },
@@ -10,6 +12,7 @@ const doctorsList = [
 ];
 
 export default function Doctors() {
+  useSeo(getMetaForPath('/doctors'));
   return (
     <div className="inner-page">
       <section className="inner-hero">

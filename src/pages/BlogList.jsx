@@ -3,6 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import { Search, CalendarDays, ArrowRight, FolderOpen, Tag, RotateCcw } from 'lucide-react';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 import { buildBlogPresentation } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
@@ -25,6 +27,7 @@ function readFallbackBlogs() {
 }
 
 export default function BlogList() {
+  useSeo(getMetaForPath('/blog'));
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All Articles');

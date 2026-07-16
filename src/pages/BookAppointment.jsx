@@ -1,8 +1,11 @@
 import React from 'react';
 import AppointmentForm from '../components/AppointmentForm';
 import { Phone, Mail, MapPin, ShieldCheck, Heart } from 'lucide-react';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 
 export default function BookAppointment() {
+  useSeo(getMetaForPath('/book-an-appointment'));
   return (
     <div className="inner-page booking-page-wrap" style={{ background: 'var(--soft-blue)', paddingBottom: 80 }}>
       <div className="ra-container booking-grid" style={{ paddingTop: 30 }}>

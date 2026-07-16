@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Play, Baby, HeartPulse, Award, Users, Quote } from 'lucide-react';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 import ssHero from '../assets/ss-hero.webp';
 import ssPinakpani from '../assets/ss-pinakpani.webp';
 import ssZaheda from '../assets/ss-zaheda.webp';
@@ -82,6 +84,7 @@ const videos = [
 ];
 
 export default function SuccessStories({ onBookClick }) {
+  useSeo(getMetaForPath('/success-stories'));
   const [playing, setPlaying] = useState(null);
   const [videoIdx, setVideoIdx] = useState(0);
   const maxV = videos.length - 1;

@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
+const { getMetaForPath } = require('../src/utils/seoMeta.cjs');
+
 
 const PORT = Number(process.env.PORT || 10000);
 const BUILD_DIR = path.resolve(__dirname, '..', 'build');
@@ -68,6 +70,7 @@ const MIME_TYPES = {
   '.webp': 'image/webp',
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
+  '.xml': 'application/xml; charset=utf-8',
 };
 
 function sendJson(response, statusCode, body) {
@@ -182,6 +185,60 @@ function sendStaticFile(response, filePath) {
     .pipe(response);
 }
 
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function injectSeoTags(html, pathname) {
+  const meta = getMetaForPath(pathname);
+  const safeTitle = escapeHtml(meta.title);
+  const safeDesc = escapeHtml(meta.description);
+  const safeUrl = escapeHtml(meta.canonicalUrl);
+
+  // Replace <title>
+  let result = html.replace(
+    /<title>[^<]*<\/title>/,
+    `<title>${safeTitle}</title>`
+  );
+
+  // Inject meta tags right after closing </title>
+  const seoTags = [
+    `<meta name="description" content="${safeDesc}">`,
+    `<link rel="canonical" href="${safeUrl}">`,
+    `<meta property="og:title" content="${safeTitle}">`,
+    `<meta property="og:description" content="${safeDesc}">`,
+    `<meta property="og:url" content="${safeUrl}">`,
+    `<meta property="og:type" content="website">`,
+    `<meta property="og:site_name" content="Dr. Rajeev Agarwal">`
+  ].join('\n    ');
+
+  result = result.replace(
+    /(<\/title>)/,
+    `$1\n    ${seoTags}`
+  );
+
+  return result;
+}
+
+function sendSpaPage(response, pathname) {
+  fs.readFile(INDEX_FILE, 'utf8', (err, html) => {
+    if (err) {
+      sendJson(response, 500, { error: 'Could not read index.html' });
+      return;
+    }
+    const modifiedHtml = injectSeoTags(html, pathname);
+    response.writeHead(200, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-cache',
+    });
+    response.end(modifiedHtml);
+  });
+}
+
 function handleStaticRequest(request, response) {
   const requestUrl = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
 
@@ -203,6 +260,15 @@ function handleStaticRequest(request, response) {
     return;
   }
 
+  const cleanPath = pathname.replace(/\/+$/, '');
+  if (cleanPath === '/preconception-care') {
+    response.writeHead(301, {
+      'Location': 'https://drrajeevagarwal.co.in/preconception',
+    });
+    response.end();
+    return;
+  }
+
   const filePath = path.resolve(PUBLIC_DIR, `.${pathname}`);
   const isInsidePublicDir = filePath === PUBLIC_DIR || filePath.startsWith(`${PUBLIC_DIR}${path.sep}`);
 
@@ -211,7 +277,7 @@ function handleStaticRequest(request, response) {
     return;
   }
 
-  sendStaticFile(response, INDEX_FILE);
+  sendSpaPage(response, pathname);
 }
 
 const server = http.createServer((request, response) => {

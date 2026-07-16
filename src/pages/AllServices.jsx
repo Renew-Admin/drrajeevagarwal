@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Calendar, Stethoscope, Heart, Activity, ArrowRight, Users, Search } from 'lucide-react';
+import { Calendar, Stethoscope, Heart, Activity, ArrowRight, Users, Search, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 
 const servicesByConcern = [
   { title: "Fertility Support", description: "Personalised fertility guidance for couples planning pregnancy or facing delays in conception.", link: "/fertility-support-services", icon: Heart },
@@ -44,6 +46,7 @@ const faqs = [
 ];
 
 export default function AllServices({ onBookClick }) {
+  useSeo(getMetaForPath('/all-services'));
   const [activeTab, setActiveTab] = useState('All Services');
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -273,7 +276,7 @@ export default function AllServices({ onBookClick }) {
                   <button className="ra-faq-q" onClick={() => setOpenFaq(open ? null : i)}>
                     <span>{faq.question}</span>
                     <span className={`ra-faq-icon ${open ? 'ra-faq-icon--open' : ''}`}>
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                      <ChevronDown size={18} />
                     </span>
                   </button>
                   <div className={`ra-faq-a-wrap ${open ? 'ra-faq-a-wrap--open' : ''}`}>

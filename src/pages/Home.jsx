@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath } from '../utils/seoMeta';
 import {
   Baby,
   BookOpen,
@@ -19,6 +21,7 @@ import {
   X,
 } from 'lucide-react';
 import { blogsData } from '../data/blogs_data';
+import { buildBlogPresentation } from '../utils/blogPresentation';
 import Footer from '../components/Footer';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import heroImg from '../assets/image.webp';
@@ -694,13 +697,16 @@ function ServiceCarousel({ services, categoryLabel }) {
 }
 
 export default function Home({ onBookClick }) {
+  useSeo(getMetaForPath('/'));
   const [activeTab, setActiveTab] = useState('concern');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [introVideoOpen, setIntroVideoOpen] = useState(false);
   const [instaModal, setInstaModal] = useState(null);
   const [openFaq, setOpenFaq] = useState(0);
-  const latestBlogs = useMemo(() => blogsData.slice(0, 3), []);
+  const latestBlogs = useMemo(() => {
+    return blogsData.slice(0, 3).map((blog, idx) => buildBlogPresentation(blog, idx));
+  }, []);
   const services = activeTab === 'concern' ? concernServices : procedureServices;
   const book = () => {
     setMobileOpen(false);
@@ -1106,15 +1112,16 @@ export default function Home({ onBookClick }) {
               <h2>Latest fertility and wellness <em>articles</em></h2>
             </div>
             <div className="ra-blog-grid">
-              {latestBlogs.map((post, index) => (
+              {latestBlogs.map((post) => (
                 <article className="ra-blog-card" key={post.slug}>
                   <div className="ra-blog-img-wrap">
-                    <img src={blogImages[index]} alt="" loading="lazy" />
+                    <img src={post.image} alt={post.title} loading="lazy" />
                   </div>
                   <div className="ra-blog-body">
-                    <span className="ra-blog-badge">Fertility Care</span>
+                    <span className="ra-blog-badge">{post.category}</span>
                     <h3>{post.title}</h3>
-                    <time dateTime={post.date}>{post.date}</time>
+                    <p>{post.excerpt}</p>
+                    <time dateTime={post.date}>{post.displayDate}</time>
                     <Link to={`/blog/${post.slug}`} className="ra-blog-link">Read Article</Link>
                   </div>
                 </article>

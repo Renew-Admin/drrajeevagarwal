@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { pagesData } from '../data/pages_data';
-import { ArrowLeft, ArrowRight, Calendar, CheckCircle, ShieldCheck, Sparkles, Star, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, CheckCircle, ShieldCheck, Sparkles, Star, Users, ChevronDown } from 'lucide-react';
+import useSeo from '../utils/useSeo';
+import { getMetaForPath, getServicePageMeta } from '../utils/seoMeta';
 import WhyMeSection from '../components/WhyMeSection';
 import NotFound from './NotFound';
+
+import { blogsData as initialBlogs } from '../data/blogs_data';
+import { liveBlogUpdates } from '../data/live_blog_updates';
+import { buildBlogPresentation, getBlogImage, getBlogCategory } from '../utils/blogPresentation';
+import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
 function extractFirstImg(html) {
   const m = html.match(/<img[^>]+src=["']([^"']+)["']/);
@@ -110,11 +117,201 @@ const serviceFaqs = [
   { q: 'Do you offer online consultations?', a: 'Yes, virtual consultations are available for patients who cannot visit the clinic in person. You can discuss your concerns, review reports, and receive expert guidance via a secure video call.' },
 ];
 
+const SERVICE_BLOG_CATEGORIES = {
+  'pcos-care': ['PCOS'],
+  'vaginismus-therapy': ["Women's Health", "Women's Wellness"],
+  'urinary-laser-therapy': ["Women's Health", "Women's Wellness"],
+  'urinary-incontinence': ["Women's Health", "Women's Wellness"],
+  'sexual-pain-relief': ["Women's Health", "Women's Wellness"],
+  'menopause-wellness': ["Women's Health", "Women's Wellness"],
+  'preconception': ['Preconception Care', 'Safe Pregnancy'],
+  'preconception-workshop': ['Preconception Care', 'Safe Pregnancy'],
+  'period-pain-relief': ['Preconception Care', 'Safe Pregnancy', 'Women\'s Health'],
+  'infertility-help': ['Fertility', 'Endometriosis', 'Male Fertility'],
+  'fertility-support-services': ['Fertility', 'Endometriosis', 'Male Fertility'],
+  'advanced-fertility-treatments': ['Fertility', 'Endometriosis', 'Male Fertility'],
+  'laparoscopic-surgery': ['Fertility', 'Endometriosis', 'Laparoscopy'],
+  'hysteroscopic-procedure': ['Fertility', 'Endometriosis', 'Laparoscopy'],
+  'fibroids-solutions': ['Fertility', 'Endometriosis'],
+};
+
+function getAllowedCategories(slug) {
+  return SERVICE_BLOG_CATEGORIES[slug] || ['Preconception Care', 'Fertility', 'Safe Pregnancy', 'Women\'s Health', 'PCOS', 'Male Fertility', 'Endometriosis', 'Women\'s Wellness'];
+}
+
+const RELATED_BLOG_KEYWORDS = {
+  'pcos-care': ['pcos', 'polycystic', 'ovarian', 'insulin', 'weight', 'cyst'],
+  'vaginismus-therapy': ['vaginismus', 'painful', 'penetration', 'tightness', 'intercourse', 'sex'],
+  'urinary-laser-therapy': ['urinary', 'laser', 'incontinence', 'bladder'],
+  'laparoscopic-surgery': ['laparoscopy', 'laparoscopic', 'minimally invasive', 'surgery', 'cyst'],
+  'hysteroscopic-procedure': ['hysteroscopy', 'hysteroscopic', 'uterus', 'polyp', 'uterine'],
+  'fertility-support-services': ['fertility', 'conceive', 'pregnancy', 'pregnancy-tests', 'egg', 'sperm', 'amh', 'iui', 'ivf'],
+  'advanced-fertility-treatments': ['ivf', 'iui', 'icsi', 'embryo', 'egg freezing', 'fertility'],
+  'period-pain-relief': ['period pain', 'menstruation', 'endometriosis', 'cramps', 'painful periods'],
+  'menopause-wellness': ['menopause', 'hot flashes', 'aging', 'hormone replacement', 'estrogen'],
+  'infertility-help': ['infertility', 'fertility', 'conceive', 'iui', 'ivf', 'sperm', 'egg'],
+  'fibroids-solutions': ['fibroid', 'fibroids', 'myomectomy', 'uterus', 'bleeding'],
+  'urinary-incontinence': ['urinary', 'incontinence', 'bladder', 'leakage', 'laser'],
+  'sexual-pain-relief': ['painful intercourse', 'dyspareunia', 'vaginismus', 'pain during sex'],
+};
+
+function RelatedBlogs({ serviceSlug, serviceTitle }) {
+  const [blogs, setBlogs] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadBlogs() {
+      try {
+        let fallback = [];
+        try {
+          const saved = localStorage.getItem('blogsList');
+          fallback = saved ? JSON.parse(saved) : initialBlogs;
+        } catch {
+          fallback = initialBlogs;
+        }
+
+        const remoteBlogs = await listPublishedBlogs();
+
+        if (active) {
+          const seen = new Set();
+          const combined = [...remoteBlogs, ...liveBlogUpdates, ...fallback].filter(b => {
+            if (seen.has(b.slug)) return false;
+            seen.add(b.slug);
+            return true;
+          });
+
+          const presented = combined.map((item, index) => buildBlogPresentation(item, index));
+          setBlogs(presented);
+          setLoaded(true);
+        }
+      } catch (err) {
+        console.error('Error loading related blogs:', err);
+      }
+    }
+
+    loadBlogs();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const related = useMemo(() => {
+    if (!loaded || blogs.length === 0) return [];
+
+    // Sort all blogs by date descending
+    const sorted = [...blogs].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Get allowed categories for this service page
+    const allowedCats = getAllowedCategories(serviceSlug);
+
+    // Filter blogs to only include those in the allowed categories
+    const categoryBlogs = sorted.filter(blog => {
+      const cat = getBlogCategory(blog);
+      return allowedCats.includes(cat);
+    });
+
+    const keywords = RELATED_BLOG_KEYWORDS[serviceSlug] || [];
+    const titleWords = serviceTitle
+      .toLowerCase()
+      .replace(/[^\w\s]/g, '')
+      .split(/\s+/)
+      .filter(w => w.length > 3);
+
+    const allKeywords = Array.from(new Set([...keywords, ...titleWords]));
+
+    // Find matching blogs within the allowed categories
+    const matched = [];
+    categoryBlogs.forEach(blog => {
+      let isMatch = false;
+      const title = (blog.title || '').toLowerCase();
+      const excerpt = (blog.excerpt || '').toLowerCase();
+      const tags = Array.isArray(blog.tags) ? blog.tags.map(t => t.toLowerCase()) : [];
+
+      for (const kw of allKeywords) {
+        const kwLower = kw.toLowerCase();
+        if (tags.some(tag => tag.includes(kwLower)) || title.includes(kwLower) || excerpt.includes(kwLower)) {
+          isMatch = true;
+          break;
+        }
+      }
+
+      if (isMatch) {
+        matched.push(blog);
+      }
+    });
+
+    // Take top 3 matched blogs
+    const result = matched.slice(0, 3);
+
+    // If less than 3 matched, fill the remaining slots with the most recent blogs FROM THE SAME CATEGORY GROUP
+    if (result.length < 3) {
+      const usedSlugs = new Set(result.map(b => b.slug));
+      for (const blog of categoryBlogs) {
+        if (!usedSlugs.has(blog.slug)) {
+          result.push(blog);
+          usedSlugs.add(blog.slug);
+        }
+        if (result.length === 3) break;
+      }
+    }
+
+    // In the extremely rare case we still have less than 3, fill from the general list
+    if (result.length < 3) {
+      const usedSlugs = new Set(result.map(b => b.slug));
+      for (const blog of sorted) {
+        if (!usedSlugs.has(blog.slug)) {
+          result.push(blog);
+          usedSlugs.add(blog.slug);
+        }
+        if (result.length === 3) break;
+      }
+    }
+
+    return result;
+  }, [blogs, loaded, serviceSlug, serviceTitle]);
+
+  if (!loaded || related.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="ra-blog-section" style={{ background: '#fcfdff', borderTop: '1px solid #eef2f7', padding: '70px 0' }}>
+      <div className="ra-container">
+        <div className="ra-section-head">
+          <span className="ra-label">Related Articles</span>
+          <h2>Read Insights About <em>{serviceTitle}</em></h2>
+        </div>
+        <div className="ra-blog-grid">
+          {related.map((post, index) => (
+            <article className="ra-blog-card" key={post.slug}>
+              <div className="ra-blog-img-wrap">
+                <img src={post.image || getBlogImage(post, index)} alt={post.title} loading="lazy" />
+              </div>
+              <div className="ra-blog-body">
+                <span className="ra-blog-badge">{getBlogCategory(post)}</span>
+                <h3>{post.title}</h3>
+                <p>{post.excerpt}</p>
+                <time dateTime={post.date}>{post.displayDate || post.date}</time>
+                <Link to={`/blog/${post.slug}`} className="ra-blog-link">Read Article</Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function ServicePage({ onBookClick }) {
   const { slug } = useParams();
   const [openFaq, setOpenFaq] = useState(null);
   const cleanSlug = slug ? slug.trim().replace(/\/$/, '') : '';
   const page = pagesData[cleanSlug] || null;
+  const serviceSeo = page ? getServicePageMeta(cleanSlug, page.title) : getMetaForPath('/');
+  useSeo(serviceSeo);
 
   if (!page) {
     return <NotFound />;
@@ -264,7 +461,7 @@ export default function ServicePage({ onBookClick }) {
                   <button className="ra-faq-q" onClick={() => setOpenFaq(open ? null : i)}>
                     <span>{item.q}</span>
                     <span className={`ra-faq-icon ${open ? 'ra-faq-icon--open' : ''}`}>
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+                      <ChevronDown size={18} />
                     </span>
                   </button>
                   <div className={`ra-faq-a-wrap ${open ? 'ra-faq-a-wrap--open' : ''}`}>
@@ -276,6 +473,8 @@ export default function ServicePage({ onBookClick }) {
           </div>
         </div>
       </section>
+
+      <RelatedBlogs serviceSlug={cleanSlug} serviceTitle={page.title} />
 
     </div>
   );
