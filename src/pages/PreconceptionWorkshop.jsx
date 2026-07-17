@@ -19,7 +19,7 @@ import {
 import { submitWorkshopRegistration } from '../lib/supabaseBlogAdmin';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
-const VIDEO_URL = 'https://drrajeevagarwal.co.in/wp-content/uploads/2026/02/sir-video-new-com.mp4';
+const VIDEO_URL = '/assets/2026/02/sir-video-new-com.mp4';
 const RAZORPAY_PAYMENT_URL = 'https://rzp.io/rzp/PTsszpU';
 const WORKSHOP_START = new Date('2026-08-01T11:00:00+05:30').getTime();
 

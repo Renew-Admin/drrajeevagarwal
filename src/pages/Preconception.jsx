@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Baby,
@@ -10,6 +10,7 @@ import {
   Sparkles,
   Stethoscope,
   ChevronDown,
+  Play,
 } from 'lucide-react';
 
 import { blogsData as initialBlogs } from '../data/blogs_data';
@@ -18,6 +19,7 @@ import { buildBlogPresentation, getBlogImage, getBlogCategory } from '../utils/b
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
+const PRECONCEPTION_VIDEO_URL = '/assets/2026/02/sir-video-new-com.mp4';
 
 const planningHighlights = [
   {
@@ -373,6 +375,21 @@ function RelatedBlogs({ serviceSlug, serviceTitle }) {
 export default function Preconception() {
   usePreconceptionSeo();
   const [openFaq, setOpenFaq] = useState(null);
+  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
+  const heroVideoRef = useRef(null);
+
+  const handleHeroVideoPlay = () => {
+    setHeroVideoPlaying(true);
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    const playPromise = video.play();
+    if (playPromise?.catch) {
+      playPromise.catch(() => {
+        // Native controls remain visible if the browser blocks programmatic playback.
+      });
+    }
+  };
 
   useEffect(() => {
     document.body.classList.add('pcw-route');
@@ -400,10 +417,34 @@ export default function Preconception() {
           </div>
 
           <div className="preconception-hero-media">
-            <img
-              alt="Preconception counselling with Dr. Rajeev Agarwal"
-              src={`${ASSET_PATH}hero-video-cover.jpg`}
-            />
+            <div className="preconception-hero-video-wrap">
+              <video
+                className="preconception-hero-video"
+                controls={heroVideoPlaying}
+                playsInline
+                poster={`${ASSET_PATH}hero-video-cover.jpg`}
+                preload="metadata"
+                ref={heroVideoRef}
+              >
+                <source src={PRECONCEPTION_VIDEO_URL} type="video/mp4" />
+              </video>
+              {!heroVideoPlaying && (
+                <button
+                  aria-label="Play preconception counselling video"
+                  className="preconception-hero-video-trigger"
+                  onClick={handleHeroVideoPlay}
+                  type="button"
+                >
+                  <img
+                    alt="Preconception counselling with Dr. Rajeev Agarwal"
+                    src={`${ASSET_PATH}hero-video-cover.jpg`}
+                  />
+                  <span className="preconception-hero-play" aria-hidden="true">
+                    <Play size={30} fill="currentColor" />
+                  </span>
+                </button>
+              )}
+            </div>
             <div className="preconception-floating-note">
               <strong>Guided by Dr. Rajeev Agarwal</strong>
               <span>25+ years in fertility and reproductive medicine</span>
