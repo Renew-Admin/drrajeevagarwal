@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';
 import PopupFormWrapper from './components/PopupFormWrapper';
 import AppointmentForm from './components/AppointmentForm';
+import GlobalAnnouncementBar from './components/GlobalAnnouncementBar';
 
 // Pages
 import Home from './pages/Home';
@@ -116,6 +117,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      <GlobalAnnouncementBar />
 
       <SiteChrome onBookClick={openBookModal}>
         <Routes>
@@ -123,6 +125,7 @@ export default function App() {
           <Route path="/" element={<Home onBookClick={openBookModal} />} />
           <Route path="/about-me" element={<About onBookClick={openBookModal} />} />
           <Route path="/preconception" element={<Preconception />} />
+          <Route path="/preconception-care/*" element={<Navigate to="/preconception" replace />} />
           <Route path="/preconception-workshop" element={<PreconceptionWorkshop />} />
           
           {/* Admin Dashboard */}

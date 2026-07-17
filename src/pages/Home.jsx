@@ -72,7 +72,7 @@ const concernServices = [
 const procedureServices = [
   {
     title: 'Preconception Care',
-    href: '/preconception-care',
+    href: '/preconception',
     image: img('/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata-515x400.webp'),
     text: 'Prepare the body and mind before pregnancy with the right clinical checks.',
   },

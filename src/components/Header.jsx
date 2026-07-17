@@ -83,7 +83,8 @@ export default function Header({ onBookClick }) {
         </Link>
         <div className="ra-mega" aria-label="Services menu">
           <div>
-            <span>By Concern</span>
+            <span>Explore Services</span>
+            <Link to="/all-services">All Services</Link>
             {dropdownConcerns.map((item) => (
               <Link key={item.title} to={item.href}>{item.title}</Link>
             ))}
@@ -129,7 +130,8 @@ export default function Header({ onBookClick }) {
               </button>
               <div className="ra-mobile-services-panel-body">
                 <div>
-                  <span>By Concern</span>
+                  <span>Explore Services</span>
+                  <Link to="/all-services" onClick={closeMobileMenu}>All Services</Link>
                   {dropdownConcerns.map((item) => (
                     <Link key={item.title} to={item.href} onClick={closeMobileMenu}>{item.title}</Link>
                   ))}

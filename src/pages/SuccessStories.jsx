@@ -83,8 +83,13 @@ const videos = [
   { id: '12LCASXxv30', title: 'IVF Success Short' },
 ];
 
+const successStoriesSeo = {
+  ...getMetaForPath('/success-stories'),
+  canonicalUrl: 'https://drrajeevagarwal.co.in/success-stories',
+};
+
 export default function SuccessStories({ onBookClick }) {
-  useSeo(getMetaForPath('/success-stories'));
+  useSeo(successStoriesSeo);
   const [playing, setPlaying] = useState(null);
   const [videoIdx, setVideoIdx] = useState(0);
   const maxV = videos.length - 1;

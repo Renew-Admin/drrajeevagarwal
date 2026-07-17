@@ -2,6 +2,7 @@ export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const BLOG_IMAGE_BUCKET = 'blog-images';
 export const BLOG_IMAGE_MAX_BYTES = 200 * 1024;
+export const ANNOUNCEMENT_ID = 'global';
 
 const SESSION_KEY = 'drrajeev_admin_session';
 const LEAD_WEBHOOK_ENDPOINT = '/api/lead-webhook';
@@ -490,6 +491,65 @@ export async function deleteLead(id, token) {
   });
 
   requireReturnedRow(rows, 'deleted lead');
+}
+
+function normalizeAnnouncement(row = {}) {
+  return {
+    id: row.id || ANNOUNCEMENT_ID,
+    message: row.message || '',
+    linkUrl: row.link_url || '',
+    enabled: Boolean(row.enabled),
+    updatedAt: row.updated_at || null,
+  };
+}
+
+function normalizeAnnouncementLink(value) {
+  const link = String(value || '').trim();
+  if (!link) return '';
+  if (link.startsWith('/') || link.startsWith('#')) return link;
+  if (/^https?:\/\//i.test(link)) return link;
+  throw new Error('Announcement link must start with /, #, http://, or https://.');
+}
+
+export async function getActiveAnnouncement() {
+  try {
+    const rows = await supabaseFetch(
+      `/rest/v1/site_announcements?select=*&id=eq.${encodeURIComponent(ANNOUNCEMENT_ID)}&enabled=eq.true&limit=1`
+    );
+    const announcement = rows?.[0] ? normalizeAnnouncement(rows[0]) : null;
+    return announcement?.message?.trim() ? announcement : null;
+  } catch (error) {
+    console.warn('[site announcement] public fetch failed:', error.message);
+    return null;
+  }
+}
+
+export async function getAdminAnnouncement(token) {
+  const rows = await supabaseFetch(
+    `/rest/v1/site_announcements?select=*&id=eq.${encodeURIComponent(ANNOUNCEMENT_ID)}&limit=1`,
+    { token }
+  );
+
+  return normalizeAnnouncement(rows?.[0]);
+}
+
+export async function saveAdminAnnouncement(input, token) {
+  const message = String(input.message || '').trim();
+  const linkUrl = normalizeAnnouncementLink(input.linkUrl);
+
+  const rows = await supabaseFetch('/rest/v1/site_announcements?on_conflict=id', {
+    method: 'POST',
+    token,
+    headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
+    body: {
+      id: ANNOUNCEMENT_ID,
+      message,
+      link_url: linkUrl || null,
+      enabled: Boolean(input.enabled && message),
+    },
+  });
+
+  return normalizeAnnouncement(requireReturnedRow(rows, 'saved announcement'));
 }
 
 export async function uploadBlogImage(blob, slug, token) {

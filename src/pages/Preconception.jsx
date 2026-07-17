@@ -398,13 +398,6 @@ export default function Preconception() {
 
   return (
     <div className="pcw-page preconception-page">
-      <section className="pcw-announcement" aria-label="Preconception counselling announcement">
-        <div className="ra-container">
-          <Sparkles size={17} />
-          <span>Preconception counselling guidance with Dr. Rajeev Agarwal for calmer pregnancy planning before you conceive</span>
-        </div>
-      </section>
-
       <section className="preconception-hero">
         <div className="ra-container preconception-hero-grid">
           <div className="preconception-hero-copy">
@@ -414,6 +407,12 @@ export default function Preconception() {
               A focused counselling pathway for couples who want to understand fertility, testing,
               nutrition, and timing before pregnancy begins.
             </p>
+            <div className="preconception-hero-actions">
+              <Link className="ra-btn ra-btn-primary preconception-hero-cta" to="/preconception-workshop">
+                <CalendarCheck size={18} />
+                Join Preconception Workshop
+              </Link>
+            </div>
           </div>
 
           <div className="preconception-hero-media">

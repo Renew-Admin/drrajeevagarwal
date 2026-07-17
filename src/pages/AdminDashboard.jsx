@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, FileText, Image as ImageIcon, Inbox, LogOut, PlusCircle, Star, Trash2, UploadCloud } from 'lucide-react';
+import { CalendarDays, FileText, Image as ImageIcon, Inbox, LogOut, Megaphone, PlusCircle, Star, Trash2, UploadCloud } from 'lucide-react';
 import {
   BLOG_IMAGE_MAX_BYTES,
   clearAdminSession,
@@ -8,10 +8,12 @@ import {
   deleteBlogPost,
   deleteLead,
   estimateReadMins,
+  getAdminAnnouncement,
   getStoredAdminSession,
   getValidAdminSession,
   listAdminBlogs,
   listLeads,
+  saveAdminAnnouncement,
   signInAdmin,
   slugify,
   updateBlogPost,
@@ -31,6 +33,12 @@ const emptyBlog = {
   content: '',
   published: true,
   isFeatured: false,
+};
+
+const emptyAnnouncement = {
+  message: '',
+  linkUrl: '',
+  enabled: false,
 };
 
 function kb(bytes) {
@@ -59,6 +67,9 @@ export default function AdminDashboard() {
   const [imageState, setImageState] = useState({ blob: null, previewUrl: '', size: 0, message: '' });
   const [publishing, setPublishing] = useState(false);
   const [blogSuccess, setBlogSuccess] = useState('');
+  const [announcementForm, setAnnouncementForm] = useState(emptyAnnouncement);
+  const [announcementLoading, setAnnouncementLoading] = useState(false);
+  const [announcementSaving, setAnnouncementSaving] = useState(false);
   const [deletingLeadId, setDeletingLeadId] = useState('');
   const [deletingBlogId, setDeletingBlogId] = useState('');
 
@@ -92,7 +103,7 @@ export default function AdminDashboard() {
 
     try {
       const validSession = await requireAdminSession();
-      await Promise.all([loadBlogs(validSession), loadLeads(validSession)]);
+      await Promise.all([loadBlogs(validSession), loadLeads(validSession), loadAnnouncement(validSession)]);
     } catch (error) {
       setAdminError(error.message || 'Could not load admin data.');
     }
@@ -130,6 +141,26 @@ export default function AdminDashboard() {
     }
   }
 
+  async function loadAnnouncement(activeSession) {
+    setAnnouncementLoading(true);
+    setAdminError('');
+    setBlogSuccess('');
+
+    try {
+      const validSession = isAdminSession(activeSession) ? activeSession : await requireAdminSession();
+      const row = await getAdminAnnouncement(validSession.access_token);
+      setAnnouncementForm({
+        message: row.message || '',
+        linkUrl: row.linkUrl || '',
+        enabled: Boolean(row.enabled),
+      });
+    } catch (error) {
+      setAdminError(error.message || 'Could not load announcement settings.');
+    } finally {
+      setAnnouncementLoading(false);
+    }
+  }
+
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     setLoginLoading(true);
@@ -152,6 +183,7 @@ export default function AdminDashboard() {
     setSession(null);
     setBlogs([]);
     setLeads([]);
+    setAnnouncementForm(emptyAnnouncement);
     setActiveTab('leads');
     setBlogFilter('all');
   };
@@ -173,6 +205,41 @@ export default function AdminDashboard() {
 
       return updated;
     });
+  };
+
+  const handleAnnouncementChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setAnnouncementForm((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleAnnouncementSubmit = async (event) => {
+    event.preventDefault();
+    setAnnouncementSaving(true);
+    setAdminError('');
+    setBlogSuccess('');
+
+    try {
+      const validSession = await requireAdminSession();
+      if (announcementForm.enabled && !announcementForm.message.trim()) {
+        throw new Error('Add announcement text before turning the bar on.');
+      }
+
+      const row = await saveAdminAnnouncement(announcementForm, validSession.access_token);
+      setAnnouncementForm({
+        message: row.message || '',
+        linkUrl: row.linkUrl || '',
+        enabled: Boolean(row.enabled),
+      });
+      setBlogSuccess(row.enabled ? 'Announcement bar is live across the website.' : 'Announcement bar is hidden.');
+    } catch (error) {
+      setAdminError(error.message || 'Could not save announcement settings.');
+    } finally {
+      setAnnouncementSaving(false);
+    }
   };
 
   const handleImageChange = async (event) => {
@@ -398,6 +465,9 @@ export default function AdminDashboard() {
             <button type="button" onClick={() => setActiveTab('leads')} className={`admin-nav-btn ${activeTab === 'leads' ? 'active' : ''}`}>
               <Inbox size={18} /> <span>Leads ({leads.length})</span>
             </button>
+            <button type="button" onClick={() => setActiveTab('announcement')} className={`admin-nav-btn ${activeTab === 'announcement' ? 'active' : ''}`}>
+              <Megaphone size={18} /> <span>Announcement</span>
+            </button>
             <button type="button" onClick={() => setActiveTab('new-blog')} className={`admin-nav-btn ${activeTab === 'new-blog' ? 'active' : ''}`}>
               <PlusCircle size={18} /> <span>Publish Blog</span>
             </button>
@@ -413,6 +483,7 @@ export default function AdminDashboard() {
             <span><strong>{leads.length}</strong> leads</span>
             <span><strong>{publishedCount}</strong> live posts</span>
             <span><strong>{blogs.filter((blog) => blog.isFeatured).length}</strong> featured</span>
+            <span><strong>{announcementForm.enabled ? 'On' : 'Off'}</strong> announcement</span>
           </div>
 
           <button type="button" className="admin-logout-btn" onClick={handleLogout}>
@@ -478,6 +549,68 @@ export default function AdminDashboard() {
                   ))}
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === 'announcement' && (
+            <div>
+              <div className="admin-list-head">
+                <div>
+                  <h2 className="admin-section-title">Website Announcement Bar</h2>
+                  <p className="admin-section-copy">Update the looping announcement shown across all public pages.</p>
+                </div>
+                <button type="button" className="ra-btn ra-btn-soft" onClick={() => loadAnnouncement()} disabled={announcementLoading}>
+                  {announcementLoading ? 'Refreshing...' : 'Refresh'}
+                </button>
+              </div>
+
+              <form className="admin-blog-form admin-announcement-form" onSubmit={handleAnnouncementSubmit}>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="announcement-message">Announcement Text *</label>
+                  <textarea
+                    className="form-control"
+                    id="announcement-message"
+                    name="message"
+                    onChange={handleAnnouncementChange}
+                    placeholder="e.g. Preconception counselling workshop registrations are open for this month."
+                    rows="4"
+                    value={announcementForm.message}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="announcement-link">Click Link (optional)</label>
+                  <input
+                    className="form-control"
+                    id="announcement-link"
+                    name="linkUrl"
+                    onChange={handleAnnouncementChange}
+                    placeholder="/preconception-workshop or https://example.com"
+                    type="text"
+                    value={announcementForm.linkUrl}
+                  />
+                </div>
+
+                <div className="admin-announcement-toggle-row">
+                  <label className={`admin-status-toggle ${announcementForm.enabled ? 'is-on' : ''}`}>
+                    <input
+                      checked={announcementForm.enabled}
+                      name="enabled"
+                      onChange={handleAnnouncementChange}
+                      type="checkbox"
+                    />
+                    <span className="admin-status-toggle-switch" aria-hidden="true" />
+                    <span>
+                      <strong>{announcementForm.enabled ? 'Announcement live' : 'Announcement hidden'}</strong>
+                      <small>{announcementForm.enabled ? 'Visible across public pages' : 'Not shown on the website'}</small>
+                    </span>
+                  </label>
+                </div>
+
+                <button type="submit" className="ra-btn ra-btn-primary" disabled={announcementSaving}>
+                  {announcementSaving ? 'Saving...' : 'Save Announcement'}
+                </button>
+              </form>
             </div>
           )}
 
