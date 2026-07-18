@@ -333,10 +333,23 @@ select {
   position: relative;
 }
 
+.ra-nav-dropdown:hover::after,
+.ra-nav-dropdown:focus-within::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 4;
+  width: min(560px, calc(100vw - 32px));
+  height: 12px;
+  transform: translateX(-50%);
+}
+
 .ra-mega {
   position: absolute;
   top: calc(100% + 10px);
   left: 50%;
+  z-index: 5;
   display: grid;
   grid-template-columns: repeat(2, minmax(220px, 1fr));
   gap: 24px;
