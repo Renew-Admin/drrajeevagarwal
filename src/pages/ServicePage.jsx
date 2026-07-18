@@ -53,13 +53,26 @@ function removeDuplicateHeroImage(html, heroImg) {
 }
 
 function removeImportedWhyMeSection(html) {
-  const start = html.search(/WHY\s+ME\?/i);
-  return start === -1 ? html : html.slice(0, start).trim();
+  const markers = [/MY\s+USP/i, /WHY\s+ME\s*\?/i];
+  const start = markers
+    .map(marker => html.search(marker))
+    .filter(index => index !== -1)
+    .sort((a, b) => a - b)[0];
+
+  return start === undefined ? html : html.slice(0, start).trim();
+}
+
+function replaceImportedCounterStats(html) {
+  return html.replace(
+    /Patients served\s*0\s*k\+\s*Happy Patients\s*\+\s*0\s*%\s*Year Of Experience\s*0\s*\+\s*IVF Success rate\s*0\s*%/gi,
+    'Patients served 10k+ Happy Patients 99.5% Year Of Experience 25+ IVF Success rate 70%'
+  );
 }
 
 function cleanContent(html, heroImg) {
   let c = html;
   c = removeDuplicateHeroImage(c, heroImg);
+  c = replaceImportedCounterStats(c);
   c = removeImportedWhyMeSection(c);
   c = c.replace(/<svg[\s\S]*?<\/svg>/g, '');
   c = c.replace(/<a[^>]*role="button"[^>]*>[\s\S]*?<\/a>/g, '');
