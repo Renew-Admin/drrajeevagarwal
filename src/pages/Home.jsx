@@ -26,7 +26,7 @@ import Footer from '../components/Footer';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import heroImg from '../assets/image.webp';
 import aboutImg from '../assets/about_us.webp';
-import videoBarImg from '../assets/video_bar.webp';
+import videoBarImg from '../assets/about_us_video_thumb.webp';
 
 const img = (path) => path;
 

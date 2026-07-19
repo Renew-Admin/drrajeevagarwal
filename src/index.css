@@ -8919,6 +8919,11 @@ a.ra-quick-card:hover {
   padding-bottom: var(--ra-section-space) !important;
 }
 
+#root .ra-doctor-video-section {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 #root :where(.ra-hero) {
   min-height: auto !important;
   padding-top: clamp(44px, 5vw, 56px) !important;
