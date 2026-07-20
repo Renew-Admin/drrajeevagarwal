@@ -157,7 +157,10 @@ export default function Header({ onBookClick }) {
     <header className={`ra-header site-header-modern ${scrolled ? 'is-scrolled' : ''} ${!visible && !open ? 'is-hidden' : ''}`}>
       <div className="ra-header-inner">
         <Link className="ra-logo" to="/" aria-label="Dr. Rajeev Agarwal home">
-          <img src="/assets/2025/01/Rajeev-Sir-Logo-2.webp" alt="Dr. Rajeev Agarwal logo" />
+          <picture>
+            <source srcSet="/assets/2025/01/Rajeev-Sir-Logo-2.webp" type="image/webp" />
+            <img src="/assets/2025/01/Rajeev-Sir-Logo.png" alt="" />
+          </picture>
         </Link>
 
         <nav className="ra-nav" aria-label="Primary navigation">{nav}</nav>

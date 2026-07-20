@@ -30,12 +30,44 @@ export default function GlobalAnnouncementBar() {
     return null;
   }
 
+  const message = announcement.message.trim();
+  const barStyle = {
+    display: 'block',
+    overflow: 'hidden',
+    width: '100%',
+  };
+  const trackStyle = {
+    display: 'inline-flex',
+    flexWrap: 'nowrap',
+    minWidth: '100%',
+    width: 'max-content',
+    whiteSpace: 'nowrap',
+  };
+  const groupStyle = {
+    display: 'inline-flex',
+    flex: '0 0 auto',
+    minWidth: '100vw',
+  };
+  const itemStyle = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flex: '0 0 auto',
+    whiteSpace: 'nowrap',
+  };
+
   const content = (
-    <span className="site-announcement-track">
-      {Array.from({ length: 8 }, (_, item) => (
-        <span className="site-announcement-inner" key={item} aria-hidden={item > 0}>
-          <Megaphone size={17} />
-          <span>{announcement.message}</span>
+    <span className="site-announcement-track" style={trackStyle}>
+      {[0, 1].map((item) => (
+        <span
+          className={`site-announcement-set ${item > 0 ? 'site-announcement-set--clone' : ''}`}
+          key={item}
+          aria-hidden={item > 0}
+          style={groupStyle}
+        >
+          <span className="site-announcement-inner" style={itemStyle}>
+            <Megaphone size={17} />
+            <span>{message}</span>
+          </span>
         </span>
       ))}
     </span>
@@ -43,14 +75,14 @@ export default function GlobalAnnouncementBar() {
 
   if (announcement.linkUrl) {
     return (
-      <a className="site-announcement-bar" href={announcement.linkUrl}>
+      <a className="site-announcement-bar" href={announcement.linkUrl} style={barStyle}>
         {content}
       </a>
     );
   }
 
   return (
-    <div className="site-announcement-bar">
+    <div className="site-announcement-bar" style={barStyle}>
       {content}
     </div>
   );
