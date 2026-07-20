@@ -69,7 +69,7 @@ export default function AllServices({ onBookClick }) {
   return (
     <div className="inner-page" style={{ paddingTop: 0 }}>
       {/* 1. Hero — full-width image with overlay */}
-      <section className="about-hero-image-section">
+      <section className="about-hero-image-section services-hero-section">
         <div className="about-hero-image-wrap">
           <img src="/assets/all-services-hero.webp" alt="Dr. Rajeev Agarwal – Fertility Specialist" />
           <div className="about-hero-image-overlay" style={{ alignItems: 'center' }}>
@@ -79,7 +79,7 @@ export default function AllServices({ onBookClick }) {
                   <span className="services-hero-title-white">Fertility &amp; </span>
                   <span className="services-hero-title-gold">Gynecological Services</span>
                 </h1>
-                <p className="services-hero-sub">Advanced IVF, IUI, laparoscopic &amp; women's health — designed around your goals.</p>
+                <p className="services-hero-sub">Advanced IVF, IUI, laparoscopic and women's health care designed around your goals.</p>
                 <div className="services-hero-actions">
                   <button className="ra-btn ra-btn-primary" onClick={onBookClick}>Book Appointment</button>
                   <button className="ra-btn ra-btn-soft" onClick={() => scrollToSection('services-concern', 'By Concern')}>View Services</button>

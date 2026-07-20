@@ -11564,6 +11564,25 @@ a.ra-quick-card:hover {
 }
 
 @media (max-width: 768px) {
+  .services-hero-section {
+    height: 580px;
+    min-height: 580px;
+    max-height: 580px;
+  }
+
+  .services-hero-section .about-hero-image-overlay {
+    align-items: flex-end !important;
+    padding-bottom: 32px;
+  }
+
+  .services-hero-section .about-hero-image-content {
+    padding-bottom: 0;
+  }
+
+  .services-hero-section .about-hero-image-wrap img {
+    object-position: 34% 30%;
+  }
+
   .services-hero-inner h1 {
     font-size: 28px !important;
   }
