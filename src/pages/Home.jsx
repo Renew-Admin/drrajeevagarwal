@@ -934,22 +934,22 @@ export default function Home({ onBookClick }) {
                 and transparent clinical decisions.
               </p>
               <div className="ra-about-highlights">
-                <div className="ra-about-highlight">
+                <Link className="ra-about-highlight" to="/advanced-fertility-treatments">
                   <span className="ra-about-highlight-icon"><Baby size={18} /></span>
                   <div><strong>Fertility Treatments</strong><span>IVF, IUI and fertility-preserving surgeries</span></div>
-                </div>
-                <div className="ra-about-highlight">
+                </Link>
+                <Link className="ra-about-highlight" to="/laparoscopic-surgery">
                   <span className="ra-about-highlight-icon"><Stethoscope size={18} /></span>
                   <div><strong>Advanced Gynaecological Care</strong><span>Laparoscopic and hysteroscopic procedures</span></div>
-                </div>
-                <div className="ra-about-highlight">
+                </Link>
+                <Link className="ra-about-highlight" to="/fertility-support-services">
                   <span className="ra-about-highlight-icon"><ShieldCheck size={18} /></span>
                   <div><strong>Patient-Centred Approach</strong><span>Ethical, transparent and personalised care</span></div>
-                </div>
-                <div className="ra-about-highlight">
+                </Link>
+                <Link className="ra-about-highlight" to="/all-services">
                   <span className="ra-about-highlight-icon"><HeartPulse size={18} /></span>
                   <div><strong>Modern Clinical Standards</strong><span>Technology-led care with dedicated support</span></div>
-                </div>
+                </Link>
               </div>
               <Link className="ra-about-readmore" to="/about-me">Read More</Link>
             </div>

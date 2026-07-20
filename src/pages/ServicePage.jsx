@@ -389,10 +389,10 @@ export default function ServicePage({ onBookClick }) {
             <div className="service-highlights-grid">
               {bullets.map((b, i) => (
                 <div key={i} className="inner-card service-highlight-card">
-                  <span style={{ color: 'var(--gold)', flexShrink: 0, marginTop: 2 }}>
+                  <span className="service-highlight-icon">
                     <CheckCircle size={20} />
                   </span>
-                  <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: 'var(--text-mid)' }}>{b}</p>
+                  <p>{b}</p>
                 </div>
               ))}
             </div>

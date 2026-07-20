@@ -1098,6 +1098,8 @@ a.ra-quick-card:hover {
   border-radius: 18px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(247, 249, 255, 0.86));
   box-shadow: 0 10px 26px rgba(32, 38, 92, 0.055);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .ra-about-highlight::before {
@@ -1131,6 +1133,14 @@ a.ra-quick-card:hover {
   height: 19px;
   margin: 0;
   stroke-width: 2.1;
+}
+
+.ra-about-highlight:hover,
+.ra-about-highlight:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(241, 217, 104, 0.85);
+  background: #fff;
+  outline: 0;
 }
 
 .ra-about-highlight > div {
@@ -1177,14 +1187,14 @@ a.ra-quick-card:hover {
 }
 
 .ra-doctor-video-section {
-  padding: 0;
-  background: #0f1338;
+  padding: clamp(34px, 4vw, 52px) 0;
+  background: linear-gradient(180deg, rgba(247, 249, 255, 0.72), rgba(255, 255, 255, 0.96));
 }
 
 .ra-doctor-video-section .ra-container {
-  width: 100%;
-  max-width: none;
-  margin: 0;
+  width: min(1240px, calc(100% - 40px));
+  max-width: 1240px;
+  margin-inline: auto;
 }
 
 .ra-doctor-video-embed {
@@ -1192,7 +1202,10 @@ a.ra-quick-card:hover {
   overflow: hidden;
   width: 100%;
   aspect-ratio: 16 / 9;
+  border: 1px solid rgba(32, 38, 92, 0.12);
+  border-radius: 30px;
   background: #0f1338;
+  box-shadow: 0 18px 44px rgba(32, 38, 92, 0.12);
 }
 
 .ra-doctor-video-embed iframe,
@@ -4561,6 +4574,20 @@ a.ra-quick-card:hover {
   box-shadow: 0 14px 34px rgba(32, 38, 92, 0.06);
 }
 
+.service-highlight-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--gold);
+}
+
+.service-highlight-card p {
+  margin: 0;
+  color: var(--text-mid);
+  font-size: 15px;
+  font-weight: 720;
+  line-height: 1.68;
+}
+
 .service-content-section {
   background: #fff;
   padding: clamp(56px, 6vw, 78px) 0;
@@ -6284,8 +6311,19 @@ a.ra-quick-card:hover {
     grid-template-columns: 1fr;
   }
   .service-highlight-card {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     min-height: 78px;
     padding: 20px;
+    text-align: center;
+  }
+  .service-highlight-icon {
+    margin-top: 0;
+  }
+  .service-highlight-card p {
+    font-weight: 780;
+    line-height: 1.62;
   }
   .service-page-detail .wordpress-content ul,
   .service-page-detail .wordpress-content ol {
@@ -8920,8 +8958,8 @@ a.ra-quick-card:hover {
 }
 
 #root .ra-doctor-video-section {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  padding-top: clamp(34px, 4vw, 52px) !important;
+  padding-bottom: clamp(34px, 4vw, 52px) !important;
 }
 
 #root :where(.ra-hero) {
