@@ -11345,6 +11345,723 @@ a.ra-quick-card:hover {
 }
 
 /* ===========================
+   Preconception — Zero Trimester content merge
+   =========================== */
+.preconception-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 26px);
+  margin: clamp(24px, 3vw, 34px) 0 0;
+  padding-top: clamp(20px, 2.4vw, 26px);
+  border-top: 1px solid rgba(32, 38, 92, 0.12);
+}
+
+.preconception-hero-stat dt {
+  color: var(--navy);
+  font-size: clamp(26px, 3.1vw, 38px);
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.preconception-hero-stat dd {
+  margin: 6px 0 0;
+  color: #555b75;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.preconception-statband {
+  padding: clamp(26px, 3vw, 38px) 0;
+  background: var(--navy);
+}
+
+.preconception-statband-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.6vw, 34px);
+}
+
+.preconception-statband-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: clamp(14px, 1.8vw, 22px);
+  border-left: 3px solid var(--gold);
+}
+
+.preconception-statband-item strong {
+  color: var(--gold);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 850;
+  line-height: 1.05;
+}
+
+.preconception-statband-item span {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.preconception-prepare-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(14px, 1.8vw, 20px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.preconception-prepare-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: clamp(18px, 2vw, 24px);
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(32, 38, 92, 0.07);
+}
+
+.preconception-prepare-letter {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 20px;
+  font-weight: 850;
+}
+
+.preconception-prepare-item h3 {
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-size: 16.5px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.preconception-prepare-item p {
+  margin: 0;
+  color: #555b75;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.preconception-why-grid,
+.preconception-audience-grid,
+.preconception-lifestyle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.preconception-why-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 2.4vw, 30px);
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 16px 44px rgba(32, 38, 92, 0.08);
+}
+
+.preconception-why-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.preconception-why-top span {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(241, 217, 104, 0.28);
+  color: var(--navy);
+}
+
+.preconception-why-top strong {
+  color: rgba(32, 38, 92, 0.24);
+  font-size: 26px;
+  font-weight: 850;
+}
+
+.preconception-why-card h3 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 18px;
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.preconception-why-card > p {
+  margin: 0;
+  color: #555b75;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.preconception-why-stat {
+  margin: 16px 0 0 !important;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(32, 38, 92, 0.16);
+  font-size: 13.5px !important;
+  line-height: 1.6;
+}
+
+.preconception-why-stat strong {
+  color: var(--navy);
+  font-weight: 750;
+}
+
+.preconception-why-stat em {
+  color: #6e729b;
+  font-style: italic;
+}
+
+.preconception-domains-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: clamp(26px, 3.4vw, 52px);
+  align-items: start;
+}
+
+.preconception-domain-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preconception-domain-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 16px 18px;
+  border: 1px solid rgba(32, 38, 92, 0.09);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.preconception-domain-item > span {
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.preconception-domain-item h3 {
+  margin: 0 0 4px;
+  color: var(--navy);
+  font-size: 15.5px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.preconception-domain-item p {
+  margin: 0;
+  color: #555b75;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.preconception-domains-copy h2 {
+  margin: 12px 0 14px;
+  color: var(--navy);
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: 850;
+  line-height: 1.16;
+}
+
+.preconception-domains-copy > p {
+  margin: 0 0 20px;
+  color: #555b75;
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.preconception-domains-highlight {
+  margin: 0 0 22px;
+  padding: 20px 22px;
+  border-left: 4px solid var(--gold);
+  border-radius: 0 16px 16px 0;
+  background: rgba(241, 217, 104, 0.14);
+}
+
+.preconception-domains-highlight strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.preconception-domains-highlight p {
+  margin: 0;
+  color: #4a4f73;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.preconception-audience-card,
+.preconception-lifestyle-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(20px, 2.2vw, 28px);
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 14px 38px rgba(32, 38, 92, 0.07);
+}
+
+.preconception-audience-icon,
+.preconception-lifestyle-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: rgba(32, 38, 92, 0.07);
+  color: var(--navy);
+}
+
+.preconception-audience-card h3,
+.preconception-lifestyle-card h3 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.preconception-audience-card p,
+.preconception-lifestyle-card > p {
+  margin: 0;
+  color: #555b75;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.preconception-audience-tag {
+  align-self: flex-start;
+  margin-top: 16px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(241, 217, 104, 0.32);
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.preconception-lifestyle-section {
+  background: var(--navy);
+}
+
+.preconception-lifestyle-section .ra-section-head h2,
+.preconception-lifestyle-section .ra-section-head p {
+  color: #fff;
+}
+
+.preconception-lifestyle-section .ra-section-head p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.preconception-lifestyle-section .ra-section-head h2 em {
+  color: var(--gold);
+}
+
+.preconception-lifestyle-card {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+}
+
+.preconception-lifestyle-icon {
+  background: rgba(241, 217, 104, 0.2);
+  color: var(--gold);
+}
+
+.preconception-lifestyle-card h3 {
+  color: #fff;
+}
+
+.preconception-lifestyle-card > p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.preconception-lifestyle-fact {
+  margin: 16px 0 0 !important;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.2);
+  color: var(--gold) !important;
+  font-size: 13.5px !important;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.preconception-video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(18px, 2.2vw, 28px);
+}
+
+.preconception-video-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 16px 44px rgba(32, 38, 92, 0.08);
+}
+
+.preconception-video-thumb {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #f6f8ff;
+}
+
+.preconception-video-thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.preconception-video-thumb:hover img {
+  transform: scale(1.04);
+}
+
+.preconception-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
+}
+
+.preconception-video-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: clamp(18px, 2vw, 24px);
+}
+
+.preconception-video-topic {
+  margin-bottom: 10px;
+  color: #6e729b;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.preconception-video-body h3 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 780;
+  line-height: 1.42;
+}
+
+.preconception-video-body p {
+  margin: 0 0 18px;
+  color: #555b75;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.preconception-video-link {
+  margin-top: auto;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.preconception-video-upcoming {
+  margin-top: clamp(24px, 3vw, 36px);
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1px dashed rgba(32, 38, 92, 0.2);
+  border-radius: 20px;
+  background: rgba(246, 248, 255, 0.7);
+}
+
+.preconception-video-upcoming h3 {
+  margin: 0 0 16px;
+  color: var(--navy);
+  font-size: 16px;
+  font-weight: 780;
+}
+
+.preconception-video-upcoming ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preconception-video-upcoming li {
+  padding: 7px 14px;
+  border: 1px solid rgba(32, 38, 92, 0.12);
+  border-radius: 999px;
+  background: #fff;
+  color: #4a4f73;
+  font-size: 13px;
+}
+
+.preconception-journey-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preconception-journey-item {
+  padding: clamp(20px, 2.2vw, 28px);
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 14px 38px rgba(32, 38, 92, 0.07);
+}
+
+.preconception-journey-marker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 16px;
+  border-radius: 15px;
+  background: rgba(32, 38, 92, 0.07);
+  color: var(--navy);
+}
+
+.preconception-journey-marker strong {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 12.5px;
+  font-weight: 850;
+}
+
+.preconception-journey-item h3 {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.preconception-journey-item p {
+  margin: 0;
+  color: #555b75;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.preconception-stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.preconception-story-card {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: clamp(22px, 2.4vw, 30px);
+  border: 1px solid rgba(32, 38, 92, 0.1);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 16px 44px rgba(32, 38, 92, 0.08);
+}
+
+.preconception-story-rating {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 16px;
+  color: var(--gold);
+}
+
+.preconception-story-card blockquote {
+  flex: 1;
+  margin: 0 0 20px;
+  color: #4a4f73;
+  font-size: 14.5px;
+  font-style: italic;
+  line-height: 1.75;
+}
+
+.preconception-story-card figcaption {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid rgba(32, 38, 92, 0.1);
+}
+
+.preconception-story-avatar {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 17px;
+  font-weight: 850;
+}
+
+.preconception-story-card figcaption strong {
+  display: block;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 780;
+}
+
+.preconception-story-card figcaption em {
+  display: block;
+  margin-top: 3px;
+  color: #6e729b;
+  font-size: 12.5px;
+  font-style: normal;
+}
+
+.preconception-stories-cta {
+  display: inline-flex;
+  margin-top: clamp(24px, 3vw, 34px);
+}
+
+.preconception-consult-badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px 20px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Both blocks sit inside .preconception-final-cta, which uses a dark
+   gradient — colours follow the existing light-on-dark pattern above. */
+.preconception-consult-badges li {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.preconception-consult-badges svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.preconception-contact-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 30px;
+  margin-top: clamp(26px, 3vw, 36px);
+  padding-top: clamp(20px, 2.4vw, 26px);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.preconception-contact-strip a,
+.preconception-contact-strip span {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+}
+
+.preconception-contact-strip svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.preconception-contact-strip a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.preconception-contact-strip a:hover {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .preconception-domains-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .preconception-domains-copy {
+    order: -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .preconception-hero-stats,
+  .preconception-statband-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .preconception-hero-stat {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+  }
+
+  .preconception-hero-stat dd {
+    margin: 0;
+  }
+
+  .preconception-stories-cta,
+  .preconception-domains-copy .ra-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ===========================
    Mobile UI Fixes – July 2026
    =========================== */
 
