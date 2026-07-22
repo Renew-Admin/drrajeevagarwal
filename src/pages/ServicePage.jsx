@@ -11,6 +11,7 @@ import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import { buildBlogPresentation, getBlogImage, getBlogCategory } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
+import BlogImage from '../components/BlogImage';
 
 function extractFirstImg(html) {
   const m = html.match(/<img[^>]+src=["']([^"']+)["']/);
@@ -301,7 +302,7 @@ function RelatedBlogs({ serviceSlug, serviceTitle }) {
           {related.map((post, index) => (
             <article className="ra-blog-card" key={post.slug}>
               <div className="ra-blog-img-wrap">
-                <img src={post.image || getBlogImage(post, index)} alt={post.title} loading="lazy" />
+                <BlogImage src={post.image || getBlogImage(post, index)} alt={post.title} loading="lazy" fitMode="contain" />
               </div>
               <div className="ra-blog-body">
                 <span className="ra-blog-badge">{getBlogCategory(post)}</span>
@@ -361,7 +362,7 @@ export default function ServicePage({ onBookClick }) {
           <div className="service-hero-visual">
             <div className="service-hero-image-wrap">
               {heroImg ? (
-                <img src={heroImg} alt={page.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 24 }} />
+                <BlogImage src={heroImg} alt={page.title} fitMode="contain" />
               ) : (
                 <div style={{
                   background: 'linear-gradient(135deg, var(--deep-teal), var(--medical-teal))',
