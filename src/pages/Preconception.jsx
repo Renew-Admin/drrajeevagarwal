@@ -22,6 +22,7 @@ import {
   Moon,
   Phone,
   Pill,
+  Play,
   Route,
   Scale,
   Star,
@@ -701,6 +702,7 @@ function RelatedBlogs({ serviceSlug, serviceTitle }) {
 export default function Preconception() {
   usePreconceptionSeo();
   const [openFaq, setOpenFaq] = useState(null);
+  const [playingVideoId, setPlayingVideoId] = useState(null);
 
   useEffect(() => {
     document.body.classList.add('pcw-route');
@@ -983,14 +985,31 @@ export default function Preconception() {
             {videoLibrary.map(({ id, topic, title, text }) => (
               <article className="preconception-video-card" key={id}>
                 <div className="preconception-video-embed">
-                  <iframe
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    src={`https://www.youtube.com/embed/${id}`}
-                    title={title}
-                  />
+                  {playingVideoId === id ? (
+                    <iframe
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&controls=0&playsinline=1`}
+                      title={title}
+                    />
+                  ) : (
+                    <button
+                      className="preconception-video-cover"
+                      type="button"
+                      onClick={() => setPlayingVideoId(id)}
+                      aria-label={`Play ${title}`}
+                    >
+                      <img
+                        alt=""
+                        loading="lazy"
+                        src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
+                      />
+                      <span className="preconception-video-control" aria-hidden="true">
+                        <span><Play size={26} fill="currentColor" /></span>
+                      </span>
+                    </button>
+                  )}
                 </div>
                 <div className="preconception-video-body">
                   <span className="preconception-video-topic">{topic}</span>
