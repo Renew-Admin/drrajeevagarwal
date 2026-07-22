@@ -3,41 +3,49 @@ const imageOverrides = {
   'what-is-testosterone': '/assets/blog-live/what-is-testosterone.webp',
   'thalassaemia-sma-carrier-screening-before-pregnancy-india': '/assets/blog-live/thalassaemia-sma-carrier-screening-before-pregnancy.webp',
   'thyroid-tsh-before-pregnancy-preconception-india': '/assets/blog-live/thyroid-tsh-before-pregnancy-preconception-india.webp',
-  'tests-before-pregnancy-preconception-investigations-india': '/assets/2026/06/Best-Pregnancy-test-kit-in-India-1-515x400.webp',
-  'no-fetal-pole-5-6-7-weeks-meaning-causes': '/assets/2026/05/Fetal-Pole.webp',
-  'husband-preconception-health-male-fertility-india': '/assets/2026/05/Get-your-check-up-from-best-fertility-specialist-in-Kolkata-341x400.webp',
-  'hemorrhagic-ovarian-cyst-effects-reproductive-health': '/assets/2026/05/hemorrhagic-ovarian-cyst-effects-reproductive-health-515x400.webp',
-  'when-to-see-fertility-specialist-trying-to-conceive': '/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive-515x400.webp',
-  'pcos-diet-foods-to-eat-and-avoid': '/assets/2026/04/pcos-diet-foods-to-eat-and-avoid-515x400.webp',
-  'white-discharge-before-period-pregnancy-sign': '/assets/2026/03/white-discharge-before-period-pregnancy-sign-515x400.webp',
-  'how-age-impacts-fertility': '/assets/2026/03/how-age-impacts-firtility-515x400.jpg',
-  'ivf-success-factors': '/assets/2026/02/Starting-Your-IVF-Journey-1-515x400.jpg',
-  'ivf-journey-guide': '/assets/2026/02/Starting-Your-IVF-Journey-515x400.jpg',
-  'infertility-diagnosis-for-couples': '/assets/2026/02/infertility-diagnosis-for-couples-515x400.jpg',
-  'understanding-the-role-of-genetics-in-ivf-success': '/assets/2025/12/Genetics-IVF-Success-1-515x400.jpg',
-  'how-egg-freezing-empowers-women-planning-for-future-motherhood': '/assets/2025/12/Egg-Frizzing-515x400.jpg',
-  'sperm-donation-when-its-the-right-choice-and-what-to-expect': '/assets/2025/12/Sperm-Donation-515x400.jpg',
-  'top-signs-you-should-consult-a-fertility-doctor-in-kolkata': '/assets/2025/12/Consult-Fertility-Doctor-515x400.jpg',
-  'what-is-a-laparoscopy-a-simple-explanation-for-fertility-issues': '/assets/2025/12/Laproscopy-515x400.jpg',
-  'male-infertility-treatment-in-kolkata-causes-tests-solutions': '/assets/2025/12/Male-infertility1-515x400.jpg',
-  'tracking-your-cycle-fertile-days': '/assets/2025/12/Track-your-cycle-515x400.jpg',
-  'hormone-shots-for-iui-ivf-guide': '/assets/2025/12/Hormone-Shots-515x400.jpg',
-  'ivf-treatment-cost-in-kolkata-what-you-should-know': '/assets/2025/12/IVF-cost-515x400.jpg',
-  'ovulation-pain-normal-or-problem': '/assets/2025/12/Ovulation-Pain-Normal-515x400.jpg',
-  'vaginal-discharge-when-is-it-normal-and-when-should-you-see-a-doctor': '/assets/2025/12/Vaginal-Discharge-515x400.jpg',
-  'understanding-your-amh-level-what-does-egg-count-test-really-means': '/assets/2025/12/AMH-Level-515x400.jpg',
-  'low-sperm-count-simple-diet-lifestyle-changes': '/assets/2025/12/low-sperm-count-515x400.jpg',
+  'tests-before-pregnancy-preconception-investigations-india': '/assets/2026/06/Dr-Rajeev-Agarwal-blog-images-1-1.webp',
+  'no-fetal-pole-5-6-7-weeks-meaning-causes': '/assets/2026/05/Fetal-Pole-in-Pregnancy-1.webp',
+  'husband-preconception-health-male-fertility-india': '/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp',
+  'hemorrhagic-ovarian-cyst-effects-reproductive-health': '/assets/2026/05/Hemorrhagic-Ovarian.webp',
+  'when-to-see-fertility-specialist-trying-to-conceive': '/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp',
+  'pcos-diet-foods-to-eat-and-avoid': '/assets/2026/04/pcos-diet-foods-to-eat-and-avoid.webp',
+  'white-discharge-before-period-pregnancy-sign': '/assets/2026/03/white-discharge-before-period-pregnancy-sign.webp',
+  'how-age-impacts-fertility': '/assets/2026/03/how-age-impacts-firtility.jpg',
+  'ivf-success-factors': '/assets/2026/02/Starting-Your-IVF-Journey-1.jpg',
+  'ivf-journey-guide': '/assets/2026/02/Starting-Your-IVF-Journey.jpg',
+  'infertility-diagnosis-for-couples': '/assets/2026/02/infertility-diagnosis-for-couples.jpg',
+  'understanding-the-role-of-genetics-in-ivf-success': '/assets/2025/12/Genetics-IVF-Success-1.jpg',
+  'how-egg-freezing-empowers-women-planning-for-future-motherhood': '/assets/2025/12/Egg-Frizzing.jpg',
+  'sperm-donation-when-its-the-right-choice-and-what-to-expect': '/assets/2025/12/Sperm-Donation.jpg',
+  'top-signs-you-should-consult-a-fertility-doctor-in-kolkata': '/assets/2025/12/Consult-Fertility-Doctor.jpg',
+  'what-is-a-laparoscopy-a-simple-explanation-for-fertility-issues': '/assets/2025/12/Laproscopy.jpg',
+  'male-infertility-treatment-in-kolkata-causes-tests-solutions': '/assets/2025/12/Male-infertility1.jpg',
+  'tracking-your-cycle-fertile-days': '/assets/2025/12/Track-your-cycle.jpg',
+  'hormone-shots-for-iui-ivf-guide': '/assets/2025/12/Hormone-Shots.jpg',
+  'ivf-treatment-cost-in-kolkata-what-you-should-know': '/assets/2025/12/IVF-cost.jpg',
+  'ovulation-pain-normal-or-problem': '/assets/2025/12/Ovulation-Pain-Normal.jpg',
+  'vaginal-discharge-when-is-it-normal-and-when-should-you-see-a-doctor': '/assets/2025/12/Vaginal-Discharge.jpg',
+  'understanding-your-amh-level-what-does-egg-count-test-really-means': '/assets/2025/12/AMH-Level.jpg',
+  'low-sperm-count-simple-diet-lifestyle-changes': '/assets/2025/12/low-sperm-count.jpg',
   'fertility-diet-for-conception': '/assets/2026/01/Fertility-Boosting.avif',
   'blocked-fallopian-tubes-causes-treatment-options': '/assets/2025/03/Blocked-fallopian-tube-treatment-in-Kolkata.webp'
 };
 
 const fallbackImages = [
-  '/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1-515x400.webp',
-  '/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata-515x400.webp',
-  '/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive-515x400.webp',
-  '/assets/2025/12/Consult-Fertility-Doctor-515x400.jpg',
+  '/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp',
+  '/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp',
+  '/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp',
+  '/assets/2025/12/Consult-Fertility-Doctor.jpg',
   '/assets/2025/03/Fertility-Support-1-515x400.webp'
 ];
+
+const coverImageSlugs = new Set([
+  'husband-preconception-health-male-fertility-india',
+  'hemorrhagic-ovarian-cyst-effects-reproductive-health',
+  'unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment',
+  'adenomyosis-what-is-it-all-about',
+  'everything-you-need-to-know-about-endometriosis-and-fertility'
+]);
 
 const tagRules = [
   ['Preconception', /preconception|zero trimester|before pregnancy|trying|conceive|fertility readiness|thyroid/],
@@ -213,12 +221,14 @@ export function getReadingTime(blog) {
 export function buildBlogPresentation(blog, index = 0) {
   const cleanTitle = decodeHtml(blog?.title || '');
   const plainText = stripBlogHtml(blog?.content || '');
+  const slug = blog?.slug || '';
 
   return {
     ...blog,
     title: cleanTitle,
     displayDate: formatBlogDate(blog?.date || blog?.iso || blog?.published_at),
     image: getBlogImage(blog, index),
+    imageFit: coverImageSlugs.has(slug) ? 'cover' : undefined,
     excerpt: getBlogExcerpt(blog),
     category: getBlogCategory(blog),
     tags: getBlogTags(blog),

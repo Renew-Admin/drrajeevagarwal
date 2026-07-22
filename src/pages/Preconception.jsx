@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Baby,
@@ -10,7 +10,6 @@ import {
   Sparkles,
   Stethoscope,
   ChevronDown,
-  Play,
   Cigarette,
   ClipboardList,
   Clock,
@@ -38,30 +37,6 @@ import { buildBlogPresentation, getBlogImage, getBlogCategory } from '../utils/b
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
-const PRECONCEPTION_VIDEO_URL = '/assets/2026/02/sir-video-new-com.mp4';
-
-const planningHighlights = [
-  {
-    title: 'Health Snapshot',
-    text: 'Review cycles, medical history, thyroid, sugar, weight, and current medicines before trying.',
-    icon: Stethoscope,
-  },
-  {
-    title: 'Fertility Timing',
-    text: 'Understand ovulation windows, age-related timelines, and when a medical review is useful.',
-    icon: CalendarCheck,
-  },
-  {
-    title: 'Nutrition Basics',
-    text: 'Clarify folic acid, Vitamin D, iron, sleep, stress, and partner health habits.',
-    icon: HeartPulse,
-  },
-  {
-    title: 'Next-Step Notes',
-    text: 'Leave with a practical checklist to discuss during your preconception consultation.',
-    icon: CheckCircle,
-  },
-];
 
 const pillars = [
   {
@@ -142,10 +117,10 @@ const prepareSteps = [
   { letter: 'P', title: 'Planning & Preconception Goals', text: 'Age, timelines, ovarian reserve, supplements' },
   { letter: 'R', title: 'Review of Medical History', text: 'Medical, surgical, obstetric, genetic, both partners' },
   { letter: 'E', title: 'Evaluate with Tests', text: 'Fertility hormones, semen analysis, genetic screening' },
-  { letter: 'P', title: 'Prevent & Protect', text: 'Vaccination, rubella, varicella, hepatitis B' },
+  { letter: 'P', title: 'Prevent & Protect', text: 'Vaccination: rubella, varicella, hepatitis B' },
   { letter: 'A', title: 'Assess Chronic Conditions', text: 'PCOS, thyroid, diabetes, endometriosis' },
-  { letter: 'R', title: 'Reinforce Education & Support', text: 'Ovulation, fertility myths, emotional wellbeing' },
-  { letter: 'E', title: 'Enhance Lifestyle Optimisation', text: 'Diet, exercise, sleep, weight, stress, EDC exposure' },
+  { letter: 'R', title: 'Reinforce: Education & Support', text: 'Ovulation, fertility myths, emotional wellbeing' },
+  { letter: 'E', title: 'Enhance: Lifestyle Optimisation', text: 'Diet, exercise, sleep, weight, stress, EDC exposure' },
 ];
 
 const bandStats = [
@@ -273,14 +248,12 @@ const videoLibrary = [
     topic: 'Environment & Fertility',
     title: 'Endocrine Disruptors and Your Fertility, What They Are, Where They Hide, and What to Do',
     text: 'A clinical deep-dive into the everyday chemicals, in your plastics, cosmetics, air fresheners, and food, that interfere with reproductive hormones in both partners.',
-    href: 'https://youtu.be/8FGOYJNYXOE?si=khIf73hZfTtU-dFq',
   },
   {
     id: 'nlrEKSAaG7M',
     topic: 'Natural Conception',
     title: '25 Fertility Questions & Myths Around Trying Naturally, Answered by a Fertility Specialist',
     text: 'Everything couples are embarrassed to ask: timing of intercourse, frequency, positions, LH kits, ovulation apps, lubricants, and the evidence behind each. Clinically accurate, myth-free.',
-    href: 'https://youtu.be/nlrEKSAaG7M?si=B0pIiqkx4km2yurH',
   },
 ];
 
@@ -728,21 +701,6 @@ function RelatedBlogs({ serviceSlug, serviceTitle }) {
 export default function Preconception() {
   usePreconceptionSeo();
   const [openFaq, setOpenFaq] = useState(null);
-  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
-  const heroVideoRef = useRef(null);
-
-  const handleHeroVideoPlay = () => {
-    setHeroVideoPlaying(true);
-    const video = heroVideoRef.current;
-    if (!video) return;
-
-    const playPromise = video.play();
-    if (playPromise?.catch) {
-      playPromise.catch(() => {
-        // Native controls remain visible if the browser blocks programmatic playback.
-      });
-    }
-  };
 
   useEffect(() => {
     document.body.classList.add('pcw-route');
@@ -755,10 +713,12 @@ export default function Preconception() {
         <div className="ra-container preconception-hero-grid">
           <div className="preconception-hero-copy">
             <span className="ra-label"><Baby size={16} /> Zero Trimester Planning</span>
-            <h1>Prepare For Pregnancy With <em>Clarity</em></h1>
+            <h1>The <em>Zero Trimester</em> starts here.</h1>
+            <strong className="preconception-hero-kicker">Prepare For Pregnancy With Clarity</strong>
             <p>
-              A focused counselling pathway for couples who want to understand fertility, testing,
-              nutrition, and timing before pregnancy begins.
+              The three months before pregnancy are as important as the nine months during it.
+              Dr. Rajeev Agarwal's preconception programme prepares both partners biologically,
+              medically, and genetically before conception begins.
             </p>
             <div className="preconception-hero-actions">
               <Link className="ra-btn ra-btn-primary preconception-hero-cta" to="/preconception-workshop">
@@ -780,60 +740,23 @@ export default function Preconception() {
             </dl>
           </div>
 
-          <div className="preconception-hero-media">
-            <div className="preconception-hero-video-wrap">
-              <video
-                className="preconception-hero-video"
-                controls={heroVideoPlaying}
-                playsInline
-                poster={`${ASSET_PATH}hero-video-cover.jpg`}
-                preload="metadata"
-                ref={heroVideoRef}
-              >
-                <source src={PRECONCEPTION_VIDEO_URL} type="video/mp4" />
-              </video>
-              {!heroVideoPlaying && (
-                <button
-                  aria-label="Play preconception counselling video"
-                  className="preconception-hero-video-trigger"
-                  onClick={handleHeroVideoPlay}
-                  type="button"
-                >
-                  <img
-                    alt="Preconception counselling with Dr. Rajeev Agarwal"
-                    src={`${ASSET_PATH}hero-video-cover.jpg`}
-                  />
-                  <span className="preconception-hero-play" aria-hidden="true">
-                    <Play size={30} fill="currentColor" />
-                  </span>
-                </button>
-              )}
-            </div>
-            <div className="preconception-floating-note">
-              <strong>Guided by Dr. Rajeev Agarwal</strong>
-              <span>25+ years in fertility and reproductive medicine</span>
-            </div>
-          </div>
-
-          <aside className="preconception-plan-panel" id="preconception-planning" aria-label="Preconception planning checklist">
+          <aside className="preconception-plan-panel" id="preconception-planning" aria-label="What we cover in your consultation">
             <div className="preconception-plan-card">
-              <div className="preconception-plan-intro">
-                <span className="ra-label"><ShieldCheck size={16} /> Planning Checklist</span>
-                <h2>Start With The Right Pre-Pregnancy Questions</h2>
-                <p>
-                  Use this page as a starting point for a more structured preconception conversation,
-                  so your consultation can focus on what matters for your health and timeline.
-                </p>
+              <div className="preconception-plan-title">
+                <h2>What we cover in your consultation</h2>
+                <span>8 clinical domains</span>
               </div>
-              <div className="preconception-plan-grid">
-                {planningHighlights.map(({ title, text, icon: Icon }) => (
-                  <article className="preconception-plan-item" key={title}>
-                    <span><Icon size={20} /></span>
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                  </article>
+              <ol className="preconception-prepare-list preconception-hero-prepare-list">
+                {prepareSteps.map(({ letter, title, text }, index) => (
+                  <li className="preconception-prepare-item" key={`${letter}-${index}`}>
+                    <span className="preconception-prepare-letter" aria-hidden="true">{letter}</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
           </aside>
         </div>
@@ -847,27 +770,6 @@ export default function Preconception() {
               <span>{text}</span>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="preconception-section preconception-prepare-section">
-        <div className="ra-container">
-          <div className="ra-section-head">
-            <span className="ra-label"><ClipboardList size={16} /> The PREPARE Framework</span>
-            <h2>What We Cover In Your <em>Consultation</em></h2>
-            <p>Eight clinical domains, structured around a seven-step framework, for both partners.</p>
-          </div>
-          <ol className="preconception-prepare-list">
-            {prepareSteps.map(({ letter, title, text }, index) => (
-              <li className="preconception-prepare-item" key={`${letter}-${index}`}>
-                <span className="preconception-prepare-letter" aria-hidden="true">{letter}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 
@@ -1078,36 +980,22 @@ export default function Preconception() {
             <h2>Watch Before Your <em>Consultation</em></h2>
           </div>
           <div className="preconception-video-grid">
-            {videoLibrary.map(({ id, topic, title, text, href }) => (
+            {videoLibrary.map(({ id, topic, title, text }) => (
               <article className="preconception-video-card" key={id}>
-                <a
-                  className="preconception-video-thumb"
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Watch on YouTube: ${title}`}
-                >
-                  <img
-                    alt={`Video thumbnail: ${title}`}
+                <div className="preconception-video-embed">
+                  <iframe
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
                     loading="lazy"
-                    src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    src={`https://www.youtube.com/embed/${id}`}
+                    title={title}
                   />
-                  <span className="preconception-video-play" aria-hidden="true">
-                    <Play size={26} fill="currentColor" />
-                  </span>
-                </a>
+                </div>
                 <div className="preconception-video-body">
                   <span className="preconception-video-topic">{topic}</span>
                   <h3>{title}</h3>
                   <p>{text}</p>
-                  <a
-                    className="preconception-video-link"
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Watch on YouTube
-                  </a>
                 </div>
               </article>
             ))}

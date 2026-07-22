@@ -7,6 +7,7 @@ import useSeo from '../utils/useSeo';
 import { getMetaForPath } from '../utils/seoMeta';
 import { buildBlogPresentation } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
+import BlogImage from '../components/BlogImage';
 
 function uniqueBlogs(list) {
   const seen = new Set();
@@ -157,7 +158,7 @@ export default function BlogList() {
               filteredBlogs.map((blog) => (
                 <article key={blog.slug} className="blog-list-card">
                   <Link to={`/blog/${blog.slug}`} className="blog-list-image" aria-label={blog.title}>
-                    <img src={blog.image} alt={blog.title} loading="lazy" />
+                    <BlogImage src={blog.image} alt={blog.title} loading="lazy" fitMode={blog.imageFit} />
                   </Link>
                   <div className="blog-list-body">
                     <span className="blog-list-badge">{blog.category}</span>

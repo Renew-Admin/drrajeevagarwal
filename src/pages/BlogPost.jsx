@@ -7,6 +7,7 @@ import useSeo from '../utils/useSeo';
 import { getMetaForPath, getBlogPostMeta } from '../utils/seoMeta';
 import { buildBlogPresentation, cleanBlogHtml } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
+import BlogImage from '../components/BlogImage';
 
 function uniqueBlogs(list) {
   const seen = new Set();
@@ -94,7 +95,7 @@ export default function BlogPost() {
 
           <article className="blog-article-card">
             <div className="blog-article-hero">
-              <img src={blog.image} alt={blog.title} />
+              <BlogImage src={blog.image} alt={blog.title} fitMode={blog.imageFit} />
             </div>
 
             <div className="blog-article-body">
@@ -126,7 +127,7 @@ export default function BlogPost() {
             <div className="blog-latest-list">
               {latestArticles.map((item) => (
                 <Link to={`/blog/${item.slug}`} key={item.slug} className="blog-latest-item">
-                  <img src={item.image} alt="" loading="lazy" />
+                  <BlogImage src={item.image} alt="" loading="lazy" fitMode={item.imageFit} />
                   <span>
                     <small>{item.displayDate}</small>
                     {item.title}
