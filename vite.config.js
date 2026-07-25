@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite'
 import { loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { renameSync, readdirSync, rmSync, statSync } from 'fs'
+import { readFileSync, renameSync, readdirSync, rmSync, statSync } from 'fs'
 import { join, dirname } from 'path'
 
 function cleanAssetFilenames() {
@@ -45,6 +45,16 @@ function pruneBuildAssetDirectories() {
       }
     },
   };
+}
+
+function readAppVersion() {
+  try {
+    const versionFile = readFileSync(join(process.cwd(), 'public/version.json'), 'utf8');
+    const parsed = JSON.parse(versionFile);
+    return typeof parsed.version === 'string' ? parsed.version : '';
+  } catch {
+    return '';
+  }
 }
 
 function webhookProxy(path, webhookUrl, envName) {
@@ -138,6 +148,7 @@ export default defineConfig(({ mode }) => {
   const webhookUrl = env.WEBHOOK_URL || env.VITE_WEBHOOK_URL || process.env.WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
   const workshopWebhookUrl = env.WORKSHOP_WEBHOOK || process.env.WORKSHOP_WEBHOOK;
   const directWebhookUrl = env.VITE_WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
+  const appVersion = readAppVersion();
 
   return {
     build: {
@@ -145,6 +156,7 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       'import.meta.env.VITE_WEBHOOK_URL': JSON.stringify(directWebhookUrl || ''),
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify(appVersion),
     },
     plugins: [
       react(),

@@ -266,6 +266,21 @@ export default {
       return jsonResponse(404, { error: 'API route not found.' });
     }
 
+    if (url.pathname === '/version.json') {
+      const versionResponse = await env.ASSETS.fetch(request);
+      const headers = new Headers(versionResponse.headers);
+      headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+      headers.set('CDN-Cache-Control', 'no-store');
+      headers.set('Pragma', 'no-cache');
+      headers.set('Expires', '0');
+
+      return new Response(versionResponse.body, {
+        status: versionResponse.status,
+        headers,
+      });
+    }
+
     // Static assets — pass through directly
     if (STATIC_EXT.test(url.pathname)) {
       return env.ASSETS.fetch(request);
@@ -283,6 +298,7 @@ export default {
     headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     headers.set('CDN-Cache-Control', 'no-store');
     headers.set('Pragma', 'no-cache');
+    headers.set('Expires', '0');
 
     return new Response(modifiedHtml, {
       status: assetResponse.status,

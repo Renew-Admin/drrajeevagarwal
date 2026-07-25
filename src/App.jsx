@@ -8,6 +8,7 @@ import PopupFormWrapper from './components/PopupFormWrapper';
 import AppointmentForm from './components/AppointmentForm';
 import GlobalAnnouncementBar from './components/GlobalAnnouncementBar';
 import GlobalPromotionPopup from './components/GlobalPromotionPopup';
+import { useVersionCheck } from './hooks/useVersionCheck';
 
 // Pages
 import Home from './pages/Home';
@@ -110,6 +111,8 @@ function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
 }
 
 export default function App() {
+  useVersionCheck();
+
   const [isBookOpen, setIsBookOpen] = useState(false);
 
   const openBookModal = () => setIsBookOpen(true);
