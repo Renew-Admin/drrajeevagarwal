@@ -2,7 +2,9 @@ export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const BLOG_IMAGE_BUCKET = 'blog-images';
 export const BLOG_IMAGE_MAX_BYTES = 200 * 1024;
+export const PROMOTION_IMAGE_MAX_BYTES = 800 * 1024;
 export const ANNOUNCEMENT_ID = 'global';
+export const PROMOTION_POPUP_ID = 'preconception';
 
 const SESSION_KEY = 'drrajeev_admin_session';
 const LEAD_WEBHOOK_ENDPOINT = '/api/lead-webhook';
@@ -511,6 +513,71 @@ function normalizeAnnouncementLink(value) {
   throw new Error('Announcement link must start with /, #, http://, or https://.');
 }
 
+function normalizePromotionPopup(row = {}, defaults = {}) {
+  return {
+    id: row.id || PROMOTION_POPUP_ID,
+    desktopImageUrl: row.desktop_image_url || defaults.desktopImageUrl || '',
+    mobileImageUrl: row.mobile_image_url || defaults.mobileImageUrl || '',
+    clickUrl: row.click_url || '/preconception',
+    enabled: row.enabled === undefined ? true : Boolean(row.enabled),
+    updatedAt: row.updated_at || null,
+  };
+}
+
+function normalizePopupUrl(value, label) {
+  const url = String(value || '').trim();
+  if (!url) return '';
+  if (url.startsWith('/') || url.startsWith('#') || /^https?:\/\//i.test(url)) return url;
+  throw new Error(`${label} must start with /, #, http://, or https://.`);
+}
+
+export async function getActivePromotionPopup(defaults = {}) {
+  try {
+    const rows = await supabaseFetch(
+      `/rest/v1/promotion_popups?select=*&id=eq.${encodeURIComponent(PROMOTION_POPUP_ID)}&enabled=eq.true&limit=1`
+    );
+    if (!rows?.[0]) return null;
+    const popup = normalizePromotionPopup(rows?.[0], defaults);
+    return popup.desktopImageUrl && popup.mobileImageUrl ? popup : null;
+  } catch (error) {
+    console.warn('[promotion popup] public fetch failed:', error.message);
+    return normalizePromotionPopup({}, defaults);
+  }
+}
+
+export async function getAdminPromotionPopup(token, defaults = {}) {
+  const rows = await supabaseFetch(
+    `/rest/v1/promotion_popups?select=*&id=eq.${encodeURIComponent(PROMOTION_POPUP_ID)}&limit=1`,
+    { token }
+  );
+  return normalizePromotionPopup(rows?.[0], defaults);
+}
+
+export async function saveAdminPromotionPopup(input, token) {
+  const desktopImageUrl = normalizePopupUrl(input.desktopImageUrl, 'Desktop image URL');
+  const mobileImageUrl = normalizePopupUrl(input.mobileImageUrl, 'Mobile image URL');
+  const clickUrl = normalizePopupUrl(input.clickUrl, 'Popup click link');
+
+  if (input.enabled && (!desktopImageUrl || !mobileImageUrl || !clickUrl)) {
+    throw new Error('Add both image URLs and a click link before turning the popup on.');
+  }
+
+  const rows = await supabaseFetch('/rest/v1/promotion_popups?on_conflict=id', {
+    method: 'POST',
+    token,
+    headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
+    body: {
+      id: PROMOTION_POPUP_ID,
+      desktop_image_url: desktopImageUrl,
+      mobile_image_url: mobileImageUrl,
+      click_url: clickUrl || '/preconception',
+      enabled: Boolean(input.enabled),
+    },
+  });
+
+  return normalizePromotionPopup(requireReturnedRow(rows, 'saved promotion popup'));
+}
+
 export async function getActiveAnnouncement() {
   try {
     const rows = await supabaseFetch(
@@ -563,6 +630,36 @@ export async function uploadBlogImage(blob, slug, token) {
 
   const safeSlug = slugify(slug) || `blog-${Date.now()}`;
   const objectPath = `${safeSlug}-${Date.now()}.webp`;
+  const response = await fetch(`${SUPABASE_URL}/storage/v1/object/${BLOG_IMAGE_BUCKET}/${objectPath}`, {
+    method: 'POST',
+    headers: {
+      ...authHeaders(token),
+      'Content-Type': 'image/webp',
+      'x-upsert': 'false',
+    },
+    body: blob,
+  });
+
+  await readResponse(response);
+
+  return {
+    path: objectPath,
+    url: `${SUPABASE_URL}/storage/v1/object/public/${BLOG_IMAGE_BUCKET}/${objectPath}`,
+    size: blob.size,
+  };
+}
+
+export async function uploadPromotionPopupImage(blob, variant, token) {
+  if (!blob || blob.type !== 'image/webp') {
+    throw new Error('Popup image must be converted to WebP before upload.');
+  }
+
+  if (blob.size > PROMOTION_IMAGE_MAX_BYTES) {
+    throw new Error('Popup image must be under 800 KB.');
+  }
+
+  const safeVariant = slugify(variant) || 'popup-image';
+  const objectPath = `promotion-popup/${safeVariant}-${Date.now()}.webp`;
   const response = await fetch(`${SUPABASE_URL}/storage/v1/object/${BLOG_IMAGE_BUCKET}/${objectPath}`, {
     method: 'POST',
     headers: {

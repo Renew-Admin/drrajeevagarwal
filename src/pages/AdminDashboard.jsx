@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { CalendarDays, FileText, Image as ImageIcon, Inbox, LogOut, Megaphone, PlusCircle, Star, Trash2, UploadCloud } from 'lucide-react';
 import {
   BLOG_IMAGE_MAX_BYTES,
+  PROMOTION_IMAGE_MAX_BYTES,
   clearAdminSession,
   compressImageToWebp,
   createBlogPost,
@@ -9,17 +10,22 @@ import {
   deleteLead,
   estimateReadMins,
   getAdminAnnouncement,
+  getAdminPromotionPopup,
   getStoredAdminSession,
   getValidAdminSession,
   listAdminBlogs,
   listLeads,
   saveAdminAnnouncement,
+  saveAdminPromotionPopup,
   signInAdmin,
   slugify,
   updateBlogPost,
   uploadBlogImage,
+  uploadPromotionPopupImage,
 } from '../lib/supabaseBlogAdmin';
 import RichTextEditor from '../components/RichTextEditor';
+import desktopPopupImage from '../assets/Website Pop-up (Desktop) (V2).jpg.jpeg';
+import mobilePopupImage from '../assets/Website Pop-up (Mobile) (V1).jpg.jpeg';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
@@ -39,6 +45,13 @@ const emptyAnnouncement = {
   message: '',
   linkUrl: '',
   enabled: false,
+};
+
+const defaultPromotionPopup = {
+  desktopImageUrl: desktopPopupImage,
+  mobileImageUrl: mobilePopupImage,
+  clickUrl: '/preconception',
+  enabled: true,
 };
 
 function kb(bytes) {
@@ -70,6 +83,13 @@ export default function AdminDashboard() {
   const [announcementForm, setAnnouncementForm] = useState(emptyAnnouncement);
   const [announcementLoading, setAnnouncementLoading] = useState(false);
   const [announcementSaving, setAnnouncementSaving] = useState(false);
+  const [promotionPopupForm, setPromotionPopupForm] = useState(defaultPromotionPopup);
+  const [promotionPopupLoading, setPromotionPopupLoading] = useState(false);
+  const [promotionPopupSaving, setPromotionPopupSaving] = useState(false);
+  const [promotionPopupUploads, setPromotionPopupUploads] = useState({
+    desktop: { blob: null, previewUrl: '', size: 0, message: '' },
+    mobile: { blob: null, previewUrl: '', size: 0, message: '' },
+  });
   const [deletingLeadId, setDeletingLeadId] = useState('');
   const [deletingBlogId, setDeletingBlogId] = useState('');
 
@@ -103,7 +123,7 @@ export default function AdminDashboard() {
 
     try {
       const validSession = await requireAdminSession();
-      await Promise.all([loadBlogs(validSession), loadLeads(validSession), loadAnnouncement(validSession)]);
+      await Promise.all([loadBlogs(validSession), loadLeads(validSession), loadAnnouncement(validSession), loadPromotionPopup(validSession)]);
     } catch (error) {
       setAdminError(error.message || 'Could not load admin data.');
     }
@@ -161,6 +181,26 @@ export default function AdminDashboard() {
     }
   }
 
+  async function loadPromotionPopup(activeSession) {
+    setPromotionPopupLoading(true);
+    setAdminError('');
+
+    try {
+      const validSession = isAdminSession(activeSession) ? activeSession : await requireAdminSession();
+      const row = await getAdminPromotionPopup(validSession.access_token, defaultPromotionPopup);
+      setPromotionPopupForm({
+        desktopImageUrl: row.desktopImageUrl || defaultPromotionPopup.desktopImageUrl,
+        mobileImageUrl: row.mobileImageUrl || defaultPromotionPopup.mobileImageUrl,
+        clickUrl: row.clickUrl || '/preconception',
+        enabled: Boolean(row.enabled),
+      });
+    } catch (error) {
+      setAdminError(error.message || 'Could not load popup settings.');
+    } finally {
+      setPromotionPopupLoading(false);
+    }
+  }
+
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     setLoginLoading(true);
@@ -184,6 +224,11 @@ export default function AdminDashboard() {
     setBlogs([]);
     setLeads([]);
     setAnnouncementForm(emptyAnnouncement);
+    setPromotionPopupForm(defaultPromotionPopup);
+    setPromotionPopupUploads({
+      desktop: { blob: null, previewUrl: '', size: 0, message: '' },
+      mobile: { blob: null, previewUrl: '', size: 0, message: '' },
+    });
     setActiveTab('leads');
     setBlogFilter('all');
   };
@@ -239,6 +284,76 @@ export default function AdminDashboard() {
       setAdminError(error.message || 'Could not save announcement settings.');
     } finally {
       setAnnouncementSaving(false);
+    }
+  };
+
+  const handlePromotionPopupChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    setPromotionPopupForm((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handlePromotionPopupImageChange = async (event, variant) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const previousPreviewUrl = promotionPopupUploads[variant].previewUrl;
+    if (previousPreviewUrl) URL.revokeObjectURL(previousPreviewUrl);
+
+    try {
+      const compressed = await compressImageToWebp(file, PROMOTION_IMAGE_MAX_BYTES);
+      setPromotionPopupUploads((prev) => ({
+        ...prev,
+        [variant]: {
+          blob: compressed.blob,
+          previewUrl: compressed.previewUrl,
+          size: compressed.size,
+          message: `New image ready (${kb(compressed.size)}). It will upload when you save settings.`,
+        },
+      }));
+    } catch (error) {
+      setPromotionPopupUploads((prev) => ({
+        ...prev,
+        [variant]: { blob: null, previewUrl: '', size: 0, message: error.message || 'Could not prepare this image.' },
+      }));
+    } finally {
+      event.target.value = '';
+    }
+  };
+
+  const handlePromotionPopupSubmit = async (event) => {
+    event.preventDefault();
+    setPromotionPopupSaving(true);
+    setAdminError('');
+    setBlogSuccess('');
+
+    try {
+      const validSession = await requireAdminSession();
+      const nextForm = { ...promotionPopupForm };
+      const pendingUploads = Object.entries(promotionPopupUploads).filter(([, upload]) => upload.blob);
+      for (const [variant, upload] of pendingUploads) {
+        const result = await uploadPromotionPopupImage(upload.blob, variant, validSession.access_token);
+        nextForm[variant === 'desktop' ? 'desktopImageUrl' : 'mobileImageUrl'] = result.url;
+      }
+
+      const row = await saveAdminPromotionPopup(nextForm, validSession.access_token);
+      setPromotionPopupForm({
+        desktopImageUrl: row.desktopImageUrl,
+        mobileImageUrl: row.mobileImageUrl,
+        clickUrl: row.clickUrl,
+        enabled: row.enabled,
+      });
+      setPromotionPopupUploads({
+        desktop: { blob: null, previewUrl: '', size: 0, message: '' },
+        mobile: { blob: null, previewUrl: '', size: 0, message: '' },
+      });
+      setBlogSuccess(row.enabled ? 'Website popup is live.' : 'Website popup is hidden.');
+    } catch (error) {
+      setAdminError(error.message || 'Could not save popup settings.');
+    } finally {
+      setPromotionPopupSaving(false);
     }
   };
 
@@ -468,6 +583,9 @@ export default function AdminDashboard() {
             <button type="button" onClick={() => setActiveTab('announcement')} className={`admin-nav-btn ${activeTab === 'announcement' ? 'active' : ''}`}>
               <Megaphone size={18} /> <span>Announcement</span>
             </button>
+            <button type="button" onClick={() => setActiveTab('promotion-popup')} className={`admin-nav-btn ${activeTab === 'promotion-popup' ? 'active' : ''}`}>
+              <ImageIcon size={18} /> <span>Website Popup</span>
+            </button>
             <button type="button" onClick={() => setActiveTab('new-blog')} className={`admin-nav-btn ${activeTab === 'new-blog' ? 'active' : ''}`}>
               <PlusCircle size={18} /> <span>Publish Blog</span>
             </button>
@@ -609,6 +727,60 @@ export default function AdminDashboard() {
 
                 <button type="submit" className="ra-btn ra-btn-primary" disabled={announcementSaving}>
                   {announcementSaving ? 'Saving...' : 'Save Announcement'}
+                </button>
+              </form>
+            </div>
+          )}
+
+          {activeTab === 'promotion-popup' && (
+            <div>
+              <div className="admin-list-head">
+                <div>
+                  <h2 className="admin-section-title">Website Promotion Popup</h2>
+                  <p className="admin-section-copy">Change the desktop image, mobile image, and the link opened when visitors click the popup.</p>
+                </div>
+                <button type="button" className="ra-btn ra-btn-soft" onClick={() => loadPromotionPopup()} disabled={promotionPopupLoading}>
+                  {promotionPopupLoading ? 'Refreshing...' : 'Refresh'}
+                </button>
+              </div>
+
+              <form className="admin-blog-form admin-announcement-form" onSubmit={handlePromotionPopupSubmit}>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="popup-desktop-image">Desktop image URL *</label>
+                  <input className="form-control" id="popup-desktop-image" name="desktopImageUrl" onChange={handlePromotionPopupChange} type="url" value={promotionPopupForm.desktopImageUrl} required />
+                  <label className="admin-image-upload admin-popup-upload" htmlFor="popup-desktop-upload">
+                    <UploadCloud size={18} />
+                    <span>Upload desktop image</span>
+                    <input id="popup-desktop-upload" type="file" accept="image/*" onChange={(event) => handlePromotionPopupImageChange(event, 'desktop')} />
+                  </label>
+                  {promotionPopupUploads.desktop.message && <small className="admin-upload-note">{promotionPopupUploads.desktop.message}</small>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="popup-mobile-image">Mobile image URL *</label>
+                  <input className="form-control" id="popup-mobile-image" name="mobileImageUrl" onChange={handlePromotionPopupChange} type="url" value={promotionPopupForm.mobileImageUrl} required />
+                  <label className="admin-image-upload admin-popup-upload" htmlFor="popup-mobile-upload">
+                    <UploadCloud size={18} />
+                    <span>Upload mobile image</span>
+                    <input id="popup-mobile-upload" type="file" accept="image/*" onChange={(event) => handlePromotionPopupImageChange(event, 'mobile')} />
+                  </label>
+                  {promotionPopupUploads.mobile.message && <small className="admin-upload-note">{promotionPopupUploads.mobile.message}</small>}
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="popup-click-link">Click link *</label>
+                  <input className="form-control" id="popup-click-link" name="clickUrl" onChange={handlePromotionPopupChange} placeholder="/preconception or https://example.com" type="text" value={promotionPopupForm.clickUrl} required />
+                </div>
+                <div className="admin-announcement-toggle-row">
+                  <label className={`admin-status-toggle ${promotionPopupForm.enabled ? 'is-on' : ''}`}>
+                    <input checked={promotionPopupForm.enabled} name="enabled" onChange={handlePromotionPopupChange} type="checkbox" />
+                    <span className="admin-status-toggle-switch" aria-hidden="true" />
+                    <span>
+                      <strong>{promotionPopupForm.enabled ? 'Popup live' : 'Popup hidden'}</strong>
+                      <small>{promotionPopupForm.enabled ? 'Visible on public pages' : 'Not shown on the website'}</small>
+                    </span>
+                  </label>
+                </div>
+                <button type="submit" className="ra-btn ra-btn-primary" disabled={promotionPopupSaving}>
+                  {promotionPopupSaving ? 'Saving...' : 'Save Popup Settings'}
                 </button>
               </form>
             </div>

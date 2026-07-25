@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import PopupFormWrapper from './components/PopupFormWrapper';
 import AppointmentForm from './components/AppointmentForm';
 import GlobalAnnouncementBar from './components/GlobalAnnouncementBar';
+import GlobalPromotionPopup from './components/GlobalPromotionPopup';
 
 // Pages
 import Home from './pages/Home';
@@ -118,6 +119,7 @@ export default function App() {
     <Router>
       <ScrollToTop />
       <GlobalAnnouncementBar />
+      <GlobalPromotionPopup />
 
       <SiteChrome onBookClick={openBookModal}>
         <Routes>

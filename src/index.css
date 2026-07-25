@@ -230,6 +230,106 @@ select {
   color: #fff;
 }
 
+.promotion-popup-open {
+  overflow: hidden;
+}
+
+.promotion-popup-backdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(9, 12, 35, 0.68);
+  animation: promotion-popup-fade-in 0.2s ease-out;
+}
+
+.promotion-popup {
+  position: relative;
+  width: min(900px, 100%);
+  max-height: calc(100vh - 48px);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(9, 12, 35, 0.28);
+  animation: promotion-popup-rise-in 0.22s ease-out;
+}
+
+.promotion-popup-link,
+.promotion-popup-link picture,
+.promotion-popup-link img {
+  display: block;
+  width: 100%;
+}
+
+.promotion-popup-link {
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.promotion-popup-link img {
+  height: auto;
+  max-height: calc(100vh - 48px);
+  object-fit: contain;
+}
+
+.promotion-popup-close {
+  position: absolute;
+  z-index: 1;
+  top: -14px;
+  right: -14px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--deep-teal);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(9, 12, 35, 0.24);
+}
+
+.promotion-popup-close:hover {
+  background: var(--gold);
+  color: var(--deep-teal);
+}
+
+@keyframes promotion-popup-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes promotion-popup-rise-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 640px) {
+  .promotion-popup-backdrop {
+    padding: 20px 16px;
+  }
+
+  .promotion-popup {
+    width: min(400px, 100%);
+    max-height: calc(100vh - 40px);
+  }
+
+  .promotion-popup-close {
+    top: -12px;
+    right: -8px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promotion-popup-backdrop,
+  .promotion-popup {
+    animation: none;
+  }
+}
+
 .site-announcement-track {
   display: inline-flex;
   flex-wrap: nowrap;
@@ -5993,6 +6093,31 @@ a.ra-quick-card:hover {
 
 .admin-announcement-form textarea.form-control {
   min-height: 110px;
+}
+
+.admin-popup-upload {
+  min-height: 52px;
+  width: 100%;
+  justify-content: flex-start;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: var(--deep-teal);
+  cursor: pointer;
+}
+
+.admin-popup-upload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.admin-upload-note {
+  color: var(--text-soft);
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 .admin-announcement-toggle-row {

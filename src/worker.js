@@ -278,6 +278,11 @@ export default {
 
     const headers = new Headers(assetResponse.headers);
     headers.set('Content-Type', 'text/html; charset=utf-8');
+    // HTML must revalidate so phones do not keep an old document that points
+    // at an older Vite bundle. Hashed assets remain cacheable below.
+    headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    headers.set('CDN-Cache-Control', 'no-store');
+    headers.set('Pragma', 'no-cache');
 
     return new Response(modifiedHtml, {
       status: assetResponse.status,
@@ -285,4 +290,3 @@ export default {
     });
   },
 };
-
