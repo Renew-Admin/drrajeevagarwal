@@ -23,11 +23,14 @@ export default function GlobalPromotionPopup() {
 
   useEffect(() => {
     let active = true;
-    let triggered = false;
 
-    const triggerPopup = async () => {
-      if (!active || triggered || location.pathname !== '/') return;
-      triggered = true;
+    const openPopup = async () => {
+      if (isAdminPath(location.pathname) || location.pathname !== '/') {
+        setPopup(null);
+        setLoadedVisitId(null);
+        setIsOpen(false);
+        return;
+      }
 
       const settings = await getActivePromotionPopup({
         desktopImageUrl: desktopPopupImage,
@@ -38,28 +41,17 @@ export default function GlobalPromotionPopup() {
         setPopup(settings);
         setLoadedVisitId(visitId);
         setIsOpen(true);
+      } else if (active) {
+        setPopup(null);
+        setLoadedVisitId(null);
+        setIsOpen(false);
       }
     };
 
-    const checkScrollPosition = () => {
-      const hero = document.querySelector('.ra-hero');
-      const heroBottom = hero?.getBoundingClientRect().bottom ?? window.innerHeight;
-      const triggerLine = window.innerHeight * 0.65;
-
-      // Keep the hero unobstructed. Trigger only after the next section starts
-      // entering the viewport and the user has engaged with the page.
-      if (heroBottom <= triggerLine) triggerPopup();
-    };
-
-    if (location.pathname !== '/') return undefined;
-
-    window.addEventListener('scroll', checkScrollPosition, { passive: true });
-    const restoreScrollTimer = window.setTimeout(checkScrollPosition, 1200);
+    openPopup();
 
     return () => {
       active = false;
-      window.clearTimeout(restoreScrollTimer);
-      window.removeEventListener('scroll', checkScrollPosition);
     };
   }, [location.pathname, visitId]);
 

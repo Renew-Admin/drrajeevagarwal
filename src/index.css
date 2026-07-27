@@ -1359,18 +1359,8 @@ a.ra-quick-card:hover {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  opacity: 0.92;
+  opacity: 1;
   transition: transform 220ms ease, opacity 220ms ease;
-}
-
-.ra-doctor-video-cover::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(15, 19, 56, 0.12), rgba(15, 19, 56, 0.2)),
-    radial-gradient(circle at center, rgba(15, 19, 56, 0), rgba(15, 19, 56, 0.26));
-  pointer-events: none;
 }
 
 .ra-doctor-video-cover:hover img {
@@ -9697,61 +9687,38 @@ a.ra-quick-card:hover {
 
 .pcw-schedule {
   display: grid;
-  grid-template-columns: minmax(220px, 0.72fr) minmax(360px, 1fr) minmax(260px, 0.78fr);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
   align-items: center;
-  gap: 22px;
-  padding: 28px;
+  gap: 24px;
+  padding: 26px 28px;
   border: 1px solid rgba(32, 38, 92, 0.1);
-  border-radius: 30px;
+  border-radius: 26px;
   background:
     radial-gradient(circle at 84% 20%, rgba(241, 217, 104, 0.22), transparent 18rem),
     linear-gradient(135deg, #ffffff, #f7f9ff);
   box-shadow: 0 16px 40px rgba(32, 38, 92, 0.08);
 }
 
-.pcw-schedule-copy h2 {
-  margin: 0;
-  color: var(--deep-teal);
-  font-size: clamp(24px, 2.8vw, 36px);
-  font-weight: 800;
-}
-
-.pcw-countdown {
+.pcw-schedule-copy {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-width: 0;
   gap: 10px;
 }
 
-.pcw-countdown-card {
-  min-height: 96px;
-  padding: 16px 10px;
-  border: 1px solid rgba(32, 38, 92, 0.1);
-  border-radius: 20px;
-  background: #fff;
-  text-align: center;
-  box-shadow: 0 10px 24px rgba(32, 38, 92, 0.055);
-}
-
-.pcw-countdown-card strong {
-  display: block;
+.pcw-schedule-headline {
+  margin: 0;
   color: var(--deep-teal);
-  font-size: clamp(28px, 3vw, 38px);
-  font-weight: 950;
-  line-height: 1;
-}
-
-.pcw-countdown-card span {
-  display: block;
-  margin-top: 9px;
-  color: #626781;
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.05;
+  white-space: nowrap;
 }
 
 .pcw-schedule-details {
   display: grid;
   gap: 9px;
+  justify-self: end;
+  width: min(100%, 310px);
 }
 
 .pcw-schedule-details span {
@@ -10465,6 +10432,11 @@ a.ra-quick-card:hover {
     position: static;
   }
 
+  .pcw-schedule-details {
+    justify-self: stretch;
+    width: 100%;
+  }
+
   .pcw-testimonial-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -10541,8 +10513,8 @@ a.ra-quick-card:hover {
     border-radius: 24px;
   }
 
-  .pcw-countdown {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .pcw-schedule-headline {
+    font-size: 24px;
   }
 
   .pcw-testimonial-grid,
@@ -10613,8 +10585,12 @@ a.ra-quick-card:hover {
     flex-direction: row;
   }
 
-  .pcw-countdown-card {
-    min-height: 88px;
+  .pcw-schedule {
+    padding: 16px 14px;
+  }
+
+  .pcw-schedule-headline {
+    font-size: 14px;
   }
 
   .pcw-schedule-details span {
@@ -10655,6 +10631,12 @@ a.ra-quick-card:hover {
   .pcw-accordion-item.is-open .pcw-accordion-panel p {
     padding-left: 18px;
     padding-right: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pcw-schedule-headline {
+    font-size: 13px;
   }
 }
 

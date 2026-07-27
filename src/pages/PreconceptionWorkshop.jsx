@@ -21,7 +21,6 @@ import { submitWorkshopRegistration } from '../lib/supabaseBlogAdmin';
 const ASSET_PATH = '/assets/preconception-workshop/';
 const VIDEO_URL = '/assets/2026/02/sir-video-new-com.mp4';
 const RAZORPAY_PAYMENT_URL = 'https://rzp.io/rzp/PTsszpU';
-const WORKSHOP_START = new Date('2026-08-01T11:00:00+05:30').getTime();
 
 const foundations = [
   { title: 'Couple Planning', image: 'couple-planning-icon.png', alt: 'Couple planning icon' },
@@ -272,27 +271,6 @@ function useSeo() {
       document.title = previousTitle;
     };
   }, []);
-}
-
-function getTimeLeft() {
-  const diff = Math.max(0, WORKSHOP_START - Date.now());
-  return {
-    days: Math.floor(diff / 86400000),
-    hours: Math.floor((diff / 3600000) % 24),
-    minutes: Math.floor((diff / 60000) % 60),
-    seconds: Math.floor((diff / 1000) % 60),
-  };
-}
-
-function useCountdown() {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setTimeLeft(getTimeLeft()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  return timeLeft;
 }
 
 function paymentPopupFeatures() {
@@ -614,29 +592,13 @@ function ImageRail({ images, className = '', imageClassName = '' }) {
   );
 }
 
-function CountdownSection() {
-  const timeLeft = useCountdown();
-  const countdownItems = [
-    ['Days', timeLeft.days],
-    ['Hours', timeLeft.hours],
-    ['Minutes', timeLeft.minutes],
-    ['Seconds', timeLeft.seconds],
-  ];
-
+function LiveSessionSection() {
   return (
     <section className="pcw-section pcw-schedule-section">
       <div className="ra-container pcw-schedule">
         <div className="pcw-schedule-copy">
           <span className="ra-label"><CalendarCheck size={16} /> Live Session</span>
-          <h2>Register In Next</h2>
-        </div>
-        <div className="pcw-countdown" aria-label="Countdown to workshop start">
-          {countdownItems.map(([label, value]) => (
-            <div className="pcw-countdown-card" key={label}>
-              <strong>{String(value).padStart(2, '0')}</strong>
-              <span>{label}</span>
-            </div>
-          ))}
+          <h2 className="pcw-schedule-headline">Register for our next cohort coming soon</h2>
         </div>
         <div className="pcw-schedule-details">
           <span>STARTS ON August 1st 2026</span>
@@ -769,7 +731,7 @@ export default function PreconceptionWorkshop() {
         </div>
       </section>
 
-      <CountdownSection />
+      <LiveSessionSection />
 
       <section className="pcw-section pcw-foundations-section">
         <div className="ra-container">
