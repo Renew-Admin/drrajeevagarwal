@@ -601,7 +601,6 @@ function LiveSessionSection() {
           <h2 className="pcw-schedule-headline">Register for our next cohort coming soon</h2>
         </div>
         <div className="pcw-schedule-details">
-          <span>STARTS ON August 1st 2026</span>
           <span>11:00 AM - 12:30 PM IST</span>
           <span>Language - Basic English</span>
         </div>

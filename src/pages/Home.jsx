@@ -411,7 +411,9 @@ function VideoCarousel() {
               ) : (
                 <div className="ra-video-carousel-thumb" onClick={() => handlePlay(i)}>
                   <img src={v.thumb} alt="" loading="lazy" />
-                  <span className="ra-video-carousel-play"><Play size={36} fill="currentColor" /></span>
+                  <span className="ra-video-carousel-control" aria-hidden="true">
+                    <span><Play size={20} fill="currentColor" /></span>
+                  </span>
                 </div>
               )}
             </div>
@@ -961,14 +963,6 @@ export default function Home({ onBookClick }) {
               <div className="ra-about-photo">
                 <img src={aboutImg} alt="Dr. Rajeev Agarwal professional portrait" />
               </div>
-              <a
-                className="ra-about-video-card"
-                href="#doctor-intro-video"
-                aria-label="Watch Doctor's Introduction on this page"
-              >
-                <span className="ra-about-play"><Play size={18} fill="currentColor" /></span>
-                <span className="ra-about-video-label">Watch Doctor's Introduction</span>
-              </a>
               <div className="ra-about-award-card" aria-label="35 plus global healthcare awards">
                 <img src="/assets/2025/03/Group-1000008319.png.webp" alt="" />
                 <div>
@@ -1152,7 +1146,9 @@ export default function Home({ onBookClick }) {
                     onClick={() => setInstaModal(embedUrl)}
                   >
                     <img src={image} alt={`${alt} ${index + 1}`} />
-                    <span className="ra-insta-play"><Play size={20} fill="currentColor" /></span>
+                    <span className="ra-video-carousel-control" aria-hidden="true">
+                      <span><Play size={18} fill="currentColor" /></span>
+                    </span>
                   </div>
                 );
               })}

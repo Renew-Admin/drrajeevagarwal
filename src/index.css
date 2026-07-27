@@ -3,7 +3,7 @@
   --medical-teal: #20265C;
   --soft-blue: #f4f6ff;
   --off-white: #ffffff;
-  --gold: #F1D968;
+  --gold: #F7C832;
   --text: #20265C;
   --muted: #555555;
   --line: rgba(32, 38, 92, 0.14);
@@ -45,9 +45,9 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 0% 20%, rgba(241,217,104,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at 0% 20%, rgba(247, 200, 50,0.06) 0%, transparent 70%),
     radial-gradient(ellipse 50% 60% at 100% 80%, rgba(32,38,92,0.03) 0%, transparent 70%),
-    radial-gradient(circle 300px at 80% 5%, rgba(241,217,104,0.04) 0%, transparent 70%),
+    radial-gradient(circle 300px at 80% 5%, rgba(247, 200, 50,0.04) 0%, transparent 70%),
     radial-gradient(circle 400px at 20% 90%, rgba(32,38,92,0.02) 0%, transparent 70%),
     radial-gradient(circle 250px at 50% 50%, rgba(244,246,255,0.5) 0%, transparent 70%),
     #ffffff;
@@ -111,6 +111,11 @@ em {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-weight: 500;
+}
+
+h1 em, h2 em, h3 em, h4 em, h5 em, h6 em,
+h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
+  color: var(--gold);
 }
 
 .container,
@@ -206,7 +211,7 @@ select {
 .ra-home {
   overflow: hidden;
   background:
-    radial-gradient(circle at top left, rgba(241, 217, 104, 0.22), transparent 28rem),
+    radial-gradient(circle at top left, rgba(247, 200, 50, 0.22), transparent 28rem),
     linear-gradient(180deg, #ffffff 0%, #f7f8ff 42%, #fff 100%);
 }
 
@@ -556,7 +561,7 @@ select {
   padding: 74px 0 46px;
   background:
     linear-gradient(135deg, rgba(244, 246, 255, 0.98), rgba(255, 255, 255, 0.9) 50%, rgba(255, 250, 220, 0.55)),
-    radial-gradient(circle at 88% 18%, rgba(241, 217, 104, 0.2), transparent 24rem);
+    radial-gradient(circle at 88% 18%, rgba(247, 200, 50, 0.2), transparent 24rem);
   overflow: hidden;
 }
 
@@ -577,7 +582,7 @@ select {
   right: 10%;
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgba(241, 217, 104, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(247, 200, 50, 0.15) 0%, transparent 70%);
   filter: blur(50px);
   pointer-events: none;
   z-index: 0;
@@ -881,7 +886,7 @@ select {
   border: 1px solid rgba(32, 38, 92, 0.1);
   border-radius: 34px;
   background:
-    radial-gradient(circle at 96% 10%, rgba(241, 217, 104, 0.18), transparent 16rem),
+    radial-gradient(circle at 96% 10%, rgba(247, 200, 50, 0.18), transparent 16rem),
     rgba(255, 255, 255, 0.82);
   box-shadow: 0 20px 52px rgba(32, 38, 92, 0.08);
 }
@@ -953,7 +958,7 @@ a.ra-quick-card:hover {
 }
 
 .ra-quick-rating .ra-quick-icon {
-  background: rgba(241, 217, 104, 0.3);
+  background: rgba(247, 200, 50, 0.3);
 }
 
 .ra-google-icon {
@@ -1005,7 +1010,7 @@ a.ra-quick-card:hover {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(241,217,104,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(247, 200, 50,0.05) 0%, transparent 70%),
     radial-gradient(ellipse 40% 50% at 100% 50%, rgba(32,38,92,0.02) 0%, transparent 70%);
   pointer-events: none;
 }
@@ -1038,7 +1043,7 @@ a.ra-quick-card:hover {
 .ra-about-section {
   position: relative;
   background:
-    radial-gradient(circle at 88% 18%, rgba(241, 217, 104, 0.14), transparent 21rem),
+    radial-gradient(circle at 88% 18%, rgba(247, 200, 50, 0.14), transparent 21rem),
     linear-gradient(135deg, #ffffff 0%, #f7f9ff 54%, #eef4f6 100%);
 }
 
@@ -1130,8 +1135,9 @@ a.ra-quick-card:hover {
 }
 
 .ra-about-video-card {
-  left: 0;
-  bottom: 24px;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
   max-width: 270px;
   gap: 12px;
   padding: 14px 16px;
@@ -1143,7 +1149,7 @@ a.ra-quick-card:hover {
 }
 
 .ra-about-video-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(calc(-50% - 3px));
   border-color: rgba(32, 38, 92, 0.22);
   box-shadow: 0 22px 52px rgba(32, 38, 92, 0.18);
 }
@@ -1268,7 +1274,7 @@ a.ra-quick-card:hover {
 .ra-about-highlight:hover,
 .ra-about-highlight:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(241, 217, 104, 0.85);
+  border-color: rgba(247, 200, 50, 0.85);
   background: #fff;
   outline: 0;
 }
@@ -1370,21 +1376,29 @@ a.ra-quick-card:hover {
 
 .ra-doctor-video-control {
   position: absolute;
+  top: 50%;
   left: 50%;
-  bottom: clamp(22px, 4vw, 54px);
+  transform: translate(-50%, -50%);
   z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: min(360px, calc(100% - 48px));
   height: 78px;
-  transform: translateX(-50%);
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.16);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.14) 100%);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.ra-doctor-video-cover:hover .ra-doctor-video-control {
+  transform: translate(-50%, calc(-50% - 3px));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.7);
 }
 
 .ra-doctor-video-control span {
@@ -1463,7 +1477,7 @@ a.ra-quick-card:hover {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 40% at 10% 20%, rgba(241,217,104,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 10% 20%, rgba(247, 200, 50,0.04) 0%, transparent 70%),
     radial-gradient(ellipse 40% 50% at 95% 70%, rgba(32,38,92,0.02) 0%, transparent 70%);
   pointer-events: none;
 }
@@ -1480,7 +1494,7 @@ a.ra-quick-card:hover {
 
 .ra-blog-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(241, 217, 104, 0.6);
+  border-color: rgba(247, 200, 50, 0.6);
 }
 
 .ra-blog-img-wrap {
@@ -1666,7 +1680,7 @@ a.ra-quick-card:hover {
 
 .ra-service-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(241, 217, 104, 0.75);
+  border-color: rgba(247, 200, 50, 0.75);
 }
 
 .ra-service-card .ra-service-img-wrap {
@@ -1792,7 +1806,7 @@ a.ra-quick-card:hover {
   background:
     linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    radial-gradient(circle at 80% 20%, rgba(241, 217, 104, 0.24), transparent 22rem),
+    radial-gradient(circle at 80% 20%, rgba(247, 200, 50, 0.24), transparent 22rem),
     var(--deep-teal);
   background-size: 34px 34px, 34px 34px, auto, auto;
   color: #fff;
@@ -1884,7 +1898,7 @@ a.ra-quick-card:hover {
   min-height: 28px;
   padding: 0 14px;
   border-radius: 999px;
-  background: rgba(241, 217, 104, 0.3);
+  background: rgba(247, 200, 50, 0.3);
   color: var(--deep-teal);
   font-size: 11px;
   font-weight: 800;
@@ -1938,7 +1952,7 @@ a.ra-quick-card:hover {
   min-height: 30px;
   padding: 0 11px;
   border-radius: 999px;
-  background: rgba(241, 217, 104, 0.42);
+  background: rgba(247, 200, 50, 0.42);
   color: var(--deep-teal);
   font-size: 12px;
   font-weight: 900;
@@ -1991,7 +2005,7 @@ a.ra-quick-card:hover {
 
 .ra-awards-section {
   background:
-    radial-gradient(circle at 12% 20%, rgba(241, 217, 104, 0.16), transparent 22rem),
+    radial-gradient(circle at 12% 20%, rgba(247, 200, 50, 0.16), transparent 22rem),
     linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%);
   overflow: hidden;
 }
@@ -2085,7 +2099,7 @@ a.ra-quick-card:hover {
 
 .ra-award-cell:hover {
   transform: translateY(-3px);
-  border-color: rgba(241, 217, 104, 0.85);
+  border-color: rgba(247, 200, 50, 0.85);
   background: #fff;
 }
 
@@ -2212,12 +2226,12 @@ a.ra-quick-card:hover {
 
 .ra-faq-item:hover {
   border-color: var(--gold);
-  box-shadow: 0 6px 24px rgba(241, 217, 104, 0.12);
+  box-shadow: 0 6px 24px rgba(247, 200, 50, 0.12);
 }
 
 .ra-faq-item--open {
   border-color: var(--gold);
-  box-shadow: 0 6px 28px rgba(241, 217, 104, 0.15);
+  box-shadow: 0 6px 28px rgba(247, 200, 50, 0.15);
 }
 
 .ra-faq-q {
@@ -2325,7 +2339,7 @@ a.ra-quick-card:hover {
   border-radius: 36px;
   background:
     linear-gradient(135deg, rgba(234, 247, 250, 0.96), rgba(255, 255, 255, 0.92)),
-    radial-gradient(circle at right, rgba(241, 217, 104, 0.32), transparent 22rem);
+    radial-gradient(circle at right, rgba(247, 200, 50, 0.32), transparent 22rem);
   box-shadow: var(--shadow);
 }
 
@@ -2347,7 +2361,7 @@ a.ra-quick-card:hover {
 .about-page {
   overflow: hidden;
   background:
-    radial-gradient(circle at 6% 4%, rgba(241, 217, 104, 0.2), transparent 24rem),
+    radial-gradient(circle at 6% 4%, rgba(247, 200, 50, 0.2), transparent 24rem),
     linear-gradient(180deg, #ffffff 0%, #f7f9ff 48%, #ffffff 100%);
 }
 
@@ -2831,7 +2845,7 @@ a.ra-quick-card:hover {
   padding: 38px;
   border-radius: 36px;
   background:
-    radial-gradient(circle at 86% 14%, rgba(241, 217, 104, 0.26), transparent 20rem),
+    radial-gradient(circle at 86% 14%, rgba(247, 200, 50, 0.26), transparent 20rem),
     linear-gradient(135deg, var(--deep-teal), #171b48);
   box-shadow: var(--shadow);
 }
@@ -2883,7 +2897,7 @@ a.ra-quick-card:hover {
   color: #fff;
   padding: 44px 48px 36px;
   margin: 48px 0 18px;
-  border: 1px solid rgba(241, 217, 104, 0.44);
+  border: 1px solid rgba(247, 200, 50, 0.44);
   box-shadow: none;
   position: relative;
   overflow: hidden;
@@ -2897,7 +2911,7 @@ a.ra-quick-card:hover {
   width: 220px;
   height: 220px;
   background:
-    radial-gradient(circle at 30% 30%, rgba(241,217,104,0.06) 0%, transparent 60%),
+    radial-gradient(circle at 30% 30%, rgba(247, 200, 50,0.06) 0%, transparent 60%),
     radial-gradient(circle at 70% 70%, rgba(255,255,255,0.03) 0%, transparent 50%);
   border-radius: 50%;
   pointer-events: none;
@@ -3010,7 +3024,7 @@ a.ra-quick-card:hover {
   padding: 26px 28px;
   width: 100%;
   max-width: 380px;
-  border: 1px solid rgba(241, 217, 104, 0.44);
+  border: 1px solid rgba(247, 200, 50, 0.44);
   box-shadow: none;
 }
 
@@ -4466,7 +4480,7 @@ a.ra-quick-card:hover {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 90% 10%, rgba(241, 217, 104, 0.15), transparent 24rem);
+  background: radial-gradient(circle at 90% 10%, rgba(247, 200, 50, 0.15), transparent 24rem);
   pointer-events: none;
 }
 
@@ -4542,7 +4556,7 @@ a.ra-quick-card:hover {
 
 .service-hero-modern {
   background:
-    radial-gradient(circle at 88% 16%, rgba(241, 217, 104, 0.18), transparent 22rem),
+    radial-gradient(circle at 88% 16%, rgba(247, 200, 50, 0.18), transparent 22rem),
     radial-gradient(circle at 4% 90%, rgba(32, 38, 92, 0.07), transparent 28rem),
     linear-gradient(135deg, #f7f9ff 0%, #fff 58%, #f7fbfa 100%);
   padding: clamp(56px, 6vw, 76px) 0 clamp(50px, 5vw, 68px);
@@ -4774,7 +4788,7 @@ a.ra-quick-card:hover {
 .service-page-detail .wordpress-content a {
   color: var(--deep-teal);
   font-weight: 800;
-  text-decoration-color: rgba(241, 217, 104, 0.9);
+  text-decoration-color: rgba(247, 200, 50, 0.9);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
   overflow-wrap: anywhere;
@@ -5257,7 +5271,7 @@ a.ra-quick-card:hover {
 .blog-page-intro {
   padding: 32px 0 22px;
   background:
-    radial-gradient(ellipse 55% 42% at 12% 24%, rgba(241,217,104,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 42% at 12% 24%, rgba(247, 200, 50,0.05) 0%, transparent 70%),
     #f8f9fc;
 }
 
@@ -5273,7 +5287,7 @@ a.ra-quick-card:hover {
   width: fit-content;
   padding: 8px 15px;
   border-radius: 999px;
-  background: rgba(241, 217, 104, 0.28);
+  background: rgba(247, 200, 50, 0.28);
   color: var(--deep-teal);
   font-size: 12px;
   font-weight: 900;
@@ -5386,7 +5400,7 @@ a.ra-quick-card:hover {
 
 .blog-list-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(241, 217, 104, 0.65);
+  border-color: rgba(247, 200, 50, 0.65);
   box-shadow: 0 18px 42px rgba(32, 38, 92, 0.08);
 }
 
@@ -5771,7 +5785,7 @@ a.ra-quick-card:hover {
   color: var(--deep-teal);
   font-weight: 800;
   text-decoration: underline;
-  text-decoration-color: rgba(241, 217, 104, 0.8);
+  text-decoration-color: rgba(247, 200, 50, 0.8);
   text-decoration-thickness: 3px;
   text-underline-offset: 4px;
 }
@@ -6748,7 +6762,7 @@ a.ra-quick-card:hover {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), rgba(241,217,104,0));
+  background: linear-gradient(135deg, var(--gold), rgba(247, 200, 50,0));
   opacity: 0.15;
   pointer-events: none;
 }
@@ -6798,19 +6812,44 @@ a.ra-quick-card:hover {
   object-fit: cover;
   display: block;
 }
-.ra-video-carousel-play {
+.ra-video-carousel-control {
   position: absolute;
-  inset: 0;
-  display: flex;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.25);
-  color: var(--gold);
-  transition: background 0.3s;
+  width: min(80%, 150px);
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.14) 100%);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
-.ra-video-carousel-thumb:hover .ra-video-carousel-play {
-  background: rgba(0,0,0,0.45);
+
+.ra-video-carousel-thumb:hover .ra-video-carousel-control,
+.ss-video-cover:hover .ra-video-carousel-control,
+.ra-instagram-card:hover .ra-video-carousel-control {
+  transform: translate(-50%, -3px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.2) 100%);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.ra-video-carousel-control span {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--deep-teal);
   color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
 }
 .ra-video-carousel-iframe {
   width: 100%;
@@ -7244,7 +7283,7 @@ a.ra-quick-card:hover {
 
 .course-rating,
 .featured-rating {
-  background: rgba(241, 217, 104, 0.36);
+  background: rgba(247, 200, 50, 0.36);
   color: var(--deep-teal);
 }
 
@@ -7643,7 +7682,7 @@ a.ra-quick-card:hover {
 }
 .ra-event-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(241, 217, 104, 0.86);
+  border-color: rgba(247, 200, 50, 0.86);
 }
 .ra-event-img-wrap {
   overflow: hidden;
@@ -8431,7 +8470,7 @@ a.ra-quick-card:hover {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(241,217,104,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 50%, rgba(247, 200, 50,0.05) 0%, transparent 70%),
     radial-gradient(ellipse 40% 50% at 100% 50%, rgba(32,38,92,0.02) 0%, transparent 70%);
   pointer-events: none;
 }
@@ -8677,7 +8716,7 @@ a.ra-quick-card:hover {
 .not-found-page {
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% 10%, rgba(241, 217, 104, 0.24), transparent 24rem),
+    radial-gradient(circle at 12% 10%, rgba(247, 200, 50, 0.24), transparent 24rem),
     linear-gradient(180deg, #ffffff 0%, #f4f6ff 54%, #ffffff 100%);
 }
 
@@ -8810,7 +8849,7 @@ a.ra-quick-card:hover {
   margin-top: 26px;
   padding: 16px 18px;
   border-radius: 18px;
-  background: rgba(241, 217, 104, 0.32);
+  background: rgba(247, 200, 50, 0.32);
   color: var(--deep-teal);
   font-size: 14px;
   font-weight: 900;
@@ -9283,7 +9322,7 @@ a.ra-quick-card:hover {
 /* Footer-specific bordered treatment */
 .ra-footer-card,
 .ra-footer-hours-card {
-  border-color: rgba(241, 217, 104, 0.44) !important;
+  border-color: rgba(247, 200, 50, 0.44) !important;
   box-shadow: none !important;
 }
 
@@ -9293,7 +9332,7 @@ a.ra-quick-card:hover {
 .pcw-page {
   overflow: hidden;
   background:
-    radial-gradient(circle at 5% 4%, rgba(241, 217, 104, 0.18), transparent 24rem),
+    radial-gradient(circle at 5% 4%, rgba(247, 200, 50, 0.18), transparent 24rem),
     linear-gradient(180deg, #ffffff 0%, #f6f8ff 42%, #ffffff 100%);
 }
 
@@ -9534,7 +9573,7 @@ a.ra-quick-card:hover {
   min-height: 34px;
   padding: 0 13px;
   border-radius: 999px;
-  background: rgba(241, 217, 104, 0.42);
+  background: rgba(247, 200, 50, 0.42);
   color: var(--deep-teal);
   font-size: 15px;
 }
@@ -9651,7 +9690,7 @@ a.ra-quick-card:hover {
   margin-bottom: 14px;
   place-items: center;
   border-radius: 50%;
-  background: rgba(241, 217, 104, 0.42);
+  background: rgba(247, 200, 50, 0.42);
   color: var(--deep-teal);
 }
 
@@ -9694,7 +9733,7 @@ a.ra-quick-card:hover {
   border: 1px solid rgba(32, 38, 92, 0.1);
   border-radius: 26px;
   background:
-    radial-gradient(circle at 84% 20%, rgba(241, 217, 104, 0.22), transparent 18rem),
+    radial-gradient(circle at 84% 20%, rgba(247, 200, 50, 0.22), transparent 18rem),
     linear-gradient(135deg, #ffffff, #f7f9ff);
   box-shadow: 0 16px 40px rgba(32, 38, 92, 0.08);
 }
@@ -9792,7 +9831,7 @@ a.ra-quick-card:hover {
 .pcw-cta-band {
   padding: 34px 0;
   background:
-    radial-gradient(circle at 15% 40%, rgba(241, 217, 104, 0.26), transparent 20rem),
+    radial-gradient(circle at 15% 40%, rgba(247, 200, 50, 0.26), transparent 20rem),
     linear-gradient(135deg, var(--deep-teal), #171b48);
   text-align: center;
 }
@@ -10032,7 +10071,7 @@ a.ra-quick-card:hover {
 
 .pcw-expert-section {
   background:
-    radial-gradient(circle at 12% 0%, rgba(241, 217, 104, 0.2), transparent 22rem),
+    radial-gradient(circle at 12% 0%, rgba(247, 200, 50, 0.2), transparent 22rem),
     linear-gradient(135deg, #171b48, var(--deep-teal));
 }
 
@@ -11706,7 +11745,7 @@ a.ra-quick-card:hover {
   padding: 20px 22px;
   border-left: 4px solid var(--gold);
   border-radius: 0 16px 16px 0;
-  background: rgba(241, 217, 104, 0.14);
+  background: rgba(247, 200, 50, 0.14);
 }
 
 .preconception-domains-highlight strong {
@@ -11769,7 +11808,7 @@ a.ra-quick-card:hover {
   margin-top: 16px;
   padding: 6px 13px;
   border-radius: 999px;
-  background: rgba(241, 217, 104, 0.32);
+  background: rgba(247, 200, 50, 0.32);
   color: var(--navy);
   font-size: 12px;
   font-weight: 700;
@@ -11800,7 +11839,7 @@ a.ra-quick-card:hover {
 }
 
 .preconception-lifestyle-icon {
-  background: rgba(241, 217, 104, 0.2);
+  background: rgba(247, 200, 50, 0.2);
   color: var(--gold);
 }
 

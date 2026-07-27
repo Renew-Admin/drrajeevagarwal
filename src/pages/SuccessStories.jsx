@@ -187,13 +187,8 @@ export default function SuccessStories({ onBookClick }) {
                         alt={v.title}
                         loading="lazy"
                       />
-                      <span className="ss-video-play" aria-hidden="true">
-                        <span className="ss-shorts-icon">
-                          <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
-                            <rect x="1" y="2" width="18" height="20" rx="4" stroke="currentColor" strokeWidth="2"/>
-                            <polygon points="8,7 15,12 8,17" fill="currentColor"/>
-                          </svg>
-                        </span>
+                      <span className="ra-video-carousel-control" aria-hidden="true">
+                        <span><Play size={20} fill="currentColor" /></span>
                       </span>
                     </button>
                   )}
