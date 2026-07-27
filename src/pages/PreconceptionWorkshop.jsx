@@ -699,7 +699,7 @@ export default function PreconceptionWorkshop() {
               >
                 <source src={VIDEO_URL} type="video/mp4" />
               </video>
-              <span className="pcw-video-play" aria-hidden="true"><Play size={24} fill="currentColor" /></span>
+              <span className="pcw-video-play" aria-hidden="true"><Play size={35} fill="currentColor" strokeWidth={1.8} /></span>
             </div>
             <div className="pcw-video-caption">
               <Video size={18} />

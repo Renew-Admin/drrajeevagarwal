@@ -188,7 +188,7 @@ export default function SuccessStories({ onBookClick }) {
                         loading="lazy"
                       />
                       <span className="ra-video-carousel-control" aria-hidden="true">
-                        <span><Play size={20} fill="currentColor" /></span>
+                        <Play size={35} fill="currentColor" strokeWidth={1.8} />
                       </span>
                     </button>
                   )}

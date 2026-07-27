@@ -494,7 +494,7 @@ function usePreconceptionSeo() {
   useEffect(() => {
     const title = 'Preconception Counselling in Kolkata | The Zero Trimester | Dr. Rajeev Agarwal';
     const description =
-      'Dr. Rajeev Agarwal offers evidence-based preconception counselling in Kolkata. Prepare for pregnancy with a structured 8-domain assessment, fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners.';
+      'Dr. Rajeev Agarwal offers structured preconception counselling in Kolkata — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners. The Zero Trimester.';
     const previousTitle = document.title;
 
     const ensureMeta = (selector, attrs) => {
@@ -1006,7 +1006,7 @@ export default function Preconception() {
                         src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
                       />
                       <span className="preconception-video-control" aria-hidden="true">
-                        <span><Play size={26} fill="currentColor" /></span>
+                        <Play size={35} fill="currentColor" strokeWidth={1.8} />
                       </span>
                     </button>
                   )}

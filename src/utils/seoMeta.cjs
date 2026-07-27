@@ -38,9 +38,9 @@ const ROUTE_META = {
       'Meet the specialist team at Renew Healthcare, Kolkata — experienced gynaecologists and fertility doctors led by Dr. Rajeev Agarwal.',
   },
   '/preconception': {
-    title: 'Preconception Counselling | Dr. Rajeev Agarwal',
+    title: 'Preconception Counselling in Kolkata | The Zero Trimester | Dr. Rajeev Agarwal',
     description:
-      'Preconception counselling with Dr. Rajeev Agarwal helps couples prepare for pregnancy with clear fertility, nutrition, testing, and timing guidance.',
+      'Dr. Rajeev Agarwal offers structured preconception counselling in Kolkata — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners. The Zero Trimester.',
   },
   '/preconception-workshop': {
     title: 'Preconception Workshop – Prepare for a Healthy Pregnancy | Dr. Rajeev Agarwal',

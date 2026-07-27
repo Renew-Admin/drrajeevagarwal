@@ -202,7 +202,7 @@ export default function About({ onBookClick }) {
               >
                 <img src="https://img.youtube.com/vi/gyxPUYWlsko/maxresdefault.jpg" alt="" />
                 <span className="ra-doctor-video-control" aria-hidden="true">
-                  <span><Play size={26} fill="currentColor" /></span>
+                  <Play size={35} fill="currentColor" strokeWidth={1.8} />
                 </span>
               </button>
             )}

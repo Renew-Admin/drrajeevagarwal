@@ -1412,6 +1412,73 @@ a.ra-quick-card:hover {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
 }
 
+#doctor-intro-video .ra-doctor-video-control {
+  width: 90px;
+  height: 90px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  color: #fff;
+  -webkit-backdrop-filter: blur(0.5px);
+  backdrop-filter: blur(0.5px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14), inset 0 1px 1px rgba(255, 255, 255, 0.32);
+}
+
+#doctor-intro-video .ra-doctor-video-control svg {
+  margin-left: 4px;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+#doctor-intro-video .ra-doctor-video-cover:hover .ra-doctor-video-control {
+  transform: translate(-50%, calc(-50% - 3px)) scale(1.04);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.12) 100%);
+  border-color: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.42);
+}
+
+.ra-doctor-video-control,
+.ra-video-carousel-control,
+.preconception-video-control {
+  position: absolute;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  width: 90px;
+  height: 90px;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  color: #fff;
+  -webkit-backdrop-filter: blur(0.5px);
+  backdrop-filter: blur(0.5px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14), inset 0 1px 1px rgba(255, 255, 255, 0.32);
+  pointer-events: none;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.ra-doctor-video-control svg,
+.ra-video-carousel-control svg,
+.preconception-video-control svg {
+  margin-left: 4px;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+.ra-doctor-video-cover:hover .ra-doctor-video-control,
+.ra-video-carousel-thumb:hover .ra-video-carousel-control,
+.ss-video-cover:hover .ra-video-carousel-control,
+.ra-instagram-card:hover .ra-video-carousel-control,
+.preconception-video-cover:hover .preconception-video-control {
+  transform: translate(-50%, calc(-50% - 3px)) scale(1.04);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.12) 100%);
+  border-color: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.42);
+}
+
 .ra-tabs {
   display: flex;
   justify-content: center;
@@ -3202,6 +3269,37 @@ a.ra-quick-card:hover {
   .ra-faq-intro-card .btn {
     padding: 11px 24px;
   }
+}
+
+/* Unified glass play control for every video cover. */
+#root .ra-doctor-video-control,
+#root .ra-video-carousel-control,
+#root .preconception-video-control {
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  color: #fff;
+  -webkit-backdrop-filter: blur(0.5px);
+  backdrop-filter: blur(0.5px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14), inset 0 1px 1px rgba(255, 255, 255, 0.32);
+}
+
+#root .ra-doctor-video-cover:hover .ra-doctor-video-control,
+#root .ra-video-carousel-thumb:hover .ra-video-carousel-control,
+#root .ss-video-cover:hover .ra-video-carousel-control,
+#root .ra-instagram-card:hover .ra-video-carousel-control,
+#root .preconception-video-cover:hover .preconception-video-control {
+  transform: translate(-50%, calc(-50% - 3px)) scale(1.04);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.12) 100%);
+  border-color: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.42);
 }
 
 @media (max-width: 520px) {
@@ -13156,5 +13254,80 @@ a.ra-quick-card:hover {
   #root .pcw-form-submit {
     justify-content: center;
     text-align: center !important;
+  }
+}
+
+/* Keep the same exact circular play style on every video. */
+#root .ra-doctor-video-control,
+#root .ra-video-carousel-control,
+#root .preconception-video-control,
+#root .pcw-video-play {
+  position: absolute;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  width: 90px;
+  height: 90px;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  color: #fff;
+  -webkit-backdrop-filter: blur(0.5px);
+  backdrop-filter: blur(0.5px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14), inset 0 1px 1px rgba(255, 255, 255, 0.32);
+  pointer-events: none;
+}
+
+#root .ra-doctor-video-control svg,
+#root .ra-video-carousel-control svg,
+#root .preconception-video-control svg,
+#root .pcw-video-play svg {
+  width: 35px;
+  height: 35px;
+  margin-left: 4px;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.28));
+}
+
+#root .ra-instagram-card .ra-video-carousel-control {
+  width: 64px;
+  height: 64px;
+}
+
+#root .ra-instagram-card .ra-video-carousel-control svg {
+  width: 25px;
+  height: 25px;
+  margin-left: 3px;
+}
+
+@media (min-width: 1600px) {
+  #root .container,
+  #root .ra-container,
+  #root .ra-doctor-video-section .ra-container,
+  #root .preconception-page .ra-container {
+    width: min(1520px, calc(100% - 80px));
+    max-width: 1520px;
+  }
+
+  #root .ra-header-inner {
+    width: min(1560px, calc(100% - 64px));
+  }
+
+  #root .ra-footer-card,
+  #root .ra-footer-bar {
+    width: min(1520px, calc(100% - 80px));
+  }
+
+  #root .course-hero-content {
+    max-width: 1520px;
+  }
+
+  #root .ra-blog-grid {
+    max-width: 1520px;
   }
 }

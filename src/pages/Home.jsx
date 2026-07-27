@@ -412,7 +412,7 @@ function VideoCarousel() {
                 <div className="ra-video-carousel-thumb" onClick={() => handlePlay(i)}>
                   <img src={v.thumb} alt="" loading="lazy" />
                   <span className="ra-video-carousel-control" aria-hidden="true">
-                    <span><Play size={20} fill="currentColor" /></span>
+                    <Play size={35} fill="currentColor" strokeWidth={1.8} />
                   </span>
                 </div>
               )}
@@ -993,7 +993,7 @@ export default function Home({ onBookClick }) {
                 >
                   <img src={videoBarImg} alt="" />
                   <span className="ra-doctor-video-control" aria-hidden="true">
-                    <span><Play size={26} fill="currentColor" /></span>
+                    <Play size={35} fill="currentColor" strokeWidth={1.8} />
                   </span>
                 </button>
               )}
@@ -1147,7 +1147,7 @@ export default function Home({ onBookClick }) {
                   >
                     <img src={image} alt={`${alt} ${index + 1}`} />
                     <span className="ra-video-carousel-control" aria-hidden="true">
-                      <span><Play size={18} fill="currentColor" /></span>
+                      <Play size={35} fill="currentColor" strokeWidth={1.8} />
                     </span>
                   </div>
                 );
