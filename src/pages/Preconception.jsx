@@ -765,13 +765,19 @@ export default function Preconception() {
       </section>
 
       <section className="preconception-statband" aria-label="Preconception outcomes at a glance">
-        <div className="ra-container preconception-statband-grid">
-          {bandStats.map(({ value, text }) => (
-            <div className="preconception-statband-item" key={value}>
-              <strong>{value}</strong>
-              <span>{text}</span>
-            </div>
-          ))}
+        <div className="ra-container preconception-statband-viewport">
+          <div className="preconception-statband-grid">
+            {[false, true].map((duplicate) => (
+              <div className="preconception-statband-group" aria-hidden={duplicate ? 'true' : undefined} key={duplicate ? 'duplicate' : 'primary'}>
+                {bandStats.map(({ value, text }) => (
+                  <div className="preconception-statband-item" key={value}>
+                    <strong>{value}</strong>
+                    <span>{text}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1116,12 +1122,18 @@ export default function Preconception() {
             <span className="ra-label"><Sparkles size={16} /> Recognition</span>
             <h2>Awards & <em>Recognition</em></h2>
           </div>
-          <div className="preconception-awards-grid" aria-label="Awards and recognitions">
-            {awardImages.map(([image, alt]) => (
+          <div className="preconception-awards-viewport" aria-label="Awards and recognitions">
+            <div className="preconception-awards-grid">
+              {[false, true].map((duplicate) => (
+                <div className="preconception-awards-group" aria-hidden={duplicate ? 'true' : undefined} key={duplicate ? 'duplicate' : 'primary'}>
+                  {awardImages.map(([image, alt]) => (
               <figure key={image}>
                 <img alt={alt} loading="lazy" src={`${ASSET_PATH}${image}`} />
               </figure>
-            ))}
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
