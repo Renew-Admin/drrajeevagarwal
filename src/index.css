@@ -1589,6 +1589,34 @@ a.ra-quick-card:hover {
   transform: none;
 }
 
+@media (min-width: 992px) {
+  .service-page-detail .ra-blog-img-wrap,
+  .preconception-page .ra-blog-img-wrap {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .service-page-detail .ra-blog-img-wrap img,
+  .service-page-detail .ra-blog-img-wrap img[data-fit="contain"],
+  .preconception-page .ra-blog-img-wrap img {
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.01);
+    transition: transform 350ms ease;
+  }
+
+  .service-page-detail .ra-blog-card:hover .ra-blog-img-wrap img,
+  .preconception-page .ra-blog-card:hover .ra-blog-img-wrap img {
+    transform: scale(1.045);
+  }
+
+  .service-page-detail .ra-blog-body,
+  .preconception-page .ra-blog-body {
+    min-height: 0;
+    overflow: visible;
+  }
+}
+
 .ra-blog-body {
   padding: 24px 26px 26px;
   display: flex;
@@ -11009,6 +11037,65 @@ a.ra-quick-card:hover {
   background: #fff;
 }
 
+.booking-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.booking-info-title {
+  margin: 0 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+  color: var(--deep-teal);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.booking-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.booking-contact-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.booking-contact-icon {
+  display: grid;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--blue-pale);
+}
+
+.booking-contact-copy {
+  min-width: 0;
+}
+
+.booking-contact-value {
+  margin: 4px 0 0;
+  color: var(--text-mid);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.preconception-agenda-section {
+  border-top: 1px solid rgba(32, 38, 92, 0.14);
+}
+
 .preconception-pillar-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -11097,6 +11184,10 @@ a.ra-quick-card:hover {
 .preconception-review-grid {
   display: grid;
   gap: 12px;
+}
+
+.preconception-review-card-clone {
+  display: none;
 }
 
 .preconception-review-card {
@@ -11196,7 +11287,10 @@ a.ra-quick-card:hover {
 }
 
 .preconception-agenda-card {
-  padding: clamp(24px, 4vw, 36px);
+  --preconception-agenda-padding: clamp(24px, 4vw, 36px);
+  overflow: hidden;
+  padding: var(--preconception-agenda-padding);
+  box-shadow: none;
 }
 
 .preconception-agenda-head {
@@ -11222,21 +11316,38 @@ a.ra-quick-card:hover {
   margin-top: 8px;
 }
 
+.preconception-agenda-viewport {
+  width: calc(100% + var(--preconception-agenda-padding) + var(--preconception-agenda-padding));
+  margin-inline: calc(0px - var(--preconception-agenda-padding));
+  overflow: hidden;
+}
+
 .preconception-agenda-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  width: max-content;
   gap: 14px;
+  animation: preconception-agenda-scroll 36s linear infinite;
+  will-change: transform;
 }
 
 .preconception-agenda-module {
-  min-height: 292px;
-  padding: 20px;
-  border: 1px solid rgba(32, 38, 92, 0.09);
+  flex: 0 0 clamp(270px, 21vw, 290px);
+  aspect-ratio: auto;
+  box-sizing: border-box;
+  min-height: 270px;
+  padding: 17px;
+  border: 1px solid rgba(32, 38, 92, 0.14);
+  border-top: 3px solid rgba(247, 200, 50, 0.9);
   border-radius: 20px;
   background:
-    radial-gradient(circle at 90% 0%, rgba(247, 200, 50, 0.2), transparent 10rem),
-    #fff;
-  box-shadow: 0 12px 28px rgba(32, 38, 92, 0.06);
+    radial-gradient(circle at 92% 4%, rgba(247, 200, 50, 0.18), transparent 9rem),
+    linear-gradient(145deg, #ffffff 0%, #fbfcff 100%);
+  box-shadow: none;
+}
+
+.preconception-agenda-viewport:hover .preconception-agenda-grid,
+.preconception-agenda-viewport:focus-within .preconception-agenda-grid {
+  animation-play-state: paused;
 }
 
 .preconception-module-top {
@@ -11827,12 +11938,24 @@ a.ra-quick-card:hover {
   align-items: start;
 }
 
+.preconception-domain-viewport {
+  min-width: 0;
+}
+
+.preconception-audience-card-clone {
+  display: none;
+}
+
 .preconception-domain-list {
   display: grid;
   gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.preconception-domain-item-clone {
+  display: none;
 }
 
 .preconception-domain-item {
@@ -13511,5 +13634,407 @@ a.ra-quick-card:hover {
 
   #root .ra-blog-grid {
     max-width: 1520px;
+  }
+}
+
+@keyframes preconception-review-scroll {
+  to {
+    transform: translateX(calc(-50% - 7px));
+  }
+}
+
+@keyframes preconception-agenda-scroll {
+  to {
+    transform: translateX(calc(-50% - 7px));
+  }
+}
+
+@keyframes preconception-domain-scroll {
+  to {
+    transform: translateX(calc(-50% - 6px));
+  }
+}
+
+@keyframes preconception-audience-scroll {
+  to {
+    transform: translateX(calc(-50% - 6px));
+  }
+}
+
+@media (min-width: 641px) {
+  .preconception-review-card-clone {
+    display: none;
+  }
+
+  .preconception-domain-item-clone {
+    display: none;
+  }
+
+  .preconception-audience-card-clone {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .booking-info-card {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .booking-info-title {
+    margin-bottom: 18px;
+    font-size: 19px;
+    line-height: 1.3;
+  }
+
+  #root .booking-contact-list {
+    gap: 16px;
+  }
+
+  #root .booking-contact-item {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: left !important;
+  }
+
+  #root .booking-contact-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  #root .booking-contact-icon {
+    width: 40px;
+    height: 40px;
+    text-align: center !important;
+  }
+
+  #root .booking-contact-copy,
+  #root .booking-contact-copy * {
+    min-width: 0;
+    text-align: left !important;
+  }
+
+  .booking-contact-value {
+    font-size: 13px;
+  }
+
+  .preconception-page .ra-blog-link {
+    justify-content: center;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .preconception-audience-section {
+    padding-top: 15px;
+    border-top: 1px solid rgba(32, 38, 92, 0.14);
+  }
+
+  .preconception-audience-viewport {
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .preconception-audience-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .preconception-audience-grid {
+    display: flex;
+    width: max-content;
+    gap: 12px;
+    animation: preconception-audience-scroll 36s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-audience-card,
+  .preconception-audience-card-clone {
+    display: flex;
+    flex: 0 0 min(58vw, 210px);
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    padding: 12px;
+    text-align: center;
+    box-shadow: none;
+  }
+
+  .preconception-audience-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+  }
+
+  .preconception-audience-card h3 {
+    margin-bottom: 4px;
+    font-size: 13.5px;
+    line-height: 1.22;
+  }
+
+  .preconception-audience-card p {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .preconception-audience-tag {
+    align-self: center;
+    margin-top: 6px;
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .preconception-audience-viewport:hover .preconception-audience-grid,
+  .preconception-audience-viewport:focus-within .preconception-audience-grid,
+  .preconception-audience-viewport:active .preconception-audience-grid {
+    animation-play-state: paused;
+  }
+
+  .preconception-domain-viewport {
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .preconception-domain-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .preconception-domain-list {
+    display: flex;
+    width: max-content;
+    align-items: flex-start;
+    gap: 12px;
+    animation: preconception-domain-scroll 42s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-domain-item,
+  .preconception-domain-item-clone {
+    display: flex;
+    flex: 0 0 min(68vw, 240px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    aspect-ratio: auto;
+    box-sizing: border-box;
+    height: 180px;
+    scroll-snap-align: start;
+    padding: 17px;
+    border: 1px solid rgba(32, 38, 92, 0.13);
+    border-top: 3px solid var(--gold);
+    border-radius: 18px;
+    background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+    text-align: center;
+  }
+
+  .preconception-domain-item > div {
+    width: 100%;
+  }
+
+  .preconception-domain-item > span {
+    display: inline-flex;
+    width: 36px;
+    min-width: 36px;
+    min-height: 28px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 11px;
+    padding-inline: 0;
+    border-radius: 999px;
+    background: rgba(247, 200, 50, 0.25);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 900;
+  }
+
+  .preconception-domain-item h3 {
+    margin-bottom: 7px;
+    font-size: 15px;
+    line-height: 1.28;
+  }
+
+  .preconception-domain-item p {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  .preconception-domain-viewport:hover .preconception-domain-list,
+  .preconception-domain-viewport:focus-within .preconception-domain-list,
+  .preconception-domain-viewport:active .preconception-domain-list {
+    animation-play-state: paused;
+  }
+
+  .preconception-agenda-card {
+    --preconception-agenda-padding: 18px;
+  }
+
+  .preconception-agenda-module {
+    flex-basis: min(64vw, 230px);
+    min-height: 230px;
+    padding: 14px;
+  }
+
+  .preconception-module-top {
+    margin-bottom: 10px;
+  }
+
+  .preconception-module-top span {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+  }
+
+  .preconception-module-top strong {
+    font-size: 24px;
+  }
+
+  .preconception-agenda-module h3 {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+
+  .preconception-agenda-module p {
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .preconception-agenda-module ul {
+    gap: 5px;
+  }
+
+  .preconception-agenda-module li {
+    grid-template-columns: 15px minmax(0, 1fr);
+    gap: 6px;
+    font-size: 11.5px;
+    line-height: 1.3;
+  }
+
+  .preconception-review-viewport {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .preconception-review-grid {
+    display: flex;
+    width: max-content;
+    gap: 14px;
+    animation: preconception-review-scroll 24s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-review-card,
+  .preconception-review-card-clone {
+    display: flex;
+    flex: 0 0 min(58vw, 210px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    padding: 12px;
+    text-align: center;
+    box-shadow: none;
+  }
+
+  .preconception-review-card img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .preconception-review-card p {
+    margin-top: 5px;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .preconception-review-card strong {
+    margin-top: 5px;
+    font-size: 12.5px;
+  }
+
+  .preconception-agenda-section {
+    padding-top: 15px;
+  }
+
+  .preconception-review-viewport:hover .preconception-review-grid,
+  .preconception-review-viewport:focus-within .preconception-review-grid {
+    animation-play-state: paused;
+  }
+}
+
+@media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+  .preconception-audience-grid {
+    animation: none;
+  }
+
+  .preconception-audience-card-clone {
+    display: none;
+  }
+
+  .preconception-domain-list {
+    animation: none;
+  }
+
+  .preconception-domain-item-clone {
+    display: none;
+  }
+
+  .preconception-agenda-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .preconception-agenda-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .preconception-agenda-grid {
+    animation: none;
+  }
+
+  .preconception-agenda-module {
+    scroll-snap-align: start;
+  }
+
+  .preconception-agenda-module-clone {
+    display: none;
+  }
+
+  .preconception-review-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .preconception-review-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .preconception-review-grid {
+    animation: none;
+  }
+
+  .preconception-review-card {
+    scroll-snap-align: start;
+  }
+
+  .preconception-review-card-clone {
+    display: none;
   }
 }

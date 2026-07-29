@@ -838,14 +838,24 @@ export default function Preconception() {
               ))}
             </div>
           </div>
-          <div className="preconception-review-grid">
-            {reviews.map((review) => (
-              <article className="preconception-review-card" key={review.name}>
-                <img alt={`${review.name} review avatar`} loading="lazy" src={`${ASSET_PATH}user-icon.jpg`} />
-                <p>"{review.text}"</p>
-                <strong>{review.name}</strong>
-              </article>
-            ))}
+          <div className="preconception-review-viewport">
+            <div className="preconception-review-grid">
+              {[...reviews, ...reviews].map((review, index) => {
+                const isClone = index >= reviews.length;
+
+                return (
+                  <article
+                    aria-hidden={isClone ? 'true' : undefined}
+                    className={`preconception-review-card${isClone ? ' preconception-review-card-clone' : ''}`}
+                    key={`${review.name}-${isClone ? 'clone' : 'original'}`}
+                  >
+                    <img alt={isClone ? '' : `${review.name} review avatar`} loading="lazy" src={`${ASSET_PATH}user-icon.jpg`} />
+                    <p>"{review.text}"</p>
+                    <strong>{review.name}</strong>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -879,22 +889,33 @@ export default function Preconception() {
               </div>
               <a className="ra-btn ra-btn-soft" href="/book-an-appointment">Discuss Care Plan</a>
             </div>
-            <div className="preconception-agenda-grid">
-              {agenda.map(({ title, text, icon: Icon, points }, index) => (
-                <article className="preconception-agenda-module" key={title}>
-                  <div className="preconception-module-top">
-                    <span><Icon size={22} /></span>
-                    <strong>{String(index + 1).padStart(2, '0')}</strong>
-                  </div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                  <ul>
-                    {points.map((point) => (
-                      <li key={point}><CheckCircle size={15} /> {point}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
+            <div className="preconception-agenda-viewport">
+              <div className="preconception-agenda-grid">
+                {[...agenda, ...agenda].map(({ title, text, icon: Icon, points }, index) => {
+                  const isClone = index >= agenda.length;
+                  const itemNumber = (index % agenda.length) + 1;
+
+                  return (
+                    <article
+                      aria-hidden={isClone ? 'true' : undefined}
+                      className={`preconception-agenda-module${isClone ? ' preconception-agenda-module-clone' : ''}`}
+                      key={`${title}-${isClone ? 'clone' : 'original'}`}
+                    >
+                      <div className="preconception-module-top">
+                        <span><Icon size={22} /></span>
+                        <strong>{String(itemNumber).padStart(2, '0')}</strong>
+                      </div>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                      <ul>
+                        {points.map((point) => (
+                          <li key={point}><CheckCircle size={15} /> {point}</li>
+                        ))}
+                      </ul>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
@@ -902,17 +923,28 @@ export default function Preconception() {
 
       <section className="preconception-section preconception-domains-section">
         <div className="ra-container preconception-domains-layout">
-          <ol className="preconception-domain-list">
-            {clinicalDomains.map(({ title, text }, index) => (
-              <li className="preconception-domain-item" key={title}>
-                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <div className="preconception-domain-viewport">
+            <ol className="preconception-domain-list">
+              {[...clinicalDomains, ...clinicalDomains].map(({ title, text }, index) => {
+                const isClone = index >= clinicalDomains.length;
+                const itemNumber = (index % clinicalDomains.length) + 1;
+
+                return (
+                  <li
+                    aria-hidden={isClone ? 'true' : undefined}
+                    className={`preconception-domain-item${isClone ? ' preconception-domain-item-clone' : ''}`}
+                    key={`${title}-${isClone ? 'clone' : 'original'}`}
+                  >
+                    <span aria-hidden="true">{String(itemNumber).padStart(2, '0')}</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
           <div className="preconception-domains-copy">
             <span className="ra-label"><Stethoscope size={16} /> A Comprehensive Consultation</span>
             <h2>This Is Not A Routine <em>Gynaecology Visit</em></h2>
@@ -944,15 +976,25 @@ export default function Preconception() {
               six months of disappointment.
             </p>
           </div>
-          <div className="preconception-audience-grid">
-            {whoShouldBook.map(({ title, text, tag, icon: Icon }) => (
-              <article className="preconception-audience-card" key={title}>
-                <span className="preconception-audience-icon"><Icon size={22} /></span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-                <span className="preconception-audience-tag">{tag}</span>
-              </article>
-            ))}
+          <div className="preconception-audience-viewport">
+            <div className="preconception-audience-grid">
+              {[...whoShouldBook, ...whoShouldBook].map(({ title, text, tag, icon: Icon }, index) => {
+                const isClone = index >= whoShouldBook.length;
+
+                return (
+                  <article
+                    aria-hidden={isClone ? 'true' : undefined}
+                    className={`preconception-audience-card${isClone ? ' preconception-audience-card-clone' : ''}`}
+                    key={`${title}-${isClone ? 'clone' : 'original'}`}
+                  >
+                    <span className="preconception-audience-icon"><Icon size={22} /></span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                    <span className="preconception-audience-tag">{tag}</span>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

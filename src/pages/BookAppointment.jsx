@@ -17,10 +17,10 @@ export default function BookAppointment() {
           <AppointmentForm formName="Appointment Page Form" />
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div className="booking-sidebar">
           <div className="booking-info-card">
-            <h3 style={{ fontSize: 20, color: 'var(--deep-teal)', marginBottom: 20, fontWeight: 800, borderBottom: '2px solid var(--border)', paddingBottom: 8 }}>Renew Healthcare Kolkata</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 22 }}>
+            <h3 className="booking-info-title">Renew Healthcare Kolkata</h3>
+            <ul className="booking-contact-list">
               {[
                 { icon: Phone, label: 'Phone Contact', value: '+91 83369 68661' },
                 { icon: Mail, label: 'Email Inquiry', value: 'fertilitywithoutborders@gmail.com', href: 'mailto:fertilitywithoutborders@gmail.com' },
@@ -28,16 +28,16 @@ export default function BookAppointment() {
               ].map((item, i) => {
                 const Icon = item.icon;
                 return (
-                  <li key={i} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                    <div style={{ width: 42, height: 42, borderRadius: '50%', background: 'var(--blue-pale)', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                  <li className="booking-contact-item" key={i}>
+                    <div className="booking-contact-icon">
                       <Icon size={18} color="var(--deep-teal)" />
                     </div>
-                    <div>
+                    <div className="booking-contact-copy">
                       <strong style={{ color: 'var(--deep-teal)', fontSize: 15 }}>{item.label}</strong>
                       {item.href ? (
-                        <p style={{ margin: '4px 0 0', fontSize: 14, color: 'var(--text-mid)', fontWeight: 500 }}><a href={item.href} style={{ color: 'inherit' }}>{item.value}</a></p>
+                        <p className="booking-contact-value"><a href={item.href} style={{ color: 'inherit' }}>{item.value}</a></p>
                       ) : (
-                        <p style={{ margin: '4px 0 0', fontSize: 14, color: 'var(--text-mid)', fontWeight: 500, lineHeight: 1.5 }}>{item.value}</p>
+                        <p className="booking-contact-value">{item.value}</p>
                       )}
                     </div>
                   </li>
