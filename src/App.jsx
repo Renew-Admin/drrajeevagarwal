@@ -8,6 +8,7 @@ import PopupFormWrapper from './components/PopupFormWrapper';
 import AppointmentForm from './components/AppointmentForm';
 import GlobalAnnouncementBar from './components/GlobalAnnouncementBar';
 import GlobalPromotionPopup from './components/GlobalPromotionPopup';
+import { usePageTracking } from './hooks/usePageTracking';
 import { useVersionCheck } from './hooks/useVersionCheck';
 
 // Pages
@@ -34,6 +35,11 @@ function ScrollToTop() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+  return null;
+}
+
+function PageTracking() {
+  usePageTracking();
   return null;
 }
 
@@ -120,6 +126,7 @@ export default function App() {
 
   return (
     <Router>
+      <PageTracking />
       <ScrollToTop />
       <GlobalAnnouncementBar />
       <GlobalPromotionPopup />
