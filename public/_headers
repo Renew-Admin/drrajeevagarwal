@@ -1,0 +1,9 @@
+# The homepage is the SPA document. Do not let browsers retain it between
+# deploys, otherwise it can keep referencing a previous JavaScript bundle.
+/
+  Cache-Control: no-store
+
+# `/index.html` redirects to `/`, but retain the policy if that behavior
+# changes or the asset is requested directly in another environment.
+/index.html
+  Cache-Control: no-store
