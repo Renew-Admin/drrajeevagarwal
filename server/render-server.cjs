@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
 const { getMetaForPath } = require('../src/utils/seoMeta.cjs');
+const { buildJsonLd } = require('../src/utils/jsonLd.cjs');
 const blogSlugs = require('../src/data/blogSlugs.cjs');
 
 
@@ -207,86 +208,8 @@ function stripExistingSeoTags(html) {
     .replace(/[ \t]*<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, '');
 }
 
-// JSON-LD structured data — mirrors buildJsonLd() in src/worker.js. Functions
-// reference SITE_ORIGIN (declared later) only at call time, so ordering is safe.
-const BREADCRUMB_LABELS = {
-  'about-me': 'About',
-  'all-services': 'Services',
-  'book-an-appointment': 'Book an Appointment',
-  blog: 'Blog',
-};
-const JSONLD_DESCRIPTION =
-  'Consult Dr. Rajeev Agarwal, a leading fertility specialist and gynaecologist in Kolkata with 25+ years of experience in IVF, IUI, laparoscopy, PCOS, and women’s health.';
-const JSONLD_LOGO_PATH = '/assets/2025/03/cropped-Favicon-192x192.webp';
-
-function humanizeSegment(seg) {
-  return seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function buildBreadcrumb(pathname) {
-  const clean = (pathname || '/').replace(/\/+$/, '') || '/';
-  const items = [{ name: 'Home', url: `${SITE_ORIGIN}/` }];
-  if (clean !== '/') {
-    let acc = '';
-    for (const seg of clean.split('/').filter(Boolean)) {
-      acc += `/${seg}`;
-      items.push({ name: BREADCRUMB_LABELS[seg] || humanizeSegment(seg), url: SITE_ORIGIN + acc });
-    }
-  }
-  return {
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((it, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: it.name,
-      item: it.url,
-    })),
-  };
-}
-
-function buildJsonLd(pathname) {
-  const orgId = `${SITE_ORIGIN}/#clinic`;
-  const physicianId = `${SITE_ORIGIN}/#physician`;
-  const websiteId = `${SITE_ORIGIN}/#website`;
-  const logo = SITE_ORIGIN + JSONLD_LOGO_PATH;
-
-  const graph = [
-    {
-      '@type': ['MedicalClinic', 'MedicalBusiness'],
-      '@id': orgId,
-      name: 'Dr. Rajeev Agarwal — Renew Healthcare',
-      url: `${SITE_ORIGIN}/`,
-      description: JSONLD_DESCRIPTION,
-      image: logo,
-      logo,
-      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
-      areaServed: { '@type': 'City', name: 'Kolkata' },
-      founder: { '@id': physicianId },
-      // TODO(NAP — audit item 14): add address + telephone once confirmed.
-    },
-    {
-      '@type': 'Physician',
-      '@id': physicianId,
-      name: 'Dr. Rajeev Agarwal',
-      url: `${SITE_ORIGIN}/about-me`,
-      jobTitle: 'Fertility Specialist & Gynaecologist',
-      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
-      worksFor: { '@id': orgId },
-      image: logo,
-    },
-    {
-      '@type': 'WebSite',
-      '@id': websiteId,
-      name: 'Dr. Rajeev Agarwal',
-      url: `${SITE_ORIGIN}/`,
-      publisher: { '@id': orgId },
-    },
-    buildBreadcrumb(pathname),
-  ];
-
-  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
-  return `<script type="application/ld+json">${json}</script>`;
-}
+// JSON-LD structured data lives in src/utils/jsonLd.cjs, shared with
+// scripts/prerender.mjs and src/worker.js so all three emit the same markup.
 
 function injectSeoTags(html, pathname) {
   const meta = getMetaForPath(pathname);
