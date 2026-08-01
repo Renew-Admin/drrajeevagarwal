@@ -7,3 +7,21 @@
 # changes or the asset is requested directly in another environment.
 /index.html
   Cache-Control: no-store
+
+# ── Agent discovery: RFC 8288 Link headers ────────────────────────────────
+# Lets an agent find the machine-readable description of this site without
+# parsing HTML. One header carrying several comma-separated link-values, which
+# RFC 8288 §3 allows and which avoids any ambiguity about repeated headers.
+#
+# Only IANA-registered relation types are used:
+#   describedby      RFC 6892  → /llms.txt, the site summary written for LLMs
+#   author           HTML/RFC 8288
+#   privacy-policy   RFC 6903
+#   terms-of-service RFC 6903
+#
+# Deliberately absent: api-catalog, service-desc and service-doc. This site
+# publishes no public API — /api/* is a pair of POST-only lead-form proxies that
+# robots.txt disallows — so advertising those relations would point agents at
+# endpoints that are not meant for them.
+/*
+  Link: </llms.txt>; rel="describedby"; type="text/plain", </about-me>; rel="author", </privacy-policy>; rel="privacy-policy", </terms-conditions>; rel="terms-of-service"

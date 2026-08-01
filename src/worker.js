@@ -136,7 +136,94 @@ function stripExistingSeoTags(html) {
   return html
     .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
     .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '');
+    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, '');
+}
+
+/* ─────────────────────────────────────────────
+ * JSON-LD structured data (schema.org)
+ * Injected into the raw HTML so search engines and AI crawlers get
+ * machine-readable clinic/physician/breadcrumb data without executing JS.
+ * ───────────────────────────────────────────── */
+
+const ORG_ID = `${SITE_ORIGIN}/#clinic`;
+const PHYSICIAN_ID = `${SITE_ORIGIN}/#physician`;
+const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
+const LOGO_URL = `${SITE_ORIGIN}/assets/2025/03/cropped-Favicon-192x192.webp`;
+
+const BREADCRUMB_LABELS = {
+  'about-me': 'About',
+  'all-services': 'Services',
+  'book-an-appointment': 'Book an Appointment',
+  blog: 'Blog',
+};
+
+function humanizeSegment(seg) {
+  return seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function buildBreadcrumb(pathname) {
+  const clean = (pathname || '/').replace(/\/+$/, '') || '/';
+  const items = [{ name: 'Home', url: `${SITE_ORIGIN}/` }];
+  if (clean !== '/') {
+    let acc = '';
+    for (const seg of clean.split('/').filter(Boolean)) {
+      acc += `/${seg}`;
+      items.push({ name: BREADCRUMB_LABELS[seg] || humanizeSegment(seg), url: SITE_ORIGIN + acc });
+    }
+  }
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: it.url,
+    })),
+  };
+}
+
+function buildJsonLd(pathname) {
+  const graph = [
+    {
+      '@type': ['MedicalClinic', 'MedicalBusiness'],
+      '@id': ORG_ID,
+      name: 'Dr. Rajeev Agarwal — Renew Healthcare',
+      url: `${SITE_ORIGIN}/`,
+      description: DEFAULT_META.description,
+      image: LOGO_URL,
+      logo: LOGO_URL,
+      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
+      areaServed: { '@type': 'City', name: 'Kolkata' },
+      founder: { '@id': PHYSICIAN_ID },
+      // TODO(NAP — audit item 14): add once confirmed for GBP/Justdial/Practo:
+      // address: { '@type': 'PostalAddress', streetAddress: '…', addressLocality: 'Kolkata',
+      //   addressRegion: 'West Bengal', postalCode: '…', addressCountry: 'IN' },
+      // telephone: '+91-…',
+    },
+    {
+      '@type': 'Physician',
+      '@id': PHYSICIAN_ID,
+      name: 'Dr. Rajeev Agarwal',
+      url: `${SITE_ORIGIN}/about-me`,
+      jobTitle: 'Fertility Specialist & Gynaecologist',
+      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
+      worksFor: { '@id': ORG_ID },
+      image: LOGO_URL,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': WEBSITE_ID,
+      name: 'Dr. Rajeev Agarwal',
+      url: `${SITE_ORIGIN}/`,
+      publisher: { '@id': ORG_ID },
+    },
+    buildBreadcrumb(pathname),
+  ];
+
+  // Escape "<" so a stray "</script>" in any value can never break out of the tag.
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">${json}</script>`;
 }
 
 function injectSeoTags(html, pathname) {
@@ -162,7 +249,9 @@ function injectSeoTags(html, pathname) {
     `<meta property="og:site_name" content="Dr. Rajeev Agarwal">`,
   ].join('\n    ');
 
-  html = html.replace('</title>', `</title>\n    ${seoBlock}`);
+  const jsonLd = buildJsonLd(pathname);
+
+  html = html.replace('</title>', `</title>\n    ${seoBlock}\n    ${jsonLd}`);
 
   return html;
 }
@@ -262,6 +351,34 @@ async function forwardWebhook(request, webhookUrl, labels) {
 }
 
 /* ─────────────────────────────────────────────
+ * /.well-known/* — agent & client discovery documents
+ *
+ * Without this, an unpublished discovery document falls through to the SPA
+ * fallback and answers 200 with the HTML shell. An agent asking for
+ * application/linkset+json or text/markdown then has to guess that a web page
+ * means "absent". Serve whatever is genuinely published under .well-known and
+ * answer a plain 404 for the rest.
+ *
+ * Routed here by run_worker_first in wrangler.toml.
+ * ───────────────────────────────────────────── */
+
+async function wellKnownResponse(request, env) {
+  const assetResponse = await env.ASSETS.fetch(request);
+  const contentType = assetResponse.headers.get('content-type') || '';
+
+  // A real published document is JSON, markdown or plain text. HTML back from
+  // the asset server means no such file exists and the SPA fallback answered.
+  if (assetResponse.ok && !contentType.includes('text/html')) {
+    return assetResponse;
+  }
+
+  return jsonResponse(404, {
+    error: 'Not found.',
+    detail: 'This site publishes no discovery document at this path.',
+  });
+}
+
+/* ─────────────────────────────────────────────
  * Legacy WordPress URL cleanup (mirrors public/.htaccess)
  * Returns a Response for legacy paths, or null to continue normal handling.
  * ───────────────────────────────────────────── */
@@ -350,6 +467,10 @@ export default {
 
     if (url.pathname.startsWith('/api/')) {
       return jsonResponse(404, { error: 'API route not found.' });
+    }
+
+    if (url.pathname.startsWith('/.well-known/')) {
+      return wellKnownResponse(request, env);
     }
 
     if (url.pathname === '/version.json') {

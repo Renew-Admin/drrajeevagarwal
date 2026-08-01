@@ -27,9 +27,16 @@ function readFallbackBlogs() {
   }
 }
 
+// Seed state from the bundled posts so the article is present on the very first
+// render. Without this the page renders null until the Supabase fetch resolves,
+// which left prerendered blog pages (scripts/prerender.mjs) empty and gave
+// crawlers nothing to read. localStorage is deliberately excluded — it differs
+// per browser and would desync hydration; the effect below still merges it in.
+const STATIC_BLOGS = uniqueBlogs([...liveBlogUpdates, ...initialBlogs]);
+
 export default function BlogPost() {
   const { slug } = useParams();
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState(STATIC_BLOGS);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {

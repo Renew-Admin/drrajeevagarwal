@@ -8,4 +8,14 @@ preview_urls = false
 directory = "./build"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
-run_worker_first = ["/api/*"]
+
+# The Worker only sees these prefixes; everything else is served straight from
+# the prerendered assets. /.well-known/* is routed here so unpublished
+# discovery documents can answer 404 instead of falling through to the SPA
+# shell and returning a 200 HTML page to an agent asking for JSON.
+run_worker_first = ["/api/*", "/.well-known/*"]
+# Every prerendered page lives at <route>/index.html. The default
+# ("auto-trailing-slash") answers /about-me with a 307 to /about-me/, which
+# would make every canonical tag and every sitemap URL redirect. Serve them at
+# the no-slash form instead, matching those URLs exactly.
+html_handling = "drop-trailing-slash"

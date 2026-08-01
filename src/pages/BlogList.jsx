@@ -27,9 +27,13 @@ function readFallbackBlogs() {
   }
 }
 
+// Seed state from the bundled posts so the list is present on the first render
+// (see BlogPost.jsx). localStorage stays out of it to keep hydration in sync.
+const STATIC_BLOGS = uniqueBlogs([...liveBlogUpdates, ...initialBlogs]);
+
 export default function BlogList() {
   useSeo(getMetaForPath('/blog'));
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState(STATIC_BLOGS);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All Articles');
   const [activeTag, setActiveTag] = useState('');
