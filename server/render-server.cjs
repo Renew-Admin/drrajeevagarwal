@@ -193,11 +193,26 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
+/**
+ * Remove any SEO tags already present in the served HTML before injecting the
+ * per-route block, so a page never ships duplicate canonical/description/OG
+ * tags. Mirrors stripExistingSeoTags() in src/worker.js.
+ */
+function stripExistingSeoTags(html) {
+  return html
+    .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '');
+}
+
 function injectSeoTags(html, pathname) {
   const meta = getMetaForPath(pathname);
   const safeTitle = escapeHtml(meta.title);
   const safeDesc = escapeHtml(meta.description);
   const safeUrl = escapeHtml(meta.canonicalUrl);
+
+  // Remove any pre-baked description/canonical/OG tags so we never emit duplicates.
+  html = stripExistingSeoTags(html);
 
   // Replace <title>
   let result = html.replace(
@@ -239,6 +254,70 @@ function sendSpaPage(response, pathname) {
   });
 }
 
+const SITE_ORIGIN = 'https://drrajeevagarwal.co.in';
+
+function sendPlain(response, statusCode, message) {
+  response.writeHead(statusCode, {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Cache-Control': 'no-store',
+  });
+  response.end(message);
+}
+
+// Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess and
+// stripExistingSeoTags()'s sibling legacyWordPressResponse() in src/worker.js.
+// Returns true if a response was sent.
+function handleLegacyWordPress(response, requestUrl) {
+  const pathname = requestUrl.pathname;
+  const search = requestUrl.search || '';
+
+  // preconception-care → /preconception (301)
+  if (pathname.replace(/\/+$/, '') === '/preconception-care') {
+    response.writeHead(301, { Location: `${SITE_ORIGIN}/preconception` });
+    response.end();
+    return true;
+  }
+
+  // WordPress attachment / post-id query params (?attachment_id= / ?p=) → 410 Gone
+  if (/[?&](?:attachment_id|p)=/.test(search)) { sendPlain(response, 410, 'Gone'); return true; }
+
+  // xmlrpc.php → 403 Forbidden
+  if (/^\/xmlrpc\.php$/i.test(pathname)) { sendPlain(response, 403, 'Forbidden'); return true; }
+
+  // wp-json / wp-admin / wp-login(.php) / wp-includes / wp-content → 410 Gone.
+  // The trailing [/.] also catches file forms like /wp-login.php.
+  // (note: /wp-styles/* are real assets and are intentionally NOT matched)
+  if (/^\/wp-(?:admin|login|includes|content|json)(?:[/.]|$)/i.test(pathname)) {
+    sendPlain(response, 410, 'Gone');
+    return true;
+  }
+
+  // RSS / comment / trackback feeds (…/feed) → 301 to homepage
+  if (/\/feed\/?$/i.test(pathname)) {
+    response.writeHead(301, { Location: `${SITE_ORIGIN}/` });
+    response.end();
+    return true;
+  }
+
+  // Author archives → 301 to About page
+  if (/^\/author\/.+/i.test(pathname)) {
+    response.writeHead(301, { Location: `${SITE_ORIGIN}/about-me` });
+    response.end();
+    return true;
+  }
+
+  // WordPress pagination artifacts: /<parent>/page/N → /<parent>, /page/N → /
+  const pageMatch = pathname.match(/^(\/.*?)?\/page\/\d+\/?$/i);
+  if (pageMatch) {
+    const parent = pageMatch[1] || '/';
+    response.writeHead(301, { Location: `${SITE_ORIGIN}${parent}` });
+    response.end();
+    return true;
+  }
+
+  return false;
+}
+
 function handleStaticRequest(request, response) {
   const requestUrl = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
 
@@ -260,12 +339,8 @@ function handleStaticRequest(request, response) {
     return;
   }
 
-  const cleanPath = pathname.replace(/\/+$/, '');
-  if (cleanPath === '/preconception-care') {
-    response.writeHead(301, {
-      'Location': 'https://drrajeevagarwal.co.in/preconception',
-    });
-    response.end();
+  // Legacy WordPress URL cleanup (mirrors public/.htaccess) — before static/SPA handling.
+  if (handleLegacyWordPress(response, requestUrl)) {
     return;
   }
 

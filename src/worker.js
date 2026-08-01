@@ -118,11 +118,29 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
+/**
+ * Remove any SEO tags already present in the served HTML before we inject the
+ * per-route block. Cloudflare's single-page-application fallback serves the
+ * root build/index.html (which has homepage canonical/description/OG baked in
+ * by scripts/inject-seo-tags.mjs) for unbaked routes such as /blog/<slug>, and
+ * even baked routes arrive here with a correct-but-duplicate block. Stripping
+ * first guarantees exactly one canonical per page pointing at the right URL.
+ */
+function stripExistingSeoTags(html) {
+  return html
+    .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '');
+}
+
 function injectSeoTags(html, pathname) {
   const meta = getMetaForPath(pathname);
   const safeTitle = escapeHtml(meta.title);
   const safeDesc = escapeHtml(meta.description);
   const safeCanonical = escapeHtml(meta.canonicalUrl);
+
+  // Remove any pre-baked description/canonical/OG tags so we never emit duplicates.
+  html = stripExistingSeoTags(html);
 
   // Replace <title>…</title>
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${safeTitle}</title>`);
@@ -237,14 +255,70 @@ async function forwardWebhook(request, webhookUrl, labels) {
   }
 }
 
+/* ─────────────────────────────────────────────
+ * Legacy WordPress URL cleanup (mirrors public/.htaccess)
+ * Returns a Response for legacy paths, or null to continue normal handling.
+ * ───────────────────────────────────────────── */
+
+function gone() {
+  return new Response('Gone', {
+    status: 410,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
+}
+
+function forbidden() {
+  return new Response('Forbidden', {
+    status: 403,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
+}
+
+function legacyWordPressResponse(url) {
+  const { pathname, search } = url;
+
+  // preconception-care → /preconception (301)
+  if (pathname.replace(/\/+$/, '') === '/preconception-care') {
+    return Response.redirect(`${SITE_ORIGIN}/preconception`, 301);
+  }
+
+  // WordPress attachment / post-id query params (?attachment_id= / ?p=) → 410 Gone
+  if (/[?&](?:attachment_id|p)=/.test(search)) return gone();
+
+  // xmlrpc.php → 403 Forbidden
+  if (/^\/xmlrpc\.php$/i.test(pathname)) return forbidden();
+
+  // wp-json / wp-admin / wp-login(.php) / wp-includes / wp-content → 410 Gone.
+  // The trailing [/.] also catches file forms like /wp-login.php.
+  // (note: /wp-styles/* are real assets and are intentionally NOT matched)
+  if (/^\/wp-(?:admin|login|includes|content|json)(?:[/.]|$)/i.test(pathname)) {
+    return gone();
+  }
+
+  // RSS / comment / trackback feeds (…/feed) → 301 to homepage
+  if (/\/feed\/?$/i.test(pathname)) return Response.redirect(`${SITE_ORIGIN}/`, 301);
+
+  // Author archives → 301 to About page
+  if (/^\/author\/.+/i.test(pathname)) return Response.redirect(`${SITE_ORIGIN}/about-me`, 301);
+
+  // WordPress pagination artifacts: /<parent>/page/N → /<parent>, /page/N → /
+  const pageMatch = pathname.match(/^(\/.*?)?\/page\/\d+\/?$/i);
+  if (pageMatch) {
+    const parent = pageMatch[1] || '/';
+    return Response.redirect(`${SITE_ORIGIN}${parent}`, 301);
+  }
+
+  return null;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Redirect preconception-care to preconception
-    if (url.pathname === '/preconception-care' || url.pathname === '/preconception-care/') {
-      return Response.redirect(`${SITE_ORIGIN}/preconception`, 301);
-    }
+    // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
+    // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
+    const legacyResponse = legacyWordPressResponse(url);
+    if (legacyResponse) return legacyResponse;
 
     if (url.pathname === '/api/lead-webhook') {
       return forwardWebhook(request, env.WEBHOOK_URL || env.VITE_WEBHOOK_URL, {

@@ -1,7 +1,55 @@
+# robots.txt — drrajeevagarwal.co.in
+# AI crawlers are explicitly welcomed. See also: /llms.txt
+# IMPORTANT: Cloudflare's "Block AI bots" zone setting must ALSO be turned OFF in
+# the Cloudflare dashboard for these Allow rules to take effect — that is a
+# dashboard toggle, not something this file can override.
+
 User-agent: *
 Allow: /
-
-Disallow: /admin/
 Disallow: /api/
+Disallow: /admin/
+
+# ── AI / LLM crawlers (explicitly allowed) ──────────────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
 
 Sitemap: https://drrajeevagarwal.co.in/sitemap.xml
