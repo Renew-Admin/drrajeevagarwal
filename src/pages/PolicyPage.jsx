@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { pagesData } from '../data/pages_data';
 import { AlertCircle } from 'lucide-react';
@@ -9,13 +9,10 @@ export default function PolicyPage() {
   const location = useLocation();
   const policyMeta = getMetaForPath(location.pathname);
   useSeo(policyMeta);
-  const [page, setPage] = useState(null);
-
-  useEffect(() => {
-    const path = location.pathname.replace(/^\/|\/$/g, '');
-    const pageData = pagesData[path];
-    setPage(pageData || null);
-  }, [location.pathname]);
+  // pagesData is a static import, so resolve during render. Deferring this to
+  // an effect meant the first render was always the "not found" branch, which
+  // is what prerendering (scripts/prerender.mjs) captured for these pages.
+  const page = pagesData[location.pathname.replace(/^\/|\/$/g, '')] || null;
 
   if (!page) {
     return (

@@ -8,6 +8,7 @@ import PopupFormWrapper from './components/PopupFormWrapper';
 import AppointmentForm from './components/AppointmentForm';
 import GlobalAnnouncementBar from './components/GlobalAnnouncementBar';
 import GlobalPromotionPopup from './components/GlobalPromotionPopup';
+import WebMcpTools from './components/WebMcpTools';
 import { usePageTracking } from './hooks/usePageTracking';
 import { useVersionCheck } from './hooks/useVersionCheck';
 
@@ -116,20 +117,24 @@ function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
   );
 }
 
-export default function App() {
-  useVersionCheck();
-
+/**
+ * Everything below the router. Split out from App so the build-time
+ * prerenderer (scripts/prerender.mjs) can render it inside a StaticRouter,
+ * while the browser keeps using BrowserRouter below.
+ */
+export function AppRoutes() {
   const [isBookOpen, setIsBookOpen] = useState(false);
 
   const openBookModal = () => setIsBookOpen(true);
   const closeBookModal = () => setIsBookOpen(false);
 
   return (
-    <Router>
+    <>
       <PageTracking />
       <ScrollToTop />
       <GlobalAnnouncementBar />
       <GlobalPromotionPopup />
+      <WebMcpTools onBookClick={openBookModal} />
 
       <SiteChrome onBookClick={openBookModal}>
         <Routes>
@@ -170,6 +175,16 @@ export default function App() {
       </SiteChrome>
 
       <GlobalSiteWidgets isBookOpen={isBookOpen} closeBookModal={closeBookModal} />
+    </>
+  );
+}
+
+export default function App() {
+  useVersionCheck();
+
+  return (
+    <Router>
+      <AppRoutes />
     </Router>
   );
 }

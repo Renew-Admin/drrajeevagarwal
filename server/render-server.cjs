@@ -203,7 +203,89 @@ function stripExistingSeoTags(html) {
   return html
     .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
     .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '');
+    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, '');
+}
+
+// JSON-LD structured data — mirrors buildJsonLd() in src/worker.js. Functions
+// reference SITE_ORIGIN (declared later) only at call time, so ordering is safe.
+const BREADCRUMB_LABELS = {
+  'about-me': 'About',
+  'all-services': 'Services',
+  'book-an-appointment': 'Book an Appointment',
+  blog: 'Blog',
+};
+const JSONLD_DESCRIPTION =
+  'Consult Dr. Rajeev Agarwal, a leading fertility specialist and gynaecologist in Kolkata with 25+ years of experience in IVF, IUI, laparoscopy, PCOS, and women’s health.';
+const JSONLD_LOGO_PATH = '/assets/2025/03/cropped-Favicon-192x192.webp';
+
+function humanizeSegment(seg) {
+  return seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function buildBreadcrumb(pathname) {
+  const clean = (pathname || '/').replace(/\/+$/, '') || '/';
+  const items = [{ name: 'Home', url: `${SITE_ORIGIN}/` }];
+  if (clean !== '/') {
+    let acc = '';
+    for (const seg of clean.split('/').filter(Boolean)) {
+      acc += `/${seg}`;
+      items.push({ name: BREADCRUMB_LABELS[seg] || humanizeSegment(seg), url: SITE_ORIGIN + acc });
+    }
+  }
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: it.url,
+    })),
+  };
+}
+
+function buildJsonLd(pathname) {
+  const orgId = `${SITE_ORIGIN}/#clinic`;
+  const physicianId = `${SITE_ORIGIN}/#physician`;
+  const websiteId = `${SITE_ORIGIN}/#website`;
+  const logo = SITE_ORIGIN + JSONLD_LOGO_PATH;
+
+  const graph = [
+    {
+      '@type': ['MedicalClinic', 'MedicalBusiness'],
+      '@id': orgId,
+      name: 'Dr. Rajeev Agarwal — Renew Healthcare',
+      url: `${SITE_ORIGIN}/`,
+      description: JSONLD_DESCRIPTION,
+      image: logo,
+      logo,
+      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
+      areaServed: { '@type': 'City', name: 'Kolkata' },
+      founder: { '@id': physicianId },
+      // TODO(NAP — audit item 14): add address + telephone once confirmed.
+    },
+    {
+      '@type': 'Physician',
+      '@id': physicianId,
+      name: 'Dr. Rajeev Agarwal',
+      url: `${SITE_ORIGIN}/about-me`,
+      jobTitle: 'Fertility Specialist & Gynaecologist',
+      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
+      worksFor: { '@id': orgId },
+      image: logo,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      name: 'Dr. Rajeev Agarwal',
+      url: `${SITE_ORIGIN}/`,
+      publisher: { '@id': orgId },
+    },
+    buildBreadcrumb(pathname),
+  ];
+
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">${json}</script>`;
 }
 
 function injectSeoTags(html, pathname) {
@@ -232,16 +314,43 @@ function injectSeoTags(html, pathname) {
     `<meta property="og:site_name" content="Dr. Rajeev Agarwal">`
   ].join('\n    ');
 
+  const jsonLd = buildJsonLd(pathname);
+
   result = result.replace(
     /(<\/title>)/,
-    `$1\n    ${seoTags}`
+    `$1\n    ${seoTags}\n    ${jsonLd}`
   );
 
   return result;
 }
 
+/**
+ * Pick the HTML document for a route.
+ *
+ * scripts/prerender.mjs writes a prerendered <route>/index.html for every
+ * indexable route, so serve that when it exists — otherwise the page would ship
+ * the homepage's markup under a different URL. Paths that were not prerendered
+ * fall back to the empty shell, which the client renders as before.
+ */
+function resolvePageFile(pathname) {
+  const clean = (pathname || '/').replace(/^\/+|\/+$/g, '');
+
+  if (clean) {
+    const candidate = path.join(PUBLIC_DIR, clean, 'index.html');
+    // path.join collapses "..", so confirm we never escape the build directory.
+    if (candidate.startsWith(PUBLIC_DIR + path.sep) && fs.existsSync(candidate)) {
+      return candidate;
+    }
+  } else {
+    return INDEX_FILE;
+  }
+
+  const shell = path.join(PUBLIC_DIR, 'spa-shell.html');
+  return fs.existsSync(shell) ? shell : INDEX_FILE;
+}
+
 function sendSpaPage(response, pathname) {
-  fs.readFile(INDEX_FILE, 'utf8', (err, html) => {
+  fs.readFile(resolvePageFile(pathname), 'utf8', (err, html) => {
     if (err) {
       sendJson(response, 500, { error: 'Could not read index.html' });
       return;

@@ -332,17 +332,21 @@ function VideoCarousel() {
   const [playing, setPlaying] = useState(null);
   const viewportRef = useRef(null);
   const [slideWidth, setSlideWidth] = useState(0);
+  // Starts at the narrow layout and is corrected on mount. Reading
+  // window.innerWidth during render would break build-time prerendering
+  // (scripts/prerender.mjs) and desync hydration.
+  const [cardsPerView, setCardsPerView] = useState(1);
 
   useEffect(() => {
     const measure = () => {
       if (viewportRef.current) setSlideWidth(viewportRef.current.offsetWidth);
+      setCardsPerView(window.innerWidth >= 992 ? 2 : 1);
     };
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
   }, []);
 
-  const cardsPerView = window.innerWidth >= 992 ? 2 : 1;
   const gap = cardsPerView === 2 ? 15 : 10;
   const stepWidth = (slideWidth - gap) / cardsPerView + gap;
   const maxIndex = studioVideos.length - cardsPerView;
@@ -535,17 +539,19 @@ function EventCarousel() {
   const [paused, setPaused] = useState(false);
   const viewportRef = useRef(null);
   const [slideWidth, setSlideWidth] = useState(0);
+  // See VideoCarousel: corrected on mount so prerendering and hydration agree.
+  const [cardsPerView, setCardsPerView] = useState(1);
 
   useEffect(() => {
     const measure = () => {
       if (viewportRef.current) setSlideWidth(viewportRef.current.offsetWidth);
+      setCardsPerView(window.innerWidth >= 768 ? 2 : 1);
     };
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
   }, []);
 
-  const cardsPerView = window.innerWidth >= 768 ? 2 : 1;
   const gap = 10;
   const stepWidth = (slideWidth - gap) / cardsPerView + gap;
   const maxIndex = events.length - cardsPerView;
