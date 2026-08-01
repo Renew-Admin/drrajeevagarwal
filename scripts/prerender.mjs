@@ -20,6 +20,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { build } from 'vite';
 
 import { getMetaForPath } from '../src/utils/seoMeta.cjs';
+import { buildJsonLd } from '../src/utils/jsonLd.cjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -29,6 +30,19 @@ const ROOT_INDEX = join(BUILD_DIR, 'index.html');
 
 // The empty mount point vite emits. Prerendered markup goes inside it.
 const ROOT_MARKER = '<div id="root"></div>';
+
+// Doctor profiles are linked from /doctors but intentionally kept out of the
+// sitemap. They still need files so they do not 404 (see readRoutes).
+const EXTRA_ROUTES = [
+  '/doctors/dr-emily-walker',
+  '/doctors/dr-olivia-bennett',
+  '/doctors/dr-sussie-wolff',
+  '/doctors/dr-ethan-williams',
+];
+
+// Client-only routes that must resolve but must never be prerendered or
+// indexed. They get the empty shell plus a noindex tag.
+const SHELL_ONLY_ROUTES = ['/admin'];
 
 if (!existsSync(ROOT_INDEX)) {
   console.error('[prerender] build/index.html not found — run vite build first.');
@@ -61,10 +75,19 @@ function readRoutes() {
     routes.push(path);
   }
 
+  // Public routes that are deliberately absent from the sitemap but must still
+  // exist as files: not_found_handling = "404-page" in wrangler.toml means
+  // anything without a file returns a real 404, and these are real pages.
+  for (const path of EXTRA_ROUTES) {
+    if (seen.has(path)) continue;
+    seen.add(path);
+    routes.push(path);
+  }
+
   return routes;
 }
 
-// ─── SEO head for routes we create from scratch ────────────────────────────
+// ─── SEO head ──────────────────────────────────────────────────────────────
 
 function escapeHtml(str) {
   return str
@@ -74,18 +97,24 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
-/**
- * Mirrors stripExistingSeoTags() in src/worker.js. Only used for pages we
- * create fresh from the homepage shell (blog posts), which would otherwise
- * inherit the homepage's canonical/description/OG tags.
- */
+/** Mirrors stripExistingSeoTags() in src/worker.js. */
 function stripExistingSeoTags(html) {
   return html
     .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
     .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '');
+    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '')
+    .replace(/[ \t]*<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, '');
 }
 
+/**
+ * Rewrite the head for a route: title, description, canonical, OG tags and the
+ * JSON-LD graph.
+ *
+ * This runs for EVERY route, not just pages created from the shell. On
+ * Cloudflare static assets are served without invoking the Worker, so anything
+ * the Worker would have injected at runtime — JSON-LD in particular — only
+ * reaches visitors if it is baked in here at build time.
+ */
 function withSeoHead(html, route) {
   const meta = getMetaForPath(route);
   const safeTitle = escapeHtml(meta.title);
@@ -100,6 +129,7 @@ function withSeoHead(html, route) {
     `<meta property="og:url" content="${safeCanonical}">`,
     `<meta property="og:type" content="website">`,
     `<meta property="og:site_name" content="Dr. Rajeev Agarwal">`,
+    buildJsonLd(route),
   ].join('\n    ');
 
   return stripExistingSeoTags(html)
@@ -141,7 +171,12 @@ async function buildSsrBundle() {
  * error. That is worse than no prerendering at all — it is what search engines
  * would index — and it fails silently, so check for it explicitly.
  */
-const NOT_FOUND_MARKERS = ['Article Not Found', 'Policy Page Not Found', 'This page does not exist'];
+const NOT_FOUND_MARKERS = [
+  'Article Not Found',
+  'Policy Page Not Found',
+  'Doctor Profile Not Found',
+  'This page does not exist',
+];
 
 // Header + footer chrome alone is roughly 1,400 characters. Anything near that
 // rendered no page body.
@@ -205,17 +240,14 @@ for (const route of routes) {
     continue;
   }
 
-  // Pages listed in scripts/inject-seo-tags.mjs already have the right head
-  // tags. Anything else (blog posts) is created here from the homepage shell,
-  // so its head has to be rewritten for this route.
-  let html;
-  if (existsSync(targetFile)) {
-    html = readFileSync(targetFile, 'utf8');
-  } else {
-    html = withSeoHead(shell, route);
+  // Always rewrite the head, whether the file came from inject-seo-tags.mjs or
+  // is being created here. Baking the JSON-LD in is the only way it reaches
+  // Cloudflare visitors, since assets are served without invoking the Worker.
+  if (!existsSync(targetFile)) {
     mkdirSync(targetDir, { recursive: true });
     created++;
   }
+  const html = withSeoHead(shell, route);
 
   if (!html.includes(ROOT_MARKER)) {
     failures.push({ route, reason: 'mount point <div id="root"></div> not found' });
@@ -233,7 +265,22 @@ for (const route of routes) {
 
 rmSync(SSR_DIR, { force: true, recursive: true });
 
-console.log(`[prerender] prerendered ${rendered}/${routes.length} routes (${created} new index.html files).`);
+// Client-only routes: emit the empty shell so they resolve instead of hitting
+// not_found_handling, but never prerender their content and never let them be
+// indexed. main.jsx sees no data-prerendered-path and client-renders.
+for (const route of SHELL_ONLY_ROUTES) {
+  const targetDir = join(BUILD_DIR, route.replace(/^\/+|\/+$/g, ''));
+  mkdirSync(targetDir, { recursive: true });
+  writeFileSync(
+    join(targetDir, 'index.html'),
+    shell.replace('</title>', '</title>\n    <meta name="robots" content="noindex, nofollow">'),
+  );
+}
+
+console.log(
+  `[prerender] prerendered ${rendered}/${routes.length} routes ` +
+  `(${created} new index.html files, ${SHELL_ONLY_ROUTES.length} shell-only).`,
+);
 
 if (failures.length) {
   console.error(`[prerender] ${failures.length} route(s) failed:`);

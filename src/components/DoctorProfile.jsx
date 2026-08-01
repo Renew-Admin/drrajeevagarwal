@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, ArrowLeft, Award, GraduationCap, CheckCircle } from 'lucide-react';
 
@@ -39,11 +39,11 @@ const doctorsData = {
 
 export default function DoctorProfile({ onBookClick }) {
   const { slug } = useParams();
-  const [doc, setDoc] = useState(null);
 
-  useEffect(() => {
-    if (slug) setDoc(doctorsData[slug.trim().replace(/\/$/, '')] || null);
-  }, [slug]);
+  // doctorsData is a module-scope constant, so resolve during render. Deferring
+  // it to an effect made the first render the "not found" branch, which is what
+  // prerendering (scripts/prerender.mjs) captured for these pages.
+  const doc = slug ? doctorsData[slug.trim().replace(/\/$/, '')] || null : null;
 
   if (!doc) {
     return (

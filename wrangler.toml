@@ -7,13 +7,23 @@ preview_urls = false
 [assets]
 directory = "./build"
 binding = "ASSETS"
-not_found_handling = "single-page-application"
+# Every real route is prerendered to its own file, so anything without a file
+# genuinely does not exist and must say so. "single-page-application" answered
+# 200 with the homepage for junk URLs, old blog permalinks and /wp-admin —
+# soft 404s that Google reads as duplicate homepage content.
+not_found_handling = "404-page"
 
 # The Worker only sees these prefixes; everything else is served straight from
-# the prerendered assets. /.well-known/* is routed here so unpublished
-# discovery documents can answer 404 instead of falling through to the SPA
-# shell and returning a 200 HTML page to an agent asking for JSON.
-run_worker_first = ["/api/*", "/.well-known/*"]
+# the prerendered assets.
+#   /api/*         — lead + workshop webhook proxies
+#   /.well-known/* — 404 unpublished discovery documents instead of serving HTML
+#   /wp-*          — legacy WordPress paths that must answer 410 Gone / 403,
+#                    which _redirects cannot express (3xx only)
+#   /xmlrpc.php    — 403 Forbidden
+# /wp-styles/* is excluded: those are real stylesheets this site still serves.
+# Legacy 301s (old blog permalinks, /preconception-care, /feed, /author/*) are
+# handled by the generated _redirects file, which needs no Worker invocation.
+run_worker_first = ["/api/*", "/.well-known/*", "/wp-*", "!/wp-styles/*", "/xmlrpc.php"]
 # Every prerendered page lives at <route>/index.html. The default
 # ("auto-trailing-slash") answers /about-me with a 307 to /about-me/, which
 # would make every canonical tag and every sitemap URL redirect. Serve them at
