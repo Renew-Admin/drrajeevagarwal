@@ -863,10 +863,29 @@ export default function Home({ onBookClick }) {
 
             <div className="ra-hero-visual">
               <div className="ra-doctor-frame">
-                <img className="ra-hero-image" src={heroImg} alt="Dr. Rajeev Agarwal fertility specialist in Kolkata" />
+                {/* The LCP element on the homepage. fetchpriority="high" and an
+                    explicit eager load stop the browser deprioritising it behind
+                    the stylesheets and the JS bundle. */}
+                <img
+                  className="ra-hero-image"
+                  src={heroImg}
+                  alt="Dr. Rajeev Agarwal fertility specialist in Kolkata"
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
+                  width="941"
+                  height="1672"
+                />
                 <div className="ra-hero-mobile-copy">
                   <div className="ra-eyebrow"><Sparkles size={15} /> Kolkata's Leading Fertility Specialist</div>
-                  <h1>Your Dream of <em>Parenthood</em>, My Commitment</h1>
+                  {/*
+                    Deliberately a div, not an h1. This is the mobile rendering of
+                    the same hero headline as .ra-hero-copy above; CSS shows one or
+                    the other, but both are in the DOM, so two <h1> elements were
+                    being emitted on every homepage. .ra-hero-mobile-title carries
+                    the identical styling.
+                  */}
+                  <div className="ra-hero-mobile-title">Your Dream of <em>Parenthood</em>, My Commitment</div>
                   <p>
                     IVF, IUI and advanced gynecological care with compassion, precision and 25+ years of experience.
                   </p>

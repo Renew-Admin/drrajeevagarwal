@@ -19,7 +19,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { build } from 'vite';
 
-import { getMetaForPath } from '../src/utils/seoMeta.cjs';
+import { getMetaForPath, escapeHtml, stripExistingSeoTags, buildSeoTags } from '../src/utils/seoMeta.cjs';
 import { buildJsonLd } from '../src/utils/jsonLd.cjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -33,12 +33,22 @@ const ROOT_MARKER = '<div id="root"></div>';
 
 // Doctor profiles are linked from /doctors but intentionally kept out of the
 // sitemap. They still need files so they do not 404 (see readRoutes).
+//
+// They also get noindex. Excluding a URL from the sitemap does not stop Google
+// indexing it — it was still crawlable from /doctors and still indexable, so
+// the exclusion expressed an intent the markup never enforced. These are
+// placeholder personas rather than named practitioners at this clinic, and an
+// indexable staff profile that does not correspond to a real doctor is an
+// E-E-A-T liability on a medical site. "follow" is kept so the internal links
+// on those pages still pass value.
 const EXTRA_ROUTES = [
   '/doctors/dr-emily-walker',
   '/doctors/dr-olivia-bennett',
   '/doctors/dr-sussie-wolff',
   '/doctors/dr-ethan-williams',
 ];
+
+const NOINDEX_ROUTES = new Set(EXTRA_ROUTES);
 
 // Client-only routes that must resolve but must never be prerendered or
 // indexed. They get the empty shell plus a noindex tag.
@@ -89,26 +99,10 @@ function readRoutes() {
 
 // ─── SEO head ──────────────────────────────────────────────────────────────
 
-function escapeHtml(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-/** Mirrors stripExistingSeoTags() in src/worker.js. */
-function stripExistingSeoTags(html) {
-  return html
-    .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, '');
-}
-
 /**
- * Rewrite the head for a route: title, description, canonical, OG tags and the
- * JSON-LD graph.
+ * Rewrite the head for a route: title, description, canonical, OG/Twitter tags
+ * and the JSON-LD graph. The tag block itself is built in seoMeta.cjs so this
+ * and src/worker.js cannot drift.
  *
  * This runs for EVERY route, not just pages created from the shell. On
  * Cloudflare static assets are served without invoking the Worker, so anything
@@ -117,24 +111,15 @@ function stripExistingSeoTags(html) {
  */
 function withSeoHead(html, route) {
   const meta = getMetaForPath(route);
-  const safeTitle = escapeHtml(meta.title);
-  const safeDesc = escapeHtml(meta.description);
-  const safeCanonical = escapeHtml(meta.canonicalUrl);
+  const parts = [buildSeoTags(route), buildJsonLd(route)];
 
-  const seoBlock = [
-    `<meta name="description" content="${safeDesc}">`,
-    `<link rel="canonical" href="${safeCanonical}">`,
-    `<meta property="og:title" content="${safeTitle}">`,
-    `<meta property="og:description" content="${safeDesc}">`,
-    `<meta property="og:url" content="${safeCanonical}">`,
-    `<meta property="og:type" content="website">`,
-    `<meta property="og:site_name" content="Dr. Rajeev Agarwal">`,
-    buildJsonLd(route),
-  ].join('\n    ');
+  if (NOINDEX_ROUTES.has(route)) {
+    parts.unshift('<meta name="robots" content="noindex, follow">');
+  }
 
   return stripExistingSeoTags(html)
-    .replace(/<title>[^<]*<\/title>/, `<title>${safeTitle}</title>`)
-    .replace('</title>', `</title>\n    ${seoBlock}`);
+    .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(meta.title)}</title>`)
+    .replace('</title>', `</title>\n    ${parts.join('\n    ')}`);
 }
 
 // ─── Build the SSR bundle ──────────────────────────────────────────────────

@@ -4396,6 +4396,16 @@ a.ra-quick-card:hover {
   margin-bottom: 1rem;
 }
 
+/* An <h1> inside the migrated policy body is rendered as <h2> so the page
+   ships a single <h1> (see PolicyPage.jsx). These declarations restore the
+   h1 appearance it had before the demotion, so nothing moves visually. */
+.policy-content h2[data-was-h1] {
+  color: var(--text);
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+}
+
 .policy-content p {
   margin-bottom: 1.25rem;
 }
@@ -13113,15 +13123,21 @@ a.ra-quick-card:hover {
     flex: 0 0 auto;
   }
 
-  .ra-home .ra-hero-mobile-copy h1 {
+  .ra-home .ra-hero-mobile-copy h1,
+  .ra-home .ra-hero-mobile-copy .ra-hero-mobile-title {
     max-width: 330px;
     margin: 0 0 8px;
     color: #fff;
     font-size: clamp(28px, 8vw, 36px);
     line-height: 1.04;
+    /* .ra-hero-mobile-title is a div, so the heading weight and letter spacing
+       the UA stylesheet supplies for an h1 are set explicitly here. */
+    font-weight: 700;
+    letter-spacing: 0;
   }
 
-  .ra-home .ra-hero-mobile-copy h1 em {
+  .ra-home .ra-hero-mobile-copy h1 em,
+  .ra-home .ra-hero-mobile-copy .ra-hero-mobile-title em {
     color: var(--gold);
   }
 
@@ -13184,7 +13200,8 @@ a.ra-quick-card:hover {
     padding: 13px 13px 0;
   }
 
-  .ra-home .ra-hero-mobile-copy h1 {
+  .ra-home .ra-hero-mobile-copy h1,
+  .ra-home .ra-hero-mobile-copy .ra-hero-mobile-title {
     max-width: 292px;
     font-size: 27px;
   }

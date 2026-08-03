@@ -9,6 +9,17 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
+# Zero-byte index.html files left behind by WordPress to suppress directory
+# listings. They are unlinked but still answer 200 with an empty body, which is
+# exactly what a thin/soft-404 page looks like. /assets/ itself stays crawlable
+# so images remain eligible for Google Images.
+Disallow: /assets/wpcode/
+Disallow: /assets/wc-logs/
+Disallow: /assets/woocommerce_uploads/
+Disallow: /assets/crm_perks_uploads/
+Disallow: /assets/backup/
+Disallow: /assets/al_opt_content/
+
 # ── AI / LLM crawlers (explicitly allowed) ──────────────────────────────
 User-agent: GPTBot
 Allow: /

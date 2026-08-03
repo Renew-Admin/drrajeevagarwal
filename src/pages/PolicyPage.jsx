@@ -14,6 +14,17 @@ export default function PolicyPage() {
   // is what prerendering (scripts/prerender.mjs) captured for these pages.
   const page = pagesData[location.pathname.replace(/^\/|\/$/g, '')] || null;
 
+  // The migrated WordPress body for some policy pages opens with its own <h1>
+  // (e.g. /disclaimer-policy), which collides with the page-title <h1> in the
+  // hero below and ships two <h1> elements. Demote the in-content one to <h2>
+  // and tag it so CSS can keep it looking exactly as it did.
+  const policyHtml = React.useMemo(() => {
+    if (!page?.content) return '';
+    return page.content
+      .replace(/<h1(\s[^>]*)?>/gi, (_m, attrs = '') => `<h2${attrs || ''} data-was-h1="true">`)
+      .replace(/<\/h1>/gi, '</h2>');
+  }, [page]);
+
   if (!page) {
     return (
       <div className="inner-page" style={{ display: 'flex', alignItems: 'center', minHeight: '60vh' }}>
@@ -35,7 +46,7 @@ export default function PolicyPage() {
       <section className="inner-section inner-section-blue">
         <div className="ra-container" style={{ maxWidth: 860 }}>
           <div className="inner-card" style={{ padding: '44px 40px' }}>
-            <div className="policy-content" dangerouslySetInnerHTML={{ __html: page.content }} />
+            <div className="policy-content" dangerouslySetInnerHTML={{ __html: policyHtml }} />
           </div>
         </div>
       </section>

@@ -23,11 +23,24 @@
 - [Women's Health Check](https://drrajeevagarwal.co.in/womens-health-check)
 - [Period Pain Relief](https://drrajeevagarwal.co.in/period-pain-relief)
 - [Urinary Incontinence Treatment](https://drrajeevagarwal.co.in/urinary-incontinence)
+- [Urinary Laser Therapy](https://drrajeevagarwal.co.in/urinary-laser-therapy)
+- [Sexual Pain Relief (Dyspareunia)](https://drrajeevagarwal.co.in/sexual-pain-relief)
+- [Vaginismus Therapy](https://drrajeevagarwal.co.in/vaginismus-therapy)
+- [Learn With Dr. Rajeev Agarwal (professional training)](https://drrajeevagarwal.co.in/learn-with-dr-rajeev-agarwal)
 - [Virtual Consultations](https://drrajeevagarwal.co.in/virtual-consults)
 
 ## Contact & booking
 - Practice: Renew Healthcare, Kolkata, India
+- Address: 18C Mandeville Gardens, Kolkata, West Bengal 700019
+- Centres: Gariahat (Kolkata), Salt Lake (Kolkata), Jamshedpur
+- Phone: +91 83369 68661
+- Email: fertilitywithoutborders@gmail.com
+- Hours: Monday to Friday, 9:00 AM - 7:00 PM IST
 - Book: https://drrajeevagarwal.co.in/book-an-appointment
+
+## Article index
+Every published article is listed in the sitemap with its publication date:
+https://drrajeevagarwal.co.in/sitemap.xml — articles live under /blog/<slug>.
 
 ## Optional
 - [Patient Success Stories](https://drrajeevagarwal.co.in/success-stories)

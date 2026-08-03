@@ -1,7 +1,12 @@
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
-const { getMetaForPath } = require('../src/utils/seoMeta.cjs');
+const {
+  getMetaForPath,
+  escapeHtml,
+  stripExistingSeoTags,
+  buildSeoTags,
+} = require('../src/utils/seoMeta.cjs');
 const { buildJsonLd } = require('../src/utils/jsonLd.cjs');
 const blogSlugs = require('../src/data/blogSlugs.cjs');
 
@@ -187,64 +192,25 @@ function sendStaticFile(response, filePath) {
     .pipe(response);
 }
 
-function escapeHtml(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-/**
- * Remove any SEO tags already present in the served HTML before injecting the
- * per-route block, so a page never ships duplicate canonical/description/OG
- * tags. Mirrors stripExistingSeoTags() in src/worker.js.
- */
-function stripExistingSeoTags(html) {
-  return html
-    .replace(/[ \t]*<meta[^>]*\sname=["']description["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<link[^>]*\srel=["']canonical["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<meta[^>]*\sproperty=["']og:[^"']*["'][^>]*>\s*/gi, '')
-    .replace(/[ \t]*<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>\s*/gi, '');
-}
-
-// JSON-LD structured data lives in src/utils/jsonLd.cjs, shared with
-// scripts/prerender.mjs and src/worker.js so all three emit the same markup.
+// escapeHtml / stripExistingSeoTags / buildSeoTags come from src/utils/seoMeta.cjs,
+// shared with scripts/prerender.mjs and src/worker.js. This file used to carry
+// its own copies, which stripped the baked og:* tags and then re-added a block
+// that had no og:image — silently undoing the share image on every page it
+// served. JSON-LD is shared the same way, via src/utils/jsonLd.cjs.
 
 function injectSeoTags(html, pathname) {
   const meta = getMetaForPath(pathname);
-  const safeTitle = escapeHtml(meta.title);
-  const safeDesc = escapeHtml(meta.description);
-  const safeUrl = escapeHtml(meta.canonicalUrl);
 
-  // Remove any pre-baked description/canonical/OG tags so we never emit duplicates.
-  html = stripExistingSeoTags(html);
-
-  // Replace <title>
-  let result = html.replace(
+  // Strip pre-baked description/canonical/OG tags so we never emit duplicates.
+  const result = stripExistingSeoTags(html).replace(
     /<title>[^<]*<\/title>/,
-    `<title>${safeTitle}</title>`
+    `<title>${escapeHtml(meta.title)}</title>`
   );
 
-  // Inject meta tags right after closing </title>
-  const seoTags = [
-    `<meta name="description" content="${safeDesc}">`,
-    `<link rel="canonical" href="${safeUrl}">`,
-    `<meta property="og:title" content="${safeTitle}">`,
-    `<meta property="og:description" content="${safeDesc}">`,
-    `<meta property="og:url" content="${safeUrl}">`,
-    `<meta property="og:type" content="website">`,
-    `<meta property="og:site_name" content="Dr. Rajeev Agarwal">`
-  ].join('\n    ');
-
-  const jsonLd = buildJsonLd(pathname);
-
-  result = result.replace(
+  return result.replace(
     /(<\/title>)/,
-    `$1\n    ${seoTags}\n    ${jsonLd}`
+    `$1\n    ${buildSeoTags(pathname)}\n    ${buildJsonLd(pathname)}`
   );
-
-  return result;
 }
 
 /**
