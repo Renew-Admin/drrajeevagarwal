@@ -598,7 +598,7 @@ function LiveSessionSection() {
       <div className="ra-container pcw-schedule">
         <div className="pcw-schedule-copy">
           <span className="ra-label"><CalendarCheck size={16} /> Live Session</span>
-          <h2 className="pcw-schedule-headline">Register for our next cohort coming soon</h2>
+          <h2 className="pcw-schedule-headline">Register for our next session coming soon</h2>
         </div>
         <div className="pcw-schedule-details">
           <span>11:00 AM - 12:30 PM IST</span>
