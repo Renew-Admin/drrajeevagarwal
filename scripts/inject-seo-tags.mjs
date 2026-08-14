@@ -11,6 +11,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
+import { MENOPAUSE_ROUTE_META } from '../src/data/menopauseCare.js';
+
 const BUILD_DIR = join(process.cwd(), 'build');
 const INDEX_FILE = join(BUILD_DIR, 'index.html');
 
@@ -147,6 +149,9 @@ const ROUTE_META = {
     title: 'Women\u2019s Health Check | Dr. Rajeev Agarwal',
     description: 'Comprehensive women\u2019s health check-ups and preventive screening by Dr. Rajeev Agarwal at Renew Healthcare, Kolkata.',
   },
+
+  // Menopause Care hub — written once in src/data/menopauseCare.js
+  ...MENOPAUSE_ROUTE_META,
 };
 
 function escapeHtml(str) {

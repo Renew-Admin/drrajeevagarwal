@@ -7,6 +7,7 @@
 - [About Dr. Rajeev Agarwal](https://drrajeevagarwal.co.in/about-me): 25+ year journey in fertility medicine — training, awards, publications, and patient-first philosophy at Renew Healthcare.
 - [All Services](https://drrajeevagarwal.co.in/all-services): Full range — IVF, IUI, laparoscopy, hysteroscopy, PCOS management, menopause care, fertility preservation, and more.
 - [Preconception Counselling — The Zero Trimester](https://drrajeevagarwal.co.in/preconception): Structured preconception care — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners.
+- [Perimenopause & Menopause Care](https://drrajeevagarwal.co.in/menopause-care): Patient education hub — symptoms, a scored symptom quiz, HRT/MHT explained, tests, diet and exercise, and the multidisciplinary care team.
 - [Health Blog](https://drrajeevagarwal.co.in/blog): Evidence-based articles on fertility, pregnancy, PCOS, menopause, IVF, and women's health.
 - [Book an Appointment](https://drrajeevagarwal.co.in/book-an-appointment): Schedule an in-person or virtual consultation at Renew Healthcare, Kolkata.
 
@@ -37,6 +38,15 @@
 - Email: fertilitywithoutborders@gmail.com
 - Hours: Monday to Friday, 9:00 AM - 7:00 PM IST
 - Book: https://drrajeevagarwal.co.in/book-an-appointment
+
+## Perimenopause & menopause care
+- [Menopause Care hub](https://drrajeevagarwal.co.in/menopause-care): Where the transition sits in the timeline, why the 40s are the decade to act, and where to go next.
+- [Perimenopause Symptoms & Quiz](https://drrajeevagarwal.co.in/menopause-care/perimenopause-symptoms-quiz): The 18 symptoms that signal perimenopause, plus a free five-minute quiz that scores the pattern by body system (cycle, vasomotor, sleep, mood, cognition, metabolic, musculoskeletal, genitourinary). Correlation tool, not a diagnosis.
+- [HRT / MHT Guide](https://drrajeevagarwal.co.in/menopause-care/hrt-hormone-therapy): What hormone therapy is, what the 2002 WHI trial actually showed and its limitations, who it suits, oral vs transdermal routes, duration, risks in absolute terms, and non-hormonal alternatives.
+- [Tests & Diagnostics](https://drrajeevagarwal.co.in/menopause-care/tests-and-diagnostics): Thyroid, FSH and estradiol, HbA1c and insulin resistance, lipids and hs-CRP, DEXA, vitamin D, Pap smear and mammography — what each rules in or out, plus ASCVD/QRISK3 and US MEC 2024.
+- [Diet, Exercise & Lifestyle](https://drrajeevagarwal.co.in/menopause-care/diet-exercise-and-lifestyle): Blood-sugar stability, 25-30g protein per meal, resistance and impact training for bone, supplements worth discussing, and a BMI and waist check.
+- [Menopause Care Team](https://drrajeevagarwal.co.in/menopause-care/care-team): Gynaecology (Dr. Rajeev Agarwal, clinical lead), metabolic medicine, mental health counselling, exercise medicine, clinical nutrition and genetics.
+- [Menopause Articles & Videos](https://drrajeevagarwal.co.in/menopause-care/articles-and-videos): Video library and written articles on perimenopause, menopause and hormone therapy.
 
 ## Article index
 Every published article is listed in the sitemap with its publication date:

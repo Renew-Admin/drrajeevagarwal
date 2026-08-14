@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const concernServices = [
+  ['Menopause Care', '/menopause-care'],
   ['Fertility Support', '/fertility-support-services'],
   ['PCOS Care', '/pcos-care'],
   ['Period Pain Relief', '/period-pain-relief'],

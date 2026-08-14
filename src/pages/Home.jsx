@@ -758,6 +758,7 @@ export default function Home({ onBookClick }) {
       <Link to="/courses">Courses</Link>
       <Link to="/blog">Blog</Link>
       <a href="#success-stories">Success Stories</a>
+      <Link to="/menopause-care">Menopause Care</Link>
     </>
   );
 
@@ -811,6 +812,7 @@ export default function Home({ onBookClick }) {
       <Link to="/courses" onClick={closeMobileMenu}>Courses</Link>
       <Link to="/blog" onClick={closeMobileMenu}>Blog</Link>
       <a href="#success-stories" onClick={closeMobileMenu}>Success Stories</a>
+      <Link to="/menopause-care" onClick={closeMobileMenu}>Menopause Care</Link>
     </>
   );
 

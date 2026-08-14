@@ -3,6 +3,16 @@
  */
 
 const blogMeta = require('../data/blogMeta.cjs');
+const menopauseSeo = require('../data/menopauseSeo.cjs');
+
+// { '/menopause-care/...': { title, description } }, generated from
+// src/data/menopauseCare.js so the section's meta is written once.
+const menopauseRouteMeta = Object.fromEntries(
+  Object.entries(menopauseSeo).map(([path, meta]) => [
+    path,
+    { title: meta.title, description: meta.description },
+  ]),
+);
 
 const SITE_ORIGIN = 'https://drrajeevagarwal.co.in';
 
@@ -81,6 +91,9 @@ const ROUTE_META = {
     title: 'Cancellation & Refund Policy | Dr. Rajeev Agarwal',
     description: 'Review the cancellation and refund policy for appointments and services at Renew Healthcare with Dr. Rajeev Agarwal.',
   },
+
+  // ── Menopause Care hub ───────────────────────────────────────────────────
+  ...menopauseRouteMeta,
 
   // ── Service pages ────────────────────────────────────────────────────────
   // These were previously title-cased from the slug, which produced broken

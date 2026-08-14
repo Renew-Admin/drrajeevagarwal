@@ -8,6 +8,8 @@
  *  - Render server (server/render-server.cjs) — CJS copy at seoMeta.cjs
  */
 
+import { MENOPAUSE_ROUTE_META } from '../data/menopauseCare';
+
 export const SITE_ORIGIN = 'https://drrajeevagarwal.co.in';
 
 export const DEFAULT_META = {
@@ -80,6 +82,9 @@ export const ROUTE_META = {
     title: 'Cancellation & Refund Policy | Dr. Rajeev Agarwal',
     description: 'Review the cancellation and refund policy for appointments and services at Renew Healthcare with Dr. Rajeev Agarwal.',
   },
+
+  // ── Menopause Care hub — written once in src/data/menopauseCare.js ───────
+  ...MENOPAUSE_ROUTE_META,
 
   // ── Service pages ────────────────────────────────────────────────────────
   // These were previously title-cased from the slug, which produced broken

@@ -30,6 +30,32 @@ import SuccessStories from './pages/SuccessStories';
 import Courses from './pages/Courses';
 import NotFound from './pages/NotFound';
 
+// Menopause Care hub (/menopause-care/*)
+import MenopauseCareHub from './pages/menopause/MenopauseCareHub';
+import SymptomsAndQuiz from './pages/menopause/SymptomsAndQuiz';
+import HrtGuide from './pages/menopause/HrtGuide';
+import TestsAndDiagnostics from './pages/menopause/TestsAndDiagnostics';
+import DietExerciseLifestyle from './pages/menopause/DietExerciseLifestyle';
+import CareTeam from './pages/menopause/CareTeam';
+import ArticlesAndVideos from './pages/menopause/ArticlesAndVideos';
+import { MENOPAUSE_PAGES } from './data/menopauseCare';
+
+/**
+ * Component per menopause-care route, keyed by the `key` in
+ * src/data/menopauseCare.js. That file is the single source of truth for the
+ * paths themselves, the nav, the sitemap and the JSON-LD — adding an entry
+ * there plus a component here is all a new sub-page needs.
+ */
+const MENOPAUSE_PAGE_COMPONENTS = {
+  hub: MenopauseCareHub,
+  symptoms: SymptomsAndQuiz,
+  hrt: HrtGuide,
+  tests: TestsAndDiagnostics,
+  lifestyle: DietExerciseLifestyle,
+  team: CareTeam,
+  library: ArticlesAndVideos,
+};
+
 // Scroll Restoration helper
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -71,39 +97,25 @@ function SiteChrome({ children, onBookClick }) {
 function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
   const location = useLocation();
   const isAdminRoute = isAdminPath(location.pathname);
-  const [chatState, setChatState] = useState({ open: false, teaser: false });
-
-  useEffect(() => {
-    const handleMessage = (e) => {
-      if (e.data && e.data.type === 'drrajeev-chat:resize') {
-        setChatState({
-          open: !!e.data.open,
-          teaser: !!e.data.teaser
-        });
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
 
   if (isAdminRoute) {
     return null;
   }
 
-  let stateClass = 'is-closed';
-  if (chatState.open) {
-    stateClass = 'is-open';
-  } else if (chatState.teaser) {
-    stateClass = 'is-teaser';
-  }
-
   return (
     <>
-      <iframe
-        className={`ra-chatbot-frame ${stateClass}`}
-        src="https://dr-rajeev-agarwal-chatbot.onrender.com"
-        title="Chatbot"
-      />
+      <a
+        className="ra-whatsapp-float"
+        href="https://wa.me/916292269060?text=Hello%20Dr.%20Rajeev%20Agarwal%27s%20team"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Chat with Dr. Rajeev Agarwal on WhatsApp"
+        title="Chat on WhatsApp"
+      >
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 3.2a12.7 12.7 0 0 0-10.9 19.2L3.4 28.8l6.6-1.7A12.8 12.8 0 1 0 16 3.2Zm0 23.3a10.5 10.5 0 0 1-5.3-1.4l-.4-.2-3.9 1 1-3.8-.3-.4A10.5 10.5 0 1 1 16 26.5Zm5.8-7.8c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6.1a8.5 8.5 0 0 1-2.5-1.5 9.4 9.4 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6s0-.4 0-.6-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.1 3.1 1.3 3.3c.2.2 2.2 3.4 5.4 4.7.8.3 1.4.5 1.9.6.8.2 1.5.1 2.1.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z" />
+        </svg>
+      </a>
 
       {/* Reusable Popup appointment scheduler */}
       <PopupFormWrapper
@@ -165,6 +177,19 @@ export function AppRoutes() {
           <Route path="/disclaimer-policy" element={<PolicyPage />} />
           <Route path="/cancellation-refund-policy" element={<PolicyPage />} />
           
+          {/* Menopause Care hub. Declared before the /:slug catch-all so the
+              hub itself is not treated as a service page. */}
+          {MENOPAUSE_PAGES.map((page) => {
+            const PageComponent = MENOPAUSE_PAGE_COMPONENTS[page.key];
+            return PageComponent ? (
+              <Route
+                key={page.path}
+                path={page.path}
+                element={<PageComponent onBookClick={openBookModal} />}
+              />
+            ) : null;
+          })}
+
           {/* Dynamic Services / Landing Pages Catch-All (WordPress replication) */}
           <Route path="/all-services" element={<AllServices onBookClick={openBookModal} />} />
           <Route path="/success-stories" element={<SuccessStories onBookClick={openBookModal} />} />

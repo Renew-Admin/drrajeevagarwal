@@ -12,6 +12,7 @@
  */
 
 const { SITE_ORIGIN, DEFAULT_META, DEFAULT_OG_IMAGE, getMetaForPath } = require('./seoMeta.cjs');
+const menopauseSeo = require('../data/menopauseSeo.cjs');
 
 const ORG_ID = `${SITE_ORIGIN}/#clinic`;
 const PHYSICIAN_ID = `${SITE_ORIGIN}/#physician`;
@@ -74,7 +75,10 @@ function buildBreadcrumb(pathname) {
       // Prefer a blog post's real headline over a title-cased slug, so the
       // crumb reads "PCOS Diet: Food To Eat & Avoid With PCOS" rather than
       // "Pcos Diet Foods To Eat And Avoid". headline is only set for articles.
+      // Menopause sub-pages carry their own crumb label because title-casing
+      // their slugs produces "Hrt Hormone Therapy".
       const name = BREADCRUMB_LABELS[seg]
+        || menopauseSeo[acc]?.breadcrumb
         || getMetaForPath(acc).headline
         || humanizeSegment(seg);
       items.push({ name, url: SITE_ORIGIN + acc });
@@ -125,6 +129,58 @@ function buildArticle(pathname) {
   if (meta.articleSection) article.articleSection = meta.articleSection;
 
   return article;
+}
+
+/**
+ * MedicalWebPage + FAQPage for /menopause-care/*.
+ *
+ * The FAQ entries are the same ones MenopauseFaq.jsx renders into the page —
+ * both read src/data/menopauseCare.js — so the rich result can never advertise
+ * an answer the page does not visibly contain, which is what Google's FAQ
+ * guidelines require.
+ */
+function buildMenopauseNodes(pathname) {
+  const clean = (pathname || '/').replace(/\/+$/, '') || '/';
+  const page = menopauseSeo[clean];
+  if (!page) return [];
+
+  const url = SITE_ORIGIN + clean;
+  const nodes = [
+    {
+      '@type': 'MedicalWebPage',
+      '@id': `${url}#webpage`,
+      url,
+      name: page.title,
+      headline: page.heading,
+      description: page.description,
+      inLanguage: 'en-IN',
+      isPartOf: { '@id': WEBSITE_ID },
+      about: {
+        '@type': 'MedicalCondition',
+        name: 'Perimenopause and menopause',
+        alternateName: ['Perimenopause', 'Menopause', 'Menopausal transition'],
+      },
+      audience: { '@type': 'MedicalAudience', audienceType: 'Patient' },
+      reviewedBy: { '@id': PHYSICIAN_ID },
+      publisher: { '@id': ORG_ID },
+      isAccessibleForFree: true,
+    },
+  ];
+
+  if (Array.isArray(page.faqs) && page.faqs.length > 0) {
+    nodes.push({
+      '@type': 'FAQPage',
+      '@id': `${url}#faq`,
+      url,
+      mainEntity: page.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    });
+  }
+
+  return nodes;
 }
 
 function buildJsonLdGraph(pathname) {
@@ -185,6 +241,8 @@ function buildJsonLdGraph(pathname) {
 
   const article = buildArticle(pathname);
   if (article) graph.push(article);
+
+  graph.push(...buildMenopauseNodes(pathname));
 
   return graph;
 }
