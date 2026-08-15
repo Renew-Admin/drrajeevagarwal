@@ -831,8 +831,10 @@ export default function Home({ onBookClick }) {
 
           <div className="ra-header-actions">
             <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
-            <a className="ra-icon-btn" href="https://wa.me/916292269060" aria-label="WhatsApp Dr. Rajeev Agarwal">
-              <MessageCircle size={20} />
+            <a className="ra-icon-btn ra-whatsapp-icon" href="https://wa.me/916292269060" target="_blank" rel="noreferrer" aria-label="WhatsApp Dr. Rajeev Agarwal" title="WhatsApp Dr. Rajeev Agarwal">
+              <svg viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M16 3.2a12.7 12.7 0 0 0-10.9 19.2L3.4 28.8l6.6-1.7A12.8 12.8 0 1 0 16 3.2Zm0 23.3a10.5 10.5 0 0 1-5.3-1.4l-.4-.2-3.9 1 1-3.8-.3-.4A10.5 10.5 0 1 1 16 26.5Zm5.8-7.8c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6.1a8.5 8.5 0 0 1-2.5-1.5 9.4 9.4 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6s0-.4 0-.6-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.1 3.1 1.3 3.3c.2.2 2.2 3.4 5.4 4.7.8.3 1.4.5 1.9.6.8.2 1.5.1 2.1.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.3-.6-.4Z" />
+              </svg>
             </a>
             <button className="ra-menu-btn" type="button" onClick={toggleMobileMenu} aria-label="Toggle menu">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
