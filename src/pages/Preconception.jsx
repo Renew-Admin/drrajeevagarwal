@@ -14,6 +14,7 @@ import {
   ClipboardList,
   Clock,
   Dna,
+  Download,
   Dumbbell,
   FlaskConical,
   Mail,
@@ -128,6 +129,7 @@ const bandStats = [
   { value: '5%', text: 'weight loss is enough to measurably improve fertility outcomes' },
   { value: '10%', text: 'reduction in conception rate for every BMI unit over 30' },
   { value: '4.9★', text: 'average Google rating, Renew Healthcare, Kolkata' },
+  { value: '35+', text: 'national and global healthcare awards' },
 ];
 
 const whyItMatters = [
@@ -298,9 +300,9 @@ const consultationJourney = [
 
 const consultBadges = [
   'In-person at Renew Healthcare, Kolkata',
+  'Virtual consultations available India-wide',
   'Both partners always included',
   'Personalised 90-day action plan',
-  'Structured 8-domain clinical assessment',
 ];
 
 const patientStories = [
@@ -1101,6 +1103,30 @@ export default function Preconception() {
         </div>
       </section>
 
+      <section className="preconception-section preconception-guide-section">
+        <div className="ra-container">
+          <div className="preconception-guide-panel">
+            <div>
+              <h2>Download your Preconception Health Guide</h2>
+              <p>
+                A free, evidence-based guide for couples planning a pregnancy &mdash; covering what to
+                do, what to check, and what not to miss in the three months before conception.
+              </p>
+              <div className="preconception-guide-actions">
+                {/* Swap this href for the guide PDF once the asset is available. */}
+                <a className="ra-btn ra-btn-primary" href="/book-an-appointment">
+                  <Download size={18} /> Download Free Guide (PDF)
+                </a>
+                <a className="ra-btn ra-btn-soft" href="/book-an-appointment">Book a Consultation</a>
+              </div>
+            </div>
+            <span className="preconception-guide-mark" aria-hidden="true">
+              <ClipboardList size={58} />
+            </span>
+          </div>
+        </div>
+      </section>
+
       <section className="preconception-section preconception-stories-section">
         <div className="ra-container">
           <div className="ra-section-head">
@@ -1212,11 +1238,11 @@ export default function Preconception() {
       <section className="preconception-final-cta">
         <div className="ra-container preconception-final-panel">
           <div>
-            <span className="ra-label"><Sparkles size={16} /> Preconception Visit</span>
-            <h2>Plan Your Preconception Consultation With Clear Questions.</h2>
+            <span className="ra-label"><Sparkles size={16} /> Start your zero trimester</span>
+            <h2>Ready to prepare properly<br />for your pregnancy?</h2>
             <p>
-              Bring your cycle details, medical history, and current questions. The goal is to
-              understand what to check now, what can wait, and how to prepare before pregnancy.
+              Dr. Rajeev Agarwal's preconception consultations are available in-person at Renew
+              Healthcare, Kolkata, and virtually for couples based elsewhere in India.
             </p>
             <ul className="preconception-consult-badges">
               {consultBadges.map((badge) => (
@@ -1224,7 +1250,12 @@ export default function Preconception() {
               ))}
             </ul>
           </div>
-          <a className="ra-btn ra-btn-primary" href="/book-an-appointment">Book Appointment</a>
+          <div className="preconception-final-actions">
+            {/* Both buttons reach the same booking form; point the second one at a
+                dedicated virtual consult page if one is added. */}
+            <a className="ra-btn ra-btn-primary" href="/book-an-appointment">Book In-Person &rarr;</a>
+            <a className="ra-btn ra-btn-soft" href="/book-an-appointment">Book Virtual Consult</a>
+          </div>
         </div>
         <div className="ra-container preconception-contact-strip">
           <a href="tel:+918336968661"><Phone size={16} /> +91 83369 68661</a>

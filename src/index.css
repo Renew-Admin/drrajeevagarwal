@@ -10830,16 +10830,27 @@ a.ra-quick-card:hover {
    =========================== */
 .preconception-page {
   --preconception-page-gutter: 48px;
-  /* Preconception brand palette (scoped to this page only) */
-  --deep-teal: #1B2159;
-  --medical-teal: #1B2159;
-  --navy: #1B2159;
-  --navy-deep: #12163f;
-  --primary: #1B2159;
-  --text: #1B2159;
-  --text-dark: #1B2159;
+  /* Preconception brand palette (scoped to this page only).
+     Navy family matches the Zero Trimester design spec; --gold stays on the
+     site brand amber so the page reads with the header, footer and nav. */
+  --deep-teal: #20265C;
+  --medical-teal: #20265C;
+  --navy: #20265C;
+  --navy-deep: #161B42;
+  --navy-mid: #2D3575;
+  --primary: #20265C;
+  --text: #20265C;
+  --text-dark: #1A1F3A;
+  --text-mid: #4A5278;
+  --text-soft: #7B85AD;
+  --muted: #4A5278;
+  --blue-pale: #E8EFFF;
+  --blue-lt: #B3C8FF;
+  --pc-surface: #F7F8FC;
+  --line: #DDE3F5;
+  --border: #DDE3F5;
   --gold: #F7C832;
-  background: linear-gradient(180deg, #ffffff 0%, #f6f8ff 46%, #ffffff 100%);
+  background: #ffffff;
 }
 
 .preconception-page .ra-container {
@@ -10851,7 +10862,7 @@ a.ra-quick-card:hover {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   background:
     radial-gradient(circle at 94% 12%, rgba(247, 200, 50, 0.16), transparent 22rem),
-    linear-gradient(135deg, #1B2159 0%, #171c48 58%, #12163f 100%);
+    linear-gradient(135deg, #20265C 0%, #1C2250 58%, #161B42 100%);
 }
 
 .preconception-hero-grid {
@@ -10929,7 +10940,7 @@ a.ra-quick-card:hover {
 
 .preconception-list-panel svg {
   margin-top: 2px;
-  color: #0f766e;
+  color: #20265C;
 }
 
 .preconception-plan-panel {
@@ -11000,7 +11011,7 @@ a.ra-quick-card:hover {
 
 .preconception-plan-intro p {
   margin: 0;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 15.5px;
   line-height: 1.72;
 }
@@ -11043,7 +11054,7 @@ a.ra-quick-card:hover {
 
 .preconception-plan-item p {
   margin: 0;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 14px;
   line-height: 1.58;
 }
@@ -11127,7 +11138,7 @@ a.ra-quick-card:hover {
   padding: 24px 20px;
   border: 1px solid rgba(32, 38, 92, 0.1);
   border-radius: 22px;
-  background: linear-gradient(135deg, #ffffff, rgba(247, 249, 255, 0.9));
+  background: linear-gradient(135deg, #ffffff, rgba(247, 248, 252, 0.9));
   box-shadow: 0 14px 34px rgba(32, 38, 92, 0.07);
 }
 
@@ -11152,7 +11163,7 @@ a.ra-quick-card:hover {
 
 .preconception-pillar-card p {
   margin: 0;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.68;
 }
@@ -11180,7 +11191,7 @@ a.ra-quick-card:hover {
 .preconception-proof-copy p {
   max-width: 640px;
   margin: 0 0 24px;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 16px;
   line-height: 1.78;
 }
@@ -11231,7 +11242,7 @@ a.ra-quick-card:hover {
 
 .preconception-review-card p {
   margin: 0;
-  color: #4c5170;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.62;
 }
@@ -11244,7 +11255,7 @@ a.ra-quick-card:hover {
 }
 
 .preconception-fit-section {
-  background: linear-gradient(135deg, #f7f9ff 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F7F8FC 0%, #ffffff 100%);
 }
 
 .preconception-split {
@@ -11268,7 +11279,7 @@ a.ra-quick-card:hover {
 .preconception-final-panel p {
   max-width: 620px;
   margin: 0;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 16px;
   line-height: 1.78;
 }
@@ -11293,7 +11304,7 @@ a.ra-quick-card:hover {
   border: 1px solid rgba(32, 38, 92, 0.1);
   border-radius: 18px;
   background: #fff;
-  color: #3f456c;
+  color: #4A5278;
   font-weight: 850;
   line-height: 1.45;
 }
@@ -11302,7 +11313,7 @@ a.ra-quick-card:hover {
 .preconception-expert-card {
   border: 1px solid rgba(32, 38, 92, 0.1);
   border-radius: 28px;
-  background: linear-gradient(135deg, #ffffff, rgba(247, 249, 255, 0.88));
+  background: linear-gradient(135deg, #ffffff, rgba(247, 248, 252, 0.88));
   box-shadow: 0 16px 40px rgba(32, 38, 92, 0.08);
 }
 
@@ -11326,7 +11337,7 @@ a.ra-quick-card:hover {
 .preconception-agenda-head p {
   max-width: 620px;
   margin: 0;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 16px;
   line-height: 1.7;
 }
@@ -11361,7 +11372,7 @@ a.ra-quick-card:hover {
   border-radius: 20px;
   background:
     radial-gradient(circle at 92% 4%, rgba(247, 200, 50, 0.18), transparent 9rem),
-    linear-gradient(145deg, #ffffff 0%, #fbfcff 100%);
+    linear-gradient(145deg, #ffffff 0%, #F7F8FC 100%);
   box-shadow: none;
 }
 
@@ -11405,7 +11416,7 @@ a.ra-quick-card:hover {
 
 .preconception-agenda-module p {
   margin: 0 0 14px;
-  color: #5b6078;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.62;
 }
@@ -11423,7 +11434,7 @@ a.ra-quick-card:hover {
   grid-template-columns: 17px minmax(0, 1fr);
   gap: 8px;
   align-items: start;
-  color: #3f456c;
+  color: #4A5278;
   font-size: 14px;
   font-weight: 800;
   line-height: 1.45;
@@ -11431,13 +11442,13 @@ a.ra-quick-card:hover {
 
 .preconception-agenda-module li svg {
   margin-top: 3px;
-  color: #0f766e;
+  color: #20265C;
 }
 
 .preconception-expert-section {
   background:
     radial-gradient(circle at 12% 0%, rgba(247, 200, 50, 0.2), transparent 24rem),
-    linear-gradient(135deg, #141838, var(--deep-teal));
+    linear-gradient(135deg, #161B42, var(--deep-teal));
 }
 
 .preconception-expert-card {
@@ -11484,7 +11495,7 @@ a.ra-quick-card:hover {
 }
 
 .preconception-awards-section {
-  background: linear-gradient(180deg, #ffffff 0%, #f6f8ff 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #F7F8FC 100%);
 }
 
 .preconception-awards-grid {
@@ -11525,9 +11536,72 @@ a.ra-quick-card:hover {
   object-fit: contain;
 }
 
+/* ── Free guide band (design spec: gold panel before the closing CTA) ───── */
+.preconception-guide-section {
+  padding-block: clamp(40px, 4.6vw, 64px);
+}
+
+.preconception-guide-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 3.6vw, 48px);
+  align-items: center;
+  padding: clamp(28px, 3.8vw, 52px) clamp(24px, 3.8vw, 56px);
+  border-radius: 28px;
+  background: var(--gold);
+}
+
+.preconception-guide-panel .ra-label {
+  color: var(--navy-deep);
+}
+
+.preconception-guide-panel h2 {
+  margin: 0 0 12px;
+  color: var(--navy-deep);
+  font-size: clamp(24px, 2.8vw, 36px);
+  font-weight: 850;
+  line-height: 1.16;
+}
+
+.preconception-guide-panel p {
+  max-width: 580px;
+  margin: 0;
+  color: rgba(22, 27, 66, 0.82);
+  font-size: 15.5px;
+  line-height: 1.72;
+}
+
+.preconception-guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.preconception-guide-actions .ra-btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+
+.preconception-guide-actions .ra-btn-soft {
+  background: transparent;
+  color: var(--navy-deep);
+  box-shadow: inset 0 0 0 2px rgba(22, 27, 66, 0.35);
+}
+
+.preconception-guide-mark {
+  display: grid;
+  width: 118px;
+  height: 118px;
+  place-items: center;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.38);
+  color: var(--navy-deep);
+}
+
 .preconception-final-cta {
   padding: clamp(42px, 5vw, 62px) 0;
-  background: linear-gradient(135deg, var(--deep-teal), #141838);
+  background: linear-gradient(135deg, var(--deep-teal), #161B42);
 }
 
 .preconception-final-panel {
@@ -11555,6 +11629,23 @@ a.ra-quick-card:hover {
   min-height: 54px;
   background: var(--gold);
   color: var(--deep-teal);
+}
+
+.preconception-final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.preconception-final-actions .ra-btn-soft {
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.42);
+}
+
+.preconception-final-actions .ra-btn-soft:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7);
 }
 
 @media (max-width: 1120px) {
@@ -11598,6 +11689,10 @@ a.ra-quick-card:hover {
   .preconception-final-panel {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .preconception-final-actions {
+    width: 100%;
   }
 }
 
@@ -11757,7 +11852,7 @@ a.ra-quick-card:hover {
 
 .preconception-statband-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(18px, 2.6vw, 34px);
 }
 
@@ -11791,7 +11886,7 @@ a.ra-quick-card:hover {
 }
 
 .preconception-statband-item span {
-  color: rgba(18, 22, 63, 0.82);
+  color: rgba(22, 27, 66, 0.82);
   font-size: 13.5px;
   line-height: 1.6;
 }
@@ -11840,7 +11935,7 @@ a.ra-quick-card:hover {
 
 .preconception-prepare-item p {
   margin: 0;
-  color: #555b75;
+  color: #4A5278;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -11928,7 +12023,7 @@ a.ra-quick-card:hover {
 
 .preconception-why-card > p {
   margin: 0;
-  color: #555b75;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.7;
 }
@@ -11947,8 +12042,9 @@ a.ra-quick-card:hover {
 }
 
 .preconception-why-stat em {
-  color: #6e729b;
+  color: var(--gold);
   font-style: italic;
+  font-weight: 650;
 }
 
 .preconception-domains-layout {
@@ -12006,7 +12102,7 @@ a.ra-quick-card:hover {
 
 .preconception-domain-item p {
   margin: 0;
-  color: #555b75;
+  color: #4A5278;
   font-size: 13.5px;
   line-height: 1.6;
 }
@@ -12021,7 +12117,7 @@ a.ra-quick-card:hover {
 
 .preconception-domains-copy > p {
   margin: 0 0 20px;
-  color: #555b75;
+  color: #4A5278;
   font-size: 15.5px;
   line-height: 1.75;
 }
@@ -12044,7 +12140,7 @@ a.ra-quick-card:hover {
 
 .preconception-domains-highlight p {
   margin: 0;
-  color: #4a4f73;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.7;
 }
@@ -12084,7 +12180,7 @@ a.ra-quick-card:hover {
 .preconception-audience-card p,
 .preconception-lifestyle-card > p {
   margin: 0;
-  color: #555b75;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.7;
 }
@@ -12169,7 +12265,7 @@ a.ra-quick-card:hover {
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #0f1338;
+  background: #161B42;
 }
 
 .preconception-video-embed iframe,
@@ -12184,7 +12280,7 @@ a.ra-quick-card:hover {
   position: relative;
   padding: 0;
   overflow: hidden;
-  background: #0f1338;
+  background: #161B42;
   color: #fff;
   cursor: pointer;
 }
@@ -12203,8 +12299,8 @@ a.ra-quick-card:hover {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(15, 19, 56, 0.1), rgba(15, 19, 56, 0.22)),
-    radial-gradient(circle at center, rgba(15, 19, 56, 0), rgba(15, 19, 56, 0.3));
+    linear-gradient(180deg, rgba(22, 27, 66, 0.1), rgba(22, 27, 66, 0.22)),
+    radial-gradient(circle at center, rgba(22, 27, 66, 0), rgba(22, 27, 66, 0.3));
   pointer-events: none;
 }
 
@@ -12252,7 +12348,7 @@ a.ra-quick-card:hover {
 
 .preconception-video-topic {
   margin-bottom: 10px;
-  color: #6e729b;
+  color: #7B85AD;
   font-size: 12px;
   font-weight: 750;
   letter-spacing: 0.09em;
@@ -12269,7 +12365,7 @@ a.ra-quick-card:hover {
 
 .preconception-video-body p {
   margin: 0 0 18px;
-  color: #555b75;
+  color: #4A5278;
   font-size: 14px;
   line-height: 1.7;
 }
@@ -12279,7 +12375,7 @@ a.ra-quick-card:hover {
   padding: clamp(20px, 2.4vw, 28px);
   border: 1px dashed rgba(32, 38, 92, 0.2);
   border-radius: 20px;
-  background: rgba(246, 248, 255, 0.7);
+  background: rgba(247, 248, 252, 0.7);
 }
 
 .preconception-video-upcoming h3 {
@@ -12303,7 +12399,7 @@ a.ra-quick-card:hover {
   border: 1px solid rgba(32, 38, 92, 0.12);
   border-radius: 999px;
   background: #fff;
-  color: #4a4f73;
+  color: #4A5278;
   font-size: 13px;
 }
 
@@ -12361,7 +12457,7 @@ a.ra-quick-card:hover {
 
 .preconception-journey-item p {
   margin: 0;
-  color: #555b75;
+  color: #4A5278;
   font-size: 14.5px;
   line-height: 1.7;
 }
@@ -12392,7 +12488,7 @@ a.ra-quick-card:hover {
   margin: 0;
   min-height: 100%;
   padding: clamp(20px, 2.4vw, 28px);
-  border: 1px solid #d8e4f5;
+  border: 1px solid #DDE3F5;
   border-top: 4px solid var(--navy);
   border-radius: 16px;
   background: #fff;
@@ -12414,7 +12510,7 @@ a.ra-quick-card:hover {
   border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
-  color: #4a4f73;
+  color: #4A5278;
   font-size: 14.5px;
   font-style: normal;
   line-height: 1.76;
@@ -12430,7 +12526,7 @@ a.ra-quick-card:hover {
   gap: 13px;
   align-items: center;
   padding-top: 18px;
-  border-top: 1px solid #d8e4f5;
+  border-top: 1px solid #DDE3F5;
 }
 
 .preconception-story-avatar {
@@ -12456,7 +12552,7 @@ a.ra-quick-card:hover {
 .preconception-story-card figcaption em {
   display: block;
   margin-top: 3px;
-  color: #6e729b;
+  color: #7B85AD;
   font-size: 12.5px;
   font-style: normal;
 }
@@ -12526,7 +12622,100 @@ a.ra-quick-card:hover {
   text-underline-offset: 3px;
 }
 
+/* ── Zero Trimester design spec: section banding and accents ──────────────
+   White -> off-white -> blue-pale -> navy rhythm from the reference layout.
+   Colour only; the mobile blocks further down still override every layout
+   rule, so the phone view stays exactly as it is. */
+.preconception-why-section,
+.preconception-journey-section {
+  background: var(--pc-surface);
+}
+
+.preconception-audience-section {
+  background: var(--blue-pale);
+}
+
+.preconception-why-card {
+  border-top: 3px solid var(--gold);
+}
+
+.preconception-why-top span {
+  background: var(--blue-pale);
+  color: var(--navy);
+}
+
+.preconception-domain-item {
+  border-color: rgba(32, 38, 92, 0.08);
+  background: var(--blue-pale);
+}
+
+.preconception-domains-highlight {
+  border-left: 4px solid var(--gold);
+  background: var(--navy);
+}
+
+.preconception-domains-highlight strong {
+  color: var(--gold);
+}
+
+.preconception-domains-highlight p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.preconception-audience-icon {
+  background: var(--blue-pale);
+}
+
+.preconception-audience-tag {
+  background: var(--blue-pale);
+  color: var(--navy);
+}
+
+.preconception-journey-marker {
+  background: var(--navy);
+  color: var(--gold);
+}
+
+.preconception-video-upcoming {
+  background: var(--pc-surface);
+}
+
+.preconception-video-upcoming li {
+  border-color: transparent;
+  background: var(--blue-pale);
+  color: var(--navy);
+  font-weight: 600;
+}
+
+@media (min-width: 641px) {
+  .preconception-domain-item > span {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--navy);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+}
+
 @media (max-width: 900px) {
+  .preconception-guide-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .preconception-guide-mark {
+    display: none;
+  }
+
+  .preconception-statband-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2.4vw, 26px) clamp(18px, 2.6vw, 30px);
+  }
+
   .preconception-domains-layout {
     grid-template-columns: 1fr;
   }
@@ -12539,7 +12728,7 @@ a.ra-quick-card:hover {
 @media (max-width: 700px) {
   .preconception-hero-stats {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 0;
   }
 
   .preconception-statband {
@@ -12682,19 +12871,43 @@ a.ra-quick-card:hover {
 
   .preconception-hero-stat {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 82px minmax(0, 1fr);
     gap: 14px;
     align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .preconception-hero-stat:first-child {
+    padding-top: 0;
+  }
+
+  .preconception-hero-stat:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .preconception-hero-stat dt {
+    font-size: 25px;
+    white-space: nowrap;
   }
 
   .preconception-hero-stat dd {
     margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
   }
 
   .preconception-stories-cta,
-  .preconception-domains-copy .ra-btn {
+  .preconception-domains-copy .ra-btn,
+  .preconception-guide-actions .ra-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .preconception-guide-panel {
+    padding: 26px 22px;
+    border-radius: 22px;
   }
 }
 
@@ -12710,6 +12923,15 @@ a.ra-quick-card:hover {
 
   .preconception-hero-kicker {
     font-size: 17px;
+  }
+
+  .preconception-hero-stat {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .preconception-hero-stat dt {
+    font-size: 22px;
   }
 
   .preconception-hero-cta {
@@ -13864,7 +14086,7 @@ a.ra-quick-card:hover {
     border: 1px solid rgba(32, 38, 92, 0.13);
     border-top: 3px solid var(--gold);
     border-radius: 18px;
-    background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+    background: linear-gradient(145deg, #ffffff 0%, #F7F8FC 100%);
     text-align: center;
   }
 
