@@ -813,14 +813,24 @@ export default function Preconception() {
             <span className="ra-label"><ShieldCheck size={16} /> What You Will Get</span>
             <h2>Preconception Care That Feels <em>Practical</em></h2>
           </div>
-          <div className="preconception-pillar-grid">
-            {pillars.map(({ title, text, icon: Icon }) => (
-              <article className="preconception-pillar-card" key={title}>
-                <span><Icon size={22} /></span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
+          <div className="preconception-pillar-viewport">
+            <div className="preconception-pillar-grid">
+              {[...pillars, ...pillars].map(({ title, text, icon: Icon }, index) => {
+                const isClone = index >= pillars.length;
+
+                return (
+                  <article
+                    aria-hidden={isClone ? 'true' : undefined}
+                    className={`preconception-pillar-card${isClone ? ' preconception-pillar-card-clone' : ''}`}
+                    key={`${title}-${isClone ? 'clone' : 'original'}`}
+                  >
+                    <span><Icon size={22} /></span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -1012,15 +1022,25 @@ export default function Preconception() {
               health trajectory of the child born.
             </p>
           </div>
-          <div className="preconception-lifestyle-grid">
-            {lifestyleFactors.map(({ title, text, fact, icon: Icon }) => (
-              <article className="preconception-lifestyle-card" key={title}>
-                <span className="preconception-lifestyle-icon"><Icon size={22} /></span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-                <p className="preconception-lifestyle-fact">{fact}</p>
-              </article>
-            ))}
+          <div className="preconception-lifestyle-viewport">
+            <div className="preconception-lifestyle-grid">
+              {[...lifestyleFactors, ...lifestyleFactors].map(({ title, text, fact, icon: Icon }, index) => {
+                const isClone = index >= lifestyleFactors.length;
+
+                return (
+                  <article
+                    aria-hidden={isClone ? 'true' : undefined}
+                    className={`preconception-lifestyle-card${isClone ? ' preconception-lifestyle-card-clone' : ''}`}
+                    key={`${title}-${isClone ? 'clone' : 'original'}`}
+                  >
+                    <span className="preconception-lifestyle-icon"><Icon size={22} /></span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                    <p className="preconception-lifestyle-fact">{fact}</p>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

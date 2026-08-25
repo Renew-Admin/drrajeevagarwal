@@ -11133,6 +11133,14 @@ a.ra-quick-card:hover {
   gap: 14px;
 }
 
+.preconception-pillar-viewport {
+  overflow: visible;
+}
+
+.preconception-pillar-card-clone {
+  display: none;
+}
+
 .preconception-pillar-card {
   min-height: 260px;
   padding: 24px 20px;
@@ -11747,6 +11755,62 @@ a.ra-quick-card:hover {
     grid-template-columns: 1fr;
   }
 
+  .preconception-pillar-viewport {
+    width: calc(100% + var(--preconception-page-gutter) + var(--preconception-page-gutter));
+    margin-inline: calc(0px - var(--preconception-page-gutter));
+    overflow: hidden;
+  }
+
+  .preconception-pillar-grid {
+    display: flex;
+    width: max-content;
+    gap: 14px;
+    animation: preconception-pillar-scroll 24s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-pillar-card {
+    flex: 0 0 min(78vw, 290px);
+    box-shadow: none;
+  }
+
+  .preconception-pillar-card-clone {
+    display: block;
+  }
+
+  .preconception-pillar-viewport:hover .preconception-pillar-grid,
+  .preconception-pillar-viewport:focus-within .preconception-pillar-grid {
+    animation-play-state: paused;
+  }
+
+  .preconception-lifestyle-viewport {
+    width: calc(100% + var(--preconception-page-gutter) + var(--preconception-page-gutter));
+    margin-inline: calc(0px - var(--preconception-page-gutter));
+    overflow: hidden;
+  }
+
+  .preconception-lifestyle-grid {
+    display: flex;
+    width: max-content;
+    gap: 14px;
+    animation: preconception-lifestyle-scroll 36s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-lifestyle-card {
+    flex: 0 0 min(78vw, 290px);
+    box-shadow: none;
+  }
+
+  .preconception-lifestyle-card-clone {
+    display: flex;
+  }
+
+  .preconception-lifestyle-viewport:hover .preconception-lifestyle-grid,
+  .preconception-lifestyle-viewport:focus-within .preconception-lifestyle-grid {
+    animation-play-state: paused;
+  }
+
   .preconception-pillar-card {
     min-height: 0;
     padding: 22px 18px;
@@ -11978,6 +12042,14 @@ a.ra-quick-card:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: clamp(16px, 2vw, 24px);
+}
+
+.preconception-lifestyle-viewport {
+  overflow: visible;
+}
+
+.preconception-lifestyle-card-clone {
+  display: none;
 }
 
 .preconception-why-card {
@@ -13898,6 +13970,18 @@ a.ra-quick-card:hover {
   }
 }
 
+@keyframes preconception-pillar-scroll {
+  to {
+    transform: translateX(calc(-50% - 7px));
+  }
+}
+
+@keyframes preconception-lifestyle-scroll {
+  to {
+    transform: translateX(calc(-50% - 7px));
+  }
+}
+
 @keyframes preconception-domain-scroll {
   to {
     transform: translateX(calc(-50% - 6px));
@@ -14227,6 +14311,22 @@ a.ra-quick-card:hover {
 }
 
 @media (max-width: 640px) and (prefers-reduced-motion: reduce) {
+  .preconception-pillar-grid {
+    animation: none;
+  }
+
+  .preconception-pillar-card-clone {
+    display: none;
+  }
+
+  .preconception-lifestyle-grid {
+    animation: none;
+  }
+
+  .preconception-lifestyle-card-clone {
+    display: none;
+  }
+
   .preconception-audience-grid {
     animation: none;
   }
