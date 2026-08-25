@@ -787,7 +787,7 @@ export default function Preconception() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><ShieldCheck size={16} /> Why The Zero Trimester Matters</span>
-            <h2>Most Fertility Problems Are Identifiable<br /><em>Before You Start Trying</em></h2>
+            <h2><span className="preconception-why-title">Most Fertility Problems Are Identifiable</span><br /><em>Before You Start Trying</em></h2>
           </div>
           <div className="preconception-why-grid">
             {whyItMatters.map(({ title, text, statLabel, statText, icon: Icon }, index) => (
