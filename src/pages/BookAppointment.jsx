@@ -1,33 +1,38 @@
 import React from 'react';
 import AppointmentForm from '../components/AppointmentForm';
-import { Phone, Mail, MapPin, ShieldCheck, Heart } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldCheck, Heart, Clock3, MessageCircle } from 'lucide-react';
 import useSeo from '../utils/useSeo';
 import { getMetaForPath } from '../utils/seoMeta';
 
 export default function BookAppointment() {
   useSeo(getMetaForPath('/book-an-appointment'));
   return (
-    <div className="inner-page booking-page-wrap" style={{ background: 'var(--soft-blue)', paddingBottom: 80 }}>
-      <div className="ra-container booking-grid" style={{ paddingTop: 30 }}>
+    <div className="inner-page booking-page-wrap">
+      <section className="booking-hero">
+        <div className="ra-container booking-hero-grid">
+          <div className="booking-hero-copy">
+            <span className="booking-eyebrow"><MessageCircle size={16} /> We’re here to help</span>
+            <h1>Start with a conversation.<br /><em>Feel cared for.</em></h1>
+            <p>Whether you are planning a pregnancy, exploring fertility care, or looking for a second opinion, our team will help you find the right next step.</p>
+            <div className="booking-hero-details"><span><Clock3 size={17} /> Response within 24 hours</span><span><ShieldCheck size={17} /> Your details stay private</span></div>
+          </div>
+          <div className="booking-hero-note"><span className="booking-note-number">01</span><strong>Tell us how we can help</strong><p>Share a few details and our care coordinator will call you to understand your needs and confirm an appointment.</p></div>
+        </div>
+      </section>
+      <main className="ra-container booking-content">
         <div className="inner-card" style={{ padding: 44 }}>
-          {/* The page's main heading, so it is an h1 — this route previously
-              shipped no h1 at all. Every visual property is set inline and the
-              global h1/h2/h3 rules are identical, so this renders unchanged. */}
-          <h1 style={{ fontSize: 28, color: 'var(--deep-teal)', marginBottom: 10, fontWeight: 800 }}>Book Your Consultation</h1>
-          <p style={{ color: 'var(--text-soft)', fontSize: 15, marginBottom: 28, lineHeight: 1.6, fontWeight: 500 }}>
-            Fill out the form below, and our care coordinator will reach out to confirm your slot within 24 hours.
-          </p>
+          <div className="booking-card-heading"><span className="ra-label">Book a consultation</span><h2>We’ll take it from here.</h2><p>Fill out the form below. There is no pressure and no obligation.</p></div>
           <AppointmentForm formName="Appointment Page Form" />
         </div>
 
         <div className="booking-sidebar">
           <div className="booking-info-card">
-            <h3 className="booking-info-title">Renew Healthcare Kolkata</h3>
+            <span className="ra-label">Visit or reach us</span><h3 className="booking-info-title">Renew Healthcare Kolkata</h3>
             <ul className="booking-contact-list">
               {[
-                { icon: Phone, label: 'Phone Contact', value: '+91 83369 68661' },
-                { icon: Mail, label: 'Email Inquiry', value: 'fertilitywithoutborders@gmail.com', href: 'mailto:fertilitywithoutborders@gmail.com' },
-                { icon: MapPin, label: 'Address', value: 'Renew Healthcare, 18C Mandeville Gardens, Kolkata, West Bengal 700019' },
+                { icon: Phone, label: 'Call us', value: '+91 83369 68661', href: 'tel:+918336968661' },
+                { icon: Mail, label: 'Email us', value: 'fertilitywithoutborders@gmail.com', href: 'mailto:fertilitywithoutborders@gmail.com' },
+                { icon: MapPin, label: 'Find us', value: '18C Mandeville Gardens, Kolkata, West Bengal 700019' },
               ].map((item, i) => {
                 const Icon = item.icon;
                 return (
@@ -60,7 +65,7 @@ export default function BookAppointment() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

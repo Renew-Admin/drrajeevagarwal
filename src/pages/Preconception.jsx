@@ -148,7 +148,7 @@ const whyItMatters = [
     icon: Microscope,
   },
   {
-    title: 'Medications that cannot continue into pregnancy',
+    title: 'Medications that can’t continue into pregnancy',
     text: 'Valproate, isotretinoin, methotrexate, and several other common medications are contraindicated in pregnancy. A preconception visit ensures safe substitution well before conception, not in a panic at a positive test.',
     statLabel: 'Valproate:',
     statText: '10× higher neural tube defect risk, requires 4–5 mg folate supplementation',
@@ -725,9 +725,9 @@ export default function Preconception() {
               medically, and genetically before conception begins.
             </p>
             <div className="preconception-hero-actions">
-              <Link className="ra-btn ra-btn-primary preconception-hero-cta" to="/preconception-workshop">
+              <Link className="ra-btn ra-btn-primary preconception-hero-cta" to="/book-an-appointment">
                 <CalendarCheck size={18} />
-                Join Preconception Workshop
+                Book a Consultation <span aria-hidden="true">→</span>
               </Link>
               <a className="ra-btn ra-btn-soft preconception-hero-cta" href="#videos">
                 <Video size={18} />
@@ -787,7 +787,7 @@ export default function Preconception() {
         <div className="ra-container">
           <div className="ra-section-head">
             <span className="ra-label"><ShieldCheck size={16} /> Why The Zero Trimester Matters</span>
-            <h2>Most Fertility Problems Are Identifiable <em>Before You Start Trying</em></h2>
+            <h2>Most Fertility Problems Are Identifiable<br /><em>Before You Start Trying</em></h2>
           </div>
           <div className="preconception-why-grid">
             {whyItMatters.map(({ title, text, statLabel, statText, icon: Icon }, index) => (
