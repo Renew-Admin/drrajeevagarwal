@@ -961,7 +961,7 @@ export default function Home({ onBookClick }) {
           <div className="ra-container ra-about ra-about-premium">
             <div className="ra-section-copy ra-about-copy elementor-element elementor-element-fd2b058" data-id="fd2b058">
               <span className="ra-label ra-about-label"><Sparkles size={15} /> ABOUT DR. RAJEEV AGARWAL</span>
-              <h2>Transforming Fertility Care with Science, Skill & <em>Empathy</em></h2>
+              <h2>Transforming Fertility Care with <em>Science, Skill &amp; Empathy</em></h2>
               <p>
                 Dr. Rajeev Agarwal is a leading fertility specialist, gynaecologist and laparoscopic surgeon
                 in Kolkata, known for combining advanced reproductive medicine with patient-first counselling
