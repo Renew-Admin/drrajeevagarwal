@@ -23,7 +23,7 @@ not_found_handling = "404-page"
 # /wp-styles/* is excluded: those are real stylesheets this site still serves.
 # Legacy 301s (old blog permalinks, /preconception-care, /feed, /author/*) are
 # handled by the generated _redirects file, which needs no Worker invocation.
-run_worker_first = ["/api/*", "/.well-known/*", "/wp-*", "!/wp-styles/*", "/xmlrpc.php"]
+run_worker_first = true
 # Every prerendered page lives at <route>/index.html. The default
 # ("auto-trailing-slash") answers /about-me with a 307 to /about-me/, which
 # would make every canonical tag and every sitemap URL redirect. Serve them at

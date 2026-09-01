@@ -1,12 +1,12 @@
-# The homepage is the SPA document. Do not let browsers retain it between
-# deploys, otherwise it can keep referencing a previous JavaScript bundle.
+# Ensure HTML pages and index are never cached in browser or CDN caches
 /
-  Cache-Control: no-store
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
-# `/index.html` redirects to `/`, but retain the policy if that behavior
-# changes or the asset is requested directly in another environment.
 /index.html
-  Cache-Control: no-store
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
+/*.html
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
 # ── Agent discovery: RFC 8288 Link headers ────────────────────────────────
 # Lets an agent find the machine-readable description of this site without
