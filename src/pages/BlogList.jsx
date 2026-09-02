@@ -8,6 +8,7 @@ import { getMetaForPath } from '../utils/seoMeta';
 import { buildBlogPresentation } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 import BlogImage from '../components/BlogImage';
+import { articlePath } from '../utils/blogRoutes';
 
 function uniqueBlogs(list) {
   const seen = new Set();
@@ -161,19 +162,19 @@ export default function BlogList() {
             ) : (
               filteredBlogs.map((blog) => (
                 <article key={blog.slug} className="blog-list-card">
-                  <Link to={`/blog/${blog.slug}`} className="blog-list-image" aria-label={blog.title}>
+                  <Link to={articlePath(blog.slug)} className="blog-list-image" aria-label={blog.title}>
                     <BlogImage src={blog.image} alt={blog.title} loading="lazy" fitMode={blog.imageFit} />
                   </Link>
                   <div className="blog-list-body">
                     <span className="blog-list-badge">{blog.category}</span>
-                    <Link to={`/blog/${blog.slug}`} className="blog-list-title">{blog.title}</Link>
+                    <Link to={articlePath(blog.slug)} className="blog-list-title">{blog.title}</Link>
                     <p>{blog.excerpt}</p>
                     <div className="blog-list-meta">
                       <span><CalendarDays size={15} /> {blog.displayDate}</span>
                       <span>{blog.readingTime} min read</span>
                     </div>
                     <div className="blog-list-footer">
-                      <Link to={`/blog/${blog.slug}`} className="blog-read-link">
+                      <Link to={articlePath(blog.slug)} className="blog-read-link">
                         Read More <ArrowRight size={15} />
                       </Link>
                     </div>

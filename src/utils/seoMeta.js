@@ -9,6 +9,7 @@
  */
 
 import { MENOPAUSE_ROUTE_META } from '../data/menopauseCare';
+import { articlePath } from './blogRoutes';
 
 export const SITE_ORIGIN = 'https://drrajeevagarwal.co.in';
 
@@ -189,19 +190,8 @@ export function getMetaForPath(pathname) {
     return { ...ROUTE_META[clean], canonicalUrl: SITE_ORIGIN + clean };
   }
 
-  // Blog post: /blog/<slug>
-  const blogMatch = clean.match(/^\/blog\/(.+)/);
-  if (blogMatch) {
-    const slug = blogMatch[1];
-    const readable = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    return {
-      title: `${readable} | Dr. Rajeev Agarwal Blog`,
-      description: `Read this article on ${readable.toLowerCase()} by Dr. Rajeev Agarwal, fertility specialist and gynaecologist in Kolkata.`,
-      canonicalUrl: SITE_ORIGIN + clean,
-    };
-  }
-
-  // Top-level service page: /<slug>
+  // Top-level service page: /<slug>. Articles share this level (/<slug>/) but
+  // BlogPost builds their meta through getBlogPostMeta below.
   const segments = clean.split('/').filter(Boolean);
   if (segments.length === 1) {
     const slug = segments[0];
@@ -234,14 +224,22 @@ export function getServicePageMeta(slug, pageTitle) {
   };
 }
 
-/** Generate SEO meta for a blog post from its title and excerpt. */
-export function getBlogPostMeta(slug, blogTitle, blogExcerpt) {
-  const clean = '/blog/' + slug.replace(/^\//, '');
+/**
+ * SEO meta for a blog post. The canonical is built from the slug — never from
+ * window.location — so it is the same absolute /<slug>/ URL whether the page
+ * was reached at /<slug>, /<slug>/ or through a redirect from the old /blog/
+ * form. `image` may be site-relative; og:image needs an absolute URL.
+ */
+export function getBlogPostMeta(slug, blogTitle, blogExcerpt, image) {
+  const canonicalUrl = SITE_ORIGIN + articlePath(slug);
+  const ogImage = image ? (/^https?:\/\//i.test(image) ? image : SITE_ORIGIN + image) : undefined;
   return {
     title: `${blogTitle} | Dr. Rajeev Agarwal`,
     description: blogExcerpt
       ? blogExcerpt.slice(0, 155) + (blogExcerpt.length > 155 ? '…' : '')
       : `Read ${blogTitle} by Dr. Rajeev Agarwal, fertility specialist and gynaecologist in Kolkata.`,
-    canonicalUrl: SITE_ORIGIN + clean,
+    canonicalUrl,
+    ogImage,
+    type: 'article',
   };
 }

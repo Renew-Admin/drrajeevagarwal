@@ -36,6 +36,7 @@ import {
 import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import { buildBlogPresentation, getBlogImage, getBlogCategory } from '../utils/blogPresentation';
+import { articlePath } from '../utils/blogRoutes';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
@@ -691,7 +692,7 @@ function RelatedBlogs({ serviceSlug, serviceTitle }) {
                 <h3>{post.title}</h3>
                 <p>{post.excerpt}</p>
                 <time dateTime={post.date}>{post.displayDate || post.date}</time>
-                <Link to={`/blog/${post.slug}`} className="ra-blog-link">Read Article</Link>
+                <Link to={articlePath(post.slug)} className="ra-blog-link">Read Article</Link>
               </div>
             </article>
           ))}

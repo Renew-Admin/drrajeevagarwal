@@ -10,6 +10,7 @@ import { MENOPAUSE_VIDEOS } from '../../data/menopauseCare';
 import { blogsData } from '../../data/blogs_data';
 import { liveBlogUpdates } from '../../data/live_blog_updates';
 import { buildBlogPresentation } from '../../utils/blogPresentation';
+import { articlePath } from '../../utils/blogRoutes';
 import { listPublishedBlogs } from '../../lib/supabaseBlogAdmin';
 
 const sideNav = [
@@ -113,12 +114,12 @@ export default function ArticlesAndVideos({ onBookClick }) {
         <div className="mc-cards mc-cards-2">
           {articles.map((post) => (
             <article className="mc-article-card" key={post.slug}>
-              <Link to={`/blog/${post.slug}`} className="mc-article-media" aria-hidden="true" tabIndex={-1}>
+              <Link to={articlePath(post.slug)} className="mc-article-media" aria-hidden="true" tabIndex={-1}>
                 <BlogImage src={post.image} alt="" loading="lazy" fitMode={post.imageFit} />
               </Link>
               <div className="mc-article-body">
                 <span className="mc-tag is-sage">{post.category}</span>
-                <h3><Link to={`/blog/${post.slug}`}>{post.title}</Link></h3>
+                <h3><Link to={articlePath(post.slug)}>{post.title}</Link></h3>
                 <p>{post.excerpt}</p>
                 <div className="mc-article-meta">
                   {post.displayDate && <span><CalendarDays size={13} /> {post.displayDate}</span>}

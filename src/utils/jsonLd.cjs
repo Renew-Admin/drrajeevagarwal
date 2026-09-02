@@ -67,19 +67,22 @@ function humanizeSegment(seg) {
 function buildBreadcrumb(pathname) {
   const clean = (pathname || '/').replace(/\/+$/, '') || '/';
   const items = [{ name: 'Home', url: `${SITE_ORIGIN}/` }];
+  const meta = getMetaForPath(pathname);
 
-  if (clean !== '/') {
+  if (meta.type === 'article') {
+    // Articles live at /<slug>/ but belong to the blog in the site's own
+    // structure, so the trail reads Home → Blog → Article. The last crumb is
+    // the canonical URL, which carries the trailing slash the path may lack.
+    items.push({ name: BREADCRUMB_LABELS.blog, url: `${SITE_ORIGIN}/blog` });
+    items.push({ name: meta.headline || meta.title, url: meta.canonicalUrl });
+  } else if (clean !== '/') {
     let acc = '';
     for (const seg of clean.split('/').filter(Boolean)) {
       acc += `/${seg}`;
-      // Prefer a blog post's real headline over a title-cased slug, so the
-      // crumb reads "PCOS Diet: Food To Eat & Avoid With PCOS" rather than
-      // "Pcos Diet Foods To Eat And Avoid". headline is only set for articles.
       // Menopause sub-pages carry their own crumb label because title-casing
       // their slugs produces "Hrt Hormone Therapy".
       const name = BREADCRUMB_LABELS[seg]
         || menopauseSeo[acc]?.breadcrumb
-        || getMetaForPath(acc).headline
         || humanizeSegment(seg);
       items.push({ name, url: SITE_ORIGIN + acc });
     }
@@ -97,8 +100,9 @@ function buildBreadcrumb(pathname) {
 }
 
 /**
- * BlogPosting for /blog/<slug>, built from the same metadata that produces the
- * page's <title> and og:image. Returns null for any other route.
+ * BlogPosting for an article at /<slug>/, built from the same metadata that
+ * produces the page's <title> and og:image, so url, @id and mainEntityOfPage
+ * all carry the canonical trailing-slash URL. Returns null for any other route.
  */
 function buildArticle(pathname) {
   const meta = getMetaForPath(pathname);

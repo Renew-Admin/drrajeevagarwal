@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import { isArticlePath } from '../utils/blogRoutes';
 
 const dropdownConcerns = [
   { title: 'Menopause Care', href: '/menopause-care' },
@@ -27,6 +28,9 @@ export default function Header({ onBookClick }) {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const location = useLocation();
+  // Articles live at /<slug>/ rather than under /blog/, so the Blog tab must
+  // stay lit on an article page too.
+  const isBlogSection = location.pathname.startsWith('/blog') || isArticlePath(location.pathname);
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -99,7 +103,7 @@ export default function Header({ onBookClick }) {
         </div>
       </div>
       <Link to="/courses" className={location.pathname === '/courses' ? 'is-active' : ''}>Courses</Link>
-      <Link to="/blog" className={location.pathname.startsWith('/blog') ? 'is-active' : ''}>Blog</Link>
+      <Link to="/blog" className={isBlogSection ? 'is-active' : ''}>Blog</Link>
       <Link to="/success-stories" className={location.pathname === '/success-stories' ? 'is-active' : ''}>Success Stories</Link>
       <Link to="/menopause-care" className={location.pathname.startsWith('/menopause-care') ? 'is-active' : ''}>Menopause Care</Link>
     </>
@@ -150,7 +154,7 @@ export default function Header({ onBookClick }) {
         )}
       </div>
       <Link to="/courses" className={location.pathname === '/courses' ? 'is-active' : ''} onClick={closeMobileMenu}>Courses</Link>
-      <Link to="/blog" className={location.pathname.startsWith('/blog') ? 'is-active' : ''} onClick={closeMobileMenu}>Blog</Link>
+      <Link to="/blog" className={isBlogSection ? 'is-active' : ''} onClick={closeMobileMenu}>Blog</Link>
       <Link to="/success-stories" className={location.pathname === '/success-stories' ? 'is-active' : ''} onClick={closeMobileMenu}>Success Stories</Link>
       <Link to="/menopause-care" className={location.pathname.startsWith('/menopause-care') ? 'is-active' : ''} onClick={closeMobileMenu}>Menopause Care</Link>
     </>

@@ -122,7 +122,11 @@ export function cleanBlogHtml(html = '', options = {}) {
     .replace(/http:\/\/drrajeevagarwal\.co\.in\/wp-content\/uploads\//g, '/assets/')
     .replace(/http:\/\/slategray-heron-932325\.hostingersite\.com\/wp-content\/uploads\//g, '/assets/')
     .replace(/\/wp-content\/uploads\//g, '/assets/')
-    .replace(/<a\s+([^>]*?)href=["']https?:\/\/drrajeevagarwal\.co\.in\/([^"']*)["']/gi, '<a $1href="/$2"');
+    .replace(/<a\s+([^>]*?)href=["']https?:\/\/drrajeevagarwal\.co\.in\/([^"']*)["']/gi, '<a $1href="/$2"')
+    // Retired article URLs inside post bodies (older posts, and anything the
+    // CMS still stores that way): /blog/<slug> → /<slug>/, the canonical form.
+    // "/blog" and "/blog?tag=…" (the listing page) are left alone.
+    .replace(/href=(["'])\/blog\/([^"'/?#]+)\/?(?=[?#]|\1)/gi, 'href=$1/$2/');
 
   if (options.removeFirstImage) {
     clean = clean.replace(/<!--\s*wp:image[\s\S]*?<!--\s*\/wp:image\s*-->/i, '');

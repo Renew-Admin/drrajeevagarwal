@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 
 // Components
 import Header from './components/Header';
@@ -39,6 +39,7 @@ import DietExerciseLifestyle from './pages/menopause/DietExerciseLifestyle';
 import CareTeam from './pages/menopause/CareTeam';
 import ArticlesAndVideos from './pages/menopause/ArticlesAndVideos';
 import { MENOPAUSE_PAGES } from './data/menopauseCare';
+import { pagesData } from './data/pages_data';
 
 /**
  * Component per menopause-care route, keyed by the `key` in
@@ -72,6 +73,28 @@ function PageTracking() {
 
 function isAdminPath(pathname) {
   return pathname === '/admin' || pathname.startsWith('/admin/');
+}
+
+/**
+ * The single canonical route for everything at the site root: /<slug>/.
+ *
+ * Service landing pages (src/data/pages_data.js) and blog articles share this
+ * level, so one route decides which page a slug belongs to. Service pages are
+ * a closed, bundled set and win; anything else is treated as an article —
+ * BlogPost resolves it against the bundled posts and Supabase, and renders the
+ * 404 page if neither knows the slug. There is deliberately no /blog/:slug
+ * route any more: that form 301s to /<slug>/ (src/worker.js), so it can never
+ * render a duplicate of the article.
+ */
+function RootSlugPage({ onBookClick }) {
+  const { slug } = useParams();
+  const cleanSlug = slug ? slug.trim().replace(/\/$/, '') : '';
+
+  if (pagesData[cleanSlug]) {
+    return <ServicePage onBookClick={onBookClick} />;
+  }
+
+  return <BlogPost />;
 }
 
 function SiteChrome({ children, onBookClick }) {
@@ -175,9 +198,8 @@ export function AppRoutes() {
           {/* Admin Dashboard */}
           <Route path="/admin/*" element={<AdminDashboard />} />
           
-          {/* Blog Routes */}
+          {/* Blog listing. Articles live at /<slug>/ — see RootSlugPage below. */}
           <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
           
           {/* Doctor Team & Individual Profiles */}
           <Route path="/doctors" element={<Doctors />} />
@@ -205,11 +227,11 @@ export function AppRoutes() {
             ) : null;
           })}
 
-          {/* Dynamic Services / Landing Pages Catch-All (WordPress replication) */}
+          {/* Site-root catch-all: service landing pages and blog articles (/<slug>/) */}
           <Route path="/all-services" element={<AllServices onBookClick={openBookModal} />} />
           <Route path="/success-stories" element={<SuccessStories onBookClick={openBookModal} />} />
           <Route path="/courses" element={<Courses onBookClick={openBookModal} />} />
-          <Route path="/:slug" element={<ServicePage onBookClick={openBookModal} />} />
+          <Route path="/:slug" element={<RootSlugPage onBookClick={openBookModal} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </SiteChrome>

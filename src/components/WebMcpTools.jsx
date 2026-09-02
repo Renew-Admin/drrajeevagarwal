@@ -5,6 +5,7 @@ import { pagesData } from '../data/pages_data';
 import { blogsData } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import { buildBlogPresentation, stripBlogHtml } from '../utils/blogPresentation';
+import { articlePath } from '../utils/blogRoutes';
 
 /**
  * WebMCP tool provider.
@@ -129,7 +130,7 @@ export default function WebMcpTools({ onBookClick }) {
             resultCount: matches.length,
             results: matches.slice(0, limit).map((post) => ({
               title: post.title,
-              url: `${SITE_ORIGIN}/blog/${post.slug}`,
+              url: `${SITE_ORIGIN}${articlePath(post.slug)}`,
               category: post.category,
               published: post.displayDate,
               readingTimeMinutes: post.readingTime,

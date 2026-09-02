@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { CalendarDays, ArrowLeft, AlertCircle, Clock, ArrowRight, Tags, PhoneCall } from 'lucide-react';
+import { CalendarDays, ArrowLeft, Clock, ArrowRight, Tags, PhoneCall } from 'lucide-react';
 import { blogsData as initialBlogs } from '../data/blogs_data';
 import { liveBlogUpdates } from '../data/live_blog_updates';
 import useSeo from '../utils/useSeo';
@@ -8,6 +8,8 @@ import { getMetaForPath, getBlogPostMeta } from '../utils/seoMeta';
 import { buildBlogPresentation, cleanBlogHtml } from '../utils/blogPresentation';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 import BlogImage from '../components/BlogImage';
+import NotFound from './NotFound';
+import { articlePath } from '../utils/blogRoutes';
 
 function uniqueBlogs(list) {
   const seen = new Set();
@@ -69,7 +71,7 @@ export default function BlogPost() {
   const latestArticles = blogItems.filter((item) => item.slug !== cleanSlug).slice(0, 5);
   const popularTags = Array.from(new Set((blogItems.flatMap((item) => item.tags)))).slice(0, 10);
   const blogSeo = blog
-    ? getBlogPostMeta(blog.slug, blog.title, blog.excerpt)
+    ? getBlogPostMeta(blog.slug, blog.title, blog.excerpt, blog.image)
     : getMetaForPath('/blog');
   useSeo(blogSeo);
 
@@ -77,17 +79,11 @@ export default function BlogPost() {
     ? cleanBlogHtml(blog.content, { removeFirstImage: true, removeFirstParagraph: !blog._remote })
     : '';
 
+  // Unknown slug. This route is shared with the service pages (RootSlugPage in
+  // App.jsx), so a URL that is neither a service nor an article gets the site's
+  // normal 404 page rather than an article-specific apology.
   if (loaded && !blog) {
-    return (
-      <div className="inner-page" style={{ display: 'flex', alignItems: 'center', minHeight: '60vh' }}>
-        <div className="ra-container" style={{ textAlign: 'center', maxWidth: 600 }}>
-          <AlertCircle size={48} color="#EF4444" style={{ marginBottom: 16 }} />
-          <h2 style={{ fontWeight: 800, color: 'var(--deep-teal)' }}>Article Not Found</h2>
-          <p style={{ color: 'var(--text-soft)' }}>We apologize, but the article you are looking for does not exist or has been deleted.</p>
-          <Link to="/blog" className="ra-btn ra-btn-primary" style={{ marginTop: 16 }}>Back to Blog List</Link>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
   if (!blog) {
@@ -133,7 +129,7 @@ export default function BlogPost() {
             <h2>Latest Articles</h2>
             <div className="blog-latest-list">
               {latestArticles.map((item) => (
-                <Link to={`/blog/${item.slug}`} key={item.slug} className="blog-latest-item">
+                <Link to={articlePath(item.slug)} key={item.slug} className="blog-latest-item">
                   <BlogImage src={item.image} alt="" loading="lazy" fitMode={item.imageFit} />
                   <span>
                     <small>{item.displayDate}</small>

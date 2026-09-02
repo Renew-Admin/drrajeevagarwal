@@ -16,7 +16,7 @@ import { StaticRouter } from 'react-router-dom';
 import { AppRoutes } from './App.jsx';
 
 /**
- * @param {string} url  Route path to render, e.g. "/" or "/blog/some-slug".
+ * @param {string} url  Route path to render, e.g. "/" or "/some-article-slug/".
  * @returns {string}    Inner HTML for <div id="root">.
  */
 export function render(url) {

@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { blogsData } from '../data/blogs_data';
 import { buildBlogPresentation } from '../utils/blogPresentation';
+import { articlePath } from '../utils/blogRoutes';
 import Footer from '../components/Footer';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import heroImg from '../assets/image.webp';
@@ -1148,7 +1149,7 @@ export default function Home({ onBookClick }) {
                     <h3>{post.title}</h3>
                     <p>{post.excerpt}</p>
                     <time dateTime={post.date}>{post.displayDate}</time>
-                    <Link to={`/blog/${post.slug}`} className="ra-blog-link">Read Article</Link>
+                    <Link to={articlePath(post.slug)} className="ra-blog-link">Read Article</Link>
                   </div>
                 </article>
               ))}

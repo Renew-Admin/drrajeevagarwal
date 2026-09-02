@@ -19,6 +19,11 @@ DirectoryIndex index.html
   # Redirect preconception-care to preconception
   RewriteRule ^preconception-care/?$ /preconception [R=301,L]
 
+  # Retired article URLs: /blog/<slug>[/] → /<slug>/ (the canonical form).
+  # Apache carries the original query string over on its own when the target
+  # has none. "/blog" and "/blog/" (the listing page) do not match.
+  RewriteRule ^blog/([^/]+)/?$ /$1/ [R=301,L]
+
   # Author archives → 301 to About page
   RewriteRule ^author/.+$       /about-me [R=301,L]
 

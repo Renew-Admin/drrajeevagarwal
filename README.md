@@ -30,7 +30,7 @@ Required Cloudflare environment variables:
 
 The admin panel is a client-side Supabase admin. It needs `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` at build time. The lead and workshop forms post to Worker routes at `/api/lead-webhook` and `/api/workshop-webhook`, which forward to `WEBHOOK_URL` and `WORKSHOP_WEBHOOK` at runtime.
 
-`wrangler.toml` uses `not_found_handling = "single-page-application"`, so direct visits to routes such as `/admin`, `/blog/...`, and `/preconception-workshop/` work on the Worker URL.
+Every indexable route is prerendered to `build/<route>/index.html` and the Worker config uses `not_found_handling = "404-page"`, so anything without a file is a real 404. Blog articles are served at `/<slug>/` (site root, trailing slash); the retired `/blog/<slug>` form 301s to it from `src/worker.js`.
 
 Do not add a `public/_redirects` SPA fallback for the Worker deploy. Workers static assets handle the SPA fallback through `wrangler.toml`; a `/* /index.html 200` redirects file causes Cloudflare to reject the deploy as an infinite loop.
 

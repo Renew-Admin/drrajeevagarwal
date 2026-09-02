@@ -6,9 +6,9 @@ import { useEffect, useRef } from 'react';
  * Sets <title>, <meta name="description">, <link rel="canonical">,
  * and Open Graph meta tags. Restores the previous title on unmount.
  *
- * @param {{ title: string, description: string, canonicalUrl: string, ogImage?: string }} seo
+ * @param {{ title: string, description: string, canonicalUrl: string, ogImage?: string, type?: 'website' | 'article' }} seo
  */
-export default function useSeo({ title, description, canonicalUrl, ogImage }) {
+export default function useSeo({ title, description, canonicalUrl, ogImage, type = 'website' }) {
   const prevTitle = useRef(null);
 
   useEffect(() => {
@@ -49,10 +49,20 @@ export default function useSeo({ title, description, canonicalUrl, ogImage }) {
     if (canonicalUrl) {
       ensureMeta('meta[property="og:url"]', { property: 'og:url', content: canonicalUrl });
     }
-    ensureMeta('meta[property="og:type"]', { property: 'og:type', content: 'website' });
+    ensureMeta('meta[property="og:type"]', { property: 'og:type', content: type === 'article' ? 'article' : 'website' });
     ensureMeta('meta[property="og:site_name"]', { property: 'og:site_name', content: 'Dr. Rajeev Agarwal' });
     if (ogImage) {
       ensureMeta('meta[property="og:image"]', { property: 'og:image', content: ogImage });
+    }
+
+    // Twitter card. twitter:url must match the canonical exactly, like og:url.
+    ensureMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: title });
+    ensureMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
+    if (canonicalUrl) {
+      ensureMeta('meta[name="twitter:url"]', { name: 'twitter:url', content: canonicalUrl });
+    }
+    if (ogImage) {
+      ensureMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: ogImage });
     }
 
     return () => {
@@ -60,5 +70,5 @@ export default function useSeo({ title, description, canonicalUrl, ogImage }) {
         document.title = prevTitle.current;
       }
     };
-  }, [title, description, canonicalUrl, ogImage]);
+  }, [title, description, canonicalUrl, ogImage, type]);
 }
