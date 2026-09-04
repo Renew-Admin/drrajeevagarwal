@@ -11954,6 +11954,171 @@ a.ra-quick-card:hover {
   line-height: 1.55;
 }
 
+/* Hero tagline (Zero Trimester quote) */
+.preconception-hero-copy > .preconception-hero-tagline {
+  max-width: 560px;
+  margin: 0 0 16px;
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(17px, 2vw, 21px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* PREPARE method line under the hero plan-card title */
+.preconception-plan-method {
+  margin: -4px 0 0;
+  color: #4A5278;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.preconception-plan-method strong {
+  color: var(--deep-teal);
+  font-weight: 800;
+}
+
+/* Reel: "are you already trying?" */
+.preconception-reel-section {
+  padding: clamp(56px, 6vw, 80px) 0;
+  border-top: 4px solid var(--gold);
+  border-bottom: 4px solid var(--gold);
+  background: var(--navy);
+  color: #fff;
+}
+
+.preconception-reel-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+
+.preconception-reel-section .ra-label {
+  color: var(--gold);
+}
+
+.preconception-reel-copy {
+  min-width: 0;
+}
+
+.preconception-reel-copy h2 {
+  margin: 0 0 18px;
+  color: #fff;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 850;
+  line-height: 1.18;
+}
+
+.preconception-reel-copy h2 em {
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.preconception-reel-copy p {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 16.5px;
+  line-height: 1.75;
+}
+
+.preconception-reel-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.preconception-reel-copy p strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.preconception-reel-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Reuses .ra-instagram-card from the home page Instagram Feed.
+   The extra specificity beats the home feed's mobile flex-basis/padding
+   overrides, which would otherwise squash the card in this column layout. */
+.preconception-reel-media .preconception-reel-card {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 9 / 16;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.32);
+  scroll-snap-align: none;
+}
+
+.preconception-reel-media .preconception-reel-card img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}
+
+/* Lightbox frame for the reel: true 9:16, fits the viewport height */
+.preconception-reel-media .ra-video-lightbox iframe {
+  width: min(100%, calc(88vh * 9 / 16));
+  height: auto;
+  max-height: none;
+  aspect-ratio: 9 / 16;
+}
+
+@media (max-width: 640px) {
+  .preconception-reel-media .preconception-reel-card {
+    max-width: min(320px, 74vw);
+  }
+
+  .preconception-reel-media .ra-video-lightbox iframe {
+    width: min(100%, calc(82vh * 9 / 16));
+  }
+}
+
+.preconception-reel-card:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.preconception-reel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.preconception-reel-link:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 900px) {
+  .preconception-reel-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .preconception-reel-media {
+    order: -1;
+  }
+}
+
 .preconception-statband {
   padding: clamp(26px, 3vw, 38px) 0;
   background: var(--gold);
@@ -11961,7 +12126,7 @@ a.ra-quick-card:hover {
 
 .preconception-statband-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(18px, 2.6vw, 34px);
 }
 
@@ -12748,6 +12913,75 @@ a.ra-quick-card:hover {
   background: var(--pc-surface);
 }
 
+/* Why + What You Will Get sit back to back: trim the shared gap */
+.preconception-why-section {
+  padding-bottom: clamp(40px, 4.5vw, 56px);
+}
+
+.preconception-pillars-section {
+  padding-top: clamp(28px, 3.2vw, 40px);
+  padding-bottom: clamp(32px, 3.5vw, 44px);
+}
+
+/* What You Will Get + Real Stories are both white: trim the shared gap */
+.preconception-proof-section {
+  padding-top: clamp(24px, 2.8vw, 36px);
+  padding-bottom: clamp(32px, 3.5vw, 44px);
+}
+
+/* Real Stories + Who Should Attend: trim the shared gap */
+.preconception-fit-section {
+  padding-top: clamp(24px, 2.8vw, 36px);
+}
+
+/* Care Outline + A Comprehensive Consultation: trim the shared gap */
+.preconception-agenda-section {
+  padding-bottom: clamp(32px, 3.5vw, 44px);
+}
+
+.preconception-domains-section {
+  padding-top: clamp(24px, 2.8vw, 36px);
+  padding-bottom: clamp(32px, 3.5vw, 44px);
+}
+
+/* A Comprehensive Consultation + Is This Consultation For You?: trim the shared gap */
+.preconception-audience-section {
+  padding-top: clamp(24px, 2.8vw, 36px);
+  padding-bottom: clamp(32px, 3.5vw, 44px);
+}
+
+/* Is This Consultation For You? + Six Lifestyle Factors: trim the shared gap */
+.preconception-lifestyle-section {
+  padding-top: clamp(28px, 3.2vw, 40px);
+}
+
+/* Watch Before Your Consultation + What To Expect: tight gap */
+.preconception-video-section {
+  padding-bottom: clamp(20px, 2.4vw, 28px);
+}
+
+.preconception-journey-section {
+  padding-top: clamp(16px, 2vw, 24px);
+}
+
+/* Download guide + Patient Stories: tight gap */
+.preconception-guide-section {
+  padding-bottom: clamp(24px, 2.8vw, 36px);
+}
+
+.preconception-stories-section {
+  padding-top: clamp(20px, 2.4vw, 32px);
+}
+
+/* Awards + FAQ: tight gap (FAQ uses the generic .ra-section wrapper) */
+.preconception-awards-section {
+  padding-bottom: clamp(24px, 2.8vw, 36px);
+}
+
+.preconception-page .ra-section.ra-section-blue {
+  padding-top: clamp(20px, 2.4vw, 32px);
+}
+
 .preconception-audience-section {
   background: var(--blue-pale);
 }
@@ -12829,8 +13063,8 @@ a.ra-quick-card:hover {
   }
 
   .preconception-statband-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(16px, 2.4vw, 26px) clamp(18px, 2.6vw, 30px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2.4vw, 26px) clamp(14px, 2vw, 24px);
   }
 
   .preconception-domains-layout {
@@ -14049,6 +14283,112 @@ a.ra-quick-card:hover {
   }
 
   .preconception-audience-card-clone {
+    display: none;
+  }
+}
+
+/* "Is This Consultation For You?" cards: one auto-scrolling row on desktop too */
+@keyframes preconception-audience-scroll-desktop {
+  to {
+    transform: translateX(calc(-50% - var(--audience-gap) / 2));
+  }
+}
+
+@media (min-width: 641px) {
+  .preconception-audience-viewport {
+    --audience-gap: 20px;
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  }
+
+  .preconception-audience-grid {
+    display: flex;
+    width: max-content;
+    gap: var(--audience-gap);
+    animation: preconception-audience-scroll-desktop 42s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-audience-card,
+  .preconception-audience-card-clone {
+    display: flex;
+    flex: 0 0 clamp(280px, 24vw, 340px);
+    box-shadow: none;
+  }
+
+  .preconception-audience-viewport:hover .preconception-audience-grid,
+  .preconception-audience-viewport:focus-within .preconception-audience-grid {
+    animation-play-state: paused;
+  }
+}
+
+@media (min-width: 641px) and (prefers-reduced-motion: reduce) {
+  .preconception-audience-viewport {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .preconception-audience-grid {
+    animation: none;
+  }
+
+  .preconception-audience-card-clone {
+    display: none;
+  }
+}
+
+/* "Six Lifestyle Factors" cards: one auto-scrolling row on desktop too, no shadow */
+@keyframes preconception-lifestyle-scroll-desktop {
+  to {
+    transform: translateX(calc(-50% - var(--lifestyle-gap) / 2));
+  }
+}
+
+@media (min-width: 641px) {
+  .preconception-lifestyle-viewport {
+    --lifestyle-gap: 20px;
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+  }
+
+  .preconception-lifestyle-grid {
+    display: flex;
+    width: max-content;
+    gap: var(--lifestyle-gap);
+    animation: preconception-lifestyle-scroll-desktop 44s linear infinite;
+    will-change: transform;
+  }
+
+  .preconception-lifestyle-card,
+  .preconception-lifestyle-card-clone {
+    display: flex;
+    flex: 0 0 clamp(300px, 26vw, 360px);
+    box-shadow: none;
+  }
+
+  .preconception-lifestyle-viewport:hover .preconception-lifestyle-grid,
+  .preconception-lifestyle-viewport:focus-within .preconception-lifestyle-grid {
+    animation-play-state: paused;
+  }
+}
+
+@media (min-width: 641px) and (prefers-reduced-motion: reduce) {
+  .preconception-lifestyle-viewport {
+    overflow-x: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .preconception-lifestyle-grid {
+    animation: none;
+  }
+
+  .preconception-lifestyle-card-clone {
     display: none;
   }
 }

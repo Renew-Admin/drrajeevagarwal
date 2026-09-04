@@ -31,6 +31,7 @@ import {
   Users,
   Video,
   Wine,
+  X,
 } from 'lucide-react';
 
 import { blogsData as initialBlogs } from '../data/blogs_data';
@@ -128,9 +129,8 @@ const prepareSteps = [
 
 const bandStats = [
   { value: '5%', text: 'weight loss is enough to measurably improve fertility outcomes' },
-  { value: '10%', text: 'reduction in conception rate for every BMI unit over 30' },
-  { value: '4.9★', text: 'average Google rating, Renew Healthcare, Kolkata' },
-  { value: '35+', text: 'national and global healthcare awards' },
+  { value: '34%', text: 'lower monthly conception rate in women with obesity vs healthy BMI' },
+  { value: '4.9★', text: 'average Google rating — Renew Healthcare, Kolkata' },
 ];
 
 const whyItMatters = [
@@ -210,7 +210,7 @@ const whoShouldBook = [
 const lifestyleFactors = [
   {
     title: 'Weight & BMI',
-    text: 'Every unit of BMI above 30 reduces conception rate by 10%. For men, obesity reduces sperm concentration by 15–20% and increases DNA fragmentation by 30–40%.',
+    text: 'Obesity is associated with a 34% lower monthly conception rate in women; overweight with 16% lower. In men, obesity reduces sperm concentration by 15–20% and increases DNA fragmentation by 30–40%.',
     fact: 'Even 5% weight loss improves fertility outcomes.',
     icon: Scale,
   },
@@ -308,22 +308,22 @@ const consultBadges = [
 
 const patientStories = [
   {
-    name: 'Priya S.',
-    detail: 'Kolkata, preconception consultation, 2024',
+    name: 'Patient, Kolkata',
+    detail: 'Preconception consultation, shared with consent',
     initial: 'P',
-    text: "We had been trying for eight months before our consultation with Dr. Agarwal. Within the first visit, he identified my husband's borderline sperm DNA fragmentation and my subclinical thyroid, neither of which had been picked up before. Three months later we were pregnant.",
+    text: "We had been trying for several months before our consultation with Dr. Agarwal. Within the first visit, he identified issues with my husband's sperm health and a thyroid condition of mine, neither of which had been picked up before. A few months later we were pregnant.",
   },
   {
-    name: 'Anuradha M.',
-    detail: 'Kolkata, preconception screening, 2024',
+    name: 'Patient, Kolkata',
+    detail: 'Preconception screening, shared with consent',
     initial: 'A',
-    text: 'We came before we even started trying, just to make sure everything was in order. Dr. Agarwal found I was a thalassaemia carrier and my husband was tested immediately. That one conversation changed the entire course of our planning. We are deeply grateful.',
+    text: 'We came before we even started trying, just to make sure everything was in order. The genetic screening identified something important in our family history that changed our entire approach to planning. That one consultation was invaluable. We are deeply grateful.',
   },
   {
-    name: 'Reshma K.',
-    detail: 'Kolkata, PCOS preconception, 2023',
+    name: 'Patient, Kolkata',
+    detail: 'PCOS preconception, shared with consent',
     initial: 'R',
-    text: 'I have PCOS and was told by multiple doctors to "just try for a year first." Dr. Agarwal\'s approach was completely different, structured, evidence-based, and respectful. He optimised my condition before we started, and I conceived naturally within four months.',
+    text: 'I have PCOS and was told by multiple doctors to "just try for a year first." Dr. Agarwal\'s approach was completely different, structured, evidence-based, and respectful. He optimised my condition before we started, and I conceived naturally within months.',
   },
 ];
 
@@ -362,6 +362,14 @@ const awardImages = [
 
 const faqs = [
   {
+    title: "What is preconception counselling and why is it important?",
+    text: "Preconception counselling is a structured medical consultation for both partners before attempting to conceive. It identifies and addresses health risks, including undiagnosed PCOS, thyroid disease, genetic carrier status, low ovarian reserve, poor sperm health, and medication hazards, before pregnancy begins. Research shows that addressing these issues before conception leads to better pregnancy outcomes, reduced miscarriage risk, and healthier babies. The period before conception is sometimes called the Zero Trimester because what happens in these 3 months shapes the entire pregnancy."
+  },
+  {
+    title: "Who should consider preconception counselling?",
+    text: "Preconception counselling is recommended for all couples planning a pregnancy, not just those facing fertility problems. It is especially important for couples who have been trying to conceive for 3–6 months without success, couples with a family history of genetic conditions such as thalassaemia or hearing loss, women with PCOS, thyroid disease, endometriosis, diabetes, or hypertension, couples over 30 where either partner is concerned about fertility, and women on medications that are contraindicated in pregnancy, such as valproate, isotretinoin, or methotrexate."
+  },
+  {
     title: "When should we start preconception planning?",
     text: "Ideally, you should start planning at least 3 months (the 'Zero Trimester') before you begin actively trying to conceive. This gives you enough time to check and correct nutritional gaps, complete vaccinations, adjust medications, and optimize health conditions."
   },
@@ -383,15 +391,23 @@ const faqs = [
   },
   {
     title: "Does weight affect fertility?",
-    text: "Yes. For every BMI unit above 30, the chance of conception per cycle drops by approximately 10%. In men, obesity reduces sperm concentration by 15–20% and increases DNA fragmentation by 30–40%. Even a 5% reduction in body weight measurably improves fertility outcomes in both partners."
+    text: "Yes. Overweight is associated with a 16% reduction in the chance of conception per cycle; obesity with a 34% reduction. In men, obesity reduces sperm concentration by 15–20% and increases DNA fragmentation by 30–40%. Even a 5% reduction in body weight measurably improves fertility outcomes in both partners. (Source: Haahr et al., JAMA, 2024; population study of 55,000 women.)"
   },
   {
     title: "Is alcohol safe when trying to conceive?",
     text: "No safe level of alcohol has been established during the preconception period. Alcohol above 2 standard drinks per day reduces fertility in both partners. In men it reduces testosterone and sperm quality. In women it disrupts ovulation and hormonal signalling. Complete abstinence for both partners during the Zero Trimester is the evidence-based recommendation."
   },
   {
+    title: "Does smoking affect fertility and the baby?",
+    text: "Yes, significantly. Smoking accelerates egg depletion, increases the risk of miscarriage, reduces sperm count, motility, and morphology, and raises the risk of ectopic pregnancy and preterm birth. Shisha and hookah carry a greater risk per session than cigarettes, despite the common belief that they are safer. Smoking cessation at least 3 months before conception is recommended for both partners."
+  },
+  {
     title: "Does shisha or hookah affect fertility?",
     text: "Yes, and significantly more than most people realise. A single shisha session can deliver the equivalent of 100–200 cigarettes' worth of smoke. It carries the same reproductive risks as cigarette smoking: reduced sperm quality, disrupted ovulation, increased miscarriage risk, and higher carbon monoxide exposure. The belief that shisha is \"safer\" is not supported by the evidence."
+  },
+  {
+    title: "How does sleep affect fertility?",
+    text: "Sleep has a direct hormonal impact on fertility. Women who consistently sleep past midnight show increased rates of menstrual irregularity and ovulation problems. Sleep disruption alters LH pulsatility, melatonin levels, and insulin sensitivity, all of which are critical for regular ovulation. The recommended sleep duration before conception is 7–9 hours per night, with a consistent sleep schedule. Sleep apnoea, which is underdiagnosed in women, is also associated with PCOS and poor reproductive outcomes and should be screened for before pregnancy."
   },
   {
     title: "What vaccinations should I have before getting pregnant?",
@@ -408,8 +424,19 @@ const faqs = [
   {
     title: "Is folic acid enough preconception supplementation?",
     text: "For most women, folic acid is the foundation, but it is not sufficient on its own. Vitamin D, B12, and iodine are frequently deficient in Indian women and should be assessed and supplemented. Women with the MTHFR variant, absorption issues, or on valproate require L-methylfolate or higher-dose folic acid. Male partners benefit from a targeted antioxidant programme including CoQ10, zinc, selenium, and omega-3. A preconception consultation determines what each individual needs."
+  },
+  {
+    title: "Where can I get preconception counselling in Kolkata?",
+    text: "Dr. Rajeev Agarwal offers structured preconception counselling at Renew Healthcare in Kolkata. Consultations are available in-person and virtually for couples based elsewhere in India. The consultation covers all aspects of preconception health for both partners using an evidence-based 7-domain PREPARE clinical framework, and concludes with a personalised written 90-day action plan. Appointments can be booked at drrajeevagarwal.co.in."
   }
 ];
+
+const instagramReel = {
+  permalink: 'https://www.instagram.com/p/DJ1ARf4PrYr/',
+  // Thumbnail exported from the reel itself (instagram.com/p/DJ1ARf4PrYr).
+  cover: `${ASSET_PATH}instagram-reel-cover.jpg`,
+  alt: 'Dr. Rajeev Agarwal on Instagram: are you planning a pregnancy, or already trying?',
+};
 
 // Accordion helper removed to use standard ra-faq structure
 
@@ -453,7 +480,10 @@ function buildPreconceptionSchema(origin) {
         '@id': `${pageUrl}#webpage`,
         url: pageUrl,
         name: 'Preconception Counselling in Kolkata | The Zero Trimester',
+        description:
+          'Evidence-based preconception counselling by Dr. Rajeev Agarwal. Structured 7-domain PREPARE assessment covering fertility investigations, genetic screening, vaccinations, chronic disease management, and lifestyle optimisation for both partners.',
         inLanguage: 'en',
+        isPartOf: { '@id': `${origin}/#website` },
         about: { '@id': `${origin}/#physician` },
         keywords: SEO_KEYWORDS,
       },
@@ -497,7 +527,7 @@ function usePreconceptionSeo() {
   useEffect(() => {
     const title = 'Preconception Counselling in Kolkata | The Zero Trimester | Dr. Rajeev Agarwal';
     const description =
-      'Dr. Rajeev Agarwal offers structured preconception counselling in Kolkata — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners. The Zero Trimester.';
+      'Dr. Rajeev Agarwal offers evidence-based preconception counselling in Kolkata. Prepare for pregnancy with a structured 7-domain PREPARE assessment — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners.';
     const previousTitle = document.title;
 
     const ensureMeta = (selector, attrs) => {
@@ -551,6 +581,44 @@ function getAllowedCategories(slug) {
 const RELATED_BLOG_KEYWORDS = {
   'preconception': ['preconception', 'zero trimester', 'before pregnancy', 'trying to conceive', 'fertility readiness', 'thyroid', 'tests before pregnancy'],
 };
+
+function InstagramReelCard({ permalink, cover, alt }) {
+  const [reelModal, setReelModal] = useState(null);
+  // Same pattern as the home page Instagram Feed: a cover card with the site's
+  // play control that opens the reel in the shared video lightbox.
+  const embedUrl = permalink.replace(/\/?$/, '/embed');
+
+  return (
+    <div className="preconception-reel-media">
+      <button
+        className="ra-instagram-card preconception-reel-card"
+        type="button"
+        onClick={() => setReelModal(embedUrl)}
+        aria-label="Play the Instagram reel"
+      >
+        <img src={cover} alt={alt} loading="lazy" />
+        <span className="ra-video-carousel-control" aria-hidden="true">
+          <Play size={35} fill="currentColor" strokeWidth={1.8} />
+        </span>
+      </button>
+      <a className="preconception-reel-link" href={permalink} target="_blank" rel="noopener noreferrer">
+        <Video size={16} /> Watch on Instagram
+      </a>
+      {reelModal && (
+        <div className="ra-video-lightbox" onClick={() => setReelModal(null)}>
+          <span className="ra-video-lightbox-close"><X size={28} /></span>
+          <iframe
+            src={reelModal}
+            allow="fullscreen"
+            allowFullScreen
+            title="Instagram reel"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
 
 function RelatedBlogs({ serviceSlug, serviceTitle }) {
   const [blogs, setBlogs] = useState([]);
@@ -720,6 +788,7 @@ export default function Preconception() {
             <span className="ra-label"><Baby size={16} /> Zero Trimester Planning</span>
             <h1>The <em>Zero Trimester</em> starts here.</h1>
             <strong className="preconception-hero-kicker">Prepare For Pregnancy With Clarity</strong>
+            <p className="preconception-hero-tagline">"Don't just conceive, preconceive."</p>
             <p>
               The three months before pregnancy are as important as the nine months during it.
               Dr. Rajeev Agarwal's preconception programme prepares both partners biologically,
@@ -751,6 +820,10 @@ export default function Preconception() {
                 <h2>What we cover in your consultation</h2>
                 <span>8 clinical domains</span>
               </div>
+              <p className="preconception-plan-method">
+                <strong>The PREPARE Method:</strong> Dr. Agarwal's structured preconception framework,
+                Planning, Review, Evaluate, Prevent &amp; Protect, Assess, Reinforce, Enhance.
+              </p>
               <ol className="preconception-prepare-list preconception-hero-prepare-list">
                 {prepareSteps.map(({ letter, title, text }, index) => (
                   <li className="preconception-prepare-item" key={`${letter}-${index}`}>
@@ -781,6 +854,38 @@ export default function Preconception() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="preconception-section preconception-reel-section" aria-labelledby="preconception-reel-title">
+        <div className="ra-container preconception-reel-layout">
+          <div className="preconception-reel-copy">
+            <span className="ra-label"><Video size={16} /> Before You Read Further</span>
+            <h2 id="preconception-reel-title">
+              Are you here because you're <em>planning</em> a pregnancy, or because one hasn't
+              happened yet?
+            </h2>
+            <p>
+              Most couples who book a preconception consultation describe themselves as "planning
+              ahead." But when I ask about contraception, a different picture often emerges.
+            </p>
+            <p>
+              <strong>
+                If you are using the pullout method, the safe period, or no contraception at all, you
+                are not planning a pregnancy. You are already trying.
+              </strong>{' '}
+              Unprotected intercourse is unprotected intercourse. Not thinking about pregnancy does
+              not prevent it from being attempted biologically.
+            </p>
+            <p>
+              This distinction matters clinically. A couple who has been using the safe period method
+              for eight months without conceiving is not a preconception case. They are a couple with
+              eight months of unexplained infertility. The consultation they need is different. The
+              investigations are different. The urgency is different.
+            </p>
+            <p>Watch the reel. Then ask yourself honestly: which consultation is this?</p>
+          </div>
+          <InstagramReelCard {...instagramReel} />
         </div>
       </section>
 
@@ -1154,13 +1259,13 @@ export default function Preconception() {
             <span className="ra-label"><Star size={16} /> Patient Stories</span>
             <h2>What Couples Say After Their Zero Trimester <em>Consultation</em></h2>
             <p>
-              Real feedback from couples who came for preconception counselling at Renew Healthcare,
-              Kolkata.
+              Composite patient stories shared with consent. To leave a verified review, visit our
+              Google Business page.
             </p>
           </div>
           <div className="preconception-stories-grid">
             {patientStories.map(({ name, detail, initial, text }) => (
-              <figure className="preconception-story-card" key={name}>
+              <figure className="preconception-story-card" key={initial}>
                 <div className="preconception-story-rating" aria-label="Rated 5 out of 5">
                   {[0, 1, 2, 3, 4].map((star) => (
                     <Star key={star} size={15} fill="currentColor" aria-hidden="true" />

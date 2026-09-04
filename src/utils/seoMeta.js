@@ -49,7 +49,7 @@ export const ROUTE_META = {
   '/preconception': {
     title: 'Preconception Counselling in Kolkata | The Zero Trimester | Dr. Rajeev Agarwal',
     description:
-      'Dr. Rajeev Agarwal offers structured preconception counselling in Kolkata — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners. The Zero Trimester.',
+      'Dr. Rajeev Agarwal offers evidence-based preconception counselling in Kolkata. Prepare for pregnancy with a structured 7-domain PREPARE assessment — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners.',
   },
   '/preconception-workshop': {
     title: 'Preconception Workshop \u2013 Prepare for a Healthy Pregnancy | Dr. Rajeev Agarwal',

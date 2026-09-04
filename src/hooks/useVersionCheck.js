@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 const buildVersion = import.meta.env.VITE_APP_VERSION || null;
 
-function reloadWithCacheBust(version) {
+function reloadForNewVersion(version) {
   try {
     const storageKey = `drrajeev:version-reload:${version}`;
     if (sessionStorage.getItem(storageKey) === '1') return;
@@ -11,9 +11,9 @@ function reloadWithCacheBust(version) {
     // Some privacy modes block sessionStorage; reload anyway in that case.
   }
 
-  const url = new URL(window.location.href);
-  url.searchParams.set('__site_version', version);
-  window.location.replace(url.toString());
+  // HTML is served with no-store cache headers, so a plain reload fetches the
+  // new build without needing a cache-busting query string on the URL.
+  window.location.reload();
 }
 
 export function useVersionCheck(intervalMs = 60000) {
@@ -37,7 +37,7 @@ export function useVersionCheck(intervalMs = 60000) {
         }
 
         if (data.version !== currentVersion.current) {
-          reloadWithCacheBust(data.version);
+          reloadForNewVersion(data.version);
         }
       } catch {
         // Network/cache failures should not interrupt normal site usage.

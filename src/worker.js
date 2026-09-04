@@ -261,19 +261,6 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Root-level cache buster redirect to force fresh HTML load without caching
-    if (url.pathname === '/' && !url.searchParams.has('__site_version')) {
-      const version = Date.now();
-      url.searchParams.set('__site_version', String(version));
-      return new Response(null, {
-        status: 302,
-        headers: {
-          'Location': url.toString(),
-          'Cache-Control': 'no-store',
-        },
-      });
-    }
-
     // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
     // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
     const legacyResponse = legacyWordPressResponse(url);
