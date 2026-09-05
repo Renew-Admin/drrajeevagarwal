@@ -149,11 +149,14 @@ const pressLogos = [
 ];
 
 const instagramFeed = [
-  ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/18039042062394748-m.jpg', 'https://www.instagram.com/reel/DH3qMX6v8f8/'],
-  ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/18320255338207237-m.jpg', 'https://www.instagram.com/reel/DHyShB8vEX-/'],
-  ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/17950453085810318-m.jpg', 'https://www.instagram.com/reel/DHs9Agisnsb/'],
-  ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/18063928975801964-m.jpg', 'https://www.instagram.com/reel/DHnKn7CP0Le/'],
-  ['Instagram post from docrajeevagarwal', '/assets/inavii-social-feed/17999116445767676-m.jpg', 'https://www.instagram.com/reel/DHlU2N0PUyv/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18052378115089679-m.jpg', 'https://www.instagram.com/reel/DcvmH1NCAie/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18057774497100601-m.jpg', 'https://www.instagram.com/reel/Dcf0x8qPnpQ/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18060697349071976-m.jpg', 'https://www.instagram.com/reel/Dckt7bgMvRD/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18064264126848112-m.jpg', 'https://www.instagram.com/reel/Dca8Mk_vYWY/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18068295154705830-m.jpg', 'https://www.instagram.com/reel/DcbH0nhCs4u/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18069752491653664-m.jpg', 'https://www.instagram.com/reel/DcY0KIHqnE6/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18071887615828844-m.jpg', 'https://www.instagram.com/reel/DcLeiRGPYom/'],
+  ['Instagram reel from docrajeevagarwal', '/assets/inavii-social-feed/18074638693838739-m.jpg', 'https://www.instagram.com/reel/DcQt-fDCpOq/'],
 ];
 
 const courses = [

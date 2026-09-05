@@ -39,6 +39,7 @@ import { liveBlogUpdates } from '../data/live_blog_updates';
 import { buildBlogPresentation, getBlogImage, getBlogCategory } from '../utils/blogPresentation';
 import { articlePath } from '../utils/blogRoutes';
 import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
+import preconceptionGuidePdf from '../assets/Zero_Trimester_Couples_Guide.pdf';
 
 const ASSET_PATH = '/assets/preconception-workshop/';
 
@@ -1239,8 +1240,11 @@ export default function Preconception() {
                 do, what to check, and what not to miss in the three months before conception.
               </p>
               <div className="preconception-guide-actions">
-                {/* Swap this href for the guide PDF once the asset is available. */}
-                <a className="ra-btn ra-btn-primary" href="/book-an-appointment">
+                <a
+                  className="ra-btn ra-btn-primary"
+                  href={preconceptionGuidePdf}
+                  download="Zero_Trimester_Couples_Guide.pdf"
+                >
                   <Download size={18} /> Download Free Guide (PDF)
                 </a>
                 <a className="ra-btn ra-btn-soft" href="/book-an-appointment">Book a Consultation</a>
