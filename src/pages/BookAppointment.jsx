@@ -30,7 +30,7 @@ export default function BookAppointment() {
             <span className="ra-label">Visit or reach us</span><h3 className="booking-info-title">Renew Healthcare Kolkata</h3>
             <ul className="booking-contact-list">
               {[
-                { icon: Phone, label: 'Call us', value: '+91 83369 68661', href: 'tel:+918336968661' },
+                { icon: Phone, label: 'Call us', value: '+91 62923 12076', href: 'tel:+916292312076' },
                 { icon: Mail, label: 'Email us', value: 'fertilitywithoutborders@gmail.com', href: 'mailto:fertilitywithoutborders@gmail.com' },
                 { icon: MapPin, label: 'Find us', value: '18C Mandeville Gardens, Kolkata, West Bengal 700019' },
               ].map((item, i) => {

@@ -51,7 +51,7 @@ const CLINIC_INFO = {
   practice: 'Renew Healthcare',
   doctor: 'Dr. Rajeev Agarwal',
   specialty: 'Fertility Specialist & Gynaecologist',
-  phone: '+91 83369 68661',
+  phone: '+91 62923 12076',
   email: 'fertilitywithoutborders@gmail.com',
   address: 'Renew Healthcare, 18C Mandeville Gardens, Kolkata, West Bengal 700019',
   centres: ['Gariahat — Kolkata', 'Salt Lake — Kolkata', 'Jamshedpur'],

@@ -459,7 +459,7 @@ function buildPreconceptionSchema(origin) {
         description:
           'Gynaecologist and fertility specialist at Renew Healthcare, Kolkata. Specialist in preconception counselling, IVF, PCOS, endometriosis, and reproductive medicine.',
         medicalSpecialty: ['Obstetrics and Gynecology', 'Reproductive Medicine'],
-        telephone: '+918336968661',
+        telephone: '+916292312076',
         email: 'fertilitywithoutborders@gmail.com',
         address: {
           '@type': 'PostalAddress',
@@ -1388,7 +1388,7 @@ export default function Preconception() {
           </div>
         </div>
         <div className="ra-container preconception-contact-strip">
-          <a href="tel:+918336968661"><Phone size={16} /> +91 83369 68661</a>
+          <a href="tel:+916292312076"><Phone size={16} /> +91 62923 12076</a>
           <a href="mailto:fertilitywithoutborders@gmail.com"><Mail size={16} /> fertilitywithoutborders@gmail.com</a>
           <span><MapPin size={16} /> Renew Healthcare, Kolkata</span>
           <span><Clock size={16} /> Monday-Friday, 9:30 AM - 6:00 PM</span>

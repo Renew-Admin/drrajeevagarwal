@@ -24,7 +24,7 @@ const LOGO_URL = `${SITE_ORIGIN}/assets/2025/03/cropped-Favicon-192x192.webp`;
 // across a site and its directory listings is the strongest local ranking
 // signal there is, so these three must never disagree.
 const CLINIC_NAME = 'Renew Healthcare — Dr. Rajeev Agarwal';
-const CLINIC_PHONE = '+91-83369-68661';
+const CLINIC_PHONE = '+91-62923-12076';
 const CLINIC_EMAIL = 'fertilitywithoutborders@gmail.com';
 const CLINIC_ADDRESS = {
   '@type': 'PostalAddress',

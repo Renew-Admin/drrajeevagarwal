@@ -297,7 +297,7 @@ export default function AllServices({ onBookClick }) {
             <p>Book a consultation with Dr. Rajeev Agarwal and receive personalised guidance based on your health condition, age, medical history and fertility goals.</p>
             <div className="cta-actions">
               <button className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 32px', height: 50, fontSize: 16 }}>Book Appointment</button>
-              <a href="https://wa.me/918336977755" target="_blank" rel="noopener noreferrer" className="ra-btn ra-btn-soft" style={{ padding: '0 32px', height: 50, fontSize: 16 }}>WhatsApp Us</a>
+              <a href="https://wa.me/916292312076" target="_blank" rel="noopener noreferrer" className="ra-btn ra-btn-soft" style={{ padding: '0 32px', height: 50, fontSize: 16 }}>WhatsApp Us</a>
             </div>
           </div>
         </div>

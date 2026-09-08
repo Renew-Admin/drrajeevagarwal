@@ -61,7 +61,7 @@ export default function Footer() {
               </div>
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Contact:</span>
-                <a href="tel:+918336968661">+91 83369 68661</a>
+                <a href="tel:+916292312076">+91 62923 12076</a>
               </div>
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Email:</span>
@@ -82,7 +82,7 @@ export default function Footer() {
               <a href="https://www.linkedin.com/in/drrajeevagarwal/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/><path d="M2 9h4v12H2z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/><circle cx="4" cy="4" r="2" fill="currentColor" stroke="currentColor" strokeWidth="1.6"/></svg>
               </a>
-              <a href="https://wa.me/918336968661" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+              <a href="https://wa.me/916292312076" target="_blank" rel="noreferrer" aria-label="WhatsApp">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             </div>

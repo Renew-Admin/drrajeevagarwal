@@ -140,10 +140,10 @@ export default function MenopauseLayout({
             ) : (
               <Link className="mc-btn mc-btn-primary" to="/book-an-appointment">Book a consultation</Link>
             )}
-            <a className="mc-btn mc-btn-outline" href="tel:+918336968661">
-              <Phone size={16} /> +91 83369 68661
+            <a className="mc-btn mc-btn-outline" href="tel:+916292312076">
+              <Phone size={16} /> +91 62923 12076
             </a>
-            <a className="mc-btn mc-btn-outline" href="https://wa.me/918336968661" target="_blank" rel="noreferrer">
+            <a className="mc-btn mc-btn-outline" href="https://wa.me/916292312076" target="_blank" rel="noreferrer">
               <MessageCircle size={16} /> WhatsApp
             </a>
           </div>
