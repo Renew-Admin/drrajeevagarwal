@@ -44,10 +44,6 @@ const ROUTE_META = {
     title: 'Health Blog \u2013 Fertility, Pregnancy & Women\u2019s Health | Dr. Rajeev Agarwal',
     description: 'Expert articles on fertility, pregnancy, PCOS, menopause, IVF, and women\u2019s health by Dr. Rajeev Agarwal. Evidence-based guidance you can trust.',
   },
-  '/doctors': {
-    title: 'Our Doctors | Renew Healthcare Team',
-    description: 'Meet the specialist team at Renew Healthcare, Kolkata \u2014 experienced gynaecologists and fertility doctors led by Dr. Rajeev Agarwal.',
-  },
   '/preconception': {
     title: 'Preconception Counselling in Kolkata | The Zero Trimester | Dr. Rajeev Agarwal',
     description: 'Dr. Rajeev Agarwal offers structured preconception counselling in Kolkata — fertility tests, genetic screening, PCOS, thyroid, vaccination, and lifestyle optimisation for both partners. The Zero Trimester.',

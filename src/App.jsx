@@ -21,8 +21,6 @@ import AdminDashboard from './pages/AdminDashboard';
 import AllServices from './pages/AllServices';
 import BlogList from './pages/BlogList';
 import BlogPost from './pages/BlogPost';
-import Doctors from './pages/Doctors';
-import DoctorProfile from './components/DoctorProfile';
 import BookAppointment from './pages/BookAppointment';
 import ServicePage from './pages/ServicePage';
 import PolicyPage from './pages/PolicyPage';
@@ -200,10 +198,6 @@ export function AppRoutes() {
           
           {/* Blog listing. Articles live at /<slug>/ — see RootSlugPage below. */}
           <Route path="/blog" element={<BlogList />} />
-          
-          {/* Doctor Team & Individual Profiles */}
-          <Route path="/doctors" element={<Doctors />} />
-          <Route path="/doctors/:slug" element={<DoctorProfile onBookClick={openBookModal} />} />
           
           {/* Dedicated Booking page */}
           <Route path="/book-an-appointment" element={<BookAppointment />} />

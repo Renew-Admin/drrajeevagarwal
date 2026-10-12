@@ -22,7 +22,7 @@ const normalizePath = (path) => (path || '/').replace(/\/+$/, '') || '/'
 // scripts/prerender.mjs stamps the route it rendered onto #root. Hydrate only
 // when that markup belongs to the URL we are actually on — Cloudflare serves
 // the prerendered homepage as the SPA fallback for routes that were not
-// prerendered (/admin, /doctors/:slug, 404s), and hydrating that would flash
+// prerendered (/admin, 404s), and hydrating that would flash
 // the wrong page. In dev there is no stamp at all, so we client-render.
 const prerenderedPath = container.dataset.prerenderedPath
 

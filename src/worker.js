@@ -184,13 +184,16 @@ function forbidden() {
   });
 }
 
-function legacyWordPressResponse(url) {
+export function legacyWordPressResponse(url) {
   const { pathname, search } = url;
 
   // preconception-care → /preconception (301)
   if (pathname.replace(/\/+$/, '') === '/preconception-care') {
     return Response.redirect(`${SITE_ORIGIN}/preconception`, 301);
   }
+
+  // /doctors and /doctors/<slug> → 410 Gone (placeholder team page removed 2026-10-12)
+  if (/^\/doctors(?:\/|$)/i.test(pathname)) return gone();
 
   // WordPress attachment / post-id query params (?attachment_id= / ?p=) → 410 Gone
   if (/[?&](?:attachment_id|p)=/.test(search)) return gone();

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import blogSlugs from '../src/data/blogSlugs.cjs';
-import { trailingSlashRedirect, wwwRedirect } from '../src/worker.js';
+import { legacyWordPressResponse, trailingSlashRedirect, wwwRedirect } from '../src/worker.js';
 
 const url = (href) => new URL(href);
 
@@ -36,4 +36,16 @@ test('trailingSlashRedirect: article URLs keep their trailing slash', () => {
 
 test('trailingSlashRedirect: slash-less paths are left alone', () => {
   assert.equal(trailingSlashRedirect(url('https://drrajeevagarwal.co.in/about-me')), null);
+});
+
+test('legacyWordPressResponse: the removed /doctors pages answer 410 Gone', () => {
+  for (const pathname of ['/doctors', '/doctors/', '/doctors/dr-emily-walker']) {
+    const response = legacyWordPressResponse(url(`https://drrajeevagarwal.co.in${pathname}`));
+    assert.ok(response, `expected a Response for ${pathname}`);
+    assert.equal(response.status, 410, pathname);
+  }
+});
+
+test('legacyWordPressResponse: a live page is not a legacy path', () => {
+  assert.equal(legacyWordPressResponse(url('https://drrajeevagarwal.co.in/about-me')), null);
 });
