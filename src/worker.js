@@ -280,9 +280,28 @@ export function trailingSlashRedirect(url) {
   return Response.redirect(`${SITE_ORIGIN}${pathname.replace(/\/+$/, '')}${search}`, 301);
 }
 
+/**
+ * www.<host> → 301 to the apex origin, same path and query.
+ *
+ * The canonical origin is SITE_ORIGIN (no www). This only has an effect once
+ * www.drrajeevagarwal.co.in is attached to this Worker as a custom domain or
+ * route; wrangler.jsonc declares none, and the www DNS record currently points
+ * at the old host, so until the owner moves it this is inert.
+ *
+ * Returns the redirect Response, or null for any other hostname.
+ */
+export function wwwRedirect(url) {
+  if (!url.hostname.startsWith('www.')) return null;
+  return Response.redirect(`${SITE_ORIGIN}${url.pathname}${url.search}`, 301);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // www → apex (301) before anything else; see wwwRedirect().
+    const hostRedirect = wwwRedirect(url);
+    if (hostRedirect) return hostRedirect;
 
     // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
     // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
