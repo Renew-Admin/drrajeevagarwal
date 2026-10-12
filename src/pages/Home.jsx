@@ -1104,7 +1104,7 @@ export default function Home({ onBookClick }) {
                 <h2>Voices of <em>Gratitude</em></h2>
                 <p>Every parenthood journey is unique. These stories highlight the hope, resilience, and expert care that turned dreams into reality with Dr. Rajeev Agarwal's guidance.</p>
               </div>
-              <a className="ra-btn ra-btn-primary" href="/success-stories/">More Stories</a>
+              <a className="ra-btn ra-btn-primary" href="/success-stories">More Stories</a>
             </div>
             <VideoCarousel />
           </div>

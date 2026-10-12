@@ -257,6 +257,29 @@ function articleAssetRequest(request, url) {
   return new Request(assetUrl, request);
 }
 
+/**
+ * "/x/" → 301 "/x" for every non-article path.
+ *
+ * html_handling = "drop-trailing-slash" already answers these with a 307 from
+ * the asset layer, but a 307 is temporary: crawlers keep the slash form as the
+ * indexed URL and re-fetch the redirect on every visit. Every non-article
+ * page's canonical is the slash-less form, so answer a permanent 301 here,
+ * before the asset layer sees the request. Articles (/<slug>/) are the one
+ * exception — their canonical IS the slash form — and are left alone exactly
+ * as articleAssetRequest() recognises them. The query string is preserved.
+ *
+ * Returns the redirect Response, or null when the path needs no redirect.
+ */
+export function trailingSlashRedirect(url) {
+  const { pathname, search } = url;
+  if (pathname.length < 2 || !pathname.endsWith('/')) return null;
+
+  const article = pathname.match(/^\/([^/]+)\/$/);
+  if (article && BLOG_SLUGS.has(article[1])) return null;
+
+  return Response.redirect(`${SITE_ORIGIN}${pathname.replace(/\/+$/, '')}${search}`, 301);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -309,6 +332,11 @@ export default {
     if (STATIC_EXT.test(url.pathname)) {
       return env.ASSETS.fetch(request);
     }
+
+    // Non-article "/x/" → 301 "/x". Replaces the asset layer's 307 for these
+    // paths so the redirect is permanent; see trailingSlashRedirect().
+    const slashRedirect = trailingSlashRedirect(url);
+    if (slashRedirect) return slashRedirect;
 
     // Page routes — fetch HTML and inject SEO tags. Article URLs (/<slug>/)
     // are mapped onto their prerendered file first; see articleAssetRequest().
