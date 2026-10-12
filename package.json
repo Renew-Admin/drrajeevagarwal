@@ -14,6 +14,7 @@
     "start": "node server/render-server.cjs",
     "start:render": "node server/render-server.cjs",
     "lint": "eslint .",
+    "test": "node --test \"tests/**/*.test.mjs\"",
     "preview": "vite preview"
   },
   "dependencies": {
