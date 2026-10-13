@@ -75,6 +75,20 @@ img {
   z-index: 38;
 }
 
+/* The chatbot iframe is mounted into .ra-chatbot-frame after load (App.jsx,
+   useDeferredChatbotMount); it fills the reserved box, and the box ignores
+   taps while it is still empty so it never blocks the content behind it. */
+.ra-chatbot-frame > iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.ra-chatbot-frame:empty {
+  pointer-events: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -14066,9 +14080,16 @@ a.ra-quick-card:hover {
 }
 
 /* ---- Chatbot state-based styling overrides ---- */
+/* Closed state: keep the teaser-size box (the chatbot grows itself to show a
+   greeting bubble ~1.2 s after it loads) and clip to the bottom-right 96x96
+   launcher instead of resizing. A box that grows while anchored bottom-right
+   moves its start position and is counted as a layout shift (0.04 CLS on the
+   homepage); clip-path changes are paint-only, and the clipped-out region
+   does not receive pointer events, so the page underneath stays clickable. */
 .ra-chatbot-frame.is-closed {
-  width: 96px !important;
-  height: 96px !important;
+  width: 290px !important;
+  height: 200px !important;
+  clip-path: inset(calc(100% - 96px) 0 0 calc(100% - 96px));
 }
 
 .ra-chatbot-frame.is-teaser {

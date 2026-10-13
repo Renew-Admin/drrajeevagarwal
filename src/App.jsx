@@ -115,10 +115,67 @@ function SiteChrome({ children, onBookClick }) {
   );
 }
 
+const CHATBOT_URL = 'https://dr-rajeev-agarwal-chatbot.onrender.com';
+const CHATBOT_INTERACTION_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'];
+const CHATBOT_MOUNT_FALLBACK_MS = 1500;
+
+/**
+ * Defer mounting the third-party chatbot iframe until the page has finished
+ * loading and the main thread is idle (window `load`, then
+ * requestIdleCallback, or a 1.5 s timeout where rIC is unavailable), or until
+ * the visitor first interacts — whichever comes first. The iframe's own
+ * document pulls a ~760 KiB icon webfont from cdn.jsdelivr.net, so loading it
+ * alongside the page competed with our own render on the homepage.
+ */
+function useDeferredChatbotMount() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    if (mounted) return undefined;
+
+    let idleId = null;
+    let timeoutId = null;
+
+    function cleanup() {
+      CHATBOT_INTERACTION_EVENTS.forEach((type) => window.removeEventListener(type, mount));
+      window.removeEventListener('load', scheduleIdleMount);
+      if (idleId !== null && typeof window.cancelIdleCallback === 'function') {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    }
+
+    function mount() {
+      cleanup();
+      setMounted(true);
+    }
+
+    function scheduleIdleMount() {
+      if (typeof window.requestIdleCallback === 'function') {
+        idleId = window.requestIdleCallback(mount, { timeout: CHATBOT_MOUNT_FALLBACK_MS });
+      } else {
+        timeoutId = window.setTimeout(mount, CHATBOT_MOUNT_FALLBACK_MS);
+      }
+    }
+
+    CHATBOT_INTERACTION_EVENTS.forEach((type) => window.addEventListener(type, mount, { passive: true }));
+    if (document.readyState === 'complete') {
+      scheduleIdleMount();
+    } else {
+      window.addEventListener('load', scheduleIdleMount);
+    }
+
+    return cleanup;
+  }, [mounted]);
+
+  return mounted;
+}
+
 function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
   const location = useLocation();
   const isAdminRoute = isAdminPath(location.pathname);
   const [chatState, setChatState] = useState({ open: false, teaser: false });
+  const chatbotMounted = useDeferredChatbotMount();
 
   useEffect(() => {
     const handleMessage = (e) => {
@@ -147,11 +204,18 @@ function GlobalSiteWidgets({ isBookOpen, closeBookModal }) {
 
   return (
     <>
-      <iframe
-        className={`ra-chatbot-frame ${stateClass}`}
-        src="https://dr-rajeev-agarwal-chatbot.onrender.com"
-        title="AI chatbot"
-      />
+      {/* The container carries the fixed-position box and the open/teaser/
+          closed size classes, so the iframe's space is reserved before it is
+          mounted and nothing shifts when it arrives. */}
+      <div className={`ra-chatbot-frame ${stateClass}`}>
+        {chatbotMounted && (
+          <iframe
+            src={CHATBOT_URL}
+            title="AI chatbot"
+            loading="lazy"
+          />
+        )}
+      </div>
 
       {/* Reusable Popup appointment scheduler */}
       <PopupFormWrapper
