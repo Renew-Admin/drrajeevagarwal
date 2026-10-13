@@ -992,7 +992,7 @@ export default function Home({ onBookClick }) {
                   <div><strong>Modern Clinical Standards</strong><span>Technology-led care with dedicated support</span></div>
                 </Link>
               </div>
-              <Link className="ra-about-readmore" to="/about-me">Read More</Link>
+              <Link className="ra-about-readmore" to="/about-me">Read more about Dr Rajeev Agarwal</Link>
             </div>
 
             <div className="ra-about-media elementor-element elementor-element-dee3299" data-id="dee3299">
