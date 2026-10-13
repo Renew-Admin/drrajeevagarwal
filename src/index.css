@@ -75,6 +75,20 @@ img {
   z-index: 38;
 }
 
+/* The chatbot iframe is mounted into .ra-chatbot-frame after load (App.jsx,
+   useDeferredChatbotMount); it fills the reserved box, and the box ignores
+   taps while it is still empty so it never blocks the content behind it. */
+.ra-chatbot-frame > iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.ra-chatbot-frame:empty {
+  pointer-events: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -1751,22 +1765,41 @@ a.ra-quick-card:hover {
 .ra-service-carousel-dots {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   margin-top: 32px;
 }
 
+/* The button is the hit area (24x24 minimum, WCAG 2.5.8 target size; with
+   the 4px gap the centres sit 28px apart). The visible 10px dot is drawn by
+   ::after so it keeps its original size and colours. */
 .ra-service-carousel-dots button {
-  width: 10px;
-  height: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
-  border-radius: 99px;
-  background: rgba(32, 38, 92, 0.12);
+  background: transparent;
   cursor: pointer;
   transition: all 0.35s ease;
 }
 
+.ra-service-carousel-dots button::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 99px;
+  background: rgba(32, 38, 92, 0.12);
+  transition: all 0.35s ease;
+}
+
 .ra-service-carousel-dots button.active {
+  width: 30px;
+}
+
+.ra-service-carousel-dots button.active::after {
   width: 30px;
   background: var(--gold);
 }
@@ -7095,20 +7128,31 @@ a.ra-quick-card:hover {
 .ra-course-dots {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   margin-top: 28px;
 }
+/* 24x24 hit area (WCAG 2.5.8); the visible 10px dot is the ::after. */
 .ra-course-dots button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ra-course-dots button::after {
+  content: '';
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 0;
-  padding: 0;
   background: rgba(32,38,92,0.15);
-  cursor: pointer;
   transition: background 0.3s, transform 0.3s;
 }
-.ra-course-dots button.active {
+.ra-course-dots button.active::after {
   background: var(--deep-teal);
   transform: scale(1.3);
 }
@@ -7858,20 +7902,31 @@ a.ra-quick-card:hover {
 .ra-event-dots {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   margin-top: 22px;
 }
+/* 24x24 hit area (WCAG 2.5.8); the visible 8px dot is the ::after. */
 .ra-event-dots button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ra-event-dots button::after {
+  content: '';
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 0;
-  padding: 0;
   background: rgba(32,38,92,0.15);
-  cursor: pointer;
   transition: background 0.3s, transform 0.3s;
 }
-.ra-event-dots button.active {
+.ra-event-dots button.active::after {
   background: var(--deep-teal);
   transform: scale(1.3);
 }
@@ -14025,9 +14080,16 @@ a.ra-quick-card:hover {
 }
 
 /* ---- Chatbot state-based styling overrides ---- */
+/* Closed state: keep the teaser-size box (the chatbot grows itself to show a
+   greeting bubble ~1.2 s after it loads) and clip to the bottom-right 96x96
+   launcher instead of resizing. A box that grows while anchored bottom-right
+   moves its start position and is counted as a layout shift (0.04 CLS on the
+   homepage); clip-path changes are paint-only, and the clipped-out region
+   does not receive pointer events, so the page underneath stays clickable. */
 .ra-chatbot-frame.is-closed {
-  width: 96px !important;
-  height: 96px !important;
+  width: 290px !important;
+  height: 200px !important;
+  clip-path: inset(calc(100% - 96px) 0 0 calc(100% - 96px));
 }
 
 .ra-chatbot-frame.is-teaser {

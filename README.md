@@ -32,6 +32,15 @@ The admin panel is a client-side Supabase admin. It needs `VITE_SUPABASE_URL` an
 
 Every indexable route is prerendered to `build/<route>/index.html` and the Worker config uses `not_found_handling = "404-page"`, so anything without a file is a real 404. Blog articles are served at `/<slug>/` (site root, trailing slash); the retired `/blog/<slug>` form 301s to it from `src/worker.js`.
 
+## URL conventions
+
+All of this is enforced in `src/worker.js` and unit-tested in `tests/worker.test.mjs`:
+
+- Articles live at `/<slug>/` — trailing slash, and that form is the canonical. `articleAssetRequest()` serves the prerendered file under it, so it answers 200 in one hop.
+- Every other page is slash-less (`/about-me`, `/all-services`); `trailingSlashRedirect()` 301s the slash form (`/about-me/`) to it, replacing the asset layer's temporary 307.
+- Legacy `/blog/<slug>` and `/blog/<slug>/` 301 to `/<slug>/` (`legacyWordPressResponse()`); `/blog` itself stays the listing page.
+- `www.drrajeevagarwal.co.in` 301s to the apex origin with the same path and query (`wwwRedirect()`).
+
 Do not add a `public/_redirects` SPA fallback for the Worker deploy. Workers static assets handle the SPA fallback through `wrangler.toml`; a `/* /index.html 200` redirects file causes Cloudflare to reject the deploy as an infinite loop.
 
 `public/404.html` is the branded Cloudflare-level fallback. Broken app URLs are handled by the React `NotFound` page, and any Cloudflare static 404 also uses the site's own 404 instead of Cloudflare's default error page.

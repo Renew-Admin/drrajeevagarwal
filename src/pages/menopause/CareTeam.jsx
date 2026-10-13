@@ -90,7 +90,6 @@ export default function CareTeam({ onBookClick }) {
           You start with a gynaecology consultation. Where a second discipline would genuinely change the plan
           — insulin resistance, low mood, bone loss, a family history that changes the HRT conversation — it is
           brought in around the same plan rather than handed off as a separate problem. See the{' '}
-          <Link to="/doctors">clinic team</Link> and the{' '}
           <Link to="/menopause-wellness">menopause wellness service</Link>.
         </p>
       </div>

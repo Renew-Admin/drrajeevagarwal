@@ -31,22 +31,11 @@ const ROOT_INDEX = join(BUILD_DIR, 'index.html');
 // The empty mount point vite emits. Prerendered markup goes inside it.
 const ROOT_MARKER = '<div id="root"></div>';
 
-// Doctor profiles are linked from /doctors but intentionally kept out of the
-// sitemap. They still need files so they do not 404 (see readRoutes).
-//
-// They also get noindex. Excluding a URL from the sitemap does not stop Google
-// indexing it — it was still crawlable from /doctors and still indexable, so
-// the exclusion expressed an intent the markup never enforced. These are
-// placeholder personas rather than named practitioners at this clinic, and an
-// indexable staff profile that does not correspond to a real doctor is an
-// E-E-A-T liability on a medical site. "follow" is kept so the internal links
-// on those pages still pass value.
-const EXTRA_ROUTES = [
-  '/doctors/dr-emily-walker',
-  '/doctors/dr-olivia-bennett',
-  '/doctors/dr-sussie-wolff',
-  '/doctors/dr-ethan-williams',
-];
+// Public routes deliberately absent from the sitemap that still need a
+// prerendered file (see readRoutes). They also get noindex. Empty since the
+// placeholder /doctors/<slug> profiles were removed on 2026-10-12; the
+// mechanism stays for any future page of that kind.
+const EXTRA_ROUTES = [];
 
 const NOINDEX_ROUTES = new Set(EXTRA_ROUTES);
 
@@ -194,7 +183,7 @@ const { render } = await buildSsrBundle();
 const shell = readFileSync(ROOT_INDEX, 'utf8');
 
 // Keep a copy of the empty shell. Servers fall back to it for paths that were
-// not prerendered (/admin, /doctors/:slug, 404s) so those never serve homepage
+// not prerendered (/admin, 404s) so those never serve homepage
 // markup under a different URL. See sendSpaPage() in server/render-server.cjs.
 writeFileSync(join(BUILD_DIR, 'spa-shell.html'), shell);
 

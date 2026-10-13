@@ -618,7 +618,7 @@ function cleanExcerpt(html) {
     .slice(0, 150);
 }
 
-function ServiceCarousel({ services, categoryLabel }) {
+function ServiceCarousel({ services, categoryLabel, panelId, labelledBy }) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const trackRef = useRef(null);
@@ -664,6 +664,9 @@ function ServiceCarousel({ services, categoryLabel }) {
   return (
     <div
       className="ra-service-carousel"
+      role={panelId ? 'tabpanel' : undefined}
+      id={panelId}
+      aria-labelledby={labelledBy}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -989,7 +992,7 @@ export default function Home({ onBookClick }) {
                   <div><strong>Modern Clinical Standards</strong><span>Technology-led care with dedicated support</span></div>
                 </Link>
               </div>
-              <Link className="ra-about-readmore" to="/about-me">Read More</Link>
+              <Link className="ra-about-readmore" to="/about-me">Read more about Dr Rajeev Agarwal</Link>
             </div>
 
             <div className="ra-about-media elementor-element elementor-element-dee3299" data-id="dee3299">
@@ -1059,10 +1062,35 @@ export default function Home({ onBookClick }) {
               <p>Choose support by concern or procedure, with clear guidance from consultation to treatment.</p>
             </div>
             <div className="ra-tabs" role="tablist" aria-label="Service categories">
-              <button className={activeTab === 'concern' ? 'active' : ''} type="button" onClick={() => setActiveTab('concern')}>By Concern</button>
-              <button className={activeTab === 'procedure' ? 'active' : ''} type="button" onClick={() => setActiveTab('procedure')}>By Procedure</button>
+              <button
+                id="services-tab-concern"
+                role="tab"
+                aria-selected={activeTab === 'concern'}
+                aria-controls="services-tabpanel"
+                className={activeTab === 'concern' ? 'active' : ''}
+                type="button"
+                onClick={() => setActiveTab('concern')}
+              >
+                By Concern
+              </button>
+              <button
+                id="services-tab-procedure"
+                role="tab"
+                aria-selected={activeTab === 'procedure'}
+                aria-controls="services-tabpanel"
+                className={activeTab === 'procedure' ? 'active' : ''}
+                type="button"
+                onClick={() => setActiveTab('procedure')}
+              >
+                By Procedure
+              </button>
             </div>
-            <ServiceCarousel services={services} categoryLabel={activeTab === 'concern' ? 'Concern' : 'Procedure'} />
+            <ServiceCarousel
+              services={services}
+              categoryLabel={activeTab === 'concern' ? 'Concern' : 'Procedure'}
+              panelId="services-tabpanel"
+              labelledBy={`services-tab-${activeTab}`}
+            />
             <div className="ra-center">
               <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
             </div>
@@ -1104,7 +1132,7 @@ export default function Home({ onBookClick }) {
                 <h2>Voices of <em>Gratitude</em></h2>
                 <p>Every parenthood journey is unique. These stories highlight the hope, resilience, and expert care that turned dreams into reality with Dr. Rajeev Agarwal's guidance.</p>
               </div>
-              <a className="ra-btn ra-btn-primary" href="/success-stories/">More Stories</a>
+              <a className="ra-btn ra-btn-primary" href="/success-stories">More Stories</a>
             </div>
             <VideoCarousel />
           </div>

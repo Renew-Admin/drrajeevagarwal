@@ -35,7 +35,7 @@ const SITE_ORIGIN = 'https://drrajeevagarwal.co.in';
 // Indexable non-blog routes. Mirrors the route set that receives SEO tags in
 // scripts/inject-seo-tags.mjs / src/worker.js. Keep in sync if routes change.
 const STATIC_ROUTES = [
-  '/', '/about-me', '/all-services', '/book-an-appointment', '/blog', '/doctors',
+  '/', '/about-me', '/all-services', '/book-an-appointment', '/blog',
   '/preconception', '/preconception-workshop', '/success-stories', '/courses',
   // Service pages
   '/advanced-fertility-treatments', '/fertility-support-services', '/fibroids-solutions',

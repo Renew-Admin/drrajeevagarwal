@@ -190,13 +190,13 @@ export default function TestsAndDiagnostics({ onBookClick }) {
         <h3>ASCVD and QRISK3</h3>
         <ul className="mc-list">
           <li>
-            <a href="https://tools.acc.org/ascvd-risk-estimator-plus" target="_blank" rel="noreferrer">
+            <a href="https://tools.acc.org/CVD-Risk-Estimator-Plus/" target="_blank" rel="noreferrer">
               ASCVD Risk Estimator Plus <ExternalLink size={13} />
             </a>{' '}
             — widely used, but validated mainly on white and Black American cohorts.
           </li>
           <li>
-            <a href="https://qrisk.org/three/" target="_blank" rel="noreferrer">
+            <a href="https://www.qrisk.org/" target="_blank" rel="noreferrer">
               QRISK3 <ExternalLink size={13} />
             </a>{' '}
             — includes a built-in South Asian ancestry adjustment (roughly 1.3–1.7×) that ASCVD does not.

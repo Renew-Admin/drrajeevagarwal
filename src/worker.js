@@ -184,13 +184,16 @@ function forbidden() {
   });
 }
 
-function legacyWordPressResponse(url) {
+export function legacyWordPressResponse(url) {
   const { pathname, search } = url;
 
   // preconception-care → /preconception (301)
   if (pathname.replace(/\/+$/, '') === '/preconception-care') {
     return Response.redirect(`${SITE_ORIGIN}/preconception`, 301);
   }
+
+  // /doctors and /doctors/<slug> → 410 Gone (placeholder team page removed 2026-10-12)
+  if (/^\/doctors(?:\/|$)/i.test(pathname)) return gone();
 
   // WordPress attachment / post-id query params (?attachment_id= / ?p=) → 410 Gone
   if (/[?&](?:attachment_id|p)=/.test(search)) return gone();
@@ -257,9 +260,51 @@ function articleAssetRequest(request, url) {
   return new Request(assetUrl, request);
 }
 
+/**
+ * "/x/" → 301 "/x" for every non-article path.
+ *
+ * html_handling = "drop-trailing-slash" already answers these with a 307 from
+ * the asset layer, but a 307 is temporary: crawlers keep the slash form as the
+ * indexed URL and re-fetch the redirect on every visit. Every non-article
+ * page's canonical is the slash-less form, so answer a permanent 301 here,
+ * before the asset layer sees the request. Articles (/<slug>/) are the one
+ * exception — their canonical IS the slash form — and are left alone exactly
+ * as articleAssetRequest() recognises them. The query string is preserved.
+ *
+ * Returns the redirect Response, or null when the path needs no redirect.
+ */
+export function trailingSlashRedirect(url) {
+  const { pathname, search } = url;
+  if (pathname.length < 2 || !pathname.endsWith('/')) return null;
+
+  const article = pathname.match(/^\/([^/]+)\/$/);
+  if (article && BLOG_SLUGS.has(article[1])) return null;
+
+  return Response.redirect(`${SITE_ORIGIN}${pathname.replace(/\/+$/, '')}${search}`, 301);
+}
+
+/**
+ * www.<host> → 301 to the apex origin, same path and query.
+ *
+ * The canonical origin is SITE_ORIGIN (no www). This only has an effect once
+ * www.drrajeevagarwal.co.in is attached to this Worker as a custom domain or
+ * route; wrangler.jsonc declares none, and the www DNS record currently points
+ * at the old host, so until the owner moves it this is inert.
+ *
+ * Returns the redirect Response, or null for any other hostname.
+ */
+export function wwwRedirect(url) {
+  if (!url.hostname.startsWith('www.')) return null;
+  return Response.redirect(`${SITE_ORIGIN}${url.pathname}${url.search}`, 301);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+
+    // www → apex (301) before anything else; see wwwRedirect().
+    const hostRedirect = wwwRedirect(url);
+    if (hostRedirect) return hostRedirect;
 
     // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
     // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
@@ -309,6 +354,11 @@ export default {
     if (STATIC_EXT.test(url.pathname)) {
       return env.ASSETS.fetch(request);
     }
+
+    // Non-article "/x/" → 301 "/x". Replaces the asset layer's 307 for these
+    // paths so the redirect is permanent; see trailingSlashRedirect().
+    const slashRedirect = trailingSlashRedirect(url);
+    if (slashRedirect) return slashRedirect;
 
     // Page routes — fetch HTML and inject SEO tags. Article URLs (/<slug>/)
     // are mapped onto their prerendered file first; see articleAssetRequest().
