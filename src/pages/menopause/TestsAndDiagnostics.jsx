@@ -102,7 +102,7 @@ function InvestigationForm() {
   }
 
   return (
-    <form className="mcq-form" onSubmit={handleSubmit}>
+    <form className="mcq-form" data-form-type="menopause_booking" onSubmit={handleSubmit}>
       <div className="mcq-field">
         <label htmlFor="inv-name">Name</label>
         <input id="inv-name" type="text" required value={form.name} onChange={update('name')} placeholder="Your name" />

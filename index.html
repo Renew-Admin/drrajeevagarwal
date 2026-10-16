@@ -36,14 +36,33 @@
     <link rel="stylesheet" href="/wp-styles/mavis/mavis-responsive.css" />
     <link rel="stylesheet" href="/wp-styles/mavis/mavis-blog.css" />
     <link rel="stylesheet" href="/wp-styles/mavis/style.css" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VD03ZWG8Q4"></script>
+    <!-- Google tag (gtag.js). Consent Mode defaults (all denied until the visitor
+         chooses) and the production-host / admin guard run before gtag.js.
+         G-DJR8P0KSK5 = stream 16140752144 (created 2026-10-16); see docs/ANALYTICS.md.
+         Page views come only from src/hooks/usePageTracking.js. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', wait_for_update: 500 });
+      gtag('set', 'ads_data_redaction', true);
+      gtag('set', 'url_passthrough', false);
+      try {
+        var c = JSON.parse(localStorage.getItem('dra_consent') || 'null');
+        if (c && c.v === 1 && c.analytics === 'granted') {
+          gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: c.ads === 'granted' ? 'granted' : 'denied', ad_user_data: c.ads === 'granted' ? 'granted' : 'denied' });
+        }
+      } catch (e) {}
+      (function () {
+        var hosts = ['drrajeevagarwal.co.in', 'www.drrajeevagarwal.co.in'];
+        var p = location.pathname;
+        if (hosts.indexOf(location.hostname) === -1 || p === '/admin' || p.indexOf('/admin/') === 0) {
+          window['ga-disable-G-DJR8P0KSK5'] = true;
+        }
+      })();
       gtag('js', new Date());
-      gtag('config', 'G-VD03ZWG8Q4', { send_page_view: false });
+      gtag('config', 'G-DJR8P0KSK5', { send_page_view: false });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DJR8P0KSK5"></script>
   </head>
   <body>
     <div id="root"></div>

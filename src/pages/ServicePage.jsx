@@ -351,7 +351,7 @@ export default function ServicePage({ onBookClick }) {
             <h1>{renderHeroTitle(page.title)}</h1>
             {intro && <p style={{ color: 'var(--text-soft)', fontSize: 17, lineHeight: 1.7, maxWidth: 540, marginBottom: 28 }}>{intro}</p>}
             <div className="service-hero-actions">
-              <button className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 28px', height: 50 }}>Book Appointment</button>
+              <button data-cta="appointment" className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 28px', height: 50 }}>Book Appointment</button>
               <a href="#service-content" className="ra-btn ra-btn-soft" style={{ padding: '0 28px', height: 50 }}>Learn More</a>
             </div>
             <div className="service-badge-row">
@@ -450,7 +450,7 @@ export default function ServicePage({ onBookClick }) {
               Book a consultation with Dr. Rajeev Agarwal and receive personalized guidance based on your health condition, age, medical history and goals.
             </p>
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 32px', height: 50, fontSize: 15 }}>
+              <button data-cta="appointment" className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 32px', height: 50, fontSize: 15 }}>
                 <Calendar size={18} /> Book Appointment
               </button>
               <Link to="/all-services" className="ra-btn ra-btn-soft" style={{ padding: '0 32px', height: 50, fontSize: 15, background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.25)' }}>

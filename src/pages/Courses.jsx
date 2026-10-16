@@ -116,7 +116,7 @@ function CourseEnrolForm({ courseTitle, onSuccess }) {
   }
 
   return (
-    <form className="course-enrol-form" onSubmit={handleSubmit}>
+    <form className="course-enrol-form" data-form-type="course_enrolment" onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="form-label" htmlFor="course-name">Full Name *</label>
         <input
@@ -213,7 +213,7 @@ export default function Courses({ onBookClick }) {
                 experts, and informed patients.
               </p>
               <div className="course-hero-actions">
-                <button className="ra-btn ra-btn-primary" type="button" onClick={onBookClick}>
+                <button data-cta="appointment" className="ra-btn ra-btn-primary" type="button" onClick={onBookClick}>
                   Request Appointment
                 </button>
                 <button className="ra-btn ra-btn-soft" type="button" onClick={scrollToCourses}>

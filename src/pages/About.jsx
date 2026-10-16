@@ -132,7 +132,7 @@ export default function About({ onBookClick }) {
               <p className="about-hero-image-sub">Expert fertility care &amp; gynaecology — trusted by thousands of families across Kolkata.</p>
               <div className="about-hero-image-actions">
                 <Link className="ra-btn ra-btn-primary" to="/all-services">Explore my Services</Link>
-                <button className="ra-btn ra-btn-soft" type="button" onClick={onBookClick}>Request an Appointment</button>
+                <button data-cta="appointment" className="ra-btn ra-btn-soft" type="button" onClick={onBookClick}>Request an Appointment</button>
               </div>
             </div>
           </div>

@@ -100,7 +100,7 @@ export default function MenopauseCareHub({ onBookClick }) {
             Not sure if this is perimenopause? Take the quiz <ArrowRight size={16} />
           </Link>
           {onBookClick ? (
-            <button type="button" className="mc-btn mc-btn-outline" onClick={onBookClick}>Book a consultation</button>
+            <button data-cta="appointment" type="button" className="mc-btn mc-btn-outline" onClick={onBookClick}>Book a consultation</button>
           ) : (
             <Link className="mc-btn mc-btn-outline" to="/book-an-appointment">Book a consultation</Link>
           )}
