@@ -84,7 +84,7 @@ export default function FloatingLeadForm({ formName = 'Floating Bottom Form' }) 
               <strong>Need guidance?</strong>
               <span>Request a call back from Dr. Rajeev's team.</span>
             </div>
-            <form className="ra-floating-lead-form" onSubmit={handleSubmit}>
+            <form className="ra-floating-lead-form" data-form-type="floating_form" onSubmit={handleSubmit}>
               <input
                 aria-label="Full name"
                 name="name"

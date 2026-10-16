@@ -489,7 +489,7 @@ export function WorkshopRegistrationForm() {
   }
 
   return (
-    <form className="pcw-registration-form" onSubmit={handleSubmit} noValidate>
+    <form className="pcw-registration-form" data-form-type="workshop_registration" onSubmit={handleSubmit} noValidate>
       <div className="form-group">
         <label className="form-label" htmlFor="pcw-name">Your Name</label>
         <input

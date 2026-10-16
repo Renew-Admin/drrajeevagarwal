@@ -51,7 +51,7 @@ export default function AppointmentForm({ formName = "General Booking", onSucces
   }
 
   return (
-    <form onSubmit={handleSubmit} className="appointment-form">
+    <form onSubmit={handleSubmit} className="appointment-form" data-form-type="appointment">
       <div className="form-group">
         <label className="form-label" htmlFor="name">Full Name *</label>
         <input

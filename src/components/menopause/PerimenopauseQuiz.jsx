@@ -427,7 +427,7 @@ export default function PerimenopauseQuiz({ onBookClick }) {
             <h4>What next</h4>
             <div className="mcq-actions">
               {onBookClick ? (
-                <button type="button" className="mc-btn mc-btn-primary" onClick={onBookClick}>
+                <button data-cta="appointment" type="button" className="mc-btn mc-btn-primary" onClick={onBookClick}>
                   <CalendarCheck size={17} /> Discuss this with Dr. Agarwal
                 </button>
               ) : (
@@ -456,7 +456,7 @@ export default function PerimenopauseQuiz({ onBookClick }) {
                   Optional. Your score, the per-area breakdown and your answers go to the clinic so the
                   consultation starts with the detail already in hand.
                 </p>
-                <form onSubmit={sendToClinic} className="mcq-form">
+                <form onSubmit={sendToClinic} className="mcq-form" data-form-type="menopause_quiz">
                   <div className="mcq-field">
                     <label htmlFor="mcq-name">Name</label>
                     <input

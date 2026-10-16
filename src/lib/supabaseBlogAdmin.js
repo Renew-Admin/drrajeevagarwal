@@ -7,6 +7,8 @@ export const ANNOUNCEMENT_ID = 'global';
 export const PROMOTION_POPUP_ID = 'preconception';
 
 const SESSION_KEY = 'drrajeev_admin_session';
+import { formTypeFromName, track } from './analytics';
+
 const LEAD_WEBHOOK_ENDPOINT = '/api/lead-webhook';
 const WORKSHOP_WEBHOOK_ENDPOINT = '/api/workshop-webhook';
 const LEAD_SUBMIT_RPC_ENDPOINTS = [
@@ -396,7 +398,15 @@ export async function deleteBlogPost(id, token) {
 
 export async function submitLead(formName, data = {}) {
   const row = buildLeadRow(formName, data);
-  const leadId = await submitLeadRpc(row);
+  let leadId;
+  try {
+    leadId = await submitLeadRpc(row);
+  } catch (error) {
+    track('form_error', { form_type: formTypeFromName(formName), error_type: 'submit_failed' });
+    throw error;
+  }
+  // The lead row was accepted by Supabase. Only a generic form type is sent.
+  track('generate_lead', { form_type: formTypeFromName(formName) });
 
   try {
     const isPreconceptionWorkshop =
@@ -432,14 +442,22 @@ export async function submitWorkshopRegistration(data = {}) {
     console.warn('[supabase leads] workshop registration save failed:', error.message);
   }
 
-  await notifyLeadWebhook(
-    { ...row, id: leadId || null },
-    {
-      directWebhookUrl: '',
-      endpoint: WORKSHOP_WEBHOOK_ENDPOINT,
-      event: 'workshop_registration_submitted',
-    }
-  );
+  try {
+    await notifyLeadWebhook(
+      { ...row, id: leadId || null },
+      {
+        directWebhookUrl: '',
+        endpoint: WORKSHOP_WEBHOOK_ENDPOINT,
+        event: 'workshop_registration_submitted',
+      }
+    );
+  } catch (error) {
+    // Unchanged behaviour: a failed webhook still fails the registration.
+    track('form_error', { form_type: 'workshop_registration', error_type: 'submit_failed' });
+    throw error;
+  }
+  // The registration reached the workshop webhook (the Make.com flow).
+  track('generate_lead', { form_type: 'workshop_registration' });
 
   return true;
 }

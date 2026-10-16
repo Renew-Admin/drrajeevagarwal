@@ -107,7 +107,7 @@ export default function SuccessStories({ onBookClick }) {
               </h1>
               <p className="about-hero-image-sub">Real journeys of hope, care, and parenthood with Dr. Rajeev Agarwal.</p>
               <div className="about-hero-image-actions">
-                <button className="ra-btn ra-btn-primary" type="button" onClick={onBookClick}>
+                <button data-cta="appointment" className="ra-btn ra-btn-primary" type="button" onClick={onBookClick}>
                   Request an Appointment
                 </button>
               </div>

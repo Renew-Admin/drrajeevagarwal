@@ -81,7 +81,7 @@ export default function AllServices({ onBookClick }) {
                 </h1>
                 <p className="services-hero-sub">Advanced IVF, IUI, laparoscopic and women's health care designed around your goals.</p>
                 <div className="services-hero-actions">
-                  <button className="ra-btn ra-btn-primary" onClick={onBookClick}>Book Appointment</button>
+                  <button data-cta="appointment" className="ra-btn ra-btn-primary" onClick={onBookClick}>Book Appointment</button>
                   <button className="ra-btn ra-btn-soft" onClick={() => scrollToSection('services-concern', 'By Concern')}>View Services</button>
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function AllServices({ onBookClick }) {
                   <p>{svc.description}</p>
                   <div className="service-concern-footer">
                     <Link to={svc.link} className="service-concern-link">Learn More <ArrowRight size={14} /></Link>
-                    <button onClick={onBookClick} className="service-concern-book">Book</button>
+                    <button data-cta="appointment" onClick={onBookClick} className="service-concern-book">Book</button>
                   </div>
                 </div>
               );
@@ -255,7 +255,7 @@ export default function AllServices({ onBookClick }) {
             </div>
             <div className="inner-card" style={{ padding: 36 }}>
               <h3 style={{ fontSize: 20, fontWeight: 800, color: 'var(--deep-teal)', marginBottom: 16 }}>Women's Health & Wellness</h3>
-              <button onClick={onBookClick} className="ra-btn ra-btn-primary" style={{ width: '100%', justifyContent: 'center' }}>Start Consultation</button>
+              <button data-cta="appointment" onClick={onBookClick} className="ra-btn ra-btn-primary" style={{ width: '100%', justifyContent: 'center' }}>Start Consultation</button>
             </div>
           </div>
         </div>
@@ -296,7 +296,7 @@ export default function AllServices({ onBookClick }) {
             <h2>Not sure which service is <em>right</em> for you?</h2>
             <p>Book a consultation with Dr. Rajeev Agarwal and receive personalised guidance based on your health condition, age, medical history and fertility goals.</p>
             <div className="cta-actions">
-              <button className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 32px', height: 50, fontSize: 16 }}>Book Appointment</button>
+              <button data-cta="appointment" className="ra-btn ra-btn-primary" onClick={onBookClick} style={{ padding: '0 32px', height: 50, fontSize: 16 }}>Book Appointment</button>
               <a href="https://wa.me/916292312076" target="_blank" rel="noopener noreferrer" className="ra-btn ra-btn-soft" style={{ padding: '0 32px', height: 50, fontSize: 16 }}>WhatsApp Us</a>
             </div>
           </div>

@@ -10,6 +10,8 @@ import GlobalAnnouncementBar from './components/GlobalAnnouncementBar';
 import GlobalPromotionPopup from './components/GlobalPromotionPopup';
 import WebMcpTools from './components/WebMcpTools';
 import { usePageTracking } from './hooks/usePageTracking';
+import ContactTracking from './components/ContactTracking';
+import ConsentBanner from './components/ConsentBanner';
 import { useVersionCheck } from './hooks/useVersionCheck';
 
 // Pages
@@ -243,6 +245,8 @@ export function AppRoutes() {
   return (
     <>
       <PageTracking />
+      <ContactTracking />
+      <ConsentBanner />
       <ScrollToTop />
       <GlobalAnnouncementBar />
       <GlobalPromotionPopup />

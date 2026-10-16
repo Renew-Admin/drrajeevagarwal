@@ -134,7 +134,7 @@ export default function MenopauseLayout({
           </div>
           <div className="mc-cta-actions">
             {onBookClick ? (
-              <button type="button" className="mc-btn mc-btn-primary" onClick={onBookClick}>
+              <button data-cta="appointment" type="button" className="mc-btn mc-btn-primary" onClick={onBookClick}>
                 Book a consultation
               </button>
             ) : (

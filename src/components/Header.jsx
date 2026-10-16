@@ -174,7 +174,7 @@ export default function Header({ onBookClick }) {
 
         <div className="ra-header-actions">
           {location.pathname !== '/book-an-appointment' && (
-            <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
+            <button className="ra-btn ra-btn-primary" type="button" data-cta="appointment" onClick={book}>Book Appointment</button>
           )}
           <a className="ra-icon-btn ra-whatsapp-icon" href="https://wa.me/916292312076" target="_blank" rel="noreferrer" aria-label="WhatsApp Dr. Rajeev Agarwal" title="WhatsApp Dr. Rajeev Agarwal">
             <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -191,7 +191,7 @@ export default function Header({ onBookClick }) {
         <div className="ra-mobile-menu">
           {mobileNav}
           {location.pathname !== '/book-an-appointment' && (
-            <button className="ra-btn ra-btn-primary" type="button" onClick={book}>Book Appointment</button>
+            <button className="ra-btn ra-btn-primary" type="button" data-cta="appointment" onClick={book}>Book Appointment</button>
           )}
         </div>
       )}

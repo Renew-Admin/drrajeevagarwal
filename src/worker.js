@@ -56,10 +56,59 @@ const STATIC_EXT = /\.(?:js|css|webp|svg|png|jpg|jpeg|woff2|xml|txt|json|ico|gif
 const RESPONSE_HEADERS = {
   'Content-Type': 'application/json',
   'Cache-Control': 'no-store',
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://drrajeevagarwal.co.in',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
+  Vary: 'Origin',
 };
+
+/* ─────────────────────────────────────────────
+ * Lead proxy guards. The webhook URLs are Worker secrets, but the proxy
+ * itself must not let anyone script arbitrary CRM entries: same-site origin
+ * only, small JSON bodies, a plausible lead shape, a best-effort per-isolate
+ * rate limit and a short duplicate window. Form contents are never logged.
+ * Pair with a Cloudflare WAF rate-limiting rule on /api/* (docs/ANALYTICS.md).
+ * ───────────────────────────────────────────── */
+const LEAD_ALLOWED_ORIGINS = new Set(['https://drrajeevagarwal.co.in', 'https://www.drrajeevagarwal.co.in']);
+const LEAD_MAX_BODY_BYTES = 16 * 1024;
+const LEAD_RATE_LIMIT = 20;
+const LEAD_RATE_WINDOW_MS = 10 * 60 * 1000;
+const LEAD_DUPLICATE_WINDOW_MS = 2 * 60 * 1000;
+const leadHits = new Map();
+const leadSeen = new Map();
+
+export function leadRateAllowed(key, now = Date.now()) {
+  const recent = (leadHits.get(key) || []).filter((t) => now - t < LEAD_RATE_WINDOW_MS);
+  if (recent.length >= LEAD_RATE_LIMIT) {
+    leadHits.set(key, recent);
+    return false;
+  }
+  recent.push(now);
+  leadHits.set(key, recent);
+  if (leadHits.size > 5000) leadHits.clear();
+  return true;
+}
+
+export function validateLeadPayload(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return 'invalid_body';
+  const lead = payload.lead;
+  if (!lead || typeof lead !== 'object' || Array.isArray(lead)) return 'invalid_body';
+  if (typeof lead.website === 'string' && lead.website.trim() !== '') return 'rejected';
+  const phone = String(lead.contact_number || lead.phone || lead.whatsapp_number || '').replace(/[\s()+-]/g, '');
+  if (!/^\d{10,13}$/.test(phone)) return 'invalid_phone';
+  const name = typeof lead.name === 'string' ? lead.name.trim() : '';
+  if (!name || name.length > 120) return 'invalid_name';
+  return null;
+}
+
+function leadDuplicate(payload, now = Date.now()) {
+  const lead = payload.lead || {};
+  const key = `${String(lead.contact_number || lead.phone || '').replace(/\D/g, '')}:${lead.form_name || ''}`;
+  const last = leadSeen.get(key);
+  leadSeen.set(key, now);
+  if (leadSeen.size > 5000) leadSeen.clear();
+  return last !== undefined && now - last < LEAD_DUPLICATE_WINDOW_MS;
+}
 
 function jsonResponse(status, body) {
   return new Response(JSON.stringify(body), {
@@ -96,16 +145,36 @@ async function forwardWebhook(request, webhookUrl, labels) {
     return jsonResponse(405, { error: 'Method not allowed.' });
   }
 
+  if (!LEAD_ALLOWED_ORIGINS.has(request.headers.get('origin') || '')) {
+    return jsonResponse(403, { error: 'Forbidden.' });
+  }
+
+  if (Number(request.headers.get('content-length') || 0) > LEAD_MAX_BODY_BYTES) {
+    return jsonResponse(413, { error: 'Payload too large.' });
+  }
+
+  if (!leadRateAllowed(request.headers.get('cf-connecting-ip') || 'unknown')) {
+    return jsonResponse(429, { error: 'Too many requests. Please call the clinic instead.' });
+  }
+
   if (!webhookUrl) {
     return jsonResponse(500, { error: `${labels.envName} is not configured.` });
   }
 
   let payload;
   try {
-    payload = await request.json();
+    const raw = await request.text();
+    if (raw.length > LEAD_MAX_BODY_BYTES) return jsonResponse(413, { error: 'Payload too large.' });
+    payload = JSON.parse(raw);
   } catch {
     return jsonResponse(400, { error: 'Invalid JSON payload.' });
   }
+
+  const invalid = validateLeadPayload(payload);
+  if (invalid === 'rejected') return jsonResponse(200, { ok: true });
+  if (invalid) return jsonResponse(422, { error: 'Please check the form details and try again.' });
+
+  if (leadDuplicate(payload)) return jsonResponse(200, { ok: true, duplicate: true });
 
   const forwardedPayload = {
     ...payload,
@@ -120,20 +189,17 @@ async function forwardWebhook(request, webhookUrl, labels) {
     });
 
     if (!webhookResponse.ok) {
-      const body = await readTextSafely(webhookResponse);
+      // The upstream body is not echoed to the browser.
+      await readTextSafely(webhookResponse);
       return jsonResponse(502, {
         error: labels.rejectedMessage,
         status: webhookResponse.status,
-        body: body.slice(0, 500),
       });
     }
 
     return jsonResponse(200, { ok: true });
-  } catch (error) {
-    return jsonResponse(502, {
-      error: labels.failedMessage,
-      message: error.message,
-    });
+  } catch {
+    return jsonResponse(502, { error: labels.failedMessage });
   }
 }
 
