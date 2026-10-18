@@ -14,6 +14,12 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 
 import { AppRoutes } from './App.jsx';
+import { LAZY_PAGES } from './lazyRoutes';
+
+/** Load every lazy page chunk so renderToString never meets a suspended page. */
+export async function prepare() {
+  await Promise.all(LAZY_PAGES.map((Page) => Page.preload()));
+}
 
 /**
  * @param {string} url  Route path to render, e.g. "/" or "/some-article-slug/".

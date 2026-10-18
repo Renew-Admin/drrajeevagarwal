@@ -10,8 +10,9 @@
  * scripts/gen-seo-assets.mjs and src/worker.js.
  */
 
-import { blogsData } from '../data/blogs_data';
-import { liveBlogUpdates } from '../data/live_blog_updates';
+// Slug list only (generated from blogs_data.js + live_blog_updates.js by
+// scripts/gen-data-index.mjs), so the app shell does not bundle every article.
+import { ARTICLE_SLUGS } from '../data/generated/dataIndex';
 
 function cleanSlug(slug) {
   return String(slug || '').trim().replace(/^\/+|\/+$/g, '');
@@ -24,9 +25,7 @@ export function articlePath(slug) {
 
 // Slugs bundled with the site. Posts published later through the admin panel
 // are not in this set; BlogPost resolves those against Supabase at runtime.
-const STATIC_ARTICLE_SLUGS = new Set(
-  [...liveBlogUpdates, ...blogsData].map((post) => post && post.slug).filter(Boolean),
-);
+const STATIC_ARTICLE_SLUGS = new Set(ARTICLE_SLUGS);
 
 export function isStaticArticleSlug(slug) {
   return STATIC_ARTICLE_SLUGS.has(cleanSlug(slug));

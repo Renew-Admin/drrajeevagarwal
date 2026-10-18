@@ -1,9 +1,21 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { pagesData } from '../data/pages_data';
-import { blogsData } from '../data/blogs_data';
-import { liveBlogUpdates } from '../data/live_blog_updates';
+// The page and article data are large (~2.3 MB together), so they are only
+// fetched when an agent actually calls a tool, never with the page itself.
+let siteDataPromise = null;
+function loadSiteData() {
+  siteDataPromise ||= Promise.all([
+    import('../data/pages_data'),
+    import('../data/blogs_data'),
+    import('../data/live_blog_updates'),
+  ]).then(([pages, blogs, live]) => ({
+    pagesData: pages.pagesData,
+    blogsData: blogs.blogsData,
+    liveBlogUpdates: live.liveBlogUpdates,
+  }));
+  return siteDataPromise;
+}
 import { buildBlogPresentation, stripBlogHtml } from '../utils/blogPresentation';
 import { articlePath } from '../utils/blogRoutes';
 
@@ -65,7 +77,7 @@ function summarise(html, maxLength = 220) {
   return `${text.slice(0, maxLength).replace(/\s+\S*$/, '')}…`;
 }
 
-function listServices() {
+function listServices({ pagesData }) {
   return SERVICE_SLUGS.map((slug) => {
     const page = pagesData[slug];
     return {
@@ -76,7 +88,7 @@ function listServices() {
   }).filter((service) => service.name);
 }
 
-function allArticles() {
+function allArticles({ blogsData, liveBlogUpdates }) {
   const seen = new Set();
   return [...liveBlogUpdates, ...blogsData]
     .filter((post) => {
@@ -104,7 +116,7 @@ export default function WebMcpTools({ onBookClick }) {
         description:
           'List the fertility, gynaecology and women’s health services offered by Dr. Rajeev Agarwal, each with a short summary and the page URL.',
         inputSchema: { type: 'object', properties: {}, additionalProperties: false },
-        execute: async () => asText({ services: listServices() }),
+        execute: async () => asText({ services: listServices(await loadSiteData()) }),
       },
       {
         name: 'search_articles',
@@ -122,7 +134,7 @@ export default function WebMcpTools({ onBookClick }) {
         execute: async ({ query, limit = 5 }) => {
           const needle = String(query || '').toLowerCase().trim();
           const matches = needle
-            ? allArticles().filter((post) => post.searchText.includes(needle))
+            ? allArticles(await loadSiteData()).filter((post) => post.searchText.includes(needle))
             : [];
           return asText({
             query,
