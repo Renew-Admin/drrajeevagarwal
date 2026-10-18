@@ -40,7 +40,7 @@ const STATIC_ROUTES = [
   // Service pages
   '/advanced-fertility-treatments', '/fertility-support-services', '/fibroids-solutions',
   '/healthy-aging', '/hysteroscopic-procedure', '/infertility-help', '/laparoscopic-surgery',
-  '/learn-with-dr-rajeev-agarwal', '/menopause-wellness', '/pcos-care', '/period-pain-relief',
+  '/menopause-wellness', '/pcos-care', '/period-pain-relief',
   '/sexual-pain-relief', '/urinary-incontinence', '/urinary-laser-therapy', '/vaginismus-therapy',
   '/virtual-consults', '/womens-health-check',
   // Menopause Care hub and its sub-pages. Derived from the same registry the
@@ -232,6 +232,7 @@ const redirectLines = [
   '',
   '# Renamed page',
   ...redirectPair('/preconception-care', '/preconception'),
+  ...redirectPair('/learn-with-dr-rajeev-agarwal', '/courses'),
   '/preconception-care/* /preconception 301',
   '',
   '# WordPress feeds and archives',

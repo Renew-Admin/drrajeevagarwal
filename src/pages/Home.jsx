@@ -26,6 +26,8 @@ import { articlePath } from '../utils/blogRoutes';
 import Footer from '../components/Footer';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import heroImg from '../assets/image.webp';
+import heroImg480 from '../assets/image-480w.webp';
+import heroImg800 from '../assets/image-800w.webp';
 import aboutImg from '../assets/about_us.webp';
 import videoBarImg from '../assets/about_us_video_thumb.webp';
 
@@ -315,7 +317,7 @@ function AutoAwards() {
       <div className="ra-awards-track">
         {awards.map((file, i) => (
           <div className="ra-award-cell" key={`${file}-${i}`}>
-            <img src={`/assets/2026/03/${file}`} alt="Dr. Rajeev Agarwal award recognition" />
+            <img src={`/assets/2026/03/${file}`} alt="Dr. Rajeev Agarwal award recognition" loading="lazy" decoding="async" />
           </div>
         ))}
       </div>
@@ -586,7 +588,7 @@ function EventCarousel() {
               style={{ width: `calc((100% - ${gap}px) / ${cardsPerView})`, marginRight: i < events.length - 1 ? `${gap}px` : '0' }}
             >
               <div className="ra-event-img-wrap">
-                <img src={e.image} alt={e.title} />
+                <img src={e.image} alt={e.title} loading="lazy" decoding="async" />
               </div>
               <span className="ra-event-caption">{e.title}</span>
             </div>
@@ -684,7 +686,7 @@ function ServiceCarousel({ services, categoryLabel, panelId, labelledBy }) {
               style={{ width: cardBasis, flex: '0 0 auto' }}
             >
               <div className="ra-service-img-wrap">
-                <img src={s.image} alt={`${s.title} service`} />
+                <img src={s.image} alt={`${s.title} service`} loading="lazy" decoding="async" />
               </div>
               <div className="ra-service-card-body">
                 <span className="ra-service-category">{categoryLabel}</span>
@@ -880,6 +882,8 @@ export default function Home({ onBookClick }) {
                 <img
                   className="ra-hero-image"
                   src={heroImg}
+                  srcSet={`${heroImg480} 480w, ${heroImg800} 800w, ${heroImg} 941w`}
+                  sizes="(max-width: 640px) 100vw, 640px"
                   alt="Dr. Rajeev Agarwal fertility specialist in Kolkata"
                   fetchPriority="high"
                   loading="eager"
@@ -955,7 +959,7 @@ export default function Home({ onBookClick }) {
                 </Link>
                 <div className="ra-quick-card ra-quick-rating">
                   <span className="ra-quick-icon ra-google-icon">
-                    <img src="/assets/2024/08/google.svg" alt="" />
+                    <img src="/assets/2024/08/google.svg" alt="" loading="lazy" decoding="async" />
                   </span>
                   <span><strong>4.9 Google Rating</strong><small>Patient feedback across fertility care journeys.</small></span>
                 </div>
@@ -997,10 +1001,10 @@ export default function Home({ onBookClick }) {
 
             <div className="ra-about-media elementor-element elementor-element-dee3299" data-id="dee3299">
               <div className="ra-about-photo">
-                <img src={aboutImg} alt="Dr. Rajeev Agarwal professional portrait" />
+                <img src={aboutImg} alt="Dr. Rajeev Agarwal professional portrait" loading="lazy" decoding="async" />
               </div>
               <div className="ra-about-award-card" aria-label="35 plus global healthcare awards">
-                <img src="/assets/2025/03/Group-1000008319.png.webp" alt="" />
+                <img src="/assets/2025/03/Group-1000008319.png.webp" alt="" loading="lazy" decoding="async" />
                 <div>
                   <strong>35+</strong>
                   <span>Global Healthcare Awards</span>
@@ -1027,7 +1031,7 @@ export default function Home({ onBookClick }) {
                   onClick={() => setIntroVideoOpen(true)}
                   aria-label="Play Doctor's Introduction video"
                 >
-                  <img src={videoBarImg} alt="" />
+                  <img src={videoBarImg} alt="" loading="lazy" decoding="async" />
                   <span className="ra-doctor-video-control" aria-hidden="true">
                     <Play size={35} fill="currentColor" strokeWidth={1.8} />
                   </span>
@@ -1047,7 +1051,7 @@ export default function Home({ onBookClick }) {
             <div className="ra-press-strip">
               {pressLogos.map(([name, logo]) => (
                 <div className="ra-press-logo" key={name}>
-                  <img src={logo} alt={name} />
+                  <img src={logo} alt={name} loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>
@@ -1157,7 +1161,7 @@ export default function Home({ onBookClick }) {
                 <h2>Lectures & <em>events</em></h2>
                 <p>Selected conferences, public talks, workshops, and awareness events from Dr. Rajeev Agarwal's medical journey.</p>
               </div>
-              <img className="ra-event-deco" src="/assets/2025/01/Group-2.webp" alt="" />
+              <img className="ra-event-deco" src="/assets/2025/01/Group-2.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <EventCarousel />
           </div>
@@ -1206,7 +1210,7 @@ export default function Home({ onBookClick }) {
                     key={href}
                     onClick={() => setInstaModal(embedUrl)}
                   >
-                    <img src={image} alt={`${alt} ${index + 1}`} />
+                    <img src={image} alt={`${alt} ${index + 1}`} loading="lazy" decoding="async" />
                     <span className="ra-video-carousel-control" aria-hidden="true">
                       <Play size={35} fill="currentColor" strokeWidth={1.8} />
                     </span>

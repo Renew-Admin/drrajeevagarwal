@@ -151,6 +151,8 @@
 # Renamed page
 /preconception-care /preconception 301
 /preconception-care/ /preconception 301
+/learn-with-dr-rajeev-agarwal /courses 301
+/learn-with-dr-rajeev-agarwal/ /courses 301
 /preconception-care/* /preconception 301
 
 # WordPress feeds and archives

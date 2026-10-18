@@ -44,7 +44,6 @@ const SERVICE_SLUGS = [
   'urinary-incontinence',
   'urinary-laser-therapy',
   'virtual-consults',
-  'learn-with-dr-rajeev-agarwal',
 ];
 
 const CLINIC_INFO = {

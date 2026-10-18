@@ -139,11 +139,6 @@ const ROUTE_META = {
     description:
       'Minimally invasive laparoscopic surgery in Kolkata for endometriosis, ovarian cysts, fibroids and blocked fallopian tubes, with faster recovery.',
   },
-  '/learn-with-dr-rajeev-agarwal': {
-    title: 'Learn With Dr. Rajeev Agarwal — Courses & Training',
-    description:
-      'Structured learning in fertility medicine and gynaecology for doctors, trainees and healthcare professionals, taught by Dr. Rajeev Agarwal.',
-  },
   '/menopause-wellness': {
     title: 'Menopause Treatment & Wellness in Kolkata | Dr. Rajeev Agarwal',
     description:

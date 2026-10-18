@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import desktopPopupImage from '../assets/Website Pop-up (Desktop) (V2).jpg.jpeg';
-import mobilePopupImage from '../assets/Website Pop-up (Mobile) (V1).jpg.jpeg';
+import desktopPopupImage from '../assets/promo-popup-desktop-v2.webp';
+import mobilePopupImage from '../assets/promo-popup-mobile-v1.webp';
 import { getActivePromotionPopup } from '../lib/supabaseBlogAdmin';
 
 function isAdminPath(pathname) {
