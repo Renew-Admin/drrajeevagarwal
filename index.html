@@ -22,10 +22,15 @@
          fallback immediately rather than blocking first render. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Loaded without blocking first paint (health report item 8): the
+         fallback font paints first, the web fonts swap in when ready. -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" /></noscript>
     <title>Dr. Rajeev Agarwal - Fertility Specialist & Gynaecologist</title>
     <!-- WordPress & Elementor Base Stylesheets -->
     <link rel="stylesheet" href="/wp-styles/mavis/bootstrap.min.css" />

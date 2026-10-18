@@ -179,7 +179,9 @@ function contentProblem(markup) {
 const routes = readRoutes();
 console.log(`[prerender] building SSR bundle for ${routes.length} routes…`);
 
-const { render } = await buildSsrBundle();
+const { render, prepare } = await buildSsrBundle();
+// Lazy page chunks must be loaded before the synchronous renderToString.
+if (typeof prepare === 'function') await prepare();
 const shell = readFileSync(ROOT_INDEX, 'utf8');
 
 // Keep a copy of the empty shell. Servers fall back to it for paths that were

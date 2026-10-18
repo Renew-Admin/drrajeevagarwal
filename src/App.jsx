@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 
 // Components
@@ -17,15 +17,8 @@ import { useVersionCheck } from './hooks/useVersionCheck';
 // Pages
 import Home from './pages/Home';
 import About from './pages/About';
-import Preconception from './pages/Preconception';
-import PreconceptionWorkshop from './pages/PreconceptionWorkshop';
-import AdminDashboard from './pages/AdminDashboard';
 import AllServices from './pages/AllServices';
-import BlogList from './pages/BlogList';
-import BlogPost from './pages/BlogPost';
 import BookAppointment from './pages/BookAppointment';
-import ServicePage from './pages/ServicePage';
-import PolicyPage from './pages/PolicyPage';
 import SuccessStories from './pages/SuccessStories';
 import Courses from './pages/Courses';
 import NotFound from './pages/NotFound';
@@ -37,9 +30,12 @@ import HrtGuide from './pages/menopause/HrtGuide';
 import TestsAndDiagnostics from './pages/menopause/TestsAndDiagnostics';
 import DietExerciseLifestyle from './pages/menopause/DietExerciseLifestyle';
 import CareTeam from './pages/menopause/CareTeam';
-import ArticlesAndVideos from './pages/menopause/ArticlesAndVideos';
 import { MENOPAUSE_PAGES } from './data/menopauseCare';
-import { pagesData } from './data/pages_data';
+
+import {
+  AdminDashboard, ArticlesAndVideos, BlogList, BlogPost, PolicyPage,
+  Preconception, PreconceptionWorkshop, SERVICE_PAGE_SLUG_SET, ServicePage,
+} from './lazyRoutes';
 
 /**
  * Component per menopause-care route, keyed by the `key` in
@@ -90,7 +86,7 @@ function RootSlugPage({ onBookClick }) {
   const { slug } = useParams();
   const cleanSlug = slug ? slug.trim().replace(/\/$/, '') : '';
 
-  if (pagesData[cleanSlug]) {
+  if (SERVICE_PAGE_SLUG_SET.has(cleanSlug)) {
     return <ServicePage onBookClick={onBookClick} />;
   }
 
@@ -253,6 +249,7 @@ export function AppRoutes() {
       <WebMcpTools onBookClick={openBookModal} />
 
       <SiteChrome onBookClick={openBookModal}>
+        <Suspense fallback={<div style={{ minHeight: '80vh' }} />}>
         <Routes>
           {/* Main Pages */}
           <Route path="/" element={<Home onBookClick={openBookModal} />} />
@@ -296,6 +293,7 @@ export function AppRoutes() {
           <Route path="/:slug" element={<RootSlugPage onBookClick={openBookModal} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </SiteChrome>
 
       <GlobalSiteWidgets isBookOpen={isBookOpen} closeBookModal={closeBookModal} />

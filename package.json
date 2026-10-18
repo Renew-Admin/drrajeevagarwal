@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/gen-version.js && node scripts/gen-seo-assets.mjs",
-    "build": "vite build && node scripts/inject-seo-tags.mjs && node scripts/prerender.mjs && node scripts/prepare-cloudflare-worker-build.mjs",
+    "build": "node scripts/gen-data-index.mjs && vite build && node scripts/inject-seo-tags.mjs && node scripts/prerender.mjs && node scripts/inline-critical-css.mjs && node scripts/prepare-cloudflare-worker-build.mjs",
     "prebuild:cpanel": "node scripts/gen-version.js && node scripts/gen-seo-assets.mjs",
     "build:cpanel": "vite build && node scripts/inject-seo-tags.mjs && node scripts/prerender.mjs && node scripts/prepare-cpanel-build.mjs",
     "package:cpanel": "npm run build:cpanel && node scripts/package-cpanel-build.mjs",
@@ -28,6 +28,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "beasties": "^0.3.5",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",

@@ -20,7 +20,8 @@ import {
   Video,
   X,
 } from 'lucide-react';
-import { blogsData } from '../data/blogs_data';
+// The three latest posts only (scripts/gen-data-index.mjs), not the whole archive.
+import { HOME_LATEST_BLOGS } from '../data/generated/dataIndex';
 import { buildBlogPresentation } from '../utils/blogPresentation';
 import { articlePath } from '../utils/blogRoutes';
 import Footer from '../components/Footer';
@@ -722,7 +723,7 @@ export default function Home({ onBookClick }) {
   const [instaModal, setInstaModal] = useState(null);
   const [openFaq, setOpenFaq] = useState(0);
   const latestBlogs = useMemo(() => {
-    return blogsData.slice(0, 3).map((blog, idx) => buildBlogPresentation(blog, idx));
+    return HOME_LATEST_BLOGS.map((blog, idx) => buildBlogPresentation(blog, idx));
   }, []);
   const services = activeTab === 'concern' ? concernServices : procedureServices;
   const book = () => {
