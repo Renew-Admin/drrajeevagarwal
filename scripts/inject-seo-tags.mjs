@@ -105,10 +105,6 @@ const ROUTE_META = {
     title: 'Laparoscopic Surgery | Dr. Rajeev Agarwal',
     description: 'Minimally invasive laparoscopic surgery for gynaecological conditions by Dr. Rajeev Agarwal, specialist surgeon in Kolkata.',
   },
-  '/learn-with-dr-rajeev-agarwal': {
-    title: 'Learn with Dr. Rajeev Agarwal | Medical Education',
-    description: 'Educational resources and learning programmes in fertility medicine and gynaecology by Dr. Rajeev Agarwal.',
-  },
   '/menopause-wellness': {
     title: 'Menopause Wellness | Dr. Rajeev Agarwal',
     description: 'Holistic support for menopause including hot flashes, mood changes, bone health, and hormonal guidance by Dr. Rajeev Agarwal.',

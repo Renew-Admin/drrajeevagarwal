@@ -258,6 +258,13 @@ export function legacyWordPressResponse(url) {
     return Response.redirect(`${SITE_ORIGIN}/preconception`, 301);
   }
 
+  // /learn-with-dr-rajeev-agarwal → /courses (301). The old WordPress "Course
+  // Listing" page had no courses and no internal link; /courses is the real,
+  // linked page on the same topic (health report 2026-10-18, item 7).
+  if (/^\/learn-with-dr-rajeev-agarwal(?:\/.*)?$/i.test(pathname)) {
+    return Response.redirect(`${SITE_ORIGIN}/courses${search}`, 301);
+  }
+
   // /doctors and /doctors/<slug> → 410 Gone (placeholder team page removed 2026-10-12)
   if (/^\/doctors(?:\/|$)/i.test(pathname)) return gone();
 
@@ -364,86 +371,127 @@ export function wwwRedirect(url) {
   return Response.redirect(`${SITE_ORIGIN}${url.pathname}${url.search}`, 301);
 }
 
+// ─── Edge hardening (health report 2026-10-18, items 2 and 6) ──────────────
+// Plain http:// on the production hosts → 301 to https://, and a baseline set
+// of security headers on every response this Worker returns (it runs first
+// for every request, so this covers pages, assets, redirects and /api/*).
+// Local hosts (wrangler dev) are left alone.
+const PRODUCTION_HOSTS = new Set(['drrajeevagarwal.co.in', 'www.drrajeevagarwal.co.in']);
+
+// HSTS starts short (1 day) as the report recommends. Raise it to 31536000
+// after a week without issues; add includeSubDomains only once every
+// subdomain is confirmed to serve HTTPS.
+export const SECURITY_HEADERS = {
+  'Strict-Transport-Security': 'max-age=86400',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'SAMEORIGIN',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+  // Clickjacking protection only. A full script/style CSP needs testing with
+  // gtag, the chatbot and YouTube embeds first, so it is deliberately not set.
+  'Content-Security-Policy': "frame-ancestors 'self'; base-uri 'self'; object-src 'none'",
+};
+
+export function httpsRedirect(url) {
+  if (url.protocol !== 'http:' || !PRODUCTION_HOSTS.has(url.hostname)) return null;
+  return Response.redirect(`https://${url.hostname}${url.pathname}${url.search}`, 301);
+}
+
+export function withSecurityHeaders(response, url) {
+  // Response.redirect() and asset responses have immutable headers; copy.
+  const secured = new Response(response.body, response);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    if (name === 'Strict-Transport-Security' && (url.protocol !== 'https:' || !PRODUCTION_HOSTS.has(url.hostname))) continue;
+    if (!secured.headers.has(name)) secured.headers.set(name, value);
+  }
+  return secured;
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const toHttps = httpsRedirect(url);
+    if (toHttps) return withSecurityHeaders(toHttps, url);
+    return withSecurityHeaders(await handleRequest(request, env, url), url);
+  },
+};
 
-    // www → apex (301) before anything else; see wwwRedirect().
-    const hostRedirect = wwwRedirect(url);
-    if (hostRedirect) return hostRedirect;
+async function handleRequest(request, env, url) {
+  // www → apex (301) before anything else; see wwwRedirect().
+  const hostRedirect = wwwRedirect(url);
+  if (hostRedirect) return hostRedirect;
 
-    // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
-    // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
-    const legacyResponse = legacyWordPressResponse(url);
-    if (legacyResponse) return legacyResponse;
+  // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
+  // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
+  const legacyResponse = legacyWordPressResponse(url);
+  if (legacyResponse) return legacyResponse;
 
-    if (url.pathname === '/api/lead-webhook') {
-      return forwardWebhook(request, env.WEBHOOK_URL || env.VITE_WEBHOOK_URL, {
-        envName: 'WEBHOOK_URL',
-        rejectedMessage: 'Webhook rejected the lead payload.',
-        failedMessage: 'Webhook delivery failed.',
-      });
-    }
+  if (url.pathname === '/api/lead-webhook') {
+    return forwardWebhook(request, env.WEBHOOK_URL || env.VITE_WEBHOOK_URL, {
+      envName: 'WEBHOOK_URL',
+      rejectedMessage: 'Webhook rejected the lead payload.',
+      failedMessage: 'Webhook delivery failed.',
+    });
+  }
 
-    if (url.pathname === '/api/workshop-webhook') {
-      return forwardWebhook(request, env.WORKSHOP_WEBHOOK, {
-        envName: 'WORKSHOP_WEBHOOK',
-        rejectedMessage: 'Webhook rejected the workshop payload.',
-        failedMessage: 'Workshop webhook delivery failed.',
-      });
-    }
+  if (url.pathname === '/api/workshop-webhook') {
+    return forwardWebhook(request, env.WORKSHOP_WEBHOOK, {
+      envName: 'WORKSHOP_WEBHOOK',
+      rejectedMessage: 'Webhook rejected the workshop payload.',
+      failedMessage: 'Workshop webhook delivery failed.',
+    });
+  }
 
-    if (url.pathname.startsWith('/api/')) {
-      return jsonResponse(404, { error: 'API route not found.' });
-    }
+  if (url.pathname.startsWith('/api/')) {
+    return jsonResponse(404, { error: 'API route not found.' });
+  }
 
-    if (url.pathname.startsWith('/.well-known/')) {
-      return wellKnownResponse(request, env);
-    }
+  if (url.pathname.startsWith('/.well-known/')) {
+    return wellKnownResponse(request, env);
+  }
 
-    if (url.pathname === '/version.json') {
-      const versionResponse = await env.ASSETS.fetch(request);
-      const headers = new Headers(versionResponse.headers);
-      headers.set('Content-Type', 'application/json; charset=utf-8');
-      headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
-      headers.set('CDN-Cache-Control', 'no-store');
-      headers.set('Pragma', 'no-cache');
-      headers.set('Expires', '0');
-
-      return new Response(versionResponse.body, {
-        status: versionResponse.status,
-        headers,
-      });
-    }
-
-    // Static assets — pass through directly
-    if (STATIC_EXT.test(url.pathname)) {
-      return env.ASSETS.fetch(request);
-    }
-
-    // Non-article "/x/" → 301 "/x". Replaces the asset layer's 307 for these
-    // paths so the redirect is permanent; see trailingSlashRedirect().
-    const slashRedirect = trailingSlashRedirect(url);
-    if (slashRedirect) return slashRedirect;
-
-    // Page routes — fetch HTML and inject SEO tags. Article URLs (/<slug>/)
-    // are mapped onto their prerendered file first; see articleAssetRequest().
-    const assetResponse = await env.ASSETS.fetch(articleAssetRequest(request, url) || request);
-    const html = await assetResponse.text();
-    const modifiedHtml = injectSeoTags(html, url.pathname);
-
-    const headers = new Headers(assetResponse.headers);
-    headers.set('Content-Type', 'text/html; charset=utf-8');
-    // HTML must revalidate so phones do not keep an old document that points
-    // at an older Vite bundle. Hashed assets remain cacheable below.
+  if (url.pathname === '/version.json') {
+    const versionResponse = await env.ASSETS.fetch(request);
+    const headers = new Headers(versionResponse.headers);
+    headers.set('Content-Type', 'application/json; charset=utf-8');
     headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     headers.set('CDN-Cache-Control', 'no-store');
     headers.set('Pragma', 'no-cache');
     headers.set('Expires', '0');
 
-    return new Response(modifiedHtml, {
-      status: assetResponse.status,
+    return new Response(versionResponse.body, {
+      status: versionResponse.status,
       headers,
     });
-  },
-};
+  }
+
+  // Static assets — pass through directly
+  if (STATIC_EXT.test(url.pathname)) {
+    return env.ASSETS.fetch(request);
+  }
+
+  // Non-article "/x/" → 301 "/x". Replaces the asset layer's 307 for these
+  // paths so the redirect is permanent; see trailingSlashRedirect().
+  const slashRedirect = trailingSlashRedirect(url);
+  if (slashRedirect) return slashRedirect;
+
+  // Page routes — fetch HTML and inject SEO tags. Article URLs (/<slug>/)
+  // are mapped onto their prerendered file first; see articleAssetRequest().
+  const assetResponse = await env.ASSETS.fetch(articleAssetRequest(request, url) || request);
+  const html = await assetResponse.text();
+  const modifiedHtml = injectSeoTags(html, url.pathname);
+
+  const headers = new Headers(assetResponse.headers);
+  headers.set('Content-Type', 'text/html; charset=utf-8');
+  // HTML must revalidate so phones do not keep an old document that points
+  // at an older Vite bundle. Hashed assets remain cacheable below.
+  headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+  headers.set('CDN-Cache-Control', 'no-store');
+  headers.set('Pragma', 'no-cache');
+  headers.set('Expires', '0');
+
+  return new Response(modifiedHtml, {
+    status: assetResponse.status,
+    headers,
+  });
+}
