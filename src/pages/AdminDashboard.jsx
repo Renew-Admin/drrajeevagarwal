@@ -24,8 +24,8 @@ import {
   uploadPromotionPopupImage,
 } from '../lib/supabaseBlogAdmin';
 import RichTextEditor from '../components/RichTextEditor';
-import desktopPopupImage from '../assets/Website Pop-up (Desktop) (V2).jpg.jpeg';
-import mobilePopupImage from '../assets/Website Pop-up (Mobile) (V1).jpg.jpeg';
+import desktopPopupImage from '../assets/promo-popup-desktop-v2.webp';
+import mobilePopupImage from '../assets/promo-popup-mobile-v1.webp';
 
 const today = () => new Date().toISOString().slice(0, 10);
 
