@@ -32,7 +32,7 @@ export default function BookAppointment() {
               {[
                 { icon: Phone, label: 'Call us', value: '+91 62923 12076', href: 'tel:+916292312076' },
                 { icon: Mail, label: 'Email us', value: 'fertilitywithoutborders@gmail.com', href: 'mailto:fertilitywithoutborders@gmail.com' },
-                { icon: MapPin, label: 'Find us', value: '18C Mandeville Gardens, Kolkata, West Bengal 700019' },
+                { icon: MapPin, label: 'Find us', value: 'Ground Floor, 18 C, Mandeville Gardens, Ballygunge, Kolkata 700019' },
               ].map((item, i) => {
                 const Icon = item.icon;
                 return (

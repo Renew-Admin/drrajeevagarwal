@@ -43,7 +43,8 @@ const CLINIC_PHONE = '+91-62923-12076';
 const CLINIC_EMAIL = 'fertilitywithoutborders@gmail.com';
 const CLINIC_ADDRESS = {
   '@type': 'PostalAddress',
-  streetAddress: '18C Mandeville Gardens',
+  // Part 4 table of the Google Business Profile brief (18 Oct 2026).
+  streetAddress: 'Ground Floor, 18 C, Mandeville Gardens, Ballygunge',
   addressLocality: 'Kolkata',
   addressRegion: 'West Bengal',
   postalCode: '700019',
