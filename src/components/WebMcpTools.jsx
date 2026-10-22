@@ -64,7 +64,7 @@ const CLINIC_INFO = {
   specialty: 'Fertility Specialist & Gynaecologist',
   phone: '+91 62923 12076',
   email: 'fertilitywithoutborders@gmail.com',
-  address: 'Renew Healthcare, 18C Mandeville Gardens, Kolkata, West Bengal 700019',
+  address: 'Renew Healthcare, Ground Floor, 18 C, Mandeville Gardens, Ballygunge, Kolkata 700019',
   centres: ['Gariahat — Kolkata', 'Salt Lake — Kolkata', 'Jamshedpur'],
   hours: 'Monday to Friday, 9:00 AM – 7:00 PM',
   bookingUrl: `${SITE_ORIGIN}/book-an-appointment`,
