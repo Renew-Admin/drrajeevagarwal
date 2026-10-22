@@ -40,14 +40,6 @@ const fallbackImages = [
   '/assets/2025/03/Fertility-Support-1-515x400.webp'
 ];
 
-const coverImageSlugs = new Set([
-  'husband-preconception-health-male-fertility-india',
-  'hemorrhagic-ovarian-cyst-effects-reproductive-health',
-  'unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment',
-  'adenomyosis-what-is-it-all-about',
-  'everything-you-need-to-know-about-endometriosis-and-fertility'
-]);
-
 const tagRules = [
   ['Preconception', /preconception|zero trimester|before pregnancy|trying|conceive|fertility readiness|thyroid/],
   ['IVF', /ivf|embryo|implantation/],
@@ -233,14 +225,12 @@ export function getReadingTime(blog) {
 export function buildBlogPresentation(blog, index = 0) {
   const cleanTitle = decodeHtml(blog?.title || '');
   const plainText = stripBlogHtml(blog?.content || '');
-  const slug = blog?.slug || '';
-
   return {
     ...blog,
     title: cleanTitle,
     displayDate: formatBlogDate(blog?.date || blog?.iso || blog?.published_at),
     image: getBlogImage(blog, index),
-    imageFit: coverImageSlugs.has(slug) ? 'cover' : undefined,
+    imageFit: 'contain',
     excerpt: getBlogExcerpt(blog),
     category: getBlogCategory(blog),
     tags: getBlogTags(blog),

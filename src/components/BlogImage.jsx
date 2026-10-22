@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
+export default function BlogImage({ fitMode, style, src, ...props }) {
+  const backgroundImage = src
+    ? `linear-gradient(rgba(238, 242, 248, 0.32), rgba(238, 242, 248, 0.32)), url(${JSON.stringify(src)})`
+    : undefined;
 
-const COVER_FIT_MAX_RATIO = 1.8;
-
-export default function BlogImage({ fitMode, onLoad, ...props }) {
-  const [fit, setFit] = useState(fitMode || 'contain');
-
-  useEffect(() => {
-    if (fitMode) {
-      setFit(fitMode);
-    }
-  }, [fitMode]);
-
-  const handleLoad = (event) => {
-    const image = event.currentTarget;
-    const ratio = image.naturalHeight > 0 ? image.naturalWidth / image.naturalHeight : 0;
-
-    setFit(fitMode || (ratio > 0 && ratio < COVER_FIT_MAX_RATIO ? 'cover' : 'contain'));
-    onLoad?.(event);
-  };
-
-  return <img {...props} data-fit={fit} onLoad={handleLoad} />;
+  return (
+    <img
+      {...props}
+      src={src}
+      data-fit={fitMode || 'contain'}
+      style={{ backgroundImage, backgroundSize: 'cover', backgroundPosition: 'center', ...style }}
+    />
+  );
 }

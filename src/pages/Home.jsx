@@ -24,6 +24,7 @@ import {
 import { HOME_LATEST_BLOGS } from '../data/generated/dataIndex';
 import { buildBlogPresentation } from '../utils/blogPresentation';
 import { articlePath } from '../utils/blogRoutes';
+import BlogImage from '../components/BlogImage';
 import Footer from '../components/Footer';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import heroImg from '../assets/image.webp';
@@ -1178,7 +1179,7 @@ export default function Home({ onBookClick }) {
               {latestBlogs.map((post) => (
                 <article className="ra-blog-card" key={post.slug}>
                   <div className="ra-blog-img-wrap">
-                    <img src={post.image} alt={post.title} loading="lazy" />
+                    <BlogImage src={post.image} alt={post.title} loading="lazy" fitMode={post.imageFit} />
                   </div>
                   <div className="ra-blog-body">
                     <span className="ra-blog-badge">{post.category}</span>
