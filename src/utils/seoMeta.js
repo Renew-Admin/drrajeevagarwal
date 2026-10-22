@@ -10,6 +10,7 @@
 
 import { MENOPAUSE_ROUTE_META } from '../data/menopauseCare';
 import { articlePath } from './blogRoutes';
+import { ARTICLE_SEO_OVERRIDES } from '../data/articleSeoOverrides';
 
 export const SITE_ORIGIN = 'https://drrajeevagarwal.co.in';
 
@@ -223,9 +224,12 @@ export function getServicePageMeta(slug, pageTitle) {
 export function getBlogPostMeta(slug, blogTitle, blogExcerpt, image) {
   const canonicalUrl = SITE_ORIGIN + articlePath(slug);
   const ogImage = image ? (/^https?:\/\//i.test(image) ? image : SITE_ORIGIN + image) : undefined;
+  // SEO brief task 12: supplied titles/descriptions win, exactly as written,
+  // so the title after a client-side navigation matches the prerendered one.
+  const override = ARTICLE_SEO_OVERRIDES[String(slug || '').replace(/^\/+|\/+$/g, '')] || {};
   return {
-    title: `${blogTitle} | Dr. Rajeev Agarwal`,
-    description: blogExcerpt
+    title: override.title || `${blogTitle} | Dr. Rajeev Agarwal`,
+    description: override.description ? override.description : blogExcerpt
       ? blogExcerpt.slice(0, 155) + (blogExcerpt.length > 155 ? '…' : '')
       : `Read ${blogTitle} by Dr. Rajeev Agarwal, fertility specialist and gynaecologist in Kolkata.`,
     canonicalUrl,

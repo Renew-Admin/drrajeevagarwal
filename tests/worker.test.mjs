@@ -81,3 +81,34 @@ test('legacy: /learn-with-dr-rajeev-agarwal (any form) answers 301 to /courses',
     assert.equal(response.headers.get('location'), 'https://drrajeevagarwal.co.in/courses', path);
   }
 });
+
+test('SEO brief task 9: retired articles 301 in one hop from every form, including /blog/', async () => {
+  const { RETIRED_ARTICLE_REDIRECTS } = await import('../src/data/retiredArticles.js');
+  assert.equal(Object.keys(RETIRED_ARTICLE_REDIRECTS).length, 19);
+  for (const [slug, to] of Object.entries(RETIRED_ARTICLE_REDIRECTS)) {
+    const expected = to.startsWith('http') ? to : `https://drrajeevagarwal.co.in${to}`;
+    for (const path of [`/${slug}`, `/${slug}/`, `/blog/${slug}`, `/blog/${slug}/`]) {
+      const response = legacyWordPressResponse(url(`https://drrajeevagarwal.co.in${path}`));
+      assert.equal(response?.status, 301, path);
+      assert.equal(response.headers.get('location'), expected, path);
+    }
+  }
+});
+
+test('SEO brief task 7: deleted pages answer 410 with or without the slash', () => {
+  for (const path of ['/elementor-10995', '/elementor-10995/', '/courses-page-copy', '/courses-page-copy/']) {
+    assert.equal(legacyWordPressResponse(url(`https://drrajeevagarwal.co.in${path}`))?.status, 410, path);
+  }
+});
+
+test('SEO brief task 1: /blog/<slug> lands on /<slug>/ and the listing is not redirected', () => {
+  const response = legacyWordPressResponse(url('https://drrajeevagarwal.co.in/blog/ovulation-pain-normal-or-problem'));
+  assert.equal(response.headers.get('location'), 'https://drrajeevagarwal.co.in/ovulation-pain-normal-or-problem/');
+  assert.equal(legacyWordPressResponse(url('https://drrajeevagarwal.co.in/blog')), null);
+});
+
+test('SEO brief task 9: retired-article links in post bodies point at their replacement', async () => {
+  const { cleanBlogHtml } = await import('../src/utils/blogPresentation.js');
+  const html = cleanBlogHtml('<a href="/when-to-seek-medical-advice-for-fertility-a-guide-for-couples-trying-to-conceive/">see</a>');
+  assert.equal(html, '<a href="/when-to-see-fertility-specialist-trying-to-conceive/">see</a>');
+});

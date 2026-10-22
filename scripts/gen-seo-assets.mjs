@@ -22,6 +22,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { blogsData } from '../src/data/blogs_data.js';
+import { ARTICLE_SEO_OVERRIDES } from '../src/data/articleSeoOverrides.js';
 import { liveBlogUpdates } from '../src/data/live_blog_updates.js';
 import { MENOPAUSE_PAGES, MENOPAUSE_ROUTES } from '../src/data/menopauseCare.js';
 // Reuse the app's own resolvers so the image chosen for og:image and for the
@@ -109,12 +110,14 @@ function metaDescription(post) {
 
 const blogMeta = {};
 blogPosts.forEach((post, index) => {
+  const override = ARTICLE_SEO_OVERRIDES[post.slug] || {};
   blogMeta[post.slug] = {
-    title: metaTitle(post.title),
+    // SEO brief task 12: a supplied title/description replaces the generated one.
+    title: override.title || metaTitle(post.title),
     // Kept separate from `title`: the Article schema wants the bare headline,
     // not the brand-suffixed <title> string.
     headline: decodeHtml(post.title || '').replace(/\s+/g, ' ').trim(),
-    description: metaDescription(post),
+    description: override.description || metaDescription(post),
     image: getBlogImage(post, index),
     category: getBlogCategory(post),
     date: post.date,
