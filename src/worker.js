@@ -1,4 +1,5 @@
 import blogSlugs from './data/blogSlugs.cjs';
+import { RETIRED_ARTICLE_REDIRECTS } from './data/retiredArticles.js';
 import jsonLd from './utils/jsonLd.cjs';
 import seoMeta from './utils/seoMeta.cjs';
 
@@ -250,8 +251,29 @@ function forbidden() {
   });
 }
 
+/** Absolute URL for a retired article's destination (a path here, or a full URL elsewhere). */
+function retiredTarget(slug) {
+  const to = Object.hasOwn(RETIRED_ARTICLE_REDIRECTS, slug) ? RETIRED_ARTICLE_REDIRECTS[slug] : null;
+  if (!to) return null;
+  return to.startsWith('http') ? to : `${SITE_ORIGIN}${to}`;
+}
+
+// Pages deleted by the SEO brief of 18 Oct 2026 (task 7): answer 410 Gone.
+const DELETED_PAGES = new Set(['/elementor-10995', '/courses-page-copy']);
+
 export function legacyWordPressResponse(url) {
   const { pathname, search } = url;
+
+  // Overlapping articles retired by the SEO brief (task 9): /<slug>, /<slug>/,
+  // /blog/<slug> and /blog/<slug>/ all 301 in one hop to the stronger article.
+  const retired = pathname.match(/^\/(?:blog\/)?([^/]+)\/?$/);
+  if (retired) {
+    const target = retiredTarget(retired[1]);
+    if (target) return Response.redirect(target, 301);
+  }
+
+  // Deleted pages (task 7) → 410 Gone, with or without the trailing slash.
+  if (DELETED_PAGES.has(pathname.replace(/\/+$/, ''))) return gone();
 
   // preconception-care → /preconception (301)
   if (pathname.replace(/\/+$/, '') === '/preconception-care') {
@@ -479,7 +501,13 @@ async function handleRequest(request, env, url) {
   // are mapped onto their prerendered file first; see articleAssetRequest().
   const assetResponse = await env.ASSETS.fetch(articleAssetRequest(request, url) || request);
   const html = await assetResponse.text();
-  const modifiedHtml = injectSeoTags(html, url.pathname);
+  let modifiedHtml = injectSeoTags(html, url.pathname);
+  // Tag-filtered blog views (/blog?tag=…) stay crawlable but out of the index
+  // (SEO brief task 8); /blog itself stays indexable.
+  const isTagView = url.pathname === '/blog' && url.searchParams.has('tag');
+  if (isTagView) {
+    modifiedHtml = modifiedHtml.replace(/<meta name="robots"[^>]*>/gi, '').replace('</title>', '</title>\n    <meta name="robots" content="noindex, follow">');
+  }
 
   const headers = new Headers(assetResponse.headers);
   headers.set('Content-Type', 'text/html; charset=utf-8');
@@ -489,6 +517,7 @@ async function handleRequest(request, env, url) {
   headers.set('CDN-Cache-Control', 'no-store');
   headers.set('Pragma', 'no-cache');
   headers.set('Expires', '0');
+  if (isTagView) headers.set('X-Robots-Tag', 'noindex, follow');
 
   return new Response(modifiedHtml, {
     status: assetResponse.status,

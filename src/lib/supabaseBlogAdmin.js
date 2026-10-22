@@ -1,3 +1,4 @@
+import { isRetiredArticle } from '../data/retiredArticles.js';
 export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const BLOG_IMAGE_BUCKET = 'blog-images';
@@ -324,7 +325,9 @@ export async function listPublishedBlogs() {
     const rows = await supabaseFetch(
       '/rest/v1/blogs?select=*&published=eq.true&order=published_at.desc.nullslast,created_at.desc'
     );
-    return (rows || []).map(supabaseBlogToLocal);
+    // Retired articles (src/data/retiredArticles.js) never show, even if a
+    // published copy exists in Supabase.
+    return (rows || []).map(supabaseBlogToLocal).filter((post) => !isRetiredArticle(post.slug));
   } catch (error) {
     console.warn('[supabase blogs] public fetch failed:', error.message);
     return [];

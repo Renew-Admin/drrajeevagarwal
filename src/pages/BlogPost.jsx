@@ -10,6 +10,7 @@ import { listPublishedBlogs } from '../lib/supabaseBlogAdmin';
 import BlogImage from '../components/BlogImage';
 import NotFound from './NotFound';
 import { articlePath } from '../utils/blogRoutes';
+import authorPhoto from '../assets/dr-rajeev-author.webp';
 
 function uniqueBlogs(list) {
   const seen = new Set();
@@ -108,9 +109,22 @@ export default function BlogPost() {
               </div>
               <span className="blog-article-topic">{blog.category}</span>
               <h1 className="article-title">{blog.title}</h1>
+              {/* SEO brief task 17. Articles carry one date (no separate edit
+                  timestamp), so the review date is that date. */}
+              <p className="article-reviewed">Last reviewed: {blog.displayDate}</p>
               <p className="blog-article-lede">{blog.excerpt}</p>
               <div className="article-divider" />
               <article className="wordpress-blog-content" dangerouslySetInnerHTML={{ __html: articleHtml }} />
+              {/* SEO brief task 16: author box at the end of every article. */}
+              <aside className="article-author-box" aria-label="About the author">
+                <img src={authorPhoto} alt="Dr. Rajeev Agarwal" width="96" height="96" loading="lazy" decoding="async" />
+                <div>
+                  <p className="article-author-label">Written by</p>
+                  <p className="article-author-text">
+                    <Link to="/about-me" className="article-author-name">Dr. Rajeev Agarwal</Link>, MBBS, MD (Obstetrics &amp; Gynaecology), fertility specialist and laparoscopic surgeon, Kolkata. West Bengal Medical Council Reg. No. WBMC52540
+                  </p>
+                </div>
+              </aside>
             </div>
           </article>
         </main>

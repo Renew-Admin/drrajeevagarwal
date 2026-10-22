@@ -19,6 +19,21 @@ const PHYSICIAN_ID = `${SITE_ORIGIN}/#physician`;
 const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
 const LOGO_URL = `${SITE_ORIGIN}/assets/2025/03/cropped-Favicon-192x192.webp`;
 
+// Dr. Agarwal's qualifications and registration (SEO brief 18 Oct 2026,
+// tasks 14, 16, 18, 19). One source for the Physician node and every
+// article's author.
+const DOCTOR_QUALIFICATIONS = 'MBBS, MD (Obstetrics & Gynaecology)';
+const DOCTOR_REGISTRATION = 'WBMC52540';
+const DOCTOR_CREDENTIALS = [
+  { '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: 'MBBS' },
+  { '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: 'MD (Obstetrics & Gynaecology)' },
+];
+const DOCTOR_REGISTRATION_ID = {
+  '@type': 'PropertyValue',
+  propertyID: 'West Bengal Medical Council Registration No.',
+  value: DOCTOR_REGISTRATION,
+};
+
 // NAP — kept identical to CLINIC_INFO in src/components/WebMcpTools.jsx and the
 // contact block in src/components/Footer.jsx. Name/address/phone consistency
 // across a site and its directory listings is the strongest local ranking
@@ -118,7 +133,17 @@ function buildArticle(pathname) {
     image: (meta.image || DEFAULT_OG_IMAGE).startsWith('http')
       ? meta.image
       : SITE_ORIGIN + (meta.image || DEFAULT_OG_IMAGE),
-    author: { '@id': PHYSICIAN_ID },
+    // Brief task 18: author as a Person with qualifications and a link to /about-me.
+    author: {
+      // No @id: the site-wide node is a schema.org Physician (a medical
+      // organisation type), and sharing its @id would merge the two types.
+      '@type': 'Person',
+      name: 'Dr. Rajeev Agarwal',
+      honorificSuffix: DOCTOR_QUALIFICATIONS,
+      hasCredential: DOCTOR_CREDENTIALS,
+      jobTitle: 'Fertility specialist and laparoscopic surgeon',
+      url: `${SITE_ORIGIN}/about-me`,
+    },
     publisher: { '@id': ORG_ID },
     inLanguage: 'en-IN',
     isAccessibleForFree: true,
@@ -215,7 +240,11 @@ function buildJsonLdGraph(pathname) {
       name: 'Dr. Rajeev Agarwal',
       url: `${SITE_ORIGIN}/about-me`,
       jobTitle: 'Fertility Specialist & Gynaecologist',
-      medicalSpecialty: ['Gynecologic', 'Obstetric', 'Endocrine'],
+      // Brief task 19: qualifications, specialties and registration number.
+      honorificSuffix: DOCTOR_QUALIFICATIONS,
+      hasCredential: DOCTOR_CREDENTIALS,
+      identifier: DOCTOR_REGISTRATION_ID,
+      medicalSpecialty: ['Reproductive medicine', 'Obstetrics and Gynaecology'],
       knowsAbout: [
         'In Vitro Fertilisation (IVF)',
         'Intrauterine Insemination (IUI)',

@@ -1,3 +1,4 @@
+import { RETIRED_ARTICLE_REDIRECTS } from '../data/retiredArticles.js';
 const imageOverrides = {
   'expanded-carrier-screening-whole-exome-sequencing-before-pregnancy-india': '/assets/blog-live/expanded-carrier-screening-before-pregnancy.webp',
   'what-is-testosterone': '/assets/blog-live/what-is-testosterone.webp',
@@ -126,7 +127,14 @@ export function cleanBlogHtml(html = '', options = {}) {
     // Retired article URLs inside post bodies (older posts, and anything the
     // CMS still stores that way): /blog/<slug> → /<slug>/, the canonical form.
     // "/blog" and "/blog?tag=…" (the listing page) are left alone.
-    .replace(/href=(["'])\/blog\/([^"'/?#]+)\/?(?=[?#]|\1)/gi, 'href=$1/$2/');
+    .replace(/href=(["'])\/blog\/([^"'/?#]+)\/?(?=[?#]|\1)/gi, 'href=$1/$2/')
+    // Links to articles retired by the SEO brief (src/data/retiredArticles.js)
+    // point straight at the article that replaced them, so no internal link
+    // goes through a redirect. Only the address changes, never the words.
+    .replace(/href=(["'])\/([^"'/?#]+)\/?(?=[?#]|\1)/gi, (match, quote, slug) => {
+      const to = Object.hasOwn(RETIRED_ARTICLE_REDIRECTS, slug) ? RETIRED_ARTICLE_REDIRECTS[slug] : null;
+      return to ? `href=${quote}${to}` : match;
+    });
 
   if (options.removeFirstImage) {
     clean = clean.replace(/<!--\s*wp:image[\s\S]*?<!--\s*\/wp:image\s*-->/i, '');

@@ -44,7 +44,7 @@ module.exports = {
   "no-fetal-pole-5-6-7-weeks-meaning-causes": {
     "title": "No Fetal Pole at 5, 6, or 7 Weeks: What Could It Mean?",
     "headline": "No Fetal Pole at 5, 6, or 7 Weeks: What Could It Mean?",
-    "description": "What Is a Fetal Pole in Pregnancy? A fetal pole, also called an embryonic pole, is the first visible sign of an embryo on an ultrasound.",
+    "description": "No fetal pole on your scan at 5, 6 or 7 weeks? What it can mean, when it is too early to tell, and when a repeat scan is advised.",
     "image": "/assets/2026/05/Fetal-Pole-in-Pregnancy-1.webp",
     "category": "Safe Pregnancy",
     "date": "2026-05-24"
@@ -58,9 +58,9 @@ module.exports = {
     "date": "2026-05-22"
   },
   "hemorrhagic-ovarian-cyst-effects-reproductive-health": {
-    "title": "Hemorrhagic Ovarian Cyst and Its Effects on Reproductive Health",
+    "title": "Hemorrhagic Ovarian Cyst: Size, Symptoms and Treatment",
     "headline": "Hemorrhagic Ovarian Cyst and Its Effects on Reproductive Health",
-    "description": "Introduction Hearing the word “cyst” during a scan can feel unsettling. Things like surgery, fertility problems, or something serious come to your mind.",
+    "description": "What a haemorrhagic cyst is, what size usually settles on its own, when surgery is needed, and whether it affects fertility.",
     "image": "/assets/2026/05/Hemorrhagic-Ovarian.webp",
     "category": "Fertility",
     "date": "2026-05-22"
@@ -74,17 +74,17 @@ module.exports = {
     "date": "2026-04-18"
   },
   "pcos-diet-foods-to-eat-and-avoid": {
-    "title": "PCOS Diet: Food To Eat & Avoid With PCOS | Dr. Rajeev Agarwal",
+    "title": "PCOS Diet: Foods to Eat and Avoid | Dr. Rajeev Agarwal",
     "headline": "PCOS Diet: Food To Eat & Avoid With PCOS",
-    "description": "What Is PCOS ? Polycystic ovary syndrome is a hormonal disorder that affects how a woman's ovaries function.",
+    "description": "What to eat and what to limit with PCOS, and how diet affects insulin, periods and fertility, from a fertility specialist.",
     "image": "/assets/2026/04/pcos-diet-foods-to-eat-and-avoid.webp",
     "category": "PCOS",
     "date": "2026-04-17"
   },
   "white-discharge-before-period-pregnancy-sign": {
-    "title": "White Discharge Before Period a Sign of Pregnancy",
+    "title": "White Discharge Before Period: Is It a Sign of Pregnancy?",
     "headline": "White Discharge Before Period a Sign of Pregnancy",
-    "description": "What is White Discharge White discharge in women is an everyday thing. It’s your body’s natural way of keeping things clean, balanced and healthy.",
+    "description": "White discharge before a period is usually normal and cannot confirm pregnancy on its own. What it means and when to take a test.",
     "image": "/assets/2026/03/white-discharge-before-period-pregnancy-sign.webp",
     "category": "Safe Pregnancy",
     "date": "2026-03-27"
@@ -145,22 +145,6 @@ module.exports = {
     "category": "Male Fertility",
     "date": "2025-12-24"
   },
-  "top-signs-you-should-consult-a-fertility-doctor-in-kolkata": {
-    "title": "Top Signs You Should Consult a Fertility Doctor in Kolkata",
-    "headline": "Top Signs You Should Consult a Fertility Doctor in Kolkata",
-    "description": "Starting a family is a deeply personal journey, but for many couples, it comes with challenges.",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
-    "category": "Fertility",
-    "date": "2025-12-22"
-  },
-  "what-is-a-laparoscopy-a-simple-explanation-for-fertility-issues": {
-    "title": "What is a Laparoscopy? A Simple Explanation for Fertility Issues",
-    "headline": "What is a Laparoscopy? A Simple Explanation for Fertility Issues",
-    "description": "Fertility challenges can be emotionally and physically taxing for couples. One of the key tools in modern fertility care is laparoscopy — a minimally…",
-    "image": "/assets/2025/12/Laproscopy.jpg",
-    "category": "Fertility",
-    "date": "2025-12-20"
-  },
   "male-infertility-treatment-in-kolkata-causes-tests-solutions": {
     "title": "Male Infertility Treatment in Kolkata: Causes, Tests & Solutions",
     "headline": "Male Infertility Treatment in Kolkata: Causes, Tests & Solutions",
@@ -185,34 +169,26 @@ module.exports = {
     "category": "Fertility",
     "date": "2025-12-16"
   },
-  "ivf-treatment-cost-in-kolkata-what-you-should-know": {
-    "title": "IVF Treatment Cost in Kolkata – What You Should Know Before Starting",
-    "headline": "IVF Treatment Cost in Kolkata – What You Should Know Before Starting",
-    "description": "In recent years, In Vitro Fertilization (IVF) has emerged as one of the most effective solutions for couples struggling with infertility.",
-    "image": "/assets/2025/12/IVF-cost.jpg",
-    "category": "Fertility",
-    "date": "2025-12-15"
-  },
   "ovulation-pain-normal-or-problem": {
-    "title": "Understanding Ovulation Pain: Is It a Normal or an Issue?",
+    "title": "Ovulation Pain: Is It Normal? Causes, Signs and When to Worry",
     "headline": "Understanding Ovulation Pain: Is It a Normal or an Issue?",
-    "description": "What Is Ovulation Pain (Mittelschmerz)? Ovulation pain is defined as the discomfort or mild cramping some women experience around the middle of their…",
+    "description": "Pain on one side in mid-cycle is common. What ovulation pain means, whether it tells you anything about fertility, and which symptoms need a doctor.",
     "image": "/assets/2025/12/Ovulation-Pain-Normal.jpg",
     "category": "Fertility",
     "date": "2025-12-12"
   },
   "vaginal-discharge-when-is-it-normal-and-when-should-you-see-a-doctor": {
-    "title": "Vaginal Discharge: When is it Normal, and When Should You See a Doctor?",
+    "title": "Vaginal Discharge: What Is Normal and When to See a Doctor",
     "headline": "Vaginal Discharge: When is it Normal, and When Should You See a Doctor?",
-    "description": "Vaginal discharge is a natural and essential part of a woman’s reproductive system.",
+    "description": "Colour, smell and amount: how to tell normal discharge from an infection, and when to see a gynaecologist.",
     "image": "/assets/2025/12/Vaginal-Discharge.jpg",
     "category": "Women's Health",
     "date": "2025-12-10"
   },
   "understanding-your-amh-level-what-does-egg-count-test-really-means": {
-    "title": "Understanding Your AMH Level: What does ‘Egg Count’ Test Really Means",
+    "title": "AMH Test: What Your AMH Level Means for Fertility",
     "headline": "Understanding Your AMH Level: What does ‘Egg Count’ Test Really Means",
-    "description": "When couples begin their fertility journey, one of the first tests doctors recommend for women is the AMH Level test , also known as the “egg count” test…",
+    "description": "AMH shows how many eggs are left, not how good they are. What low and high AMH mean, and what the test cannot tell you about getting pregnant.",
     "image": "/assets/2025/12/AMH-Level.jpg",
     "category": "Fertility",
     "date": "2025-12-05"
@@ -229,7 +205,7 @@ module.exports = {
     "title": "The Hidden Role of Sleep in Female Hormone Health",
     "headline": "The Hidden Role of Sleep in Female Hormone Health",
     "description": "In today’s fast-paced world, women often juggle multiple responsibilities — work, home, relationships, and health.",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
+    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
     "category": "Male Fertility",
     "date": "2025-11-13"
   },
@@ -241,22 +217,6 @@ module.exports = {
     "category": "Fertility",
     "date": "2025-11-11"
   },
-  "dont-just-conceive-prepare-a-7-step-guide-to-fertility-readiness": {
-    "title": "Don’t Just Conceive… PREPARE: A 7-Step Guide to Fertility Readiness",
-    "headline": "Don’t Just Conceive… PREPARE: A 7-Step Guide to Fertility Readiness",
-    "description": "When couples decide they’re ready for a baby, the first instinct is often to try right away.",
-    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
-    "category": "Preconception Care",
-    "date": "2025-05-23"
-  },
-  "when-to-seek-medical-advice-for-fertility-a-guide-for-couples-trying-to-conceive": {
-    "title": "When to Seek Medical Advice for Fertility: A Guide for Couples Trying to Conceive",
-    "headline": "When to Seek Medical Advice for Fertility: A Guide for Couples Trying to Conceive",
-    "description": "Trying to conceive can be an exciting yet emotional journey. While some couples achieve pregnancy quickly, others may face unexpected delays.",
-    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
-    "category": "Fertility",
-    "date": "2025-04-25"
-  },
   "what-is-intra-ovarian-prp": {
     "title": "What is Intra-Ovarian PRP? | Dr. Rajeev Agarwal",
     "headline": "What is Intra-Ovarian PRP?",
@@ -265,59 +225,27 @@ module.exports = {
     "category": "Fertility",
     "date": "2025-04-15"
   },
-  "the-zero-trimester-preparing-for-a-healthy-pregnancy-before-conception": {
-    "title": "The Zero Trimester: Preparing for a Healthy Pregnancy Before Conception",
-    "headline": "The Zero Trimester: Preparing for a Healthy Pregnancy Before Conception",
-    "description": "If you are wondering what is zero trimester, hear us out. Trimester 0 focuses on the three months before conception, which is a critical window that can…",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
-    "category": "Preconception Care",
-    "date": "2025-04-12"
-  },
-  "menopause-more-than-just-the-end-of-periods": {
-    "title": "Menopause: More Than Just the End of Periods | Dr. Rajeev Agarwal",
-    "headline": "Menopause: More Than Just the End of Periods",
-    "description": "Menopause is often associated with the end of menstrual cycles , but its impact goes far beyond that.",
-    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
-    "category": "Women's Health",
-    "date": "2025-04-03"
-  },
-  "early-menopause-why-it-happens-and-when-to-seek-help": {
-    "title": "Early Menopause: Why It Happens and When to Seek Help",
-    "headline": "Early Menopause: Why It Happens and When to Seek Help",
-    "description": "Menopause is typically associated with women in their late 40s or early 50s, but for some, it can arrive much earlier.",
-    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
-    "category": "Women's Health",
-    "date": "2025-03-27"
-  },
   "blocked-fallopian-tubes-causes-treatment-options": {
-    "title": "Blocked Fallopian Tubes: Causes, Symptoms & Treatment",
+    "title": "Blocked Fallopian Tubes: Tests, Causes and Treatment",
     "headline": "Blocked Fallopian Tubes: Causes, Symptoms & Treatment",
-    "description": "If you have been trying to conceive for a few months, you must have come across this term - blocked fallopian tubes.",
+    "description": "How doctors check whether your tubes are open, what causes a blockage, and the treatment options if you are trying to conceive.",
     "image": "/assets/2025/03/Blocked-fallopian-tube-treatment-in-Kolkata.webp",
     "category": "Fertility",
     "date": "2025-03-17"
   },
   "birth-control-pills-for-pcos-how-long-should-you-stay-on-them": {
-    "title": "Birth Control Pills for PCOS: How Long Should You Stay on Them",
+    "title": "Birth Control Pills for PCOS: How Long Can You Stay on Them?",
     "headline": "Birth Control Pills for PCOS: How Long Should You Stay on Them",
-    "description": "PCOS and Birth Control Pills: Why They Are Used Doctors who provide fertility & gynecological Services , prescribe oral contraceptive pills in PCOS…",
-    "image": "/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp",
+    "description": "How long the pill can be used for PCOS, whether long-term use is safe, and what happens to periods and fertility when you stop.",
+    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
     "category": "PCOS",
     "date": "2025-03-14"
-  },
-  "trying-to-conceive-check-your-fallopian-tubes-for-blockages": {
-    "title": "Trying to Conceive? Check Your Fallopian Tubes for Blockages",
-    "headline": "Trying to Conceive? Check Your Fallopian Tubes for Blockages",
-    "description": "For couples trying to conceive, fallopian tube health is often overlooked but plays a critical role in pregnancy.",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
-    "category": "Fertility",
-    "date": "2025-03-05"
   },
   "can-ovarian-stimulation-affect-your-next-period-cycle": {
     "title": "Can Ovarian Stimulation Affect your Next Period Cycle?",
     "headline": "Can Ovarian Stimulation Affect your Next Period Cycle?",
-    "description": "What is Ovarian Stimulation? Let’s first understand what is ovarian stimulation, what to expect in your first period after ovarian stimulation treatment…",
-    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
+    "description": "Why periods can come early, late or heavier after ovarian stimulation or egg collection, and when to call your doctor.",
+    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
     "category": "Fertility",
     "date": "2025-02-27"
   },
@@ -325,17 +253,9 @@ module.exports = {
     "title": "Understanding Early Menopause: Causes, Symptoms, and What to Expect",
     "headline": "Understanding Early Menopause: Causes, Symptoms, and What to Expect",
     "description": "Menopause is a natural biological process that marks the end of a woman’s reproductive years.",
-    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
+    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
     "category": "Women's Health",
     "date": "2025-02-21"
-  },
-  "understanding-iui-a-step-toward-parenthood": {
-    "title": "Understanding IUI: A Step Toward Parenthood | Dr. Rajeev Agarwal",
-    "headline": "Understanding IUI: A Step Toward Parenthood",
-    "description": "For couples struggling with infertility, every path to conception feels like a journey of hope, science, and emotions.",
-    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
-    "category": "Fertility",
-    "date": "2025-02-18"
   },
   "understanding-early-menstruation-what-parents-need-to-know": {
     "title": "Understanding Early Menstruation: What Parents Need to Know",
@@ -369,19 +289,11 @@ module.exports = {
     "category": "Preconception Care",
     "date": "2025-01-22"
   },
-  "is-preconception-counseling-necessary-if-im-not-ready-for-a-baby-heres-why-it-still-matters": {
-    "title": "Is Preconception Counseling Necessary If I'm Not Ready for a Baby? Here's Why It Still Matters",
-    "headline": "Is Preconception Counseling Necessary If I'm Not Ready for a Baby? Here's Why It Still Matters",
-    "description": "When most people think about preconception counseling, they associate it with preparing for pregnancy.",
-    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
-    "category": "Preconception Care",
-    "date": "2025-01-18"
-  },
   "hysteroscopy-a-game-changer-for-women-facing-recurrent-miscarriages": {
     "title": "Hysteroscopy: A Game Changer for Women Facing Recurrent Miscarriages?",
     "headline": "Hysteroscopy: A Game Changer for Women Facing Recurrent Miscarriages?",
     "description": "Recurrent miscarriage, defined as the loss of three or more consecutive pregnancies, is a devastating experience that affects many women worldwide.",
-    "image": "/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp",
+    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
     "category": "Safe Pregnancy",
     "date": "2025-01-13"
   },
@@ -397,7 +309,7 @@ module.exports = {
     "title": "Can PCOS Affect My Ability to Have Children? | Dr. Rajeev Agarwal",
     "headline": "Can PCOS Affect My Ability to Have Children?",
     "description": "Polycystic Ovary Syndrome (PCOS) is a hormonal disorder that affects one in ten women of reproductive age.",
-    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
+    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
     "category": "PCOS",
     "date": "2025-01-08"
   },
@@ -409,22 +321,6 @@ module.exports = {
     "category": "Endometriosis",
     "date": "2023-03-17"
   },
-  "treatment-strategies-for-endometriosis": {
-    "title": "Treatment Strategies for Endometriosis | Dr. Rajeev Agarwal",
-    "headline": "Treatment Strategies for Endometriosis",
-    "description": "Endometriosis is commonly defined by the presence of endometrial tissue growing outside the uterus most commonly on the ovary and in the peritoneum,…",
-    "image": "/assets/2025/04/Treatment-Strategies-2.jpg",
-    "category": "Endometriosis",
-    "date": "2023-03-17"
-  },
-  "unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment": {
-    "title": "Unveiling Endometriosis Understanding Symptoms",
-    "headline": "Unveiling Endometriosis Understanding Symptoms",
-    "description": "What is Endometriosis? Endometriosis in women is a condition where the lining of the womb or uterus is found outside of it.",
-    "image": "/assets/2025/04/Unveiling-Endometriosis-1-1024x462.jpg",
-    "category": "Endometriosis",
-    "date": "2023-03-17"
-  },
   "adenomyosis-what-is-it-all-about": {
     "title": "Adenomyosis. What is it all about? | Dr. Rajeev Agarwal",
     "headline": "Adenomyosis. What is it all about?",
@@ -433,14 +329,6 @@ module.exports = {
     "category": "Endometriosis",
     "date": "2023-03-17"
   },
-  "everything-you-need-to-know-about-endometriosis-and-fertility": {
-    "title": "Know about Endometriosis and Fertility | Dr. Rajeev Agarwal",
-    "headline": "Know about Endometriosis and Fertility",
-    "description": "The first thing that concerns every woman with endometriosis is if they can conceive naturally and the various effects of the disease related to…",
-    "image": "/assets/2025/04/Need-to-Know-1-1.jpg",
-    "category": "Endometriosis",
-    "date": "2023-03-16"
-  },
   "battling-blood-sugar-during-pregnancy-gestational-diabetes-risks": {
     "title": "Battling blood sugar during pregnancy | Dr. Rajeev Agarwal",
     "headline": "Battling blood sugar during pregnancy",
@@ -448,14 +336,6 @@ module.exports = {
     "image": "/assets/2025/04/doctor-makes-blood-test-pregnant-girl_85574-7924.jpg",
     "category": "Safe Pregnancy",
     "date": "2020-12-09"
-  },
-  "menopause-symptoms-side-effects-and-solutions": {
-    "title": "Menopause - Symptoms, side effects and solutions",
-    "headline": "Menopause - Symptoms, side effects and solutions",
-    "description": "Menopause – derived from the Greek word, Root which essentially means month! But im sure to most women who have gone through this or going through this,…",
-    "image": "/assets/2025/04/sad-depressed-age-lonely-woman-sitting-floor_116407-5880.jpg",
-    "category": "Women's Health",
-    "date": "2020-07-31"
   },
   "constipation-in-pregnancy-some-hard-facts": {
     "title": "Constipation in Pregnancy - some hard facts | Dr. Rajeev Agarwal",
@@ -521,19 +401,11 @@ module.exports = {
     "category": "Women's Health",
     "date": "2020-07-01"
   },
-  "polycystic-ovarian-syndrome": {
-    "title": "Polycystic Ovarian Syndrome | Dr. Rajeev Agarwal",
-    "headline": "Polycystic Ovarian Syndrome",
-    "description": "Polycystic ovarian syndrome is the name given to a cluster of symptoms which a woman might have due to a hormone imbalance.",
-    "image": "/assets/2025/04/PCOS_SS_SS2520791-1024x801.jpg",
-    "category": "PCOS",
-    "date": "2020-07-01"
-  },
   "nausea-and-vomiting-in-pregnancy": {
     "title": "Nausea and vomiting in pregnancy | Dr. Rajeev Agarwal",
     "headline": "Nausea and vomiting in pregnancy",
     "description": "What Is Nausea and Vomiting in Pregnancy (NVP)? Nausea and vomiting in pregnancy is a very common symptom experienced during the first trimester.",
-    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
+    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
     "category": "Safe Pregnancy",
     "date": "2020-07-01"
   },
@@ -544,22 +416,6 @@ module.exports = {
     "image": "/assets/2025/04/asian-women-have-stomach-pain-during-menstruation_112699-470.jpg",
     "category": "Safe Pregnancy",
     "date": "2020-07-01"
-  },
-  "first-fertility-consultation-tips-for-best-consult": {
-    "title": "First Fertility Consultation - Tips for best consult",
-    "headline": "First Fertility Consultation - Tips for best consult",
-    "description": "First Fertility consultation is a first step on your goal of parenthood and a lot depends on how well it goes.",
-    "image": "/assets/2025/04/couple-consulting-with-young-doctor_23-2147648728.jpg",
-    "category": "Fertility",
-    "date": "2020-04-17"
-  },
-  "age-and-fertility-myths-and-facts": {
-    "title": "Age and Fertility - Myths and Facts | Dr. Rajeev Agarwal",
-    "headline": "Age and Fertility - Myths and Facts",
-    "description": "Age and Fertility do go hand in hand and here are a list of facts to explain how age affects fertility in man and women, that i hope will help you plan…",
-    "image": "/assets/2025/04/concerned-therapist-comforting-female-patient_13339-221136.jpg",
-    "category": "Fertility",
-    "date": "2020-04-14"
   },
   "first-trimester-investigations-why-are-they-essential": {
     "title": "First Trimester Investigations | Dr. Rajeev Agarwal",
