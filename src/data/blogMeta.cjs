@@ -241,11 +241,19 @@ module.exports = {
     "category": "PCOS",
     "date": "2025-03-14"
   },
+  "trying-to-conceive-check-your-fallopian-tubes-for-blockages": {
+    "title": "Trying to Conceive? Check Your Fallopian Tubes for Blockages",
+    "headline": "Trying to Conceive? Check Your Fallopian Tubes for Blockages",
+    "description": "For couples trying to conceive, fallopian tube health is often overlooked but plays a critical role in pregnancy.",
+    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
+    "category": "Fertility",
+    "date": "2025-03-05"
+  },
   "can-ovarian-stimulation-affect-your-next-period-cycle": {
     "title": "Can Ovarian Stimulation Affect your Next Period Cycle?",
     "headline": "Can Ovarian Stimulation Affect your Next Period Cycle?",
     "description": "Why periods can come early, late or heavier after ovarian stimulation or egg collection, and when to call your doctor.",
-    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
+    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
     "category": "Fertility",
     "date": "2025-02-27"
   },
@@ -253,7 +261,7 @@ module.exports = {
     "title": "Understanding Early Menopause: Causes, Symptoms, and What to Expect",
     "headline": "Understanding Early Menopause: Causes, Symptoms, and What to Expect",
     "description": "Menopause is a natural biological process that marks the end of a woman’s reproductive years.",
-    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
+    "image": "/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp",
     "category": "Women's Health",
     "date": "2025-02-21"
   },
@@ -261,7 +269,7 @@ module.exports = {
     "title": "Understanding Early Menstruation: What Parents Need to Know",
     "headline": "Understanding Early Menstruation: What Parents Need to Know",
     "description": "Puberty is a significant milestone in a young girl’s life, and one of its key markers is the onset of menstruation, commonly referred to as menarche.",
-    "image": "/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp",
+    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
     "category": "Women's Wellness",
     "date": "2025-02-13"
   },
@@ -269,7 +277,7 @@ module.exports = {
     "title": "Understanding Ovarian Stimulation: What You Should Know",
     "headline": "Understanding Ovarian Stimulation: What You Should Know",
     "description": "Ovarian stimulation is a key part of assisted reproductive treatments like In vitro fertilization (IVF) and intrauterine insemination (IUI).",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
+    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
     "category": "Fertility",
     "date": "2025-02-05"
   },
@@ -277,7 +285,7 @@ module.exports = {
     "title": "How Many Cycles of IUI Should You Try? | Dr. Rajeev Agarwal",
     "headline": "How Many Cycles of IUI Should You Try?",
     "description": "Intrauterine insemination (IUI) is one of the most common fertility treatments, offering couples a relatively simple, non-invasive option to conceive.",
-    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
+    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
     "category": "Fertility",
     "date": "2025-01-30"
   },
@@ -285,7 +293,7 @@ module.exports = {
     "title": "Preconception Counselling: Preparing for a Healthy Pregnancy from the Start",
     "headline": "Preconception Counselling: Preparing for a Healthy Pregnancy from the Start",
     "description": "Preconception counselling is an essential step for individuals or couples planning to conceive.",
-    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
+    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
     "category": "Preconception Care",
     "date": "2025-01-22"
   },
@@ -293,7 +301,7 @@ module.exports = {
     "title": "Hysteroscopy: A Game Changer for Women Facing Recurrent Miscarriages?",
     "headline": "Hysteroscopy: A Game Changer for Women Facing Recurrent Miscarriages?",
     "description": "Recurrent miscarriage, defined as the loss of three or more consecutive pregnancies, is a devastating experience that affects many women worldwide.",
-    "image": "/assets/2026/05/Husband-and-wife-at-preconception-consultation-with-fertility-specialist-in-Kolkata.webp",
+    "image": "/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp",
     "category": "Safe Pregnancy",
     "date": "2025-01-13"
   },
@@ -309,7 +317,7 @@ module.exports = {
     "title": "Can PCOS Affect My Ability to Have Children? | Dr. Rajeev Agarwal",
     "headline": "Can PCOS Affect My Ability to Have Children?",
     "description": "Polycystic Ovary Syndrome (PCOS) is a hormonal disorder that affects one in ten women of reproductive age.",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
+    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
     "category": "PCOS",
     "date": "2025-01-08"
   },
@@ -321,6 +329,22 @@ module.exports = {
     "category": "Endometriosis",
     "date": "2023-03-17"
   },
+  "treatment-strategies-for-endometriosis": {
+    "title": "Treatment Strategies for Endometriosis | Dr. Rajeev Agarwal",
+    "headline": "Treatment Strategies for Endometriosis",
+    "description": "Endometriosis is commonly defined by the presence of endometrial tissue growing outside the uterus most commonly on the ovary and in the peritoneum,…",
+    "image": "/assets/2025/04/Treatment-Strategies-2.jpg",
+    "category": "Endometriosis",
+    "date": "2023-03-17"
+  },
+  "unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment": {
+    "title": "Unveiling Endometriosis Understanding Symptoms",
+    "headline": "Unveiling Endometriosis Understanding Symptoms",
+    "description": "What is Endometriosis? Endometriosis in women is a condition where the lining of the womb or uterus is found outside of it.",
+    "image": "/assets/2025/04/Unveiling-Endometriosis-1-1024x462.jpg",
+    "category": "Endometriosis",
+    "date": "2023-03-17"
+  },
   "adenomyosis-what-is-it-all-about": {
     "title": "Adenomyosis. What is it all about? | Dr. Rajeev Agarwal",
     "headline": "Adenomyosis. What is it all about?",
@@ -328,6 +352,14 @@ module.exports = {
     "image": "/assets/2025/04/Adenomyosis-1-1.jpg",
     "category": "Endometriosis",
     "date": "2023-03-17"
+  },
+  "everything-you-need-to-know-about-endometriosis-and-fertility": {
+    "title": "Know about Endometriosis and Fertility | Dr. Rajeev Agarwal",
+    "headline": "Know about Endometriosis and Fertility",
+    "description": "The first thing that concerns every woman with endometriosis is if they can conceive naturally and the various effects of the disease related to…",
+    "image": "/assets/2025/04/Need-to-Know-1-1.jpg",
+    "category": "Endometriosis",
+    "date": "2023-03-16"
   },
   "battling-blood-sugar-during-pregnancy-gestational-diabetes-risks": {
     "title": "Battling blood sugar during pregnancy | Dr. Rajeev Agarwal",
@@ -349,7 +381,7 @@ module.exports = {
     "title": "Breastfeeding Facts- Benefits, guidelines, FAQ's",
     "headline": "Breastfeeding Facts- Benefits, guidelines, FAQ's",
     "description": "Breastfeeding is a life-changing experience for mothers. It helps form an intense bond with your baby in the first hours after birth.",
-    "image": "/assets/2025/12/Consult-Fertility-Doctor.jpg",
+    "image": "/assets/2026/04/when-to-see-fertility-specialist-trying-to-conceive.webp",
     "category": "Women's Wellness",
     "date": "2020-07-31"
   },
@@ -405,7 +437,7 @@ module.exports = {
     "title": "Nausea and vomiting in pregnancy | Dr. Rajeev Agarwal",
     "headline": "Nausea and vomiting in pregnancy",
     "description": "What Is Nausea and Vomiting in Pregnancy (NVP)? Nausea and vomiting in pregnancy is a very common symptom experienced during the first trimester.",
-    "image": "/assets/2026/06/thyroid-tsh-before-pregnancy-preconception-india-1.webp",
+    "image": "/assets/2025/03/Fertility-Support-1-515x400.webp",
     "category": "Safe Pregnancy",
     "date": "2020-07-01"
   },
