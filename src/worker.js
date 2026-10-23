@@ -1,5 +1,6 @@
 import blogSlugs from './data/blogSlugs.cjs';
 import { RETIRED_ARTICLE_REDIRECTS } from './data/retiredArticles.js';
+import { GMB_SUPABASE_URL_FALLBACK, forwardGmbPost } from './lib/gmbWebhookForward.js';
 import jsonLd from './utils/jsonLd.cjs';
 import seoMeta from './utils/seoMeta.cjs';
 
@@ -204,6 +205,32 @@ async function forwardWebhook(request, webhookUrl, labels) {
   }
 }
 
+// Admin-only: the Supabase session is checked by re-reading the row in
+// forwardGmbPost(), so no lead-shape validation or origin rate limit here.
+async function forwardGmbWebhook(request, env) {
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: RESPONSE_HEADERS });
+  if (request.method !== 'POST') return jsonResponse(405, { error: 'Method not allowed.' });
+  if (!LEAD_ALLOWED_ORIGINS.has(request.headers.get('origin') || '')) return jsonResponse(403, { error: 'Forbidden.' });
+
+  let payload;
+  try {
+    const raw = await request.text();
+    if (raw.length > LEAD_MAX_BODY_BYTES) return jsonResponse(413, { error: 'Payload too large.' });
+    payload = JSON.parse(raw);
+  } catch {
+    return jsonResponse(400, { error: 'Invalid JSON payload.' });
+  }
+
+  const result = await forwardGmbPost({
+    id: payload?.id,
+    token: (request.headers.get('authorization') || '').replace(/^Bearer\s+/i, ''),
+    apikey: request.headers.get('apikey') || '',
+    supabaseUrl: env.VITE_SUPABASE_URL || env.SUPABASE_URL || GMB_SUPABASE_URL_FALLBACK,
+    webhookUrl: env.GMB_WEBHOOK_URL,
+  });
+  return jsonResponse(result.status, result.body);
+}
+
 /* ─────────────────────────────────────────────
  * /.well-known/* — agent & client discovery documents
  *
@@ -329,6 +356,122 @@ export function legacyWordPressResponse(url) {
   }
 
   return null;
+}
+
+/* ─────────────────────────────────────────────
+ * Admin-published articles (Supabase only)
+ *
+ * Posts published from the admin panel after the last deploy are not in
+ * BLOG_SLUGS, so /<slug>/ used to 301 to /<slug> and land on the 404 page,
+ * while in-app navigation (which reads Supabase in the browser) worked.
+ * For a single-segment path that is not a bundled article, the Worker now
+ * asks Supabase whether a published post with that slug exists and, if so,
+ * serves the SPA shell under /<slug>/ with that post's own title, description,
+ * canonical and image. Lookups are cached per isolate, misses included.
+ * The anon key is the same public key already shipped in the client bundle.
+ * ───────────────────────────────────────────── */
+const SUPABASE_PUBLIC_URL = 'https://etwprdlmxirnuejxxuif.supabase.co';
+const SUPABASE_PUBLIC_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0d3ByZGxteGlybnVlanh4dWlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0NDg0NjksImV4cCI6MjA5NzAyNDQ2OX0.l945seE7X0WOacouyhLZ7jrBKZ_pDjY9IGsUOIxQ4eo';
+const REMOTE_ARTICLE_TTL_MS = 5 * 60 * 1000;
+const remoteArticleCache = new Map();
+
+function remoteArticleSlug(pathname) {
+  const match = pathname.match(/^\/([a-z0-9][a-z0-9-]{2,150})\/?$/);
+  if (!match || BLOG_SLUGS.has(match[1])) return null;
+  return match[1];
+}
+
+export async function findRemoteArticle(slug, env, now = Date.now()) {
+  const cached = remoteArticleCache.get(slug);
+  if (cached && now - cached.at < REMOTE_ARTICLE_TTL_MS) return cached.row;
+
+  const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL || SUPABASE_PUBLIC_URL;
+  const anonKey = env.VITE_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY || SUPABASE_PUBLIC_ANON_KEY;
+  let row;
+  try {
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/blogs?select=slug,title,excerpt,cover_image,published_at,created_at,updated_at&slug=eq.${encodeURIComponent(slug)}&published=eq.true&limit=1`,
+      { headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` } },
+    );
+    if (!response.ok) return null; // not cached: a Supabase hiccup must not stick
+    row = (await response.json())?.[0] || null;
+  } catch {
+    return null;
+  }
+
+  if (remoteArticleCache.size > 2000) remoteArticleCache.clear();
+  remoteArticleCache.set(slug, { row, at: now });
+  return row;
+}
+
+function plainText(value) {
+  return String(value || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+export function remoteArticleHead(row) {
+  const url = `${SITE_ORIGIN}/${row.slug}/`;
+  const title = `${plainText(row.title)} | Dr. Rajeev Agarwal`;
+  const excerpt = plainText(row.excerpt);
+  const description = excerpt.length > 160 ? `${excerpt.slice(0, 157).replace(/\s+\S*$/, '')}...` : excerpt || plainText(row.title);
+  const image = row.cover_image
+    ? (/^https?:\/\//i.test(row.cover_image) ? row.cover_image : `${SITE_ORIGIN}${row.cover_image}`)
+    : `${SITE_ORIGIN}/assets/all-services-hero.webp`;
+  const published = row.published_at || row.created_at;
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: plainText(row.title),
+    description,
+    image,
+    url,
+    mainEntityOfPage: url,
+    datePublished: published,
+    dateModified: row.updated_at || published,
+    author: { '@type': 'Person', name: 'Dr. Rajeev Agarwal', url: `${SITE_ORIGIN}/about-me` },
+  };
+  const e = escapeHtml;
+  return {
+    title,
+    tags: [
+      `<meta name="description" content="${e(description)}">`,
+      `<link rel="canonical" href="${e(url)}">`,
+      `<meta property="og:title" content="${e(title)}">`,
+      `<meta property="og:description" content="${e(description)}">`,
+      `<meta property="og:url" content="${e(url)}">`,
+      '<meta property="og:type" content="article">',
+      '<meta property="og:site_name" content="Dr. Rajeev Agarwal">',
+      '<meta property="og:locale" content="en_IN">',
+      `<meta property="og:image" content="${e(image)}">`,
+      '<meta name="twitter:card" content="summary_large_image">',
+      `<meta name="twitter:title" content="${e(title)}">`,
+      `<meta name="twitter:description" content="${e(description)}">`,
+      `<meta name="twitter:image" content="${e(image)}">`,
+      `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>`,
+    ].join('\n    '),
+  };
+}
+
+async function remoteArticleResponse(request, env, row) {
+  const shellUrl = new URL(request.url);
+  shellUrl.pathname = '/spa-shell';
+  shellUrl.search = '';
+  const shell = await env.ASSETS.fetch(new Request(shellUrl, { method: 'GET' }));
+  if (!shell.ok) return null;
+
+  const head = remoteArticleHead(row);
+  let html = stripExistingSeoTags(await shell.text());
+  html = html
+    .replace(/<meta name="robots"[^>]*>\s*/gi, '')
+    .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(head.title)}</title>\n    ${head.tags}`);
+
+  return new Response(html, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      'CDN-Cache-Control': 'no-store',
+    },
+  });
 }
 
 /**
@@ -464,6 +607,10 @@ async function handleRequest(request, env, url) {
     });
   }
 
+  if (url.pathname === '/api/gmb-webhook') {
+    return forwardGmbWebhook(request, env);
+  }
+
   if (url.pathname.startsWith('/api/')) {
     return jsonResponse(404, { error: 'API route not found.' });
   }
@@ -492,6 +639,14 @@ async function handleRequest(request, env, url) {
     return env.ASSETS.fetch(request);
   }
 
+  // Admin-published article not bundled in this build: serve it at /<slug>/.
+  const remoteSlug = url.pathname.endsWith('/') ? remoteArticleSlug(url.pathname) : null;
+  if (remoteSlug) {
+    const row = await findRemoteArticle(remoteSlug, env);
+    const response = row && await remoteArticleResponse(request, env, row);
+    if (response) return response;
+  }
+
   // Non-article "/x/" → 301 "/x". Replaces the asset layer's 307 for these
   // paths so the redirect is permanent; see trailingSlashRedirect().
   const slashRedirect = trailingSlashRedirect(url);
@@ -500,6 +655,15 @@ async function handleRequest(request, env, url) {
   // Page routes — fetch HTML and inject SEO tags. Article URLs (/<slug>/)
   // are mapped onto their prerendered file first; see articleAssetRequest().
   const assetResponse = await env.ASSETS.fetch(articleAssetRequest(request, url) || request);
+
+  // "/<slug>" for an admin-published article → its canonical "/<slug>/".
+  if (assetResponse.status === 404) {
+    const slug = remoteArticleSlug(url.pathname);
+    if (slug && await findRemoteArticle(slug, env)) {
+      return Response.redirect(`${SITE_ORIGIN}/${slug}/${url.search}`, 301);
+    }
+  }
+
   const html = await assetResponse.text();
   let modifiedHtml = injectSeoTags(html, url.pathname);
   // Tag-filtered blog views (/blog?tag=…) stay crawlable but out of the index

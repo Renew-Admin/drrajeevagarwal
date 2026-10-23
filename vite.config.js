@@ -4,6 +4,7 @@ import { loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { readFileSync, renameSync, readdirSync, rmSync, statSync } from 'fs'
 import { join, dirname } from 'path'
+import { GMB_SUPABASE_URL_FALLBACK, forwardGmbPost } from './src/lib/gmbWebhookForward.js'
 
 function cleanAssetFilenames() {
   return {
@@ -142,12 +143,50 @@ function webhookProxy(path, webhookUrl, envName) {
   };
 }
 
+function gmbWebhookProxy(webhookUrl, supabaseUrl) {
+  return {
+    name: 'api-gmb-webhook-proxy',
+    configureServer(server) {
+      server.middlewares.use('/api/gmb-webhook', (req, res, next) => {
+        if (req.method !== 'POST') {
+          next();
+          return;
+        }
+
+        let body = '';
+        req.on('data', (chunk) => {
+          body += chunk;
+        });
+        req.on('end', async () => {
+          let payload = {};
+          try {
+            payload = JSON.parse(body || '{}');
+          } catch {
+            // forwardGmbPost rejects the missing id.
+          }
+          const result = await forwardGmbPost({
+            id: payload.id,
+            token: String(req.headers.authorization || '').replace(/^Bearer\s+/i, ''),
+            apikey: String(req.headers.apikey || ''),
+            supabaseUrl,
+            webhookUrl,
+          });
+          res.statusCode = result.status;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(result.body));
+        });
+      });
+    },
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const webhookUrl = env.WEBHOOK_URL || env.VITE_WEBHOOK_URL || process.env.WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
   const workshopWebhookUrl = env.WORKSHOP_WEBHOOK || process.env.WORKSHOP_WEBHOOK;
   const directWebhookUrl = env.VITE_WEBHOOK_URL || process.env.VITE_WEBHOOK_URL;
+  const gmbWebhookUrl = env.GMB_WEBHOOK_URL || process.env.GMB_WEBHOOK_URL;
   const appVersion = readAppVersion();
 
   return {
@@ -164,6 +203,7 @@ export default defineConfig(({ mode }) => {
       pruneBuildAssetDirectories(),
       webhookProxy('/api/lead-webhook', webhookUrl, 'WEBHOOK_URL'),
       webhookProxy('/api/workshop-webhook', workshopWebhookUrl, 'WORKSHOP_WEBHOOK'),
+      gmbWebhookProxy(gmbWebhookUrl, env.VITE_SUPABASE_URL || GMB_SUPABASE_URL_FALLBACK),
       webhookProxy('/.netlify/functions/lead-webhook', webhookUrl, 'WEBHOOK_URL'),
       webhookProxy('/.netlify/functions/workshop-webhook', workshopWebhookUrl, 'WORKSHOP_WEBHOOK'),
     ],

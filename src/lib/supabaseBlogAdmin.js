@@ -23,7 +23,7 @@ function assertSupabaseConfig() {
   }
 }
 
-function authHeaders(token) {
+export function authHeaders(token) {
   assertSupabaseConfig();
 
   return {
@@ -32,7 +32,7 @@ function authHeaders(token) {
   };
 }
 
-async function readResponse(response) {
+export async function readResponse(response) {
   const text = await response.text();
   let payload = null;
 
@@ -58,7 +58,7 @@ async function readResponse(response) {
   return payload;
 }
 
-async function supabaseFetch(path, options = {}) {
+export async function supabaseFetch(path, options = {}) {
   const { token, headers = {}, body, ...rest } = options;
   const response = await fetch(`${SUPABASE_URL}${path}`, {
     ...rest,

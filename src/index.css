@@ -15646,3 +15646,110 @@ a.ra-quick-card:hover {
 @media (max-width: 900px) {
   .about-clinics-grid { grid-template-columns: 1fr; }
 }
+
+/* Admin → GMB posts */
+.admin-gmb-guide {
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  border: 1px solid #b2ddff;
+  border-radius: 14px;
+  background: #eff8ff;
+  color: #175cd3;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.admin-gmb-guide ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.admin-gmb-form-title {
+  margin: 0 0 4px;
+}
+
+.admin-gmb-link-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-gmb-link-row .form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-upload-note.is-limit {
+  color: #b42318;
+}
+
+.admin-gmb-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.admin-gmb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-gmb-table th,
+.admin-gmb-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.admin-gmb-table th {
+  background: var(--soft-blue);
+  font-weight: 800;
+}
+
+.admin-gmb-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-gmb-table img,
+.admin-gmb-table .admin-blog-placeholder {
+  width: 72px;
+  height: 54px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.admin-gmb-table td small {
+  display: block;
+  color: var(--text-soft);
+}
+
+.admin-gmb-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.admin-gmb-status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eff8ff;
+  color: #175cd3;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.admin-gmb-status.is-posted {
+  background: #dcfae6;
+  color: #067647;
+}
+
+.admin-gmb-blog-pick {
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  background: var(--soft-blue);
+}

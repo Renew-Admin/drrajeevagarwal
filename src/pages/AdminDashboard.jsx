@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, FileText, Image as ImageIcon, Inbox, LogOut, Megaphone, PlusCircle, Star, Trash2, UploadCloud } from 'lucide-react';
+import { CalendarDays, FileText, Image as ImageIcon, Inbox, LogOut, MapPin, Megaphone, PlusCircle, Star, Trash2, UploadCloud } from 'lucide-react';
 import {
   BLOG_IMAGE_MAX_BYTES,
   PROMOTION_IMAGE_MAX_BYTES,
@@ -24,6 +24,7 @@ import {
   uploadPromotionPopupImage,
 } from '../lib/supabaseBlogAdmin';
 import RichTextEditor from '../components/RichTextEditor';
+import AdminGmb from './AdminGmb';
 import desktopPopupImage from '../assets/promo-popup-desktop-v2.webp';
 import mobilePopupImage from '../assets/promo-popup-mobile-v1.webp';
 
@@ -586,6 +587,9 @@ export default function AdminDashboard() {
             <button type="button" onClick={() => setActiveTab('promotion-popup')} className={`admin-nav-btn ${activeTab === 'promotion-popup' ? 'active' : ''}`}>
               <ImageIcon size={18} /> <span>Website Popup</span>
             </button>
+            <button type="button" onClick={() => setActiveTab('gmb')} className={`admin-nav-btn ${activeTab === 'gmb' ? 'active' : ''}`}>
+              <MapPin size={18} /> <span>GMB Posts</span>
+            </button>
             <button type="button" onClick={() => setActiveTab('new-blog')} className={`admin-nav-btn ${activeTab === 'new-blog' ? 'active' : ''}`}>
               <PlusCircle size={18} /> <span>Publish Blog</span>
             </button>
@@ -784,6 +788,10 @@ export default function AdminDashboard() {
                 </button>
               </form>
             </div>
+          )}
+
+          {activeTab === 'gmb' && (
+            <AdminGmb getToken={async () => (await requireAdminSession()).access_token} />
           )}
 
           {activeTab === 'new-blog' && (
