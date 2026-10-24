@@ -212,11 +212,11 @@ const faqs = [
   ],
   [
     'What are the working hours?',
-    'All centers in Mandeville Gardens, Salt Lake, and Jamshedpur are open Monday to Friday from 9:00 AM to 7:00 PM.',
+    'All centres in Mandeville Gardens, Salt Lake, and Jamshedpur are open Monday to Saturday from 9:00 AM to 6:30 PM, and closed on Sundays and bank holidays.',
   ],
   [
     'Where is the clinic located?',
-    'All centers: Mandeville Gardens, Salt Lake, and Jamshedpur. Monday to Friday, 9:00 AM - 7:00 PM.',
+    'All centres: Mandeville Gardens, Salt Lake, and Jamshedpur. Monday to Saturday, 9:00 AM - 6:30 PM.',
   ],
 ];
 
