@@ -62,7 +62,7 @@ export default function Footer() {
               </div>
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Hours:</span>
-                <span>Monday to Friday, 9:00 AM - 7:00 PM</span>
+                <span>Monday to Saturday, 9:00 AM - 6:30 PM</span>
               </div>
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Contact:</span>
@@ -101,8 +101,8 @@ export default function Footer() {
               <p><strong>Jamshedpur</strong></p>
               <div className="ra-footer-h-line" />
               <h3 className="ra-footer-hours-title">Working Hours</h3>
-              <p><strong>Monday to Friday</strong></p>
-              <p><strong>9:00 AM - 7:00 PM</strong></p>
+              <p><strong>Monday to Saturday</strong></p>
+              <p><strong>9:00 AM - 6:30 PM</strong></p>
               <Link className="ra-footer-h-btn" to="/book-an-appointment">Book A Visit</Link>
             </div>
           </div>

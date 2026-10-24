@@ -66,7 +66,7 @@ const CLINIC_INFO = {
   email: 'fertilitywithoutborders@gmail.com',
   address: 'Renew Healthcare, Ground Floor, 18 C, Mandeville Gardens, Ballygunge, Kolkata 700019',
   centres: ['Mandeville Gardens — Kolkata', 'Salt Lake — Kolkata', 'Jamshedpur'],
-  hours: 'Monday to Friday, 9:00 AM – 7:00 PM',
+  hours: 'Monday to Saturday, 9:00 AM – 6:30 PM',
   bookingUrl: `${SITE_ORIGIN}/book-an-appointment`,
   virtualConsultUrl: `${SITE_ORIGIN}/virtual-consults`,
 };
