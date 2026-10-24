@@ -48,7 +48,7 @@ export const MENOPAUSE_PAGES = [
       },
       {
         q: 'Where does Dr. Rajeev Agarwal see patients for menopause care?',
-        a: 'At Renew Healthcare, Ground Floor, 18 C, Mandeville Gardens, Ballygunge, Kolkata 700019, with centres in Gariahat, Salt Lake and Jamshedpur. Virtual consultations are also available.',
+        a: 'At Renew Healthcare, Ground Floor, 18 C, Mandeville Gardens, Ballygunge, Kolkata 700019, with centres in Mandeville Gardens (Ballygunge), Salt Lake and Jamshedpur. Virtual consultations are also available.',
       },
     ],
   },

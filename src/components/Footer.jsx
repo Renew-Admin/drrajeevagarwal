@@ -58,7 +58,7 @@ export default function Footer() {
             <div className="ra-footer-contact">
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Center:</span>
-                <span>Gariahat, Salt Lake, and Jamshedpur</span>
+                <span>Mandeville Gardens, Salt Lake, and Jamshedpur</span>
               </div>
               <div className="ra-footer-contact-row">
                 <span className="ra-footer-label">Hours:</span>
@@ -96,7 +96,7 @@ export default function Footer() {
           <div className="ra-footer-right">
             <div className="ra-footer-hours-card">
               <h3 className="ra-footer-hours-title">Our Centers</h3>
-              <p><strong>Gariahat</strong> - Kolkata</p>
+              <p><strong>Mandeville Gardens</strong> - Kolkata</p>
               <p><strong>Salt Lake</strong> - Kolkata</p>
               <p><strong>Jamshedpur</strong></p>
               <div className="ra-footer-h-line" />
