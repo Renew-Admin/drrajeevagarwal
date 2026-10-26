@@ -21,6 +21,8 @@
 
       body {
         min-height: 100vh;
+        display: flex;
+        flex-direction: column;
         margin: 0;
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         color: var(--deep-teal);
@@ -35,7 +37,7 @@
       }
 
       .page {
-        min-height: 100vh;
+        flex: 1;
         display: grid;
         align-items: center;
         padding: clamp(36px, 7vw, 88px) clamp(18px, 5vw, 72px);
@@ -184,7 +186,43 @@
         font-weight: 900;
       }
 
+      /* Mirrors the shared site footer (src/components/Footer.jsx). */
+      .site-footer {
+        width: min(90%, 1240px);
+        margin: 0 auto 32px;
+        padding: 28px 32px;
+        border: 1px solid rgba(247, 200, 50, 0.44);
+        border-radius: 28px;
+        background: #1b2142;
+        color: #fff;
+      }
+
+      .site-footer-name {
+        margin: 0 0 8px;
+        color: var(--gold);
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      .site-footer .site-footer-reg {
+        max-width: none;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .site-footer-bar {
+        margin-top: 14px;
+        color: #8a8fad;
+        font-size: 13px;
+      }
+
       @media (max-width: 760px) {
+        .site-footer {
+          padding: 22px 20px;
+          border-radius: 18px;
+        }
+
         .layout {
           grid-template-columns: 1fr;
         }
@@ -234,5 +272,11 @@
         </aside>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <h2 class="site-footer-name">Dr. Rajeev Agarwal</h2>
+      <p class="site-footer-reg">Dr. Rajeev Agarwal, MBBS, MD (Obstetrics &amp; Gynaecology), West Bengal Medical Council Reg. No. WBMC 52540</p>
+      <div class="site-footer-bar">&copy; Dr. Rajeev Agarwal | All Rights Reserved</div>
+    </footer>
   </body>
 </html>

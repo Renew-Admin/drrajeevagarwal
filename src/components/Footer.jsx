@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { openConsentSettings } from '../lib/consent';
+import RegistrationLine from './RegistrationLine';
 
 const concernServices = [
   ['Menopause Care', '/menopause-care'],
@@ -44,9 +44,7 @@ export default function Footer() {
           <div className="ra-footer-left">
             <h2 className="ra-footer-name">Dr. Rajeev Agarwal</h2>
             {/* SEO brief 18 Oct 2026, task 14: name, qualifications and registration. */}
-            <p className="ra-footer-desc ra-footer-reg">
-              Dr. Rajeev Agarwal, MBBS, MD (Obstetrics &amp; Gynaecology), West Bengal Medical Council Reg. No. WBMC52540
-            </p>
+            <RegistrationLine />
             <p className="ra-footer-desc">
               Dr. Agarwal's expertise, passion, and dedication have made him a trailblazer in fertility
               and healthcare innovation. His pioneering work and unwavering commitment to excellence continue to

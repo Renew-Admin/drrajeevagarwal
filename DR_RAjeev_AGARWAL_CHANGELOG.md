@@ -1,5 +1,43 @@
 # Dr. Rajeev Agarwal Website — Changelog
 
+## 26 Oct 2026 (later) — Mandatory registration footer, 404 page, phone check
+
+**Status: code change validated; deployment tracked separately.**
+
+### Registration footer (client-confirmed as mandatory)
+
+Required text: `Dr. Rajeev Agarwal, MBBS, MD (Obstetrics & Gynaecology), West Bengal Medical Council Reg. No. WBMC 52540`. The visible spelling changes from `WBMC52540` to `WBMC 52540` to match the client-confirmed text. The number is unchanged.
+
+| File | Change |
+|---|---|
+| `src/data/doctorRegistration.js` (new) | `DOCTOR_REGISTRATION_LINE`, the single source of the text |
+| `src/components/RegistrationLine.jsx` (new) | Reusable component; same `ra-footer-desc ra-footer-reg` markup as before |
+| `src/components/Footer.jsx` | Renders `<RegistrationLine />` instead of a hard-coded copy; unused `React` import removed |
+| `public/404.html` | Compact footer (site navy/gold) with the registration line; body is now a flex column so the footer sits at the bottom |
+| `src/pages/BlogPost.jsx` | Author box spelling aligned to `WBMC 52540` (wording otherwise unchanged) |
+| `tests/registration.test.mjs` (new) | Constant wording; Footer uses the component once; `App.jsx` and `Home.jsx` render `<Footer />` once; `public/404.html` shows the line once; every prerendered page and `build/404.html` show it exactly once (runs when `build/` exists) |
+
+Not changed: `src/utils/jsonLd.cjs` keeps `WBMC52540` as the structured-data identifier value.
+
+### Phone numbers: no change
+
+- `+91 83369 68661` was replaced site-wide by `+91 62923 12076` in `85462e62` (8 Sep 2026, "Update site-wide clinic phone number"), including the appointment FAQ in `src/pages/Home.jsx`.
+- The old number survives only in `src/data/liveHomeHtml.js`, a WordPress HTML snapshot that nothing imports.
+- Live, 26 Oct 2026: all 95 sitemap URLs contain `62923 12076`; none contains `83369 68661` (including the homepage FAQ).
+
+### IVF cost redirect: unchanged, re-verified live
+
+All four forms (`/<slug>`, `/<slug>/`, `/blog/<slug>`, `/blog/<slug>/`) answer 301 to `https://renewhealthcare.in/blogs/ivf-cost-in-kolkata` in one hop, final 200. `http://` and `www.` take two hops (site-wide rules), as before.
+
+### Validation
+
+- `npm test`: 29/29 pass (24 existing + 5 new; the build-output test covered 96 HTML files).
+- `npx eslint .`: 29 problems (was 30); the removed one is the `Footer.jsx` unused import. No new problems.
+- `npm run build`: passes, 95/95 routes prerendered; no tracked generated files changed.
+- Headless Chrome: `404.html` checked at 1440px, 390px and 320px; no overflow.
+
+---
+
 ## 26 Oct 2026 — Tasks A5 (footer registration line) and A2 (IVF cost redirect)
 
 **Status at audit time: audit only. No code changed, committed, pushed, merged or deployed.**
