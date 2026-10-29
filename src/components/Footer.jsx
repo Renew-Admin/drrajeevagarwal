@@ -21,6 +21,7 @@ const procedureServices = [
 
 const resources = [
   ['About Dr. Rajeev Agarwal', '/about-me'],
+  ['Contact Us', '/contact-us'],
   ['All Services', '/all-services'],
   ['Courses', '/courses'],
   ['Success Stories', '/success-stories'],

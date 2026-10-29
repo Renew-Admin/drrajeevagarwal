@@ -82,6 +82,7 @@ export default function Header({ onBookClick }) {
     <>
       <Link to="/" className={location.pathname === '/' ? 'is-active' : ''}>Home</Link>
       <Link to="/about-me" className={location.pathname === '/about-me' ? 'is-active' : ''}>About Me</Link>
+      <Link to="/contact-us" className={location.pathname === '/contact-us' ? 'is-active' : ''}>Contact</Link>
       <div className="ra-nav-dropdown">
         <Link to="/all-services" className="ra-nav-dropdown-link">
           Services <ChevronDown size={14} />
@@ -113,6 +114,7 @@ export default function Header({ onBookClick }) {
     <>
       <Link to="/" className={location.pathname === '/' ? 'is-active' : ''} onClick={closeMobileMenu}>Home</Link>
       <Link to="/about-me" className={location.pathname === '/about-me' ? 'is-active' : ''} onClick={closeMobileMenu}>About Me</Link>
+      <Link to="/contact-us" className={location.pathname === '/contact-us' ? 'is-active' : ''} onClick={closeMobileMenu}>Contact</Link>
       <div className={`ra-mobile-services ${servicesOpen ? 'is-open' : ''}`}>
         <button type="button" aria-expanded={servicesOpen} onClick={() => setServicesOpen((value) => !value)}>
           Services <ChevronDown size={15} />

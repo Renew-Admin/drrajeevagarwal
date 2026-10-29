@@ -17,6 +17,7 @@ import { useVersionCheck } from './hooks/useVersionCheck';
 // Pages
 import Home from './pages/Home';
 import About from './pages/About';
+import Contact from './pages/Contact';
 import AllServices from './pages/AllServices';
 import BookAppointment from './pages/BookAppointment';
 import SuccessStories from './pages/SuccessStories';
@@ -254,6 +255,7 @@ export function AppRoutes() {
           {/* Main Pages */}
           <Route path="/" element={<Home onBookClick={openBookModal} />} />
           <Route path="/about-me" element={<About onBookClick={openBookModal} />} />
+          <Route path="/contact-us" element={<Contact />} />
           <Route path="/preconception" element={<Preconception />} />
           <Route path="/preconception-care/*" element={<Navigate to="/preconception" replace />} />
           <Route path="/preconception-workshop" element={<PreconceptionWorkshop />} />

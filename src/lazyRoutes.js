@@ -41,7 +41,7 @@ function lazyPagesForPath(pathname) {
   if (library && path === library.path.replace(/\/+$/, '')) return [ArticlesAndVideos];
   const segments = path.split('/').filter(Boolean);
   if (segments.length === 1 && !MENOPAUSE_PAGES.some((page) => page.path.replace(/\/+$/, '') === path)) {
-    const known = ['about-me', 'book-an-appointment', 'all-services', 'success-stories', 'courses'];
+    const known = ['about-me', 'contact-us', 'book-an-appointment', 'all-services', 'success-stories', 'courses'];
     if (known.includes(segments[0])) return [];
     return [SERVICE_PAGE_SLUG_SET.has(segments[0]) ? ServicePage : BlogPost];
   }

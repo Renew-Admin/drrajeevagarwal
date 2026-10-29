@@ -5,6 +5,7 @@ import { getMetaForPath } from '../utils/seoMeta';
 import { ArrowRight, Award, Baby, CheckCircle, GraduationCap, HeartPulse, MapPin, Microscope, Play, ShieldCheck, Star, Stethoscope, Users, ChevronDown } from 'lucide-react';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import WhyMeSection from '../components/WhyMeSection';
+import DoctorMap from '../components/DoctorMap';
 import aboutHeroImg from '../assets/about-hero.webp';
 
 
@@ -254,6 +255,14 @@ export default function About({ onBookClick }) {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="ra-section doctor-map-section" aria-labelledby="about-doctor-map-title">
+        <div className="ra-container">
+          <span className="ra-label">Find me on Google Maps</span>
+          <h2 id="about-doctor-map-title" className="ra-title">Dr. Rajeev Agarwal</h2>
+          <DoctorMap />
         </div>
       </section>
 

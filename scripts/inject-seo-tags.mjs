@@ -32,6 +32,10 @@ const ROUTE_META = {
     title: 'About Dr. Rajeev Agarwal \u2013 Experience, Awards & Approach',
     description: 'Learn about Dr. Rajeev Agarwal\u2019s 25+ year journey in fertility medicine, his training, awards, publications, and patient-first philosophy at Renew Healthcare, Kolkata.',
   },
+  '/contact-us': {
+    title: 'Contact Dr. Rajeev Agarwal | Renew Healthcare Kolkata',
+    description: 'Contact Dr. Rajeev Agarwal and Renew Healthcare in Kolkata. Find phone, email, clinic hours, location, and request an appointment.',
+  },
   '/all-services': {
     title: 'All Services \u2013 Fertility, Gynaecology & Women\u2019s Health | Dr. Rajeev Agarwal',
     description: 'Explore the full range of services by Dr. Rajeev Agarwal: IVF, IUI, laparoscopy, hysteroscopy, PCOS management, menopause care, fertility preservation, and more.',
