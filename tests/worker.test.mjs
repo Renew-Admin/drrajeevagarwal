@@ -84,7 +84,7 @@ test('legacy: /learn-with-dr-rajeev-agarwal (any form) answers 301 to /courses',
 
 test('SEO brief task 9: retired articles 301 in one hop from every form, including /blog/', async () => {
   const { RETIRED_ARTICLE_REDIRECTS } = await import('../src/data/retiredArticles.js');
-  assert.equal(Object.keys(RETIRED_ARTICLE_REDIRECTS).length, 15);
+  assert.equal(Object.keys(RETIRED_ARTICLE_REDIRECTS).length, 19);
   for (const [slug, to] of Object.entries(RETIRED_ARTICLE_REDIRECTS)) {
     const expected = to.startsWith('http') ? to : `https://drrajeevagarwal.co.in${to}`;
     for (const path of [`/${slug}`, `/${slug}/`, `/blog/${slug}`, `/blog/${slug}/`]) {
@@ -113,18 +113,16 @@ test('SEO brief task 9: retired-article links in post bodies point at their repl
   assert.equal(html, '<a href="/when-to-see-fertility-specialist-trying-to-conceive/">see</a>');
 });
 
-test('23 Oct: four restored articles are live; their /blog/ addresses go to them in one hop', async () => {
-  const { isRetiredArticle } = await import('../src/data/retiredArticles.js');
-  for (const slug of [
-    'trying-to-conceive-check-your-fallopian-tubes-for-blockages',
-    'unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment',
-    'treatment-strategies-for-endometriosis',
-    'everything-you-need-to-know-about-endometriosis-and-fertility',
-  ]) {
-    assert.equal(isRetiredArticle(slug), false, slug);
-    assert.equal(legacyWordPressResponse(url(`https://drrajeevagarwal.co.in/${slug}/`)), null, slug);
-    const response = legacyWordPressResponse(url(`https://drrajeevagarwal.co.in/blog/${slug}`));
-    assert.equal(response?.status, 301, slug);
-    assert.equal(response.headers.get('location'), `https://drrajeevagarwal.co.in/${slug}/`, slug);
+test('29 Oct checklist: the four tube and endometriosis articles are retired to their 18 Oct destinations', async () => {
+  const { RETIRED_ARTICLE_REDIRECTS, isRetiredArticle } = await import('../src/data/retiredArticles.js');
+  const expected = {
+    'trying-to-conceive-check-your-fallopian-tubes-for-blockages': '/blocked-fallopian-tubes-causes-treatment-options/',
+    'unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment': '/faqs-about-endometriosis/',
+    'treatment-strategies-for-endometriosis': '/faqs-about-endometriosis/',
+    'everything-you-need-to-know-about-endometriosis-and-fertility': '/faqs-about-endometriosis/',
+  };
+  for (const [slug, to] of Object.entries(expected)) {
+    assert.equal(isRetiredArticle(slug), true, slug);
+    assert.equal(RETIRED_ARTICLE_REDIRECTS[slug], to, slug);
   }
 });

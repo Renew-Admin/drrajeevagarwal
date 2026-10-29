@@ -10,7 +10,8 @@
 //
 // 23 Oct 2026: on Dr. Rajeev's instruction, four articles were restored as live
 // pages (trying-to-conceive-check-your-fallopian-tubes-for-blockages and three
-// endometriosis articles); their /blog/ addresses 301 to them.
+// endometriosis articles). 29 Oct 2026: the client checklist (items 1-2)
+// retires them again, to the same destinations as the 18 Oct brief.
 export const RETIRED_ARTICLE_REDIRECTS = {
   'tests-before-pregnancy-preconception-checkup-india': '/tests-before-pregnancy-preconception-investigations-india/',
   'is-preconception-counseling-necessary-if-im-not-ready-for-a-baby-heres-why-it-still-matters': '/preconception-counselling-preparing-for-a-healthy-pregnancy-from-the-start/',
@@ -19,7 +20,11 @@ export const RETIRED_ARTICLE_REDIRECTS = {
   'when-to-seek-medical-advice-for-fertility-a-guide-for-couples-trying-to-conceive': '/when-to-see-fertility-specialist-trying-to-conceive/',
   'top-signs-you-should-consult-a-fertility-doctor-in-kolkata': '/when-to-see-fertility-specialist-trying-to-conceive/',
   'first-fertility-consultation-tips-for-best-consult': '/when-to-see-fertility-specialist-trying-to-conceive/',
+  'trying-to-conceive-check-your-fallopian-tubes-for-blockages': '/blocked-fallopian-tubes-causes-treatment-options/',
   'what-is-a-laparoscopy-a-simple-explanation-for-fertility-issues': '/blocked-fallopian-tubes-causes-treatment-options/',
+  'unveiling-endometriosis-understanding-symptoms-diagnosis-and-treatment': '/faqs-about-endometriosis/',
+  'treatment-strategies-for-endometriosis': '/faqs-about-endometriosis/',
+  'everything-you-need-to-know-about-endometriosis-and-fertility': '/faqs-about-endometriosis/',
   'early-menopause-why-it-happens-and-when-to-seek-help': '/understanding-early-menopause-causes-symptoms-and-what-to-expect/',
   'menopause-symptoms-side-effects-and-solutions': '/menopause-care',
   'menopause-more-than-just-the-end-of-periods': '/menopause-care',

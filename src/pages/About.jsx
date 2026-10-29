@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import useSeo from '../utils/useSeo';
 import { getMetaForPath } from '../utils/seoMeta';
-import { ArrowRight, Award, Baby, CheckCircle, GraduationCap, HeartPulse, MapPin, Microscope, Play, ShieldCheck, Stethoscope, Users, ChevronDown } from 'lucide-react';
+import { ArrowRight, Award, Baby, CheckCircle, GraduationCap, HeartPulse, MapPin, Microscope, Play, ShieldCheck, Star, Stethoscope, Users, ChevronDown } from 'lucide-react';
 import FloatingLeadForm from '../components/FloatingLeadForm';
 import WhyMeSection from '../components/WhyMeSection';
 import aboutHeroImg from '../assets/about-hero.webp';
@@ -119,13 +119,19 @@ function PublicationCarousel() {
 // GBP brief task 33. Addresses exactly as in the brief's Part 4 table.
 // Opening hours and Dr. Agarwal's consultation days as confirmed by the owner
 // on 24 Oct 2026 (same hours at every branch). Jamshedpur days still to come.
+// mapsUrl: each branch's own Google Maps profile (client checklist, 29 Oct
+// 2026). The CID is the place id in that branch's embed, and was checked on
+// 29 Oct to open the listing with the address below.
 const CLINIC_HOURS = 'Monday to Saturday, 9:00 AM – 6:30 PM';
+// Dr. Agarwal's own Google Business Profile (client, 29 Oct 2026).
+const DOCTOR_GOOGLE_PROFILE = 'https://share.google/fWwU4fanBPE0E3ItN';
 const CONSULTING_CLINICS = [
   {
     name: 'Renew Healthcare, Salt Lake',
     address: 'CB 69, CB Block, Sector 1, Bidhannagar, Kolkata 700064',
     days: 'Dr. Agarwal consults here on Wednesday and Friday.',
     page: 'https://renewhealthcare.in/locations/saltlake',
+    mapsUrl: 'https://maps.google.com/?cid=3902917559414819569',
     map: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.890894700904!2d88.40033064837824!3d22.58726325812174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0275e065555555%3A0x3629f2d77c8e0af1!2sRenew%20Healthcare!5e0!3m2!1sen!2sin!4v1721464477531!5m2!1sen!2sin',
   },
   {
@@ -133,13 +139,15 @@ const CONSULTING_CLINICS = [
     address: 'Ground Floor, 18 C, Mandeville Gardens, Ballygunge, Kolkata 700019',
     days: 'Dr. Agarwal consults here on Monday, Tuesday, Thursday and Saturday.',
     page: 'https://renewhealthcare.in/locations/gariahat',
-    map: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57830.18166452035!2d88.30285153600433!3d22.48969326997914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277589dea95db%3A0x62e182948ab063d!2sRenew%20Healthcare!5e1!3m2!1sen!2sin!4v1783329104131!5m2!1sen!2sin',
+    mapsUrl: 'https://maps.google.com/?cid=445319978748151357',
+    map: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1841.890894700904!2d88.3669942!3d22.5224052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277589dea95db%3A0x62e182948ab063d!2sRenew%20Healthcare!5e0!3m2!1sen!2sin!4v1783329104131!5m2!1sen!2sin',
   },
   {
     name: 'Renew Healthcare, Jamshedpur',
     address: '1st Floor, Michael John Tower, 6 K Road, Bistupur, Jamshedpur 831001',
     days: 'Fertility centre led by Dr. Dorothy P Ghosh.',
     page: 'https://renewhealthcare.in/locations/jamshedpur',
+    mapsUrl: 'https://maps.google.com/?cid=7454174246179340593',
     map: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.1898182412465!2d86.17949957587665!3d22.79542932476553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e3f61c108ad7%3A0x67728bfba5628131!2sRenew%20Healthcare!5e0!3m2!1sen!2sin!4v1721464534308!5m2!1sen!2sin',
   },
 ];
@@ -214,12 +222,17 @@ export default function About({ onBookClick }) {
       {/* GBP brief 18 Oct 2026, task 33: the clinics where Dr. Agarwal consults.
           Addresses as in the brief's Part 4 table; maps are the same embeds the
           Renew location pages use. Consultation days and hours confirmed by
-          the owner on 24 Oct 2026; the link to his own Google profile is still
-          to come. */}
+          the owner on 24 Oct 2026. His own Google Business Profile link was
+          supplied by the client on 29 Oct 2026 (checklist item 6). */}
       <section className="ra-section about-clinics-section" aria-labelledby="about-clinics-title">
         <div className="ra-container">
           <span className="ra-label">Where to see Dr. Agarwal</span>
           <h2 id="about-clinics-title" className="ra-title">Renew Healthcare clinics</h2>
+          <p className="about-gbp-link">
+            <a href={DOCTOR_GOOGLE_PROFILE} target="_blank" rel="noreferrer">
+              <Star size={16} aria-hidden="true" /> See Dr. Rajeev Agarwal on Google
+            </a>
+          </p>
           <div className="about-clinics-grid">
             {CONSULTING_CLINICS.map((clinic) => (
               <article key={clinic.name} className="about-clinic-card">
@@ -234,6 +247,9 @@ export default function About({ onBookClick }) {
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen
                 />
+                <a className="ra-btn ra-btn-soft about-clinic-maps" href={clinic.mapsUrl} target="_blank" rel="noreferrer" aria-label={`Open ${clinic.name} in Google Maps`}>
+                  <MapPin size={16} aria-hidden="true" /> Open in Maps
+                </a>
                 <a href={clinic.page} target="_blank" rel="noreferrer">Clinic details and directions</a>
               </article>
             ))}

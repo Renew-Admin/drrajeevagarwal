@@ -121,7 +121,7 @@ export default function BlogPost() {
                 <div>
                   <p className="article-author-label">Written by</p>
                   <p className="article-author-text">
-                    <Link to="/about-me" className="article-author-name">Dr. Rajeev Agarwal</Link>, MBBS, MD (Obstetrics &amp; Gynaecology), fertility specialist and laparoscopic surgeon, Kolkata. West Bengal Medical Council Reg. No. WBMC 52540
+                    <Link to="/about-me" className="article-author-name">Dr. Rajeev Agarwal</Link>, MBBS, MD (Obstetrics &amp; Gynaecology), fertility specialist and laparoscopic surgeon, Kolkata. West Bengal Medical Council Reg. No. WBMC52540
                   </p>
                 </div>
               </aside>
