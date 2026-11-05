@@ -482,10 +482,8 @@ async function remoteArticleResponse(request, env, row) {
  * whose canonical is the slash-less form, but an article's canonical IS the
  * slash form and a canonical URL must answer 200 in one hop. So for known
  * article slugs the Worker asks the asset layer for the slash-less path and
- * returns that document under the requested URL. "/<slug>" keeps answering
- * 200 as well; both forms carry the same self-referencing canonical, so search
- * engines consolidate on /<slug>/ without a redirect chain. Whether the bare
- * form should later 301 to the slash form is a separate decision.
+ * returns that document under the requested URL. The bare "/<slug>"
+ * form 301s to it; see articleSlashRedirect().
  *
  * Returns the Request to hand to env.ASSETS, or null for any other path.
  */
@@ -519,6 +517,41 @@ export function trailingSlashRedirect(url) {
   if (article && BLOG_SLUGS.has(article[1])) return null;
 
   return Response.redirect(`${SITE_ORIGIN}${pathname.replace(/\/+$/, '')}${search}`, 301);
+}
+
+/**
+ * "/<slug>" → 301 "/<slug>/" for every bundled article.
+ *
+ * Search Console (5 Nov 2026) listed 55 bare article URLs as duplicates
+ * ("Alternative page with proper canonical tag" and "Crawled – currently not
+ * indexed"): the bare form answered 200 with a canonical pointing at the
+ * slash form. A canonical is only a hint; a permanent redirect consolidates
+ * the two URLs. The query string is preserved.
+ *
+ * Returns the redirect Response, or null when the path needs no redirect.
+ */
+export function articleSlashRedirect(url) {
+  const match = url.pathname.match(/^\/([^/]+)$/);
+  if (!match || !BLOG_SLUGS.has(match[1])) return null;
+  return Response.redirect(`${SITE_ORIGIN}/${match[1]}/${url.search}`, 301);
+}
+
+// Cache-busting parameter an old build appended to page URLs. Google still
+// re-crawls those copies (43 in Search Console on 5 Nov 2026).
+const RETIRED_QUERY_KEYS = ['__site_version'];
+
+/**
+ * Any URL carrying a retired query parameter → 301 to the same URL without it.
+ * Other parameters (utm_*, gclid, ?tag=…) are kept in their original order.
+ *
+ * Returns the redirect Response, or null when no retired parameter is present.
+ */
+export function retiredParamRedirect(url) {
+  if (!RETIRED_QUERY_KEYS.some((key) => url.searchParams.has(key))) return null;
+  const clean = new URL(url);
+  RETIRED_QUERY_KEYS.forEach((key) => clean.searchParams.delete(key));
+  const search = clean.searchParams.toString();
+  return Response.redirect(`${SITE_ORIGIN}${clean.pathname}${search ? `?${search}` : ''}`, 301);
 }
 
 /**
@@ -586,6 +619,10 @@ async function handleRequest(request, env, url) {
   const hostRedirect = wwwRedirect(url);
   if (hostRedirect) return hostRedirect;
 
+  // Retired cache-busting parameter → same URL without it (301).
+  const paramRedirect = retiredParamRedirect(url);
+  if (paramRedirect) return paramRedirect;
+
   // Legacy WordPress URL cleanup (301 / 410 / 403) — mirrors public/.htaccess.
   // Runs before asset pass-through so e.g. /wp-content/*.jpg 410s instead of 404-ing.
   const legacyResponse = legacyWordPressResponse(url);
@@ -651,6 +688,10 @@ async function handleRequest(request, env, url) {
   // paths so the redirect is permanent; see trailingSlashRedirect().
   const slashRedirect = trailingSlashRedirect(url);
   if (slashRedirect) return slashRedirect;
+
+  // Bare article "/<slug>" → its canonical "/<slug>/" (301).
+  const articleRedirect = articleSlashRedirect(url);
+  if (articleRedirect) return articleRedirect;
 
   // Page routes — fetch HTML and inject SEO tags. Article URLs (/<slug>/)
   // are mapped onto their prerendered file first; see articleAssetRequest().

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import blogSlugs from '../src/data/blogSlugs.cjs';
-import { SECURITY_HEADERS, httpsRedirect, legacyWordPressResponse, trailingSlashRedirect, withSecurityHeaders, wwwRedirect } from '../src/worker.js';
+import { SECURITY_HEADERS, articleSlashRedirect, httpsRedirect, legacyWordPressResponse, retiredParamRedirect, trailingSlashRedirect, withSecurityHeaders, wwwRedirect } from '../src/worker.js';
 
 const url = (href) => new URL(href);
 
@@ -125,4 +125,33 @@ test('29 Oct checklist: the four tube and endometriosis articles are retired to 
     assert.equal(isRetiredArticle(slug), true, slug);
     assert.equal(RETIRED_ARTICLE_REDIRECTS[slug], to, slug);
   }
+});
+
+test('articleSlashRedirect: bare article "/<slug>" answers 301 to "/<slug>/", query kept', () => {
+  const slug = blogSlugs[0];
+  const response = articleSlashRedirect(url(`https://drrajeevagarwal.co.in/${slug}?utm_source=ig`));
+  assert.ok(response, 'expected a Response');
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('location'), `https://drrajeevagarwal.co.in/${slug}/?utm_source=ig`);
+});
+
+test('articleSlashRedirect: slash form, non-article pages and the homepage are left alone', () => {
+  assert.equal(articleSlashRedirect(url(`https://drrajeevagarwal.co.in/${blogSlugs[0]}/`)), null);
+  assert.equal(articleSlashRedirect(url('https://drrajeevagarwal.co.in/about-me')), null);
+  assert.equal(articleSlashRedirect(url('https://drrajeevagarwal.co.in/')), null);
+});
+
+test('retiredParamRedirect: __site_version is stripped with a 301, other parameters kept', () => {
+  const response = retiredParamRedirect(url('https://drrajeevagarwal.co.in/preconception?__site_version=1785754572519&utm_source=ig'));
+  assert.ok(response, 'expected a Response');
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('location'), 'https://drrajeevagarwal.co.in/preconception?utm_source=ig');
+  assert.equal(
+    retiredParamRedirect(url('https://drrajeevagarwal.co.in/?__site_version=1')).headers.get('location'),
+    'https://drrajeevagarwal.co.in/',
+  );
+});
+
+test('retiredParamRedirect: URLs without the parameter are left alone', () => {
+  assert.equal(retiredParamRedirect(url('https://drrajeevagarwal.co.in/blog?tag=PCOS')), null);
 });
