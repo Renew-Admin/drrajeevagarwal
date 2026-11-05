@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { openConsentSettings } from '../lib/consent';
 import RegistrationLine from './RegistrationLine';
 
 const concernServices = [
@@ -141,14 +140,6 @@ export default function Footer() {
           {policies.map(([label, path]) => (
             <Link key={path} to={path}>{label}</Link>
           ))}
-          <button
-            type="button"
-            className="ra-cookie-settings"
-            onClick={openConsentSettings}
-            style={{ background: 'none', border: 0, padding: 0, color: 'inherit', font: 'inherit', cursor: 'pointer', textDecoration: 'underline' }}
-          >
-            Cookie settings
-          </button>
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ Never sent: names, numbers, emails, purpose of visit, quiz answers/scores, messa
 Only `drrajeevagarwal.co.in` / `www.drrajeevagarwal.co.in` send data; every other host and `/admin` set `ga-disable-G-DJR8P0KSK5`.
 
 ## Consent
-Consent Mode v2 defaults all denied in `index.html` before gtag loads; banner `src/components/ConsentBanner.jsx`; choice in `localStorage.dra_consent`; footer "Cookie settings" reopens it; `ad_personalization` always denied. Legal review of the privacy notice (DPDP Act 2023) still required.
+No consent banner (removed 5 Nov 2026, owner's decision, to restore full visitor counts). `index.html` sets Consent Mode defaults to granted for `analytics_storage`, `ad_storage` and `ad_user_data`; `ad_personalization` stays denied. Revisit before the DPDP Rules 2025 consent obligations take effect (about May 2027); the previous banner is in git history (commit 0a028458).
 
 ## Lead proxy (`/api/lead-webhook`, `/api/workshop-webhook` in `src/worker.js`)
 Webhook URLs are Worker secrets (`WEBHOOK_URL`, `WORKSHOP_WEBHOOK`). The proxy now requires a same-site Origin, ≤ 16 KB JSON, a lead with a name and a 10–13 digit phone, honeypot `website` empty, ≤ 20 requests / 10 min / IP per isolate, and drops the same phone + form within 2 minutes. Upstream error bodies are no longer echoed to the browser.
