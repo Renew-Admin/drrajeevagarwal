@@ -4,8 +4,9 @@
 // (the article's own title) and the article text stay as they are.
 // A missing `title` means "keep the current title".
 export const ARTICLE_SEO_OVERRIDES = {
+  // 5 Nov 2026: title reverted to the article headline (impressions fell
+  // ~70% after the 22 Oct title change); recheck around 20 Nov 2026.
   'ovulation-pain-normal-or-problem': {
-    title: 'Ovulation Pain: Is It Normal? Causes, Signs and When to Worry',
     description: 'Pain on one side in mid-cycle is common. What ovulation pain means, whether it tells you anything about fertility, and which symptoms need a doctor.',
   },
   'hemorrhagic-ovarian-cyst-effects-reproductive-health': {

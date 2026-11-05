@@ -170,7 +170,7 @@ module.exports = {
     "date": "2025-12-16"
   },
   "ovulation-pain-normal-or-problem": {
-    "title": "Ovulation Pain: Is It Normal? Causes, Signs and When to Worry",
+    "title": "Understanding Ovulation Pain: Is It a Normal or an Issue?",
     "headline": "Understanding Ovulation Pain: Is It a Normal or an Issue?",
     "description": "Pain on one side in mid-cycle is common. What ovulation pain means, whether it tells you anything about fertility, and which symptoms need a doctor.",
     "image": "/assets/2025/12/Ovulation-Pain-Normal.jpg",
