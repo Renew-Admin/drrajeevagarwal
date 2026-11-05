@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import blogSlugs from '../src/data/blogSlugs.cjs';
-import { SECURITY_HEADERS, articleSlashRedirect, httpsRedirect, legacyWordPressResponse, retiredParamRedirect, trailingSlashRedirect, withSecurityHeaders, wwwRedirect } from '../src/worker.js';
+import { SECURITY_HEADERS, articleSlashRedirect, httpsRedirect, landingPageRedirect, legacyWordPressResponse, retiredParamRedirect, trailingSlashRedirect, withSecurityHeaders, wwwRedirect } from '../src/worker.js';
 
 const url = (href) => new URL(href);
 
@@ -154,4 +154,19 @@ test('retiredParamRedirect: __site_version is stripped with a 301, other paramet
 
 test('retiredParamRedirect: URLs without the parameter are left alone', () => {
   assert.equal(retiredParamRedirect(url('https://drrajeevagarwal.co.in/blog?tag=PCOS')), null);
+});
+
+test('landingPageRedirect: /new-offer/<id> answers 301 to the renewhealthcare.in homepage, query kept', () => {
+  const response = landingPageRedirect(url('https://drrajeevagarwal.co.in/new-offer/9034dfe6-ca86-4838-87f7-baf02f26469a?utm_source=ig&utm_medium=paid'));
+  assert.ok(response, 'expected a Response');
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get('location'), 'https://renewhealthcare.in/?utm_source=ig&utm_medium=paid');
+  assert.equal(landingPageRedirect(url('https://drrajeevagarwal.co.in/new-offer')).headers.get('location'), 'https://renewhealthcare.in/');
+  assert.equal(landingPageRedirect(url('https://drrajeevagarwal.co.in/new-offer/')).status, 301);
+});
+
+test('landingPageRedirect: other pages are left alone', () => {
+  assert.equal(landingPageRedirect(url('https://drrajeevagarwal.co.in/preconception-workshop')), null);
+  assert.equal(landingPageRedirect(url('https://drrajeevagarwal.co.in/new-offers-guide/')), null);
+  assert.equal(landingPageRedirect(url('https://drrajeevagarwal.co.in/')), null);
 });

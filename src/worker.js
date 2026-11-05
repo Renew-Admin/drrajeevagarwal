@@ -555,6 +555,22 @@ export function retiredParamRedirect(url) {
 }
 
 /**
+ * Retired ad landing pages: /new-offer and /new-offer/<anything> → 301 to the
+ * renewhealthcare.in homepage (owner's decision, 5 Nov 2026). The Meta campaign
+ * that started on 2 Oct sent ~1,870 paid visits to /new-offer/9034dfe6-…, which
+ * had started answering 404. The query string (utm_*, fbclid) is kept so the
+ * Renew site's analytics still credit the campaign.
+ *
+ * Returns the redirect Response, or null for any other path.
+ */
+export const LANDING_REDIRECT_TARGET = 'https://renewhealthcare.in/';
+
+export function landingPageRedirect(url) {
+  if (!/^\/new-offer(\/|$)/.test(url.pathname)) return null;
+  return Response.redirect(`${LANDING_REDIRECT_TARGET}${url.search}`, 301);
+}
+
+/**
  * www.<host> → 301 to the apex origin, same path and query.
  *
  * The canonical origin is SITE_ORIGIN (no www). This only has an effect once
@@ -618,6 +634,10 @@ async function handleRequest(request, env, url) {
   // www → apex (301) before anything else; see wwwRedirect().
   const hostRedirect = wwwRedirect(url);
   if (hostRedirect) return hostRedirect;
+
+  // Retired ad landing pages → renewhealthcare.in homepage (301).
+  const landingRedirect = landingPageRedirect(url);
+  if (landingRedirect) return landingRedirect;
 
   // Retired cache-busting parameter → same URL without it (301).
   const paramRedirect = retiredParamRedirect(url);
