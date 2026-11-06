@@ -684,7 +684,7 @@ export default function PreconceptionWorkshop() {
       <section className="pcw-announcement" aria-label="Workshop announcement">
         <div className="ra-container">
           <Sparkles size={17} />
-          <span>1.5 hour online live workshop with QnA on 1st August Saturday (11:00 AM - 12:30 PM IST)</span>
+          <span>1.5-hour live online workshop with Q&amp;A. Interested? <a href="#workshop-registration">Sign up for the next session.</a></span>
         </div>
       </section>
 

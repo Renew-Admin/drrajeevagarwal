@@ -9575,6 +9575,12 @@ a.ra-quick-card:hover {
   color: var(--gold);
 }
 
+.pcw-announcement a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .pcw-hero {
   position: relative;
   padding: clamp(44px, 6vw, 74px) 0 clamp(52px, 6vw, 82px);
